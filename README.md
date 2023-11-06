@@ -1,7 +1,7 @@
 # permafrost
 
 Permafrost implements a (relatively) fast unordered persistent map. Plus a set
-and a bidirectional map based on top of the map.
+and a bidirectional map based on the map.
 
 ## Installation
 
@@ -30,8 +30,8 @@ map["bar"]? # => 200
 map.assoc("baz", 300) # => Pf::Map{"foo" => 100, "bar" => 200, "baz" => 300}
 map                   # => Pf::Map{"foo" => 100, "bar" => 200}
 
-map.dissoc("foo) # => Pf::Map{"bar" => 200}
-map              # => Pf::Map{"foo" => 100, "bar" => 200}
+map.dissoc("foo") # => Pf::Map{"bar" => 200}
+map               # => Pf::Map{"foo" => 100, "bar" => 200}
 ```
 
 ## Development
