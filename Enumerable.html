@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.9.2">
+<meta name="crystal_docs.project_version" content="trunk">
+<meta name="crystal_docs.project_name" content="permafrost">
+
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+  <meta name="repository-name" content="permafrost">
+  <title>Enumerable(T) - permafrost trunk</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          permafrost
+        </a>
+      </h1>
+
+      <span class="project-version">
+        trunk
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" current" data-id="permafrost/Enumerable" data-name="enumerable(t)">
+      <a href="Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf" data-name="pf">
+      <a href="Pf.html">Pf</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/BidiMap" data-name="pf::bidimap(k, v)">
+      <a href="Pf/BidiMap.html">BidiMap</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Map" data-name="pf::map(k, v)">
+      <a href="Pf/Map.html">Map</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Set" data-name="pf::set(t)">
+      <a href="Pf/Set.html">Set</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> Enumerable(T)
+
+</h1>
+
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>The <code><a href="Enumerable.html">Enumerable</a></code> mixin provides collection classes with several traversal, searching,
+filtering and querying methods.</p>
+<p>Including types must provide an <code>each</code> method, which yields successive members
+of the collection.</p>
+<p>For example:</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Three</span>
+  <span class="k">include</span> <span class="t">Enumerable</span>(<span class="t">Int32</span>)
+
+  <span class="k">def</span> <span class="m">each</span>(<span class="o">&amp;</span>)
+    <span class="k">yield</span> <span class="n">1</span>
+    <span class="k">yield</span> <span class="n">2</span>
+    <span class="k">yield</span> <span class="n">3</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+three <span class="o">=</span> <span class="t">Three</span>.new
+three.to_a                <span class="c"># =&gt; [1, 2, 3]</span>
+three.<span class="k">select</span> <span class="o">&amp;</span>.odd?       <span class="c"># =&gt; [1, 3]</span>
+three.all? { <span class="o">|</span>x<span class="o">|</span> x <span class="o">&lt;</span> <span class="n">10</span> } <span class="c"># =&gt; true</span></code></pre>
+<p>Note that most search and filter methods traverse an Enumerable eagerly,
+producing an <code>Array</code> as the result. For a lazy alternative refer to
+the <code>Iterator</code> and <code>Iterable</code> modules.</p>
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Direct including types
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="Pf/BidiMap.html">Pf::BidiMap(K, V)</a></li>
+    
+      <li class="other-type"><a href="Pf/Map.html">Pf::Map(K, V)</a></li>
+    
+      <li class="other-type"><a href="Pf/Set.html">Pf::Set(T)</a></li>
+    
+  </ul>
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/ext.cr#L1" target="_blank">
+        permafrost/ext.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#to_pf_bidi-instance-method" class="signature"><strong>#to_pf_bidi</strong></a>
+        
+          <div class="summary"><p>Like <code><a href="Enumerable.html#to_pf_map%28%26%3AT-%3ETuple%28K%2CV%29%29%3APf%3A%3AMap%28K%2CV%29forallK%2CV-instance-method">#to_pf_map</a></code>, but creates a <code><a href="Pf/BidiMap.html">Pf::BidiMap</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_pf_map%28%26%3AT-%3ETuple%28K%2CV%29%29%3APf%3A%3AMap%28K%2CV%29forallK%2CV-instance-method" class="signature"><strong>#to_pf_map</strong>(& : T -> Tuple(K, V)) : Pf::Map(K, V) forall K, V</a>
+        
+          <div class="summary"><p>Creates a <code><a href="Pf/Map.html">Pf::Map</a></code> out of <code>{key, value}</code> tuple pairs returned by the block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_pf_map-instance-method" class="signature"><strong>#to_pf_map</strong></a>
+        
+          <div class="summary"><p>Creates a <code><a href="Pf/Map.html">Pf::Map</a></code> out of an Enumerable whose elements respond to <code>.[0]</code> and <code>.[1]</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_pf_set%3APf%3A%3ASet%28T%29-instance-method" class="signature"><strong>#to_pf_set</strong> : Pf::Set(T)</a>
+        
+          <div class="summary"><p>Creates a <code><a href="Pf/Set.html">Pf::Set</a></code> out of an Enumerable.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="to_pf_bidi-instance-method">
+      <div class="signature">
+        
+        def <strong>to_pf_bidi</strong>
+
+        <a class="method-permalink" href="#to_pf_bidi-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Like <code><a href="Enumerable.html#to_pf_map%28%26%3AT-%3ETuple%28K%2CV%29%29%3APf%3A%3AMap%28K%2CV%29forallK%2CV-instance-method">#to_pf_map</a></code>, but creates a <code><a href="Pf/BidiMap.html">Pf::BidiMap</a></code>.</p>
+<pre><code class="language-crystal">(<span class="n">0</span>...<span class="n">10</span>).zip(<span class="s">&#39;a&#39;</span>...<span class="s">&#39;z&#39;</span>).to_pf_bidi <span class="c"># =&gt; Pf::BidiMap{0 &lt;=&gt; &#39;a&#39;, 1 &lt;=&gt; &#39;b&#39;, 2 &lt;=&gt; &#39;c&#39;, ...}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/ext.cr#L36" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_pf_map(&amp;:T-&gt;Tuple(K,V)):Pf::Map(K,V)forallK,V-instance-method">
+      <div class="signature">
+        
+        def <strong>to_pf_map</strong>(& : T -> Tuple(K, V)) : <a href="Pf/Map.html">Pf::Map</a>(K, V) forall K, V
+
+        <a class="method-permalink" href="#to_pf_map%28%26%3AT-%3ETuple%28K%2CV%29%29%3APf%3A%3AMap%28K%2CV%29forallK%2CV-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates a <code><a href="Pf/Map.html">Pf::Map</a></code> out of <code>{key, value}</code> tuple pairs returned
+by the block.</p>
+<pre><code class="language-crystal">(<span class="n">0</span>...<span class="n">10</span>).to_pf_map { <span class="o">|</span>n<span class="o">|</span> {n, n <span class="o">*</span> <span class="n">2</span>} } <span class="c"># =&gt; Pf::Map{2 =&gt; 4, 3 =&gt; 6, 4 =&gt; 8, ...}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/ext.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_pf_map-instance-method">
+      <div class="signature">
+        
+        def <strong>to_pf_map</strong>
+
+        <a class="method-permalink" href="#to_pf_map-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates a <code><a href="Pf/Map.html">Pf::Map</a></code> out of an Enumerable whose elements respond
+to <code>.[0]</code> and <code>.[1]</code>.</p>
+<pre><code class="language-crystal">(<span class="n">0</span>...<span class="n">10</span>).zip(<span class="s">&#39;a&#39;</span>..<span class="s">&#39;z&#39;</span>).to_pf_map <span class="c"># =&gt; Pf::Map{0 =&gt; &#39;a&#39;, 1 =&gt; &#39;b&#39;, 2 =&gt; &#39;c&#39;, ...}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/ext.cr#L18" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_pf_set:Pf::Set(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_pf_set</strong> : <a href="Pf/Set.html">Pf::Set</a>(T)
+
+        <a class="method-permalink" href="#to_pf_set%3APf%3A%3ASet%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates a <code><a href="Pf/Set.html">Pf::Set</a></code> out of an Enumerable.</p>
+<pre><code class="language-crystal">(<span class="n">0</span>...<span class="n">5</span>).to_pf_set <span class="c"># =&gt; Pf::Set[0, 1, 2, 3, 4]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/ext.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

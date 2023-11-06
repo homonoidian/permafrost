@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.9.2">
+<meta name="crystal_docs.project_version" content="trunk">
+<meta name="crystal_docs.project_name" content="permafrost">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="permafrost">
+  <title>Pf::Map(K, V) - permafrost trunk</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          permafrost
+        </a>
+      </h1>
+
+      <span class="project-version">
+        trunk
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="permafrost/Enumerable" data-name="enumerable(t)">
+      <a href="../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf" data-name="pf">
+      <a href="../Pf.html">Pf</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/BidiMap" data-name="pf::bidimap(k, v)">
+      <a href="../Pf/BidiMap.html">BidiMap</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="../Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class=" current" data-id="permafrost/Pf/Map" data-name="pf::map(k, v)">
+      <a href="../Pf/Map.html">Map</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Set" data-name="pf::set(t)">
+      <a href="../Pf/Set.html">Set</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">struct</span> Pf::<wbr>Map(K, V)
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Pf/Map.html">Pf::Map(K, V)</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>A thread-safe, persistent, unordered hash map.</p>
+<h2><a id="value-equality" class="anchor" href="#value-equality">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Value equality</h2>
+<p>Being a persistent map, <code><a href="../Pf/Map.html">Pf::Map</a></code> tries to avoid path copying. This
+is done by comparing the old and new values using <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code>. In particular,
+methods that <em>support value equality</em> do so.</p>
+<p>Note that, out of the box, <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code> is called only when your value is
+of the types <code>nil</code>, <code>Bool</code>, <code>Char</code>, <code>String</code>, <code>Symbol</code>, or of a
+primitive number type.</p>
+<p><code><a href="../Pf/Map.html#same%3F%28other%3AMap%28K%2CV%29%29%3ABool-instance-method">#same?</a></code> is called on all reference (<code>Reference</code>) types.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">100</span>, bar: <span class="n">200</span>]
+map.assoc(<span class="s">&quot;foo&quot;</span>, <span class="n">100</span>).same?(map)             <span class="c"># =&gt; true, no change</span>
+map.update(<span class="s">&quot;foo&quot;</span>, <span class="n">0</span>, <span class="o">&amp;</span>.succ.pred).same?(map) <span class="c"># =&gt; true, no change</span>
+
+map2 <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">100</span>, bar: <span class="n">200</span>]
+map.merge(map2).same?(map)  <span class="c"># =&gt; true, no change</span>
+map2.merge(map).same?(map2) <span class="c"># =&gt; true, no change</span></code></pre>
+<p>If you want to enable <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code> for our own object, you should include
+<code><a href="../Pf/Eq.html">Pf::Eq</a></code>.</p>
+<pre><code class="language-crystal">record <span class="t">Info</span>, first_name : <span class="t">String</span>, last_name : <span class="t">String</span>
+
+people <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>
+  .assoc(<span class="n">0</span>, <span class="t">Info</span>.new(<span class="s">&quot;John&quot;</span>, <span class="s">&quot;Doe&quot;</span>))
+  .assoc(<span class="n">1</span>, <span class="t">Info</span>.new(<span class="s">&quot;Barbara&quot;</span>, <span class="s">&quot;Doe&quot;</span>))
+
+people.assoc(<span class="n">0</span>, <span class="t">Info</span>.new(<span class="s">&quot;John&quot;</span>, <span class="s">&quot;Doe&quot;</span>)).same?(people) <span class="c"># =&gt; false</span>
+
+<span class="k">struct</span> <span class="t">Info</span>
+  <span class="k">include</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Eq</span>
+<span class="k">end</span>
+
+people.assoc(<span class="n">0</span>, <span class="t">Info</span>.new(<span class="s">&quot;John&quot;</span>, <span class="s">&quot;Doe&quot;</span>)).same?(people) <span class="c"># =&gt; true</span></code></pre>
+<p>Since <code><a href="../Pf/BidiMap.html">BidiMap</a></code> is backed by <code><a href="../Pf/Map.html">Map</a></code>, the same applies to it. On the
+other hand, elements of a <code><a href="../Pf/Set.html">Set</a></code> are <em>keys</em> so they are always compared
+using <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code> eventually.</p>
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../Enumerable.html">Enumerable({K, V})</a></li>
+    
+      <li class="other-type">Pf::Core</li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L48" target="_blank">
+        permafrost/map.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28enumerable%3AEnumerable%28Tuple%28K%2CV%29%29%29-class-method" class="signature"><strong>.new</strong>(enumerable : Enumerable(Tuple(K, V)))</a>
+        
+          <div class="summary"><p>Returns a map with mappings from an <em>enumerable</em> of key-value pairs.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new%3AMap%28K%2CV%29-class-method" class="signature"><strong>.new</strong> : Map(K, V)</a>
+        
+          <div class="summary"><p>Returns a new empty <code><a href="../Pf/Map.html">Map</a></code>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%28%2A%2Aentries%29-class-method" class="signature"><strong>.[]</strong>(**entries)</a>
+        
+          <div class="summary"><p>A shorthand syntax for creating a <code><a href="../Pf/Map.html">Map</a></code> with string keys.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#assoc%28key%3AK%2Cvalue%3AV%29%3AMap%28K%2CV%29-class-method" class="signature"><strong>.assoc</strong>(key : K, value : V) : Map(K, V)</a>
+        
+          <div class="summary"><p>A shorthand for <code>new.assoc</code>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3AMap%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : Map) : Bool</a>
+        
+          <div class="summary"><p>Compares <code>self</code> with <em>other</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%28key%3AK%29%3AV-instance-method" class="signature"><strong>#[]</strong>(key : K) : V</a>
+        
+          <div class="summary"><p>Returns the value mapped to <em>key</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%28key%3AK%2C%2Asubkeys%29-instance-method" class="signature"><strong>#[]</strong>(key : K, *subkeys)</a>
+        
+          <div class="summary"><p>Traverses nested maps/<code>Hash</code>es and returns the value.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%3F%28key%3AK%29%3AV%7CNil-instance-method" class="signature"><strong>#[]?</strong>(key : K) : V | Nil</a>
+        
+          <div class="summary"><p>Returns the value mapped to <em>key</em>, or nil if <em>key</em> is absent.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%3F%28key%3AK%2C%2Asubkeys%29-instance-method" class="signature"><strong>#[]?</strong>(key : K, *subkeys)</a>
+        
+          <div class="summary"><p>Traverses nested maps/<code>Hash</code>es and returns the value, or <code>nil</code> if the value is absent.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#assoc%28key%3AK%2Cvalue%3AV%29%3AMap%28K%2CV%29-instance-method" class="signature"><strong>#assoc</strong>(key : K, value : V) : Map(K, V)</a>
+        
+          <div class="summary"><p>Returns a copy of <code>self</code> that contains the mapping of <em>key</em> to <em>value</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#clone%3AMap%28K%2CV%29-instance-method" class="signature"><strong>#clone</strong> : Map(K, V)</a>
+        
+          <div class="summary"><p>Returns a new <code><a href="../Pf/Map.html">Map</a></code> whose values are deeply cloned versions of those from <code>self</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#compact-instance-method" class="signature"><strong>#compact</strong></a>
+        
+          <div class="summary"><p>Returns a copy of <code>self</code> without <code>nil</code> values.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#dissoc%28key%3AK%29%3AMap%28K%2CV%29-instance-method" class="signature"><strong>#dissoc</strong>(key : K) : Map(K, V)</a>
+        
+          <div class="summary"><p>Returns a copy of <code>self</code> that is guaranteed not to contain a mapping for <em>key</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each%28%26%3ATuple%28K%2CV%29-%3E%29%3ANil-instance-method" class="signature"><strong>#each</strong>(& : Tuple(K, V) -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields each key-value pair to the block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_key%28%26%3AK-%3E%29%3ANil-instance-method" class="signature"><strong>#each_key</strong>(& : K -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields each key to the block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_value%28%26%3AV-%3E%29%3ANil-instance-method" class="signature"><strong>#each_value</strong>(& : V -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields each value to the block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#empty%3F%3ABool-instance-method" class="signature"><strong>#empty?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this map contains no mappings.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#fetch%28key%3AK%2C%26%29%3AV-instance-method" class="signature"><strong>#fetch</strong>(key : K, &) : V</a>
+        
+          <div class="summary"><p>Returns the value mapped to <em>key</em>, or yields if <em>key</em> is absent.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#fmap%28%26%3ATuple%28K%2CV%29-%3ETuple%28K2%2CV2%29%29%3AMap%28K2%2CV2%29forallK2%2CV2-instance-method" class="signature"><strong>#fmap</strong>(& : Tuple(K, V) -> Tuple(K2, V2)) : Map(K2, V2) forall K2, V2</a>
+        
+          <div class="summary"><p>Same as <code>map</code>, but returns <code><a href="../Pf/Map.html">Map</a></code> instead of an array.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#has_key%3F%28key%29%3ABool-instance-method" class="signature"><strong>#has_key?</strong>(key) : Bool</a>
+        
+          <div class="summary"><p>Alias of <code><a href="../Pf/Map.html#includes%3F%28key%3AK%29%3ABool-instance-method">#includes?</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hash%28hasher%29-instance-method" class="signature"><strong>#hash</strong>(hasher)</a>
+        
+          <div class="summary"><p>See <code>Object#hash(hasher)</code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#includes%3F%28key%3AK%29%3ABool-instance-method" class="signature"><strong>#includes?</strong>(key : K) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if <em>key</em> is present in this map.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inspect%28io%29-instance-method" class="signature"><strong>#inspect</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#keys%3AArray%28K%29-instance-method" class="signature"><strong>#keys</strong> : Array(K)</a>
+        
+          <div class="summary"><p>Returns an array with all keys from this map.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#map_key%28%26%3AK-%3EK2%29%3AMap%28K2%2CV%29forallK2-instance-method" class="signature"><strong>#map_key</strong>(& : K -> K2) : Map(K2, V) forall K2</a>
+        
+          <div class="summary"><p>Transforms keys: same as <code><a href="../Pf/Map.html#fmap%28%26%3ATuple%28K%2CV%29-%3ETuple%28K2%2CV2%29%29%3AMap%28K2%2CV2%29forallK2%2CV2-instance-method">#fmap</a></code>, but only yields keys from this map.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#map_value%28%26%3AV-%3EV2%29%3AMap%28K%2CV2%29forallV2-instance-method" class="signature"><strong>#map_value</strong>(& : V -> V2) : Map(K, V2) forall V2</a>
+        
+          <div class="summary"><p>Transforms values: same as <code><a href="../Pf/Map.html#fmap%28%26%3ATuple%28K%2CV%29-%3ETuple%28K2%2CV2%29%29%3AMap%28K2%2CV2%29forallK2%2CV2-instance-method">#fmap</a></code>, but only yields values from this map.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#merge%28other%3AMap%28K2%2CV2%29%29%3AMap%28K%7CK2%2CV%7CV2%29forallK2%2CV2-instance-method" class="signature"><strong>#merge</strong>(other : Map(K2, V2)) : Map(K | K2, V | V2) forall K2, V2</a>
+        
+          <div class="summary"><p>Returns a new map with mappings from <code>self</code> and <em>other</em> combined.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#merge%28other%3AMap%28K2%2CV2%29%2C%26%3AK%2CV%2CV2-%3EV%7CV2%29%3AMap%28K%7CK2%2CV%7CV2%29forallK2%2CV2-instance-method" class="signature"><strong>#merge</strong>(other : Map(K2, V2), & : K, V, V2 -> V | V2) : Map(K | K2, V | V2) forall K2, V2</a>
+        
+          <div class="summary"><p>Returns a new map with mappings from <code>self</code> and <em>other</em> combined.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pretty_print%28pp%29%3ANil-instance-method" class="signature"><strong>#pretty_print</strong>(pp) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reject%28%26%3ATuple%28K%2CV%29-%3E%29%3AMap%28K%2CV%29-instance-method" class="signature"><strong>#reject</strong>(& : Tuple(K, V) -> ) : Map(K, V)</a>
+        
+          <div class="summary"><p>Returns a copy of <code>self</code> which includes only mappings for which the block is <em>falsey</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reject%28keys%3AEnumerable%29-instance-method" class="signature"><strong>#reject</strong>(keys : Enumerable)</a>
+        
+          <div class="summary"><p>Returns a new map which is guaranteed not to include the given <em>keys</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reject%28%2Akeys%29-instance-method" class="signature"><strong>#reject</strong>(*keys)</a>
+        
+          <div class="summary"><p>Returns a new map which is guaranteed not to include the given <em>keys</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#same%3F%28other%3AMap%28K%2CV%29%29%3ABool-instance-method" class="signature"><strong>#same?</strong>(other : Map(K, V)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if <code>self</code> and <em>other</em> refer to the same map in memory.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#select%28%26%3ATuple%28K%2CV%29-%3E%29%3AMap%28K%2CV%29-instance-method" class="signature"><strong>#select</strong>(& : Tuple(K, V) -> ) : Map(K, V)</a>
+        
+          <div class="summary"><p>Returns a copy of <code>self</code> which includes only mappings for which the block is <em>truthy</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#select%28keys%3AEnumerable%29-instance-method" class="signature"><strong>#select</strong>(keys : Enumerable)</a>
+        
+          <div class="summary"><p>Returns a new map which includes only mappings with the given <em>keys</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#select%28%2Akeys%29-instance-method" class="signature"><strong>#select</strong>(*keys)</a>
+        
+          <div class="summary"><p>Returns a new map which includes only mappings with the given <em>keys</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3AInt32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the number of mappings.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s%28io%29-instance-method" class="signature"><strong>#to_s</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#update%28key%3AK%2Cdefault%3AV%2C%26%3AV-%3EV%29-instance-method" class="signature"><strong>#update</strong>(key : K, default : V, & : V -> V)</a>
+        
+          <div class="summary"><p>Returns an updated copy of <code>self</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#values%3AArray%28V%29-instance-method" class="signature"><strong>#values</strong> : Array(V)</a>
+        
+          <div class="summary"><p>Returns an array with all values from this map.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Enumerable.html">Enumerable({K, V})</a></code></h3>
+  
+  
+    <a href="../Enumerable.html#to_pf_bidi-instance-method" class="tooltip">
+      <span>to_pf_bidi</span>
+    to_pf_bidi</a>, 
+    
+  
+    <a href="../Enumerable.html#to_pf_map%28%26%3A%7BK%2CV%7D-%3ETuple%28K%2CV%29%29%3APf%3A%3AMap%28K%2CV%29forallK%2CV-instance-method" class="tooltip">
+      <span>to_pf_map(& : {K, V} -> Tuple(K, V)) : Pf::Map(K, V) forall K, V<br/>to_pf_map</span>
+    to_pf_map</a>, 
+    
+  
+    <a href="../Enumerable.html#to_pf_set%3APf%3A%3ASet%28%7BK%2CV%7D%29-instance-method" class="tooltip">
+      <span>to_pf_set : Pf::Set({K, V})</span>
+    to_pf_set</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(enumerable:Enumerable(Tuple(K,V)))-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(enumerable : <a href="../Enumerable.html">Enumerable</a>(Tuple(K, V)))
+
+        <a class="method-permalink" href="#new%28enumerable%3AEnumerable%28Tuple%28K%2CV%29%29%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a map with mappings from an <em>enumerable</em> of key-value pairs.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L61" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new:Map(K,V)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong> : <a href="../Pf/Map.html">Map</a>(K, V)
+
+        <a class="method-permalink" href="#new%3AMap%28K%2CV%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new empty <code><a href="../Pf/Map.html">Map</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L56" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="[](**entries)-class-method">
+      <div class="signature">
+        
+        def self.<strong>[]</strong>(**entries)
+
+        <a class="method-permalink" href="#%5B%5D%28%2A%2Aentries%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>A shorthand syntax for creating a <code><a href="../Pf/Map.html">Map</a></code> with string keys. The type
+of the map's values is the union of the types of values in <em>entries</em>.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[name: <span class="s">&quot;John Doe&quot;</span>, age: <span class="n">25</span>]
+map[<span class="s">&quot;name&quot;</span>] <span class="c"># =&gt; &quot;John Doe&quot;</span>
+map[<span class="s">&quot;age&quot;</span>]  <span class="c"># =&gt; 25</span>
+
+<span class="k">typeof</span>(map) <span class="c"># =&gt; Pf::Map(String, String | Int32)</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L80" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="assoc(key:K,value:V):Map(K,V)-class-method">
+      <div class="signature">
+        
+        def self.<strong>assoc</strong>(key : K, value : V) : <a href="../Pf/Map.html">Map</a>(K, V)
+
+        <a class="method-permalink" href="#assoc%28key%3AK%2Cvalue%3AV%29%3AMap%28K%2CV%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>A shorthand for <code>new.assoc</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L66" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="==(other:Map):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : <a href="../Pf/Map.html">Map</a>) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%28other%3AMap%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compares <code>self</code> with <em>other</em>. Returns <code>true</code> if all mappings are
+the same (values are compared using <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code>).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L554" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[](key:K):V-instance-method">
+      <div class="signature">
+        
+        def <strong>[]</strong>(key : K) : V
+
+        <a class="method-permalink" href="#%5B%5D%28key%3AK%29%3AV-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the value mapped to <em>key</em>. Raises <code>KeyError</code> if there is
+no such value.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">10</span>]
+map[<span class="s">&quot;foo&quot;</span>] <span class="c"># =&gt; 10</span>
+map[<span class="s">&quot;bar&quot;</span>] <span class="c"># raises KeyError</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L221" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[](key:K,*subkeys)-instance-method">
+      <div class="signature">
+        
+        def <strong>[]</strong>(key : K, *subkeys)
+
+        <a class="method-permalink" href="#%5B%5D%28key%3AK%2C%2Asubkeys%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Traverses nested maps/<code>Hash</code>es and returns the value. Raises
+<code>KeyError</code> if there is no value.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[bar: {<span class="n">100</span> <span class="o">=&gt;</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[baz: <span class="s">&quot;Yay!&quot;</span>]}]]
+map[<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>, <span class="n">100</span>, <span class="s">&quot;baz&quot;</span>] <span class="c"># =&gt; &quot;Yay!&quot;</span>
+map[<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>, <span class="n">200</span>]        <span class="c"># raises KeyError</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L233" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[]?(key:K):V|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>[]?</strong>(key : K) : V | Nil
+
+        <a class="method-permalink" href="#%5B%5D%3F%28key%3AK%29%3AV%7CNil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the value mapped to <em>key</em>, or nil if <em>key</em> is absent.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">10</span>, bar: <span class="n">20</span>]
+map[<span class="s">&quot;foo&quot;</span>]? <span class="c"># =&gt; 10</span>
+map[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; 20</span>
+map[<span class="s">&quot;baz&quot;</span>]? <span class="c"># =&gt; nil</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L184" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[]?(key:K,*subkeys)-instance-method">
+      <div class="signature">
+        
+        def <strong>[]?</strong>(key : K, *subkeys)
+
+        <a class="method-permalink" href="#%5B%5D%3F%28key%3AK%2C%2Asubkeys%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Traverses nested maps/<code>Hash</code>es and returns the value, or <code>nil</code> if
+the value is absent.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[bar: {<span class="n">100</span> <span class="o">=&gt;</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[baz: <span class="s">&quot;Yay!&quot;</span>]}]]
+map[<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>, <span class="n">100</span>, <span class="s">&quot;baz&quot;</span>]? <span class="c"># =&gt; &quot;Yay!&quot;</span>
+map[<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>, <span class="n">200</span>]?        <span class="c"># =&gt; nil</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L196" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="assoc(key:K,value:V):Map(K,V)-instance-method">
+      <div class="signature">
+        
+        def <strong>assoc</strong>(key : K, value : V) : <a href="../Pf/Map.html">Map</a>(K, V)
+
+        <a class="method-permalink" href="#assoc%28key%3AK%2Cvalue%3AV%29%3AMap%28K%2CV%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of <code>self</code> that contains the mapping of <em>key</em> to <em>value</em>.</p>
+<p><em>Supports value equality.</em></p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>(<span class="t">String</span>, <span class="t">Int32</span>).new
+
+branch1 <span class="o">=</span> map.assoc(<span class="s">&quot;foo&quot;</span>, <span class="n">100</span>)
+branch2 <span class="o">=</span> map.assoc(<span class="s">&quot;foo&quot;</span>, <span class="n">200</span>)
+
+map <span class="o">=</span> map.assoc(<span class="s">&quot;bar&quot;</span>, <span class="n">300</span>)
+
+map[<span class="s">&quot;foo&quot;</span>]? <span class="c"># =&gt; nil</span>
+map[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; 300</span>
+
+branch1[<span class="s">&quot;foo&quot;</span>]? <span class="c"># =&gt; 100</span>
+branch1[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; nil</span>
+
+branch2[<span class="s">&quot;foo&quot;</span>]? <span class="c"># =&gt; 200</span>
+branch2[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; nil</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L272" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="clone:Map(K,V)-instance-method">
+      <div class="signature">
+        
+        def <strong>clone</strong> : <a href="../Pf/Map.html">Map</a>(K, V)
+
+        <a class="method-permalink" href="#clone%3AMap%28K%2CV%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new <code><a href="../Pf/Map.html">Map</a></code> whose values are deeply cloned versions of
+those from <code>self</code>. That is, returns a deep copy of <code>self</code>.</p>
+<p>Keys are not cloned (if you need to clone keys then the last thing
+to help you is a persistent immutable map!).</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>], bar: [<span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>]]
+map2 <span class="o">=</span> map.clone
+
+map[<span class="s">&quot;foo&quot;</span>][<span class="n">0</span>] <span class="o">=</span> <span class="n">100</span>
+
+map  <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; [100, 2, 3], &quot;bar&quot; =&gt; [4, 5, 6]}</span>
+map2 <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; [1, 2, 3], &quot;bar&quot; =&gt; [4, 5, 6]}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L541" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="compact-instance-method">
+      <div class="signature">
+        
+        def <strong>compact</strong>
+
+        <a class="method-permalink" href="#compact-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of <code>self</code> without <code>nil</code> values.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">nil</span>, bar: <span class="n">123</span>]
+map.compact <span class="c"># =&gt; Pf::Map{&quot;bar&quot; =&gt; 123}</span>
+
+<span class="k">typeof</span>(map)         <span class="c"># =&gt; Pf::Map(String, Int32?)</span>
+<span class="k">typeof</span>(map.compact) <span class="c"># =&gt; Pf::Map(String, Int32)</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L446" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="dissoc(key:K):Map(K,V)-instance-method">
+      <div class="signature">
+        
+        def <strong>dissoc</strong>(key : K) : <a href="../Pf/Map.html">Map</a>(K, V)
+
+        <a class="method-permalink" href="#dissoc%28key%3AK%29%3AMap%28K%2CV%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of <code>self</code> that is guaranteed not to contain a mapping
+for <em>key</em>.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">100</span>, bar: <span class="n">200</span>]
+
+branch1 <span class="o">=</span> map.dissoc(<span class="s">&quot;foo&quot;</span>)
+branch2 <span class="o">=</span> map.dissoc(<span class="s">&quot;bar&quot;</span>)
+
+map[<span class="s">&quot;foo&quot;</span>]? <span class="c"># =&gt; 100</span>
+map[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; 200</span>
+
+branch1[<span class="s">&quot;foo&quot;</span>]? <span class="c"># =&gt; nil</span>
+branch1[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; 200</span>
+
+branch2[<span class="s">&quot;foo&quot;</span>]? <span class="c"># =&gt; 100</span>
+branch2[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; nil</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L314" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each(&amp;:Tuple(K,V)-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each</strong>(& : Tuple(K, V) -> ) : Nil
+
+        <a class="method-permalink" href="#each%28%26%3ATuple%28K%2CV%29-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields each key-value pair to the block.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L99" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_key(&amp;:K-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_key</strong>(& : K -> ) : Nil
+
+        <a class="method-permalink" href="#each_key%28%26%3AK-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields each key to the block.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L104" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_value(&amp;:V-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_value</strong>(& : V -> ) : Nil
+
+        <a class="method-permalink" href="#each_value%28%26%3AV-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields each value to the block.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L109" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="empty?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>empty?</strong> : Bool
+
+        <a class="method-permalink" href="#empty%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this map contains no mappings.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L94" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="fetch(key:K,&amp;):V-instance-method">
+      <div class="signature">
+        
+        def <strong>fetch</strong>(key : K, &) : V
+
+        <a class="method-permalink" href="#fetch%28key%3AK%2C%26%29%3AV-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the value mapped to <em>key</em>, or yields if <em>key</em> is absent.
+This method mainly exists to circumvent nil as in value vs. nil
+as in absence issue.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L146" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="fmap(&amp;:Tuple(K,V)-&gt;Tuple(K2,V2)):Map(K2,V2)forallK2,V2-instance-method">
+      <div class="signature">
+        
+        def <strong>fmap</strong>(& : Tuple(K, V) -> Tuple(K2, V2)) : <a href="../Pf/Map.html">Map</a>(K2, V2) forall K2, V2
+
+        <a class="method-permalink" href="#fmap%28%26%3ATuple%28K%2CV%29-%3ETuple%28K2%2CV2%29%29%3AMap%28K2%2CV2%29forallK2%2CV2-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Same as <code>map</code>, but returns <code><a href="../Pf/Map.html">Map</a></code> instead of an array.</p>
+<p>If the block returns more than one value for the same key, the last
+yielded value is preferred.</p>
+<p>Supports value equality if <code>K == K2</code> and <code>V == V2</code>.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="s">&quot;John Doe&quot;</span>, bar: <span class="s">&quot;Samantha Doe&quot;</span>]
+map.fmap { <span class="o">|</span>k, v<span class="o">|</span> {k.upcase, v.upcase} } <span class="c"># =&gt; Pf::Map{&quot;FOO&quot; =&gt; &quot;JOHN DOE&quot;, &quot;BAR&quot; =&gt; &quot;SAMANTHA DOE&quot;}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L463" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="has_key?(key):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>has_key?</strong>(key) : Bool
+
+        <a class="method-permalink" href="#has_key%3F%28key%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Alias of <code><a href="../Pf/Map.html#includes%3F%28key%3AK%29%3ABool-instance-method">#includes?</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L172" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hash(hasher)-instance-method">
+      <div class="signature">
+        
+        def <strong>hash</strong>(hasher)
+
+        <a class="method-permalink" href="#hash%28hasher%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>See <code>Object#hash(hasher)</code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L567" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="includes?(key:K):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>includes?</strong>(key : K) : Bool
+
+        <a class="method-permalink" href="#includes%3F%28key%3AK%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if <em>key</em> is present in this map.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">100</span>, bar: <span class="n">200</span>]
+<span class="s">&quot;foo&quot;</span>.in?(map) <span class="c"># =&gt; true</span>
+<span class="s">&quot;bar&quot;</span>.in?(map) <span class="c"># =&gt; true</span>
+<span class="s">&quot;baz&quot;</span>.in?(map) <span class="c"># =&gt; false</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L160" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inspect(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>inspect</strong>(io)
+
+        <a class="method-permalink" href="#inspect%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L586" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="keys:Array(K)-instance-method">
+      <div class="signature">
+        
+        def <strong>keys</strong> : Array(K)
+
+        <a class="method-permalink" href="#keys%3AArray%28K%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an array with all keys from this map. There is no
+guaranteed order of keys.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">10</span>, bar: <span class="n">20</span>]
+map.keys <span class="c"># =&gt; [&quot;foo&quot;, &quot;bar&quot;]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L120" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="map_key(&amp;:K-&gt;K2):Map(K2,V)forallK2-instance-method">
+      <div class="signature">
+        
+        def <strong>map_key</strong>(& : K -> K2) : <a href="../Pf/Map.html">Map</a>(K2, V) forall K2
+
+        <a class="method-permalink" href="#map_key%28%26%3AK-%3EK2%29%3AMap%28K2%2CV%29forallK2-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Transforms keys: same as <code><a href="../Pf/Map.html#fmap%28%26%3ATuple%28K%2CV%29-%3ETuple%28K2%2CV2%29%29%3AMap%28K2%2CV2%29forallK2%2CV2-instance-method">#fmap</a></code>, but only yields keys from this map.</p>
+<p>Supports value equality if <code>K == K2</code>.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="s">&quot;John Doe&quot;</span>, bar: <span class="s">&quot;Samantha Doe&quot;</span>]
+map.map_key(<span class="o">&amp;</span>.upcase) <span class="c"># =&gt; Pf::Map{&quot;FOO&quot; =&gt; &quot;John Doe&quot;, &quot;BAR&quot; =&gt; &quot;Samantha Doe&quot;}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L487" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="map_value(&amp;:V-&gt;V2):Map(K,V2)forallV2-instance-method">
+      <div class="signature">
+        
+        def <strong>map_value</strong>(& : V -> V2) : <a href="../Pf/Map.html">Map</a>(K, V2) forall V2
+
+        <a class="method-permalink" href="#map_value%28%26%3AV-%3EV2%29%3AMap%28K%2CV2%29forallV2-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Transforms values: same as <code><a href="../Pf/Map.html#fmap%28%26%3ATuple%28K%2CV%29-%3ETuple%28K2%2CV2%29%29%3AMap%28K2%2CV2%29forallK2%2CV2-instance-method">#fmap</a></code>, but only yields values from
+this map.</p>
+<p>Supports value equality if <code>V == V2</code>.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="s">&quot;John Doe&quot;</span>, bar: <span class="s">&quot;Samantha Doe&quot;</span>]
+map.map_value(<span class="o">&amp;</span>.upcase) <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; &quot;JOHN DOE&quot;, &quot;bar&quot; =&gt; &quot;SAMANTHA DOE&quot;}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L500" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="merge(other:Map(K2,V2)):Map(K|K2,V|V2)forallK2,V2-instance-method">
+      <div class="signature">
+        
+        def <strong>merge</strong>(other : <a href="../Pf/Map.html">Map</a>(K2, V2)) : <a href="../Pf/Map.html">Map</a>(K | K2, V | V2) forall K2, V2
+
+        <a class="method-permalink" href="#merge%28other%3AMap%28K2%2CV2%29%29%3AMap%28K%7CK2%2CV%7CV2%29forallK2%2CV2-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new map with mappings from <code>self</code> and <em>other</em> combined.</p>
+<p>If some key is common both to <code>self</code> and <em>other</em>, <em>other</em>'s value
+is preferred.</p>
+<p>Supports value equality if <code>K == K2</code> and <code>V == V2</code>.</p>
+<pre><code class="language-crystal">a <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">100</span>, bar: <span class="n">200</span>]
+b <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="s">&quot;hello&quot;</span>, baz: <span class="n">true</span>, boo: <span class="n">500</span>]
+
+map <span class="o">=</span> a.merge(b)
+map <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; &quot;hello&quot;, &quot;bar&quot; =&gt; 200, &quot;baz&quot; =&gt; true, &quot;boo&quot; =&gt; 500}</span>
+
+<span class="k">typeof</span>(map) <span class="c"># =&gt; Pf::Map(String, String | Int32 | Bool)</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L341" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="merge(other:Map(K2,V2),&amp;:K,V,V2-&gt;V|V2):Map(K|K2,V|V2)forallK2,V2-instance-method">
+      <div class="signature">
+        
+        def <strong>merge</strong>(other : <a href="../Pf/Map.html">Map</a>(K2, V2), & : K, V, V2 -> V | V2) : <a href="../Pf/Map.html">Map</a>(K | K2, V | V2) forall K2, V2
+
+        <a class="method-permalink" href="#merge%28other%3AMap%28K2%2CV2%29%2C%26%3AK%2CV%2CV2-%3EV%7CV2%29%3AMap%28K%7CK2%2CV%7CV2%29forallK2%2CV2-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new map with mappings from <code>self</code> and <em>other</em> combined.</p>
+<p>If some key is common both to <code>self</code> and <em>other</em>, that key is
+yielded to the block together with the two values. The return
+value of the block is used as the final value.</p>
+<pre><code class="language-crystal">a <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">100</span>, bar: <span class="n">200</span>, baz: <span class="n">300</span>]
+b <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">200</span>, bar: <span class="n">300.8</span>, boo: <span class="n">1000.5</span>]
+
+map <span class="o">=</span> a.merge(b) { <span class="o">|</span>k, v1, v2<span class="o">|</span> v1 <span class="o">+</span> v2 }
+map <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 300, &quot;bar&quot; =&gt; 500.8, &quot;baz&quot; =&gt; 300, &quot;boo&quot; =&gt; 1000.5}</span>
+
+<span class="k">typeof</span>(map) <span class="c"># =&gt; Pf::Map(String, Int32 | Float64)</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L362" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pretty_print(pp):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>pretty_print</strong>(pp) : Nil
+
+        <a class="method-permalink" href="#pretty_print%28pp%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L600" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reject(&amp;:Tuple(K,V)-&gt;):Map(K,V)-instance-method">
+      <div class="signature">
+        
+        def <strong>reject</strong>(& : Tuple(K, V) -> ) : <a href="../Pf/Map.html">Map</a>(K, V)
+
+        <a class="method-permalink" href="#reject%28%26%3ATuple%28K%2CV%29-%3E%29%3AMap%28K%2CV%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of <code>self</code> which includes only mappings for which
+the block is <em>falsey</em>.</p>
+<p><em>Supports value equality.</em></p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">2</span>, bar: <span class="n">3</span>, baz: <span class="n">4</span>, boo: <span class="n">5</span>]
+map.reject { <span class="o">|</span>_, v<span class="o">|</span> v.even? } <span class="c"># =&gt; Pf::Map{&quot;bar&quot; =&gt; 3, &quot;boo&quot; =&gt; 5}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L415" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reject(keys:Enumerable)-instance-method">
+      <div class="signature">
+        
+        def <strong>reject</strong>(keys : <a href="../Enumerable.html">Enumerable</a>)
+
+        <a class="method-permalink" href="#reject%28keys%3AEnumerable%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new map which is guaranteed not to include the given <em>keys</em>.</p>
+<p><em>Supports value equality.</em></p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">2</span>, bar: <span class="n">3</span>, baz: <span class="n">4</span>, boo: <span class="n">5</span>]
+map.reject({<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;boo&quot;</span>}) <span class="c"># =&gt; Pf::Map{&quot;bar&quot; =&gt; 3, &quot;baz&quot; =&gt; 4}</span>
+map.reject(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;boo&quot;</span>)   <span class="c"># =&gt; Pf::Map{&quot;bar&quot; =&gt; 3, &quot;baz&quot; =&gt; 4}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L428" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reject(*keys)-instance-method">
+      <div class="signature">
+        
+        def <strong>reject</strong>(*keys)
+
+        <a class="method-permalink" href="#reject%28%2Akeys%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new map which is guaranteed not to include the given <em>keys</em>.</p>
+<p><em>Supports value equality.</em></p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">2</span>, bar: <span class="n">3</span>, baz: <span class="n">4</span>, boo: <span class="n">5</span>]
+map.reject({<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;boo&quot;</span>}) <span class="c"># =&gt; Pf::Map{&quot;bar&quot; =&gt; 3, &quot;baz&quot; =&gt; 4}</span>
+map.reject(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;boo&quot;</span>)   <span class="c"># =&gt; Pf::Map{&quot;bar&quot; =&gt; 3, &quot;baz&quot; =&gt; 4}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L433" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="same?(other:Map(K,V)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>same?</strong>(other : <a href="../Pf/Map.html">Map</a>(K, V)) : Bool
+
+        <a class="method-permalink" href="#same%3F%28other%3AMap%28K%2CV%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if <code>self</code> and <em>other</em> refer to the same map in memory.</p>
+<p>Due to the way <code><a href="../Pf/Map.html">Map</a></code> is implemented, this method can be used as
+a cheap way to detect changes.</p>
+<pre><code class="language-crystal">map1 <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">123</span>, bar: <span class="n">456</span>]
+map2 <span class="o">=</span> map1.assoc(<span class="s">&quot;foo&quot;</span>, <span class="n">123</span>)
+map1.same?(map2) <span class="c"># =&gt; true</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L517" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="select(&amp;:Tuple(K,V)-&gt;):Map(K,V)-instance-method">
+      <div class="signature">
+        
+        def <strong>select</strong>(& : Tuple(K, V) -> ) : <a href="../Pf/Map.html">Map</a>(K, V)
+
+        <a class="method-permalink" href="#select%28%26%3ATuple%28K%2CV%29-%3E%29%3AMap%28K%2CV%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of <code>self</code> which includes only mappings for which
+the block is <em>truthy</em>.</p>
+<p><em>Supports value equality.</em></p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">2</span>, bar: <span class="n">3</span>, baz: <span class="n">4</span>, boo: <span class="n">5</span>]
+map.<span class="k">select</span> { <span class="o">|</span>_, v<span class="o">|</span> v.even? } <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 2, &quot;baz&quot; =&gt; 4}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L384" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="select(keys:Enumerable)-instance-method">
+      <div class="signature">
+        
+        def <strong>select</strong>(keys : <a href="../Enumerable.html">Enumerable</a>)
+
+        <a class="method-permalink" href="#select%28keys%3AEnumerable%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new map which includes only mappings with the given <em>keys</em>.</p>
+<p><em>Supports value equality.</em></p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">2</span>, bar: <span class="n">3</span>, baz: <span class="n">4</span>, boo: <span class="n">5</span>]
+map.<span class="k">select</span>({<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;boo&quot;</span>}) <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 2, &quot;boo&quot; =&gt; 5}</span>
+map.<span class="k">select</span>(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;boo&quot;</span>)   <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 2, &quot;boo&quot; =&gt; 5}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L397" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="select(*keys)-instance-method">
+      <div class="signature">
+        
+        def <strong>select</strong>(*keys)
+
+        <a class="method-permalink" href="#select%28%2Akeys%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new map which includes only mappings with the given <em>keys</em>.</p>
+<p><em>Supports value equality.</em></p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">2</span>, bar: <span class="n">3</span>, baz: <span class="n">4</span>, boo: <span class="n">5</span>]
+map.<span class="k">select</span>({<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;boo&quot;</span>}) <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 2, &quot;boo&quot; =&gt; 5}</span>
+map.<span class="k">select</span>(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;boo&quot;</span>)   <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 2, &quot;boo&quot; =&gt; 5}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L402" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong> : Int32
+
+        <a class="method-permalink" href="#size%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the number of mappings.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L89" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong>(io)
+
+        <a class="method-permalink" href="#to_s%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L590" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="update(key:K,default:V,&amp;:V-&gt;V)-instance-method">
+      <div class="signature">
+        
+        def <strong>update</strong>(key : K, default : V, & : V -> V)
+
+        <a class="method-permalink" href="#update%28key%3AK%2Cdefault%3AV%2C%26%3AV-%3EV%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an updated copy of <code>self</code>.</p>
+<ul>
+<li>
+<p>If there is no mapping for <em>key</em>, the copy contains a mapping of
+<em>key</em> to <em>default</em>.</p>
+</li>
+<li>
+<p>If there is a mapping for <em>key</em>, its value is yielded to the block
+and the return value of the block is used as the next value of <em>key</em>.</p>
+</li>
+</ul>
+<p><em>Supports value equality.</em></p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">100</span>, bar: <span class="n">200</span>]
+map.update(<span class="s">&quot;foo&quot;</span>, <span class="n">0</span>, <span class="o">&amp;</span>.succ) <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 101, &quot;bar&quot; =&gt; 200}</span>
+map.update(<span class="s">&quot;baz&quot;</span>, <span class="n">0</span>, <span class="o">&amp;</span>.succ) <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &quot;bar&quot; =&gt; 200, &quot;baz&quot; =&gt; 0}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L291" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="values:Array(V)-instance-method">
+      <div class="signature">
+        
+        def <strong>values</strong> : Array(V)
+
+        <a class="method-permalink" href="#values%3AArray%28V%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an array with all values from this map. There is no
+guaranteed order of values.</p>
+<pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">10</span>, bar: <span class="n">20</span>]
+map.values <span class="c"># =&gt; [10, 20]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/map.cr#L135" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

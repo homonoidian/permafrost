@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.9.2">
+<meta name="crystal_docs.project_version" content="trunk">
+<meta name="crystal_docs.project_name" content="permafrost">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="permafrost">
+  <title>Pf::Set(T) - permafrost trunk</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          permafrost
+        </a>
+      </h1>
+
+      <span class="project-version">
+        trunk
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="permafrost/Enumerable" data-name="enumerable(t)">
+      <a href="../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf" data-name="pf">
+      <a href="../Pf.html">Pf</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/BidiMap" data-name="pf::bidimap(k, v)">
+      <a href="../Pf/BidiMap.html">BidiMap</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="../Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Map" data-name="pf::map(k, v)">
+      <a href="../Pf/Map.html">Map</a>
+      
+    </li>
+  
+  <li class=" current" data-id="permafrost/Pf/Set" data-name="pf::set(t)">
+      <a href="../Pf/Set.html">Set</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">struct</span> Pf::<wbr>Set(T)
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Pf/Set.html">Pf::Set(T)</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>A thread-safe, persistent, unordered set.</p>
+<p>See also: <code><a href="../Pf/Map.html">Map</a></code>.</p>
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../Enumerable.html">Enumerable(T)</a></li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L5" target="_blank">
+        permafrost/set.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#additive_identity%3Aself-class-method" class="signature"><strong>.additive_identity</strong> : <span class="k">self</span></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new%28enumerable%3AEnumerable%28T%29%29%3ASet%28T%29-class-method" class="signature"><strong>.new</strong>(enumerable : Enumerable(T)) : Set(T)</a>
+        
+          <div class="summary"><p>Returns a new set with the elements from <em>enumerable</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new%3ASet%28T%29-class-method" class="signature"><strong>.new</strong> : Set(T)</a>
+        
+          <div class="summary"><p>Returns a new, empty set.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%28%2Aelements%29-class-method" class="signature"><strong>.[]</strong>(*elements)</a>
+        
+          <div class="summary"><p>Returns a new set with the given <em>elements</em>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%26%28other%3ASet%28T%29%29-instance-method" class="signature"><strong>#&</strong>(other : Set(T))</a>
+        
+          <div class="summary"><p>Returns a new set containing elements common to this and <em>other</em> sets.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%2B%28other%29%3ASet%28T%29-instance-method" class="signature"><strong>#+</strong>(other) : Set(T)</a>
+        
+          <div class="summary"><p>Shorthand for <code><a href="../Pf/Set.html#concat%28other%3AEnumerable%28T%29%29%3ASet%28T%29-instance-method">#concat</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3Aself%29-instance-method" class="signature"><strong>#==</strong>(other : <span class="k">self</span>)</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if two sets are equal.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%3D%28object%3AT%29%3ABool-instance-method" class="signature"><strong>#===</strong>(object : T) : Bool</a>
+        
+          <div class="summary"><p>Same as <code><a href="../Pf/Set.html#%3D%3D%3D%28object%3AT%29%3ABool-instance-method">Set#===</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#add%28element%3AT%29%3ASet%28T%29-instance-method" class="signature"><strong>#add</strong>(element : T) : Set(T)</a>
+        
+          <div class="summary"><p>Returns a copy of this set that includes <em>element</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#concat%28other%3AEnumerable%28T%29%29%3ASet%28T%29-instance-method" class="signature"><strong>#concat</strong>(other : Enumerable(T)) : Set(T)</a>
+        
+          <div class="summary"><p>Returns a copy of this set that also includes elements from <em>other</em> enumerable.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#delete%28element%3AT%29%3ASet%28T%29-instance-method" class="signature"><strong>#delete</strong>(element : T) : Set(T)</a>
+        
+          <div class="summary"><p>Returns a copy of this set that is guaranteed not to include <em>element</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each%28%26%3AT-%3E%29%3ANil-instance-method" class="signature"><strong>#each</strong>(& : T -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields each element from this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#empty%3F%3ABool-instance-method" class="signature"><strong>#empty?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this set is empty.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#fmap%28%26%3AT-%3EU%29%3ASet%28U%29forallU-instance-method" class="signature"><strong>#fmap</strong>(& : T -> U) : Set(U) forall U</a>
+        
+          <div class="summary"><p>Yields each element from this set to the block and constructs a new set from block return results.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hash%28hasher%29-instance-method" class="signature"><strong>#hash</strong>(hasher)</a>
+        
+          <div class="summary"><p>See <code>Object#hash(hasher)</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#includes%3F%28element%3AT%29%3ABool-instance-method" class="signature"><strong>#includes?</strong>(element : T) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if <em>element</em> is present in this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inspect%28io%3AIO%29%3ANil-instance-method" class="signature"><strong>#inspect</strong>(io : IO) : Nil</a>
+        
+          <div class="summary"><p>Alias of <code><a href="../Pf/Set.html#to_s%28io%29-instance-method">#to_s</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pretty_print%28pp%29%3ANil-instance-method" class="signature"><strong>#pretty_print</strong>(pp) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reject%28%26%3AT-%3E%29%3ASet%28T%29-instance-method" class="signature"><strong>#reject</strong>(& : T -> ) : Set(T)</a>
+        
+          <div class="summary"><p>Returns a new set that includes only elements for which the block is <em>falsey</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#same%3F%28other%3ASet%28T%29%29-instance-method" class="signature"><strong>#same?</strong>(other : Set(T))</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if <code>self</code> and <em>other</em> refer to the same set in memory.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#select%28%26%3AT-%3E%29%3ASet%28T%29-instance-method" class="signature"><strong>#select</strong>(& : T -> ) : Set(T)</a>
+        
+          <div class="summary"><p>Returns a new set that includes only elements for which the block is <em>truthy</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3AInt32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the number of elements in this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s%28io%29-instance-method" class="signature"><strong>#to_s</strong>(io)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Enumerable.html">Enumerable(T)</a></code></h3>
+  
+  
+    <a href="../Enumerable.html#to_pf_bidi-instance-method" class="tooltip">
+      <span>to_pf_bidi</span>
+    to_pf_bidi</a>, 
+    
+  
+    <a href="../Enumerable.html#to_pf_map%28%26%3AT-%3ETuple%28K%2CV%29%29%3APf%3A%3AMap%28K%2CV%29forallK%2CV-instance-method" class="tooltip">
+      <span>to_pf_map(& : T -> Tuple(K, V)) : Pf::Map(K, V) forall K, V<br/>to_pf_map</span>
+    to_pf_map</a>, 
+    
+  
+    <a href="../Enumerable.html#to_pf_set%3APf%3A%3ASet%28T%29-instance-method" class="tooltip">
+      <span>to_pf_set : Pf::Set(T)</span>
+    to_pf_set</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="additive_identity:self-class-method">
+      <div class="signature">
+        
+        def self.<strong>additive_identity</strong> : <span class="k">self</span>
+
+        <a class="method-permalink" href="#additive_identity%3Aself-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L11" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(enumerable:Enumerable(T)):Set(T)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(enumerable : <a href="../Enumerable.html">Enumerable</a>(T)) : <a href="../Pf/Set.html">Set</a>(T)
+
+        <a class="method-permalink" href="#new%28enumerable%3AEnumerable%28T%29%29%3ASet%28T%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new set with the elements from <em>enumerable</em>.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>.new([<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>])
+set <span class="c"># =&gt; Pf::Set[1, 2, 3]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L31" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new:Set(T)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong> : <a href="../Pf/Set.html">Set</a>(T)
+
+        <a class="method-permalink" href="#new%3ASet%28T%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new, empty set.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>(<span class="t">Int32</span>).new
+set.empty? <span class="o">=&gt;</span> <span class="n">true</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L21" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="[](*elements)-class-method">
+      <div class="signature">
+        
+        def self.<strong>[]</strong>(*elements)
+
+        <a class="method-permalink" href="#%5B%5D%28%2Aelements%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new set with the given <em>elements</em>.</p>
+<p>The type of the returned set is the union of the types of <em>elements</em>.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">1</span>, <span class="s">&quot;Hello&quot;</span>, <span class="n">3</span>, <span class="n">true</span>]
+set <span class="c"># =&gt; Pf::Set[1, &quot;Hello&quot;, 3, true]</span>
+
+<span class="k">typeof</span>(set) <span class="c"># =&gt; Pf::Set(String | Int32 | Bool)</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L45" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="&amp;(other:Set(T))-instance-method">
+      <div class="signature">
+        
+        def <strong>&</strong>(other : <a href="../Pf/Set.html">Set</a>(T))
+
+        <a class="method-permalink" href="#%26%28other%3ASet%28T%29%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new set containing elements common to this and <em>other</em> sets.</p>
+<pre><code class="language-crystal">a <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+b <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">4</span>, <span class="n">5</span>, <span class="n">1</span>, <span class="n">6</span>, <span class="n">2</span>]
+a <span class="o">&amp;</span> b <span class="c"># =&gt; Pf::Set[1, 2]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L145" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="+(other):Set(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>+</strong>(other) : <a href="../Pf/Set.html">Set</a>(T)
+
+        <a class="method-permalink" href="#%2B%28other%29%3ASet%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Shorthand for <code><a href="../Pf/Set.html#concat%28other%3AEnumerable%28T%29%29%3ASet%28T%29-instance-method">#concat</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L189" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="==(other:self)-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : <span class="k">self</span>)
+
+        <a class="method-permalink" href="#%3D%3D%28other%3Aself%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if two sets are equal.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L251" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="===(object:T):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>===</strong>(object : T) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%3D%28object%3AT%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Same as <code><a href="../Pf/Set.html#%3D%3D%3D%28object%3AT%29%3ABool-instance-method">Set#===</a></code>.</p>
+<pre><code class="language-crystal">reds <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="s">&quot;red&quot;</span>, <span class="s">&quot;pink&quot;</span>, <span class="s">&quot;violet&quot;</span>]
+blues <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="s">&quot;blue&quot;</span>, <span class="s">&quot;azure&quot;</span>, <span class="s">&quot;violet&quot;</span>]
+
+both <span class="o">=</span> red <span class="o">=</span> blue <span class="o">=</span> <span class="n">false</span>
+
+<span class="k">case</span> <span class="s">&quot;violet&quot;</span>
+<span class="k">when</span> reds <span class="o">&amp;</span> blues
+  both <span class="o">=</span> <span class="n">true</span>
+<span class="k">when</span> reds
+  red <span class="o">=</span> <span class="n">true</span>
+<span class="k">when</span> blues
+  blue <span class="o">=</span> <span class="n">true</span>
+<span class="k">end</span>
+
+both <span class="c"># =&gt; true</span>
+red  <span class="c"># =&gt; false</span>
+blue <span class="c"># =&gt; false</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L231" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="add(element:T):Set(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>add</strong>(element : T) : <a href="../Pf/Set.html">Set</a>(T)
+
+        <a class="method-permalink" href="#add%28element%3AT%29%3ASet%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of this set that includes <em>element</em>.</p>
+<p><em>Supports value equality</em>.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">100</span>, <span class="n">200</span>]
+set.add(<span class="n">300</span>) <span class="c"># =&gt; Pf::Set[100, 200, 300]</span>
+set.add(<span class="n">400</span>) <span class="c"># =&gt; Pf::Set[100, 200, 400]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L159" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="concat(other:Enumerable(T)):Set(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>concat</strong>(other : <a href="../Enumerable.html">Enumerable</a>(T)) : <a href="../Pf/Set.html">Set</a>(T)
+
+        <a class="method-permalink" href="#concat%28other%3AEnumerable%28T%29%29%3ASet%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of this set that also includes elements from
+<em>other</em> enumerable.</p>
+<p><em>Supports value equality</em>.</p>
+<pre><code class="language-crystal">a <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+a.concat([<span class="n">4</span>, <span class="n">5</span>, <span class="n">1</span>, <span class="n">2</span>]) <span class="c"># =&gt; Pf::Set[1, 2, 3, 4, 5]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L184" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="delete(element:T):Set(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>delete</strong>(element : T) : <a href="../Pf/Set.html">Set</a>(T)
+
+        <a class="method-permalink" href="#delete%28element%3AT%29%3ASet%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of this set that is guaranteed not to include
+<em>element</em>.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">100</span>, <span class="n">200</span>, <span class="n">300</span>]
+set.delete(<span class="n">100</span>) <span class="c"># =&gt; Pf::Set[200, 300]</span>
+set.delete(<span class="n">200</span>) <span class="c"># =&gt; Pf::Set[100, 300]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L171" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each(&amp;:T-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each</strong>(& : T -> ) : Nil
+
+        <a class="method-permalink" href="#each%28%26%3AT-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields each element from this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L95" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="empty?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>empty?</strong> : Bool
+
+        <a class="method-permalink" href="#empty%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this set is empty.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>(<span class="t">Int32</span>).new
+set.empty? <span class="c"># =&gt; true</span>
+
+newset <span class="o">=</span> set.add(<span class="n">100</span>)
+newset.empty? <span class="c"># =&gt; false</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L70" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="fmap(&amp;:T-&gt;U):Set(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>fmap</strong>(& : T -> U) : <a href="../Pf/Set.html">Set</a>(U) forall U
+
+        <a class="method-permalink" href="#fmap%28%26%3AT-%3EU%29%3ASet%28U%29forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields each element from this set to the block and constructs
+a new set from block return results.</p>
+<p>Supports value equality if <code>T == U</code>.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+set.fmap(<span class="o">&amp;</span>.succ.to_s) <span class="c"># =&gt; Pf::Set[&quot;2&quot;, &quot;3&quot;, &quot;4&quot;]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L108" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hash(hasher)-instance-method">
+      <div class="signature">
+        
+        def <strong>hash</strong>(hasher)
+
+        <a class="method-permalink" href="#hash%28hasher%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>See <code>Object#hash(hasher)</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L254" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="includes?(element:T):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>includes?</strong>(element : T) : Bool
+
+        <a class="method-permalink" href="#includes%3F%28element%3AT%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if <em>element</em> is present in this set.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+
+<span class="n">1</span>.in?(set)        <span class="c"># =&gt; true</span>
+<span class="n">2</span>.in?(set)        <span class="c"># =&gt; true</span>
+<span class="n">3</span>.in?(set)        <span class="c"># =&gt; true</span>
+<span class="n">100</span>.in?(set)      <span class="c"># =&gt; false</span>
+<span class="s">&quot;foobar&quot;</span>.in?(set) <span class="c"># =&gt; false</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L85" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inspect(io:IO):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>inspect</strong>(io : IO) : Nil
+
+        <a class="method-permalink" href="#inspect%28io%3AIO%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Alias of <code><a href="../Pf/Set.html#to_s%28io%29-instance-method">#to_s</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L236" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pretty_print(pp):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>pretty_print</strong>(pp) : Nil
+
+        <a class="method-permalink" href="#pretty_print%28pp%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L246" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reject(&amp;:T-&gt;):Set(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>reject</strong>(& : T -> ) : <a href="../Pf/Set.html">Set</a>(T)
+
+        <a class="method-permalink" href="#reject%28%26%3AT-%3E%29%3ASet%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new set that includes only elements for which the
+block is <em>falsey</em>.</p>
+<p><em>Supports value equality</em>.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> (<span class="n">0</span>...<span class="n">10</span>).to_pf_set
+set.reject(<span class="o">&amp;</span>.even?) <span class="c"># =&gt; Pf::Set[1, 3, 5, 7, 9]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L134" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="same?(other:Set(T))-instance-method">
+      <div class="signature">
+        
+        def <strong>same?</strong>(other : <a href="../Pf/Set.html">Set</a>(T))
+
+        <a class="method-permalink" href="#same%3F%28other%3ASet%28T%29%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if <code>self</code> and <em>other</em> refer to the same set in memory.</p>
+<p>Due to the way <code><a href="../Pf/Set.html">Set</a></code> is implemented, this method can be used as
+a cheap way to detect changes.</p>
+<pre><code class="language-crystal">set1 <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+set2 <span class="o">=</span> set1.add(<span class="n">1</span>).add(<span class="n">2</span>).add(<span class="n">3</span>)
+set1.same?(set2) <span class="c"># =&gt; true</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L206" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="select(&amp;:T-&gt;):Set(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>select</strong>(& : T -> ) : <a href="../Pf/Set.html">Set</a>(T)
+
+        <a class="method-permalink" href="#select%28%26%3AT-%3E%29%3ASet%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new set that includes only elements for which the
+block is <em>truthy</em>.</p>
+<p><em>Supports value equality</em>.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> (<span class="n">0</span>...<span class="n">10</span>).to_pf_set
+set.<span class="k">select</span>(<span class="o">&amp;</span>.even?) <span class="c"># =&gt; Pf::Set[0, 2, 4, 6, 8]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L121" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong> : Int32
+
+        <a class="method-permalink" href="#size%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the number of elements in this set.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">1</span>, <span class="n">5</span>]
+set.size <span class="c"># =&gt; 2</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L57" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong>(io)
+
+        <a class="method-permalink" href="#to_s%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/7b928c8f23d5c9d215c104ffe477d544669b2c2c/src/permafrost/set.cr#L240" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
