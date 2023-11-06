@@ -104,7 +104,7 @@
   </svg>
 </a>permafrost</h1>
 <p>Permafrost implements a (relatively) fast unordered persistent map. Plus a set
-and a bidirectional map based on top of the map.</p>
+and a bidirectional map based on the map.</p>
 <h2><a id="installation" class="anchor" href="#installation">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -128,17 +128,17 @@ and a bidirectional map based on top of the map.</p>
 </a>Usage</h2>
 <p>I implemented most useful stuff (?) from <code>Hash</code> and <code>Set</code>. <code>BidiMap</code> is mostly for myself
 so you may forget it exists :) All in all refer to <a href="https://homonoidian.github.io/permafrost/">the docs</a>.</p>
-<pre><code class="language-crystal">require &quot;permafrost&quot;
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;permafrost&quot;</span>
 
-map = Pf::Map[foo: 100, bar: 200]
-map[&quot;foo&quot;]? # =&gt; 100
-map[&quot;bar&quot;]? # =&gt; 200
+map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">100</span>, bar: <span class="n">200</span>]
+map[<span class="s">&quot;foo&quot;</span>]? <span class="c"># =&gt; 100</span>
+map[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; 200</span>
 
-map.assoc(&quot;baz&quot;, 300) # =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &quot;bar&quot; =&gt; 200, &quot;baz&quot; =&gt; 300}
-map                   # =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &quot;bar&quot; =&gt; 200}
+map.assoc(<span class="s">&quot;baz&quot;</span>, <span class="n">300</span>) <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &quot;bar&quot; =&gt; 200, &quot;baz&quot; =&gt; 300}</span>
+map                   <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &quot;bar&quot; =&gt; 200}</span>
 
-map.dissoc(&quot;foo) # =&gt; Pf::Map{&quot;bar&quot; =&gt; 200}
-map              # =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &quot;bar&quot; =&gt; 200}</code></pre>
+map.dissoc(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; Pf::Map{&quot;bar&quot; =&gt; 200}</span>
+map               <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &quot;bar&quot; =&gt; 200}</span></code></pre>
 <h2><a id="development" class="anchor" href="#development">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
