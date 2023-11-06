@@ -182,7 +182,7 @@ module Pf
     # a.concat([4, 5, 1, 2]) # => Pf::Set[1, 2, 3, 4, 5]
     # ```
     def concat(other : Enumerable(T)) : Set(T)
-      Set.new(@map.merge(other.@map))
+      empty? ? other : other.reduce(self) { |set, element| set.add(element) }
     end
 
     # Shorthand for `concat`.
