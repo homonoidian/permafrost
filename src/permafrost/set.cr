@@ -172,6 +172,11 @@ module Pf
       Set.new(@map.dissoc(element))
     end
 
+    # :nodoc:
+    def concat(other : Pf::Set(T)) : Set(T)
+      empty? ? other : other.reduce(self) { |set, element| set.add(element) }
+    end
+
     # Returns a copy of this set that also includes elements from
     # *other* enumerable.
     #
@@ -182,7 +187,7 @@ module Pf
     # a.concat([4, 5, 1, 2]) # => Pf::Set[1, 2, 3, 4, 5]
     # ```
     def concat(other : Enumerable(T)) : Set(T)
-      empty? ? other : other.reduce(self) { |set, element| set.add(element) }
+      other.reduce(self) { |set, element| set.add(element) }
     end
 
     # Shorthand for `concat`.
