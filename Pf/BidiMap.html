@@ -160,7 +160,7 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L5" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L5" target="_blank">
         permafrost/bidi_map.cr
       </a>
     
@@ -231,6 +231,13 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
+        <a href="#%3D%3D%28other%3Aself%29-instance-method" class="signature"><strong>#==</strong>(other : <span class="k">self</span>)</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the bidirectional maps are equal.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#assoc%28key%3AK%2Cvalue%3AV%29%3ABidiMap%28K%2CV%29-instance-method" class="signature"><strong>#assoc</strong>(key : K, value : V) : BidiMap(K, V)</a>
         
           <div class="summary"><p>Returns a copy of <code>self</code> that contains the mapping of <em>key</em> to <em>value</em>.</p></div>
@@ -280,6 +287,13 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#hash%28hasher%29-instance-method" class="signature"><strong>#hash</strong>(hasher)</a>
+        
+          <div class="summary"><p>See <code>Object#hash(hasher)</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#inspect%28io%29-instance-method" class="signature"><strong>#inspect</strong>(io)</a>
         
       </li>
@@ -300,6 +314,13 @@
     
       <li class="entry-summary">
         <a href="#pretty_print%28pp%29%3ANil-instance-method" class="signature"><strong>#pretty_print</strong>(pp) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#same%3F%28other%3ABidiMap%28K%2CV%29%29%3ABool-instance-method" class="signature"><strong>#same?</strong>(other : BidiMap(K, V)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if <code>self</code> and <em>other</em> refer to the same map in memory.</p></div>
         
       </li>
     
@@ -424,7 +445,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L22" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -447,7 +468,7 @@ bidi.empty? <span class="c"># =&gt; true</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L17" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -480,7 +501,7 @@ bidi.empty? <span class="c"># =&gt; true</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -496,6 +517,27 @@ bidi.empty? <span class="c"># =&gt; true</span></code></pre>
 </a>
     Instance Method Detail
   </h2>
+  
+    <div class="entry-detail" id="==(other:self)-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : <span class="k">self</span>)
+
+        <a class="method-permalink" href="#%3D%3D%28other%3Aself%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the bidirectional maps are equal.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L190" target="_blank">View source</a>]
+        
+      </div>
+    </div>
   
     <div class="entry-detail" id="assoc(key:K,value:V):BidiMap(K,V)-instance-method">
       <div class="signature">
@@ -517,7 +559,7 @@ bidi.assoc(<span class="s">&quot;hello&quot;</span>, <span class="n">100</span>)
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L131" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L131" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -541,7 +583,7 @@ bidi.dissoc_by_key(<span class="n">:foo</span>) <span class="c"># =&gt; Pf::Bidi
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L145" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L151" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -565,7 +607,7 @@ bidi.dissoc_by_value(<span class="n">200</span>) <span class="c"># =&gt; Pf::Bid
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L158" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L164" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -586,7 +628,7 @@ bidi.dissoc_by_value(<span class="n">200</span>) <span class="c"># =&gt; Pf::Bid
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L42" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L42" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -607,7 +649,7 @@ bidi.dissoc_by_value(<span class="n">200</span>) <span class="c"># =&gt; Pf::Bid
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L32" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -632,7 +674,7 @@ bidi.has_key_for?(<span class="n">300</span>) <span class="c"># =&gt; false</spa
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L106" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L106" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -657,7 +699,28 @@ bidi.has_value_for?(<span class="n">:baz</span>) <span class="c"># =&gt; false</
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L118" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L118" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hash(hasher)-instance-method">
+      <div class="signature">
+        
+        def <strong>hash</strong>(hasher)
+
+        <a class="method-permalink" href="#hash%28hasher%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>See <code>Object#hash(hasher)</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L193" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -673,7 +736,7 @@ bidi.has_value_for?(<span class="n">:baz</span>) <span class="c"># =&gt; false</
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L164" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L211" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -699,7 +762,7 @@ bidi.key_for(<span class="n">300</span>) <span class="c"># raises KeyError</span
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L68" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L68" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -725,7 +788,7 @@ bidi.key_for?(<span class="n">300</span>) <span class="c"># =&gt; nil</span></co
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L55" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L55" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -741,7 +804,33 @@ bidi.key_for?(<span class="n">300</span>) <span class="c"># =&gt; nil</span></co
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L178" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L225" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="same?(other:BidiMap(K,V)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>same?</strong>(other : <a href="../Pf/BidiMap.html">BidiMap</a>(K, V)) : Bool
+
+        <a class="method-permalink" href="#same%3F%28other%3ABidiMap%28K%2CV%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if <code>self</code> and <em>other</em> refer to the same map in memory.</p>
+<p>Due to the way <code><a href="../Pf/BidiMap.html">BidiMap</a></code> is implemented, this method can be used
+as a cheap way to detect changes.</p>
+<pre><code class="language-crystal">bidi1 <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">BidiMap</span>.assoc(<span class="n">:foo</span>, <span class="n">100</span>).assoc(<span class="n">:bar</span>, <span class="n">200</span>)
+bidi2 <span class="o">=</span> bidi1.assoc(<span class="n">:foo</span>, <span class="n">100</span>)
+bidi1.same?(bidi2) <span class="c"># =&gt; true</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L180" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -762,7 +851,7 @@ bidi.key_for?(<span class="n">300</span>) <span class="c"># =&gt; nil</span></co
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L37" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -778,7 +867,7 @@ bidi.key_for?(<span class="n">300</span>) <span class="c"># =&gt; nil</span></co
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L168" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L215" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -804,7 +893,7 @@ bidi.value_for(<span class="n">:baz</span>) <span class="c"># raises KeyError</s
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L94" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L94" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -830,7 +919,7 @@ bidi.value_for?(<span class="n">:baz</span>) <span class="c"># =&gt; nil</span><
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/2c3ccfbb5a1b2641b439ad5c1192b8152b3010e0/src/permafrost/bidi_map.cr#L81" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/26ad4571fe501c4cb0e4c0cdbd87950ce0ccaa30/src/permafrost/bidi_map.cr#L81" target="_blank">View source</a>]
         
       </div>
     </div>
