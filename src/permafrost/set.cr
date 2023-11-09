@@ -252,7 +252,7 @@ module Pf
       pp.list("Pf::Set[", self, "]")
     end
 
-    # Returns `true` if two sets are equal.
+    # Returns `true` if the sets are equal.
     def_equals @map
 
     # See `Object#hash(hasher)`.

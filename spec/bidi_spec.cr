@@ -99,4 +99,26 @@ describe Pf::BidiMap do
     b.has_value_for?("John Doe").should be_true
     b.has_value_for?("Nancy Doe").should be_false
   end
+
+  it "should support hash, same?" do
+    bidi1 = Pf::BidiMap.assoc(:foo, 100).assoc(:bar, 200)
+    bidi2 = bidi1.assoc(:foo, 100)
+    bidi1.same?(bidi2).should be_true
+    bidi1.same?(:foobar).should be_false
+
+    bidi2 = bidi1.assoc(:bar, 300)
+    bidi2.same?(bidi1).should be_false
+
+    map1 = Pf::BidiMap.assoc(:foo, 100).assoc(:bar, 200)
+    map2 = Pf::BidiMap.assoc(:foo, 100).assoc(:bar, 200)
+    map3 = Pf::BidiMap(Symbol, String | Int32).assoc(:foo, "hello").assoc(:bar, 200)
+    map4 = Pf::BidiMap.assoc(:foo, 100).assoc(:bar, 200).assoc(:baz, 300)
+    # v  this still doesnt test class stuff but nah it works anyway?
+    map5 = {Pf::Map.assoc(:foo, 100).assoc(:bar, 200), Pf::Map.assoc(100, :foo).assoc(200, :bar)}
+
+    map1.hash.should eq(map2.hash)
+    map1.hash.should_not eq(map3.hash)
+    map1.hash.should_not eq(map4.hash)
+    map1.hash.should_not eq(map5.hash)
+  end
 end

@@ -129,7 +129,13 @@ module Pf
     # bidi.assoc("hello", 100) # => Pf::BidiMap{"hello" <=> 100}
     # ```
     def assoc(key : K, value : V) : BidiMap(K, V)
-      keyof = (v = value_for?(key)) ? @keyof.dissoc(v) : @keyof
+      if v = value_for?(key)
+        return self if Node.eqv?(v, value)
+        keyof = @keyof.dissoc(v)
+      else
+        keyof = @keyof
+      end
+
       valueof = (k = key_for?(value)) ? @valueof.dissoc(k) : @valueof
 
       BidiMap.new(valueof.assoc(key, value), keyof.assoc(value, key))
@@ -159,6 +165,47 @@ module Pf
       return self unless key = key_for?(value)
 
       BidiMap.new(@valueof.dissoc(key), @keyof.dissoc(value))
+    end
+
+    # Returns `true` if `self` and *other* refer to the same map in memory.
+    #
+    # Due to the way `BidiMap` is implemented, this method can be used
+    # as a cheap way to detect changes.
+    #
+    # ```
+    # bidi1 = Pf::BidiMap.assoc(:foo, 100).assoc(:bar, 200)
+    # bidi2 = bidi1.assoc(:foo, 100)
+    # bidi1.same?(bidi2) # => true
+    # ```
+    def same?(other : BidiMap(K, V)) : Bool
+      @valueof.same?(other.@valueof) && @keyof.same?(other.@keyof)
+    end
+
+    # :nodoc:
+    def same?(other) : Bool
+      false
+    end
+
+    # Returns `true` if the bidirectional maps are equal.
+    def_equals @valueof, @keyof
+
+    # See `Object#hash(hasher)`.
+    def hash(hasher)
+      result = hasher.result
+
+      copy = hasher
+      copy = self.class.hash(copy)
+      result &+= copy.result
+
+      copy = hasher
+      copy = @valueof.hash(copy)
+      result &+= copy.result
+
+      copy = hasher
+      copy = @keyof.hash(copy)
+      result &+= copy.result
+
+      result.hash(hasher)
     end
 
     def inspect(io)
