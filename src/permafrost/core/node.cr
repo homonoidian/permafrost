@@ -9,15 +9,18 @@ module Pf::Core
     # Window size over a 32-bit path to the mapping.
     PROGRESS_STEP = 5
 
+    # Window mask (`PROGRESS_STEP` x `1`s).
+    PROGRESS_WINDOW = 0x1f
+
     # Returns the 32 bit hash of *object*.
     macro hash32(object)
-      {{object}}.hash.unsafe_as(UInt32)
+      ({{object}}).hash.unsafe_as(UInt32)
     end
 
     # Returns `0...32` index based on a 32-bit *path* and a *progress* offset
     # into that path. *progress* should be a multiple of `PROGRESS_STEP`.
     macro index32(path, progress)
-      (({{path}}) >> ({{progress}})) & 0x1f
+      (({{path}}) >> ({{progress}})) & PROGRESS_WINDOW
     end
 
     # Returns if two mapping values *v1* and *v2* are equal.
@@ -202,7 +205,7 @@ module Pf::Core
       node = self
       path = hash32(needle)
       7.times do
-        return unless newnode = node.at?(path & 0x1f)
+        return unless newnode = node.at?(path & PROGRESS_WINDOW)
         return newnode.find?(needle) unless newnode.is_a?(Row)
         node = newnode
         path >>= PROGRESS_STEP

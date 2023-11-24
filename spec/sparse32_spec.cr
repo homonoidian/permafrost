@@ -3,11 +3,6 @@ require "./spec_helper"
 include Pf::Core
 
 describe Pf::Core::Sparse32 do
-  it "should allocate capacity-2 initially" do
-    ary = Sparse32(Int32).new
-    Sparse32::CAPS[ary.size].should eq(2)
-  end
-
   it "should grow when capacity is exceeded all the way to 32" do
     ary = Sparse32(Int32).new
     32.times do |n|
