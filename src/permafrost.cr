@@ -5,7 +5,7 @@ require "./permafrost/bidi_map"
 require "./permafrost/ext"
 
 module Pf
-  VERSION = "0.1.1"
+  VERSION = "0.1.2"
 
   # :nodoc:
   module Core
