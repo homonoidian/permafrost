@@ -127,7 +127,8 @@ module Pf::Core
 
       # If paths are equal but keys are not, that's a collision. We must
       # insulate Collision in a row because otherwise, Collision will accept
-      # all incoming mappings and that's the least cool thing ever.
+      # all incoming mappings if `self` is the root node and that's the
+      # least cool thing ever.
       unless @key == key
         return Row(K, V).new.assoc!(Collision.new([self, mapping]), index0)
       end
@@ -152,52 +153,30 @@ module Pf::Core
     end
 
     # See `Sparse32`.
-    delegate :at!, :at?, to: @cols
+    delegate :at?, to: @cols
 
-    # Returns the amount of columns.
-    def ncols
-      @cols.size
-    end
+    def each(& : K, V ->) : Nil
+      stack = StaticStack(self, 7).new
+      stack.push(self)
 
-    # Unsafe, mutable assoc. Assumes `self` is empty, does no copies, and
-    # skips all checks.
-    def assoc!(node : Node(K, V), index : UInt32) : Node(K, V)
-      @cols = @cols.put(index, node)
-      @size += node.size
-      self
-    end
+      progress = StaticStack(UInt8, 7).new
+      progress.push(0u8)
 
-    def each(&block : K, V ->) : Nil
-      current = 0u8
-
-      states = uninitialized {Row(K, V), UInt32}[7]
-      states[current] = {self, 0u32}
-
-      while true
-        continue = false
-
-        node, start = states[current]
-
-        start.upto(node.ncols - 1) do |index|
-          col = node.at!(index)
-          if col.is_a?(Mapping) || col.is_a?(Collision)
-            col.each { |k, v| yield k, v }
-            next
+      while stack.size > 0
+        node = stack.pop
+        start = progress.pop
+        node.@cols.each(from: start) do |child, index|
+          case child
+          when Mapping, Collision
+            child.each { |k, v| yield k, v }
+          when Row(K, V)
+            stack.push(node)
+            stack.push(child)
+            progress.push(index + 1u8)
+            progress.push(0u8)
+            break
           end
-
-          next unless col.is_a?(self)
-
-          states[current] = {node, index + 1} # Save current state
-          states[current += 1] = {col, 0u32}  # Push new state
-          continue = true
-
-          break
         end
-
-        next if continue
-        break if current.zero?
-
-        current -= 1 # Pop state
       end
     end
 
@@ -210,6 +189,14 @@ module Pf::Core
         node = newnode
         path >>= PROGRESS_STEP
       end
+    end
+
+    # Unsafe, mutable assoc. Assumes `self` is empty, does no copies, and
+    # skips all checks.
+    def assoc!(node : Node(K, V), index : UInt32) : Node(K, V)
+      @cols = @cols.put(index, node)
+      @size += node.size
+      self
     end
 
     def assoc(mapping : Mapping(K, V), path : UInt32, progress : UInt32) : Node(K, V)

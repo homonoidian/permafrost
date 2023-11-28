@@ -55,6 +55,12 @@ module Pf::Core
       size.times { |index| yield at!(index) }
     end
 
+    # Yields each element from this array starting from *start*, followed
+    # by the element's index.
+    def each(from start : Int, & : T ->)
+      start.upto(size - 1) { |index| yield at!(index), index }
+    end
+
     # Returns the element at *index*, or nil.
     #
     # *index* must be in `0...32`, otherwise `IndexError` is raised.
