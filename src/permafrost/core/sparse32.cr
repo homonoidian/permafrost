@@ -1,38 +1,31 @@
 module Pf::Core
   struct Sparse32(T)
-    # Initial capacity of the array.
-    INITIAL_CAPACITY = 2
+    # Maps item count to expected capacity. '0' means 'keep' (do not grow).
+    GROWTH = StaticArray(UInt8, 33).new(0u8)
 
-    # Maps population count (array size) to grown capacity. '0' means
-    # 'keep' (do not grow).
-    GROWTH = StaticArray[
-      # 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-      0, 0, 4, 0, 6, 0, 8, 0, 12, 0,
-      # 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
-      0, 0, 18, 0, 0, 0, 0, 0, 24, 0,
-      # 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-      0, 0, 0, 0, 28, 0, 0, 0, 32, 0,
-      # 30, 31, 32
-      0, 0, 0,
-    ]
+    # Grow * 1.5
+    GROWTH[0] = 2
+    GROWTH[2] = 3
+    GROWTH[3] = 5
+    GROWTH[5] = 8
+    GROWTH[8] = 12
+    GROWTH[12] = 18
+    GROWTH[18] = 27
+    GROWTH[27] = 32
 
     # Maps population count (array size) to capacity directly.
-    CAPS = StaticArray[
-      # 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-      2, 2, 4, 4, 6, 6, 8, 8, 12, 12,
-      # 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
-      12, 12, 18, 18, 18, 18, 18, 18, 24, 24,
-      # 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-      24, 24, 24, 24, 28, 28, 28, 28, 32, 32,
-      # 30, 31, 32
-      32, 32, 32,
-    ]
+    CAPS = StaticArray(UInt8, 33).new(0u8)
+
+    state = GROWTH[0]
+    GROWTH.each_with_index do |capacity, size|
+      CAPS[size] = state = Math.max(capacity, state)
+    end
 
     def initialize(@mem : Pointer(T), @bitmap : UInt32)
     end
 
     def self.new
-      new(Pointer(T).malloc(INITIAL_CAPACITY), 0u32)
+      new(Pointer(T).malloc(GROWTH[0]), 0u32)
     end
 
     private def get_mask_and_offset(index)
