@@ -1,12 +1,10 @@
 module Pf::Core
   struct Sparse32(T)
-    INITIAL_CAPACITY = 2
-
     def initialize(@mem : Pointer(T), @bitmap : UInt32)
     end
 
     def self.new
-      new(Pointer(T).malloc(INITIAL_CAPACITY), 0u32)
+      new(Pointer(T).null, 0u32)
     end
 
     private def get_mask_and_offset(index)
