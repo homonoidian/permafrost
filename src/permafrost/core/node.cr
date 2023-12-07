@@ -191,10 +191,9 @@ module Pf::Core
       end
     end
 
-    # Unsafe, mutable assoc. Assumes `self` is empty, does no copies, and
-    # skips all checks.
+    # Unsafe, mutable assoc. Assumes `self` is empty.
     def assoc!(node : Node(K, V), index : UInt32) : Node(K, V)
-      @cols = @cols.put(index, node)
+      @cols = @cols.with(index, node)
       @size += node.size
       self
     end
@@ -202,13 +201,13 @@ module Pf::Core
     def assoc(mapping : Mapping(K, V), path : UInt32, progress : UInt32) : Node(K, V)
       index = index32(path, progress)
       unless col = @cols.at?(index)
-        return Row.new(@cols.dup.put(index, mapping), @size + 1)
+        return Row.new(@cols.with(index, mapping), @size + 1)
       end
 
       newcol = col.assoc(mapping, path, progress + PROGRESS_STEP)
       return self if col.same?(newcol)
 
-      Row.new(@cols.dup.put(index, newcol), @size + (newcol.size - col.size))
+      Row.new(@cols.with(index, newcol), @size + (newcol.size - col.size))
     end
 
     def dissoc(needle : K, path : UInt32, progress : UInt32) : Node(K, V)
@@ -222,9 +221,9 @@ module Pf::Core
       if newcol.size.zero?
         return Empty(K, V).new if @cols.size == 1 # Will remove the last one
 
-        Row.new(@cols.dup.delete(index), @size + delta)
+        Row.new(@cols.without(index), @size + delta)
       else
-        Row.new(@cols.dup.put(index, newcol), @size + delta)
+        Row.new(@cols.with(index, newcol), @size + delta)
       end
     end
   end
