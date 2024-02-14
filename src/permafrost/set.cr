@@ -17,7 +17,7 @@ module Pf
         end
 
         def path : UInt64
-          @value.hash
+          Core.hash64(@value)
         end
 
         def match?(stored) : Bool
@@ -34,7 +34,7 @@ module Pf
         end
 
         def path : UInt64
-          @value.hash
+          Core.hash64(@value)
         end
 
         def match?(stored) : Bool
@@ -59,7 +59,7 @@ module Pf
         end
 
         def path : UInt64
-          @value.hash
+          Core.hash64(@value)
         end
 
         def match?(stored) : Bool
@@ -80,7 +80,7 @@ module Pf
         end
 
         def path : UInt64
-          @value.hash
+          Core.hash64(@value)
         end
 
         def match?(stored) : Bool
@@ -101,7 +101,7 @@ module Pf
         end
 
         def path : UInt64
-          @value.hash
+          Core.hash64(@value)
         end
 
         def match?(stored) : Bool

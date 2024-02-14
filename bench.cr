@@ -5,9 +5,9 @@ require "./src/permafrost"
 # benchmark results will depend on how good the seed (~> hash) is, meaning
 # they will be random without this patch.
 
-class Pf::Core::Node
-  macro hash32(object)
-    ({{object}}).hash(Crystal::Hasher.new(0u64, 0u64)).result.unsafe_as(UInt32)
+module Pf::Core
+  macro hash64(object)
+    ({{object}}).hash(Crystal::Hasher.new(0u64, 0u64)).result
   end
 end
 

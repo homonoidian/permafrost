@@ -56,12 +56,14 @@ module Pf::Core
 
     # :nodoc:
     def at?(probe : IProbeAt, path : UInt64) : {T}?
-      index = path & WINDOW
-      item = @items.at?(index)
-      return {item} if item && probe.match?(item)
-      return unless child = @children.at?(index)
-
-      child.at?(probe, path >> WINDOW_SIZE)
+      node = self
+      while true
+        index = path & WINDOW
+        item = node.@items.at?(index)
+        return {item} if item && probe.match?(item)
+        return unless node = node.@children.at?(index)
+        path >>= WINDOW_SIZE
+      end
     end
 
     # Retrieves the stored value that is accepted by *probe*. Returns the first
