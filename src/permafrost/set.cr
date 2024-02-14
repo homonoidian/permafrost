@@ -1,11 +1,161 @@
 module Pf
+  class ResolvedError < Exception
+  end
+
   # A thread-safe, persistent, unordered set.
   #
   # See also: `Map`.
   struct Set(T)
+    include Core
     include Enumerable(T)
 
-    protected def initialize(@map : Map(T, Nil))
+    module Probe
+      struct Includes(T)
+        include IProbeAt
+
+        def initialize(@value : T)
+        end
+
+        def path : UInt64
+          @value.hash
+        end
+
+        def match?(stored) : Bool
+          @value == stored
+        end
+      end
+
+      struct Add(T)
+        include IProbeAdd(T)
+
+        getter value : T
+
+        def initialize(@value : T)
+        end
+
+        def path : UInt64
+          @value.hash
+        end
+
+        def match?(stored) : Bool
+          @value == stored
+        end
+
+        def author? : AuthorId?
+        end
+
+        def replace?(stored) : Bool
+          false
+        end
+      end
+
+      struct MutAdd(T)
+        include IProbeAdd(T)
+
+        getter value : T
+        getter? author : AuthorId?
+
+        def initialize(@value, @author)
+        end
+
+        def path : UInt64
+          @value.hash
+        end
+
+        def match?(stored) : Bool
+          @value == stored
+        end
+
+        def replace?(stored) : Bool
+          false
+        end
+      end
+
+      struct Delete(T)
+        include IProbeDelete
+
+        getter value : T
+
+        def initialize(@value : T)
+        end
+
+        def path : UInt64
+          @value.hash
+        end
+
+        def match?(stored) : Bool
+          @value == stored
+        end
+
+        def author? : AuthorId?
+        end
+      end
+
+      struct MutDelete(T)
+        include IProbeDelete
+
+        getter value : T
+        getter? author : AuthorId?
+
+        def initialize(@value, @author)
+        end
+
+        def path : UInt64
+          @value.hash
+        end
+
+        def match?(stored) : Bool
+          @value == stored
+        end
+      end
+    end
+
+    # fixme: different fibers touching the same commit?
+    class Commit(T)
+      @@id : Atomic(UInt64) = Atomic.new(0u64)
+
+      def self.genid
+        @@id.add(1)
+      end
+
+      protected def initialize(@set : Set(T))
+        @id = AuthorId.new(Commit.genid)
+        @resolved = false
+      end
+
+      def add(element : T)
+        raise ResolvedError.new if @resolved
+
+        @set = @set.add!(element, @id)
+
+        self
+      end
+
+      def delete(element : T)
+        raise ResolvedError.new if @resolved
+
+        @set = @set.delete!(element, @id)
+
+        self
+      end
+
+      def resolve
+        raise ResolvedError.new if @resolved
+
+        @resolved = true
+        @set
+      end
+    end
+
+    # Returns the number of elements in this set.
+    #
+    # ```
+    # set = Pf::Set[1, 5]
+    # set.size # => 2
+    # ```
+    getter size : Int32
+
+    protected def initialize(@node : Node(T), @size = 0)
     end
 
     def self.additive_identity : self
@@ -19,17 +169,21 @@ module Pf
     # set.empty? => true
     # ```
     def self.new : Set(T)
-      new(Map(T, Nil).new)
+      new(node: Node(T).new, size: 0)
     end
 
-    # Returns a new set with the elements from *enumerable*.
+    # Returns a new set containing elements from *enumerable*.
     #
     # ```
     # set = Pf::Set.new([1, 2, 3])
     # set # => Pf::Set[1, 2, 3]
     # ```
     def self.new(enumerable : Enumerable(T)) : Set(T)
-      enumerable.reduce(Set(T).new) { |set, element| set.add(element) }
+      Set(T).new.concat(enumerable)
+    end
+
+    def self.transaction(& : Commit(T) -> Commit(T)) : Set(T)
+      new.transaction { |commit| yield commit }
     end
 
     # Returns a new set with the given *elements*.
@@ -43,19 +197,7 @@ module Pf
     # typeof(set) # => Pf::Set(String | Int32 | Bool)
     # ```
     def self.[](*elements)
-      elements.reduce(Set(typeof(Enumerable.element_type(elements))).new) do |set, element|
-        set.add(element.as(typeof(Enumerable.element_type(elements))))
-      end
-    end
-
-    # Returns the number of elements in this set.
-    #
-    # ```
-    # set = Pf::Set[1, 5]
-    # set.size # => 2
-    # ```
-    def size : Int32
-      @map.size
+      Set(typeof(Enumerable.element_type(elements))).new.concat(elements)
     end
 
     # Returns `true` if this set is empty.
@@ -68,7 +210,7 @@ module Pf
     # newset.empty? # => false
     # ```
     def empty? : Bool
-      @map.empty?
+      @size.zero?
     end
 
     # Returns `true` if *element* is present in this set.
@@ -83,7 +225,7 @@ module Pf
     # "foobar".in?(set) # => false
     # ```
     def includes?(element : T) : Bool
-      @map.includes?(element)
+      !!@node.at?(Probe::Includes.new(element))
     end
 
     # :nodoc:
@@ -93,7 +235,13 @@ module Pf
 
     # Yields each element from this set.
     def each(& : T ->) : Nil
-      @map.each_key { |element| yield element }
+      @node.each { |element| yield element }
+    end
+
+    def transaction(& : Commit(T) ->) : Set(T)
+      commit = Commit.new(self)
+      yield commit
+      commit.resolve
     end
 
     # Yields each element from this set to the block and constructs
@@ -106,7 +254,26 @@ module Pf
     # set.fmap(&.succ.to_s) # => Pf::Set["2", "3", "4"]
     # ```
     def fmap(& : T -> U) : Set(U) forall U
-      Set.new(@map.map_key { |element| yield element })
+      {% if T == U %}
+        same = true
+        set = Set(U).transaction do |commit|
+          each do |element|
+            newelement = yield element
+            commit.add(newelement)
+            next if newelement.in?(self)
+            same = false
+          end
+          commit
+        end
+        same ? self : set
+      {% else %}
+        Set(U).transaction do |commit|
+          each do |element|
+            commit.add(yield element)
+          end
+          commit
+        end
+      {% end %}
     end
 
     # Returns a new set that includes only elements for which the
@@ -119,7 +286,13 @@ module Pf
     # set.select(&.even?) # => Pf::Set[0, 2, 4, 6, 8]
     # ```
     def select(& : T ->) : Set(T)
-      Set.new(@map.select { |element, _| yield element })
+      transaction do |commit|
+        each do |element|
+          next if yield element
+          commit.delete(element)
+        end
+        commit
+      end
     end
 
     # Returns a new set that includes only elements for which the
@@ -132,7 +305,7 @@ module Pf
     # set.reject(&.even?) # => Pf::Set[1, 3, 5, 7, 9]
     # ```
     def reject(& : T ->) : Set(T)
-      Set.new(@map.reject { |element, _| yield element })
+      self.select { |element| !(yield element) }
     end
 
     # Returns a new set containing elements common to this and *other* sets.
@@ -143,8 +316,8 @@ module Pf
     # a & b # => Pf::Set[1, 2]
     # ```
     def &(other : Set(T))
-      smallest, largest = size < other.size ? {self, other} : {other, self}
-      smallest.select { |element| element.in?(largest) }
+      smaller, larger = size <= other.size ? {self, other} : {other, self}
+      smaller.select { |element| element.in?(larger) }
     end
 
     # Returns a copy of this set that includes *element*.
@@ -157,11 +330,19 @@ module Pf
     # set.add(400) # => Pf::Set[100, 200, 400]
     # ```
     def add(element : T) : Set(T)
-      Set.new(@map.assoc(element, nil))
+      added, node = @node.with(Probe::Add.new(element))
+      added ? Set.new(node, @size + 1) : self
+    end
+
+    protected def add!(element : T, author : AuthorId)
+      added, node = @node.with(Probe::MutAdd.new(element, author))
+      added ? Set.new(node, @size + 1) : self
     end
 
     # Returns a copy of this set that is guaranteed not to include
     # *element*.
+    #
+    # *Supports value equality*.
     #
     # ```
     # set = Pf::Set[100, 200, 300]
@@ -169,12 +350,26 @@ module Pf
     # set.delete(200) # => Pf::Set[100, 300]
     # ```
     def delete(element : T) : Set(T)
-      Set.new(@map.dissoc(element))
+      removed, node = @node.without(Probe::Delete.new(element))
+      removed ? Set.new(node, @size - 1) : self
+    end
+
+    protected def delete!(element : T, author : AuthorId) : Set(T)
+      removed, node = @node.without(Probe::MutDelete.new(element, author))
+      removed ? Set.new(node, @size - 1) : self
     end
 
     # :nodoc:
     def concat(other : Pf::Set(T)) : Set(T)
-      empty? ? other : other.reduce(self) { |set, element| set.add(element) }
+      return self if other.empty?
+
+      smaller, larger = size < other.size ? {self, other} : {other, self}
+      larger.transaction do |commit|
+        smaller.each do |element|
+          commit.add(element)
+        end
+        commit
+      end
     end
 
     # Returns a copy of this set that also includes elements from
@@ -187,7 +382,12 @@ module Pf
     # a.concat([4, 5, 1, 2]) # => Pf::Set[1, 2, 3, 4, 5]
     # ```
     def concat(other : Enumerable(T)) : Set(T)
-      other.reduce(self) { |set, element| set.add(element) }
+      transaction do |commit|
+        other.each do |element|
+          commit.add(element)
+        end
+        commit
+      end
     end
 
     # Shorthand for `concat`.
@@ -196,7 +396,7 @@ module Pf
     end
 
     # :nodoc:
-    delegate :object_id, to: @map
+    delegate :object_id, to: @node
 
     # Returns `true` if `self` and *other* refer to the same set in memory.
     #
@@ -209,7 +409,7 @@ module Pf
     # set1.same?(set2) # => true
     # ```
     def same?(other : Set(T))
-      @map.same?(other.@map)
+      @node.same?(other.@node)
     end
 
     # Same as `Set#===`.
@@ -253,7 +453,17 @@ module Pf
     end
 
     # Returns `true` if the sets are equal.
-    def_equals @map
+    def ==(other : Set)
+      return true if same?(other)
+      return false unless @size == other.size
+
+      all? &.in?(other)
+    end
+
+    # :nodoc:
+    def ==(other)
+      false
+    end
 
     # See `Object#hash(hasher)`.
     def hash(hasher)
@@ -263,9 +473,11 @@ module Pf
       copy = self.class.hash(copy)
       result &+= copy.result
 
-      copy = hasher
-      copy = @map.hash(copy)
-      result &+= copy.result
+      each do |element|
+        copy = hasher
+        copy = element.hash(copy)
+        result &+= copy.result
+      end
 
       result.hash(hasher)
     end

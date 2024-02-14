@@ -7,7 +7,7 @@ struct Collider
   def_equals @val
 
   def hash
-    1
+    1u64
   end
 end
 
@@ -426,8 +426,16 @@ describe Pf::Map do
 
     map_tally1 = words_n1.reduce(Pf::Map(String, Int32).new) { |map, word| map.assoc(word, (map[word]? || 0) + 1) }
     map_tally2 = words_n2.reduce(Pf::Map(String, Int32).new) { |map, word| map.assoc(word, (map[word]? || 0) + 1) }
-    map_tally3 = words_n3.reduce(Pf::Map(String, Int32).new) { |map, word| map.assoc(word, (map[word]? || 0) + 1) }
-    map_tally4 = words_n4.reduce(Pf::Map(String, Int32).new) { |map, word| map.assoc(word, (map[word]? || 0) + 1) }
+    map_tally3 = Pf::Map(String, Int32).transaction do |commit|
+      words_n3.each do |word|
+        commit.assoc(word, (commit[word]? || 0) + 1)
+      end
+    end
+    map_tally4 = Pf::Map(String, Int32).transaction do |commit|
+      words_n4.each do |word|
+        commit.assoc(word, (commit[word]? || 0) + 1)
+      end
+    end
 
     map_tally1.size.should eq(5308)
     map_tally1.sum { |_, n| n }.should eq(26471)

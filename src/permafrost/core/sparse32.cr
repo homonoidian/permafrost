@@ -19,9 +19,23 @@ module Pf::Core
       @bitmap.popcount
     end
 
+    # Returns `true` if this array contains no elements.
+    def empty? : Bool
+      @bitmap.zero?
+    end
+
+    # :nodoc:
+    #
+    # Returns *n*-th *stored* value.
+    def nth?(n : Int)
+      raise IndexError.new unless n.in?(0...32)
+
+      n < size ? @mem[n] : nil
+    end
+
     # Yields each element from this array followed by its index.
     #
-    # - *lo* can be used to specify the lower bound (the index where to start).
+    # - *lo* can be used to specify the lower bound (the index where to start; inclusive).
     def each(from lo = 0u8, & : T, UInt8 ->)
       hi = size
       while lo < hi
@@ -32,14 +46,59 @@ module Pf::Core
 
     # Returns the element at *index*, or nil.
     #
-    # *index* must be in `0...32`, otherwise `IndexError` is raised.
+    # *index* must be in `0...32`, otherwise this method raises `IndexError`.
     def at?(index : Int) : T?
       mask, offset = get_mask_and_offset(index)
 
       @bitmap.bits_set?(mask) ? @mem[offset] : nil
     end
 
-    # Returns a copy of this array where *el* is resent at *index*.
+    # Modifies this array at *index* by updating or inserting *el* there.
+    def with!(index : Int, el : T) : self
+      mask, offset = get_mask_and_offset(index)
+
+      if @bitmap.bits_set?(mask)
+        @mem[offset] = el
+        return self
+      end
+
+      size = self.size
+
+      # Grow if necessary.
+      #
+      # Growth-triggering sizes are powers of two. Only bother growing
+      # to the next capacity if size is a power of two, then.
+      if size < 32 && size & (size &- 1) == 0
+        capacity = Math.pw2ceil(size + 1)
+        @mem = @mem.realloc(capacity)
+      end
+
+      if offset < size
+        (@mem + offset + 1).move_from(@mem + offset, size - offset)
+      end
+
+      @mem[offset] = el
+      @bitmap |= mask
+
+      self
+    end
+
+    # Modifies this array by removing the element at *index* if it was present.
+    def without!(index : Int) : self
+      mask, offset = get_mask_and_offset(index)
+      return self unless @bitmap.bits_set?(mask)
+
+      size = self.size
+
+      (@mem + offset).move_from(@mem + offset + 1, size - offset - 1)
+      (@mem + (size - 1)).clear
+
+      @bitmap &= ~mask
+
+      self
+    end
+
+    # Returns a copy of this array where *el* is present at *index*.
     def with(index : Int, el : T) : Sparse32(T)
       mask, offset = get_mask_and_offset(index)
       size = self.size
