@@ -408,6 +408,14 @@ describe Pf::Map do
           .assoc('c', 2)
           .assoc('d', 3)
       )
+
+      ({'a', 'b', 'c', 'd'}).zip(0..3).to_pf_map { |k, v| {k.to_s.upcase, v + 1} }.should eq(
+        Pf::Map
+          .assoc("A", 1)
+          .assoc("B", 2)
+          .assoc("C", 3)
+          .assoc("D", 4)
+      )
     end
   end
 
