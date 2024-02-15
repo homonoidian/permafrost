@@ -221,4 +221,29 @@ describe Pf::Set do
       went_through_chain.receive.should be_true
     end
   end
+
+  it "should run the example from #transaction" do
+    set1 = Pf::Set[1, 2, 3]
+    set2 = set1.transaction do |commit|
+      commit.add(4)
+      commit.delete(2) if 4.in?(commit)
+      if 2.in?(commit)
+        commit.delete(4)
+        commit.add(6)
+      else
+        commit.delete(4)
+        commit.add(2)
+        commit.add(5)
+      end
+    end
+
+    set1.should eq(Pf::Set[1, 2, 3])
+    set2.should eq(Pf::Set[1, 2, 3, 5])
+
+    set3 = set1.transaction do |commit|
+    end
+
+    set1.should eq(Pf::Set[1, 2, 3])
+    set3.should be(set1)
+  end
 end

@@ -6,7 +6,7 @@ module Pf
     include Core
     include Enumerable(T)
 
-    module Probe
+    private module Probes
       struct Includes(T)
         include IProbeFetch(T)
 
@@ -109,9 +109,12 @@ module Pf
       end
     end
 
+    # Commits allow you to compose multiple edits into one, big edit of the set.
+    # Thus you avoid creating many useless intermediate copies of the set.
     class Commit(T)
       @@id : Atomic(UInt64) = Atomic.new(AUTHOR_FIRST)
 
+      # :nodoc:
       def self.genid
         @@id.add(1)
       end
@@ -121,29 +124,47 @@ module Pf
         @resolved = false
       end
 
-      delegate :includes?, to: @set
+      # Runs `Set#includes?` on the set built so far.
+      def includes?(object) : Bool
+        @set.includes?(object)
+      end
 
-      def add(element : T)
+      # Commits the addition of *element* to the set.
+      #
+      # Raises `ResolvedError` if this commit is used outside of the transaction
+      # (see `Set#transaction`) that produced it.
+      #
+      # Raises `ReadonlyError` if called by a fiber other than the fiber that
+      # initiated the transaction.
+      def add(element : T) : self
         raise ResolvedError.new if @resolved
-        raise ReadonlyError.new unless @fiber == fiber_id
+        raise ReadonlyError.new unless @fiber == Core.fiber_id
 
         @set = @set.add!(element, @id)
 
         self
       end
 
-      def delete(element : T)
+      # Commits the removal of *element* from the set.
+      #
+      # Raises `ResolvedError` if this commit is used outside of the transaction
+      # (see `Set#transaction`) that produced it.
+      #
+      # Raises `ReadonlyError` if called by a fiber other than the fiber that
+      # initiated the transaction.
+      def delete(element : T) : self
         raise ResolvedError.new if @resolved
-        raise ReadonlyError.new unless @fiber == fiber_id
+        raise ReadonlyError.new unless @fiber == Core.fiber_id
 
         @set = @set.delete!(element, @id)
 
         self
       end
 
+      # :nodoc:
       def resolve
         raise ResolvedError.new if @resolved
-        raise ReadonlyError.new unless @fiber == fiber_id
+        raise ReadonlyError.new unless @fiber == Core.fiber_id
 
         @resolved = true
         @set
@@ -185,8 +206,14 @@ module Pf
       Set(T).new.concat(enumerable)
     end
 
+    # Shorthand for `new.transaction`.
     def self.transaction(& : Commit(T) -> Commit(T)) : Set(T)
       new.transaction { |commit| yield commit }
+    end
+
+    # :nodoc:
+    def self.[]
+      Set(T).new
     end
 
     # Returns a new set with the given *elements*.
@@ -228,7 +255,7 @@ module Pf
     # "foobar".in?(set) # => false
     # ```
     def includes?(element : T) : Bool
-      !!@node.fetch?(Probe::Includes.new(element))
+      !!@node.fetch?(Probes::Includes.new(element))
     end
 
     # :nodoc:
@@ -241,8 +268,44 @@ module Pf
       @node.each { |element| yield element }
     end
 
+    # Yields a `Commit` object which you can populate by multiple edits of
+    # this set. Applies the commit to a copy of this set. Returns the copy.
+    #
+    # - The commit object is marked as *resolved* after the block. You should not
+    #   retain it. If you do, all operations on the object (including readonly ones)
+    #   will raise `ResolvedError`.
+    #
+    # - If you pass the commit object to another fiber in the block, e.g. via
+    #   a channel, and fiber yield immediately after that, the commit obviously
+    #   would not be marked as *resolved* as the resolution code would not have
+    #   been reached yet. However, if you then attempt to call mutation methods
+    #   on the commit, another error, `ReadonlyError`, will be raised. *In other
+    #   words, the yielded commit object is readonly for any other fiber except
+    #   for the fiber that it was originally yielded to*.
+    #
+    # Returns `self` if the transaction did not *touch* the set. If the set was
+    # changed but then the changes were reverted this method will return a new set.
+    #
+    # ```
+    # set1 = Pf::Set[1, 2, 3]
+    # set2 = set1.transaction do |commit|
+    #   commit.add(4)
+    #   commit.delete(2) if 4.in?(commit)
+    #   if 2.in?(commit)
+    #     commit.delete(4)
+    #     commit.add(6)
+    #   else
+    #     commit.delete(4)
+    #     commit.add(2)
+    #     commit.add(5)
+    #   end
+    # end
+    #
+    # set1 # => Pf::Set[1, 2, 3]
+    # set2 # => Pf::Set[1, 2, 3, 5]
+    # ```
     def transaction(& : Commit(T) ->) : Set(T)
-      commit = Commit.new(self, fiber_id)
+      commit = Commit.new(self, Core.fiber_id)
       yield commit
       commit.resolve
     end
@@ -252,9 +315,15 @@ module Pf
     #
     # Supports value equality if `T == U`.
     #
+    # There is no shortcut in terms of performance. Even if all elements produced
+    # by the block are already in this set, a new set is created and populated
+    # anyway. We do keep track of changes, and if none were made return `self`;
+    # the new set is then simply discarded.
+    #
     # ```
     # set = Pf::Set[1, 2, 3]
-    # set.fmap(&.succ.to_s) # => Pf::Set["2", "3", "4"]
+    # set.fmap(&.succ.to_s)            # => Pf::Set["2", "3", "4"]
+    # set.fmap(&.succ.pred).same?(set) # => true
     # ```
     def fmap(& : T -> U) : Set(U) forall U
       {% if T == U %}
@@ -333,12 +402,12 @@ module Pf
     # set.add(400) # => Pf::Set[100, 200, 400]
     # ```
     def add(element : T) : Set(T)
-      added, node = @node.add(Probe::Add.new(element))
+      added, node = @node.add(Probes::Add.new(element))
       added ? Set.new(node, @size + 1) : self
     end
 
     protected def add!(element : T, author : AuthorId)
-      added, node = @node.add(Probe::MutAdd.new(element, author))
+      added, node = @node.add(Probes::MutAdd.new(element, author))
       added ? Set.new(node, @size + 1) : self
     end
 
@@ -353,12 +422,12 @@ module Pf
     # set.delete(200) # => Pf::Set[100, 300]
     # ```
     def delete(element : T) : Set(T)
-      removed, node = @node.delete(Probe::Delete.new(element))
+      removed, node = @node.delete(Probes::Delete.new(element))
       removed ? Set.new(node, @size - 1) : self
     end
 
     protected def delete!(element : T, author : AuthorId) : Set(T)
-      removed, node = @node.delete(Probe::MutDelete.new(element, author))
+      removed, node = @node.delete(Probes::MutDelete.new(element, author))
       removed ? Set.new(node, @size - 1) : self
     end
 

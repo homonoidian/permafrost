@@ -4,6 +4,7 @@ module Pf::Core
   AUTHOR_NONE  = AuthorId.new(0)
   AUTHOR_FIRST = AUTHOR_NONE + 1
 
+  # Includers can look up a stored value in the trie.
   module IProbeFetch(T)
     # Returns the full path to the stored value (usually the stored value's hash).
     abstract def path : UInt64
@@ -12,21 +13,50 @@ module Pf::Core
     abstract def match?(stored : T) : Bool
   end
 
+  # Includers can author a change in the trie, enabling them to later mutate
+  # the part of the trie they've already copied. See `author`.
+  module IProbeAuthored
+    # Returns the id of the author of the proposed addition. The author is made
+    # the owner of the path-copied items and children arrays in the trie. Meaning
+    # further changes along the same route *made by the same author* will not produce
+    # copies; the author's done the job already.
+    #
+    # Essentially `author` is the "password" for mutating the resulting part of the trie.
+    # Completely new nodes give write access to both arrays to `author` immediately.
+    #
+    # The id must be unique across distinct edits of the trie (this is guaranteed
+    # by `Pf::Map::Commit` and `Pf::Set::Commit`; they are the main users of this
+    # feature). By using the analogy defined above, if more than one entity knows
+    # the password to edit the trie in-place, everything about immutability
+    # or exclusive write access is broken.
+    #
+    # We never make full copies of the trie, not at the beginning, nor at the end.
+    # We only make copies of edited paths. When the edit sequence finishes, its
+    # author must be guaranteed to retire, as the trie is passed to the immutable
+    # interface as-is. So if the author does not retire and modifies the tree,
+    # the immutable version will change as well, which is not expected.
+    #
+    # If unavailable, you can return `AUTHOR_NONE`.
+    abstract def author : AuthorId
+  end
+
+  # Includers can add stored values to the trie, or replace them.
   module IProbeAdd(T)
     include IProbeFetch(T)
+    include IProbeAuthored
 
     # Returns the value associated with this probe, to be stored in `Node`.
     abstract def value : T
 
-    abstract def author : AuthorId
-
+    # Returns `true` if an existing *stored* value should be replaced with
+    # this probe's own `value`.
     abstract def replace?(stored : T) : Bool
   end
 
+  # Includers can remove stored values from the trie.
   module IProbeDelete(T)
     include IProbeFetch(T)
-
-    abstract def author : AuthorId
+    include IProbeAuthored
   end
 
   # Represents a trie node.
@@ -193,10 +223,8 @@ module Pf::Core
         if probe.author != AUTHOR_NONE && @writer_items == probe.author
           self.items = items.with!(index, probe.value)
           return replaced != true, self
-        else
-          newitems = items.with(index, probe.value)
-          return replaced != true, change(items: newitems, writer: probe.author)
         end
+        return replaced != true, change(items: items.with(index, probe.value), writer: probe.author)
       end
 
       return false, self if accepted
@@ -215,10 +243,10 @@ module Pf::Core
 
       if probe.author != AUTHOR_NONE && @writer_children == probe.author
         self.children = children.with!(index, newchild)
-        return added, self
+        {added, self}
       else
         newchildren = children.with(index, newchild)
-        return added, change(children: newchildren, writer: probe.author)
+        {added, change(children: newchildren, writer: probe.author)}
       end
     end
 
@@ -231,10 +259,8 @@ module Pf::Core
         if probe.author != AUTHOR_NONE && @writer_items == probe.author
           self.items = items.without!(index)
           return true, self
-        else
-          newitems = items.without(index)
-          return true, change(items: newitems, writer: probe.author)
         end
+        return true, change(items: items.without(index), writer: probe.author)
       end
 
       children = self.children
@@ -247,20 +273,18 @@ module Pf::Core
       if newchild.empty?
         if probe.author != AUTHOR_NONE && @writer_children == probe.author
           self.children = children.without!(index)
-          return true, self
-        else
-          newchildren = children.without(index)
+          return removed, self
         end
+        newchildren = children.without(index)
       else
         if probe.author != AUTHOR_NONE && @writer_children == probe.author
           self.children = children.with!(index, newchild)
-          return true, self
-        else
-          newchildren = children.with(index, newchild)
+          return removed, self
         end
+        newchildren = children.with(index, newchild)
       end
 
-      {true, change(children: newchildren, writer: probe.author)}
+      {removed, change(children: newchildren, writer: probe.author)}
     end
   end
 end

@@ -161,6 +161,29 @@ describe Pf::Map do
   end
 
   describe "user-facing" do
+    it "runs the example from #transaction" do
+      map1 = Pf::Map(String, Int32).new
+      map2 = map1.transaction do |commit|
+        commit.assoc("John Doe", 12)
+        commit.assoc("Susan Doe", 34)
+        commit.dissoc("John Doe")
+        if "John Doe".in?(commit)
+          commit.assoc("Mark Doe", 21)
+        else
+          commit.assoc("John Doe", 456)
+          commit.assoc("Susan Doe", commit["Susan Doe"] + 1)
+        end
+      end
+      map1.should eq(Pf::Map(String, Int32)[])
+      map2.should eq(Pf::Map["John Doe": 456, "Susan Doe": 35])
+
+      map3 = map1.transaction do |commit|
+      end
+
+      map1.should eq(Pf::Map(String, Int32)[])
+      map3.should be(map1)
+    end
+
     it "supports #keys" do
       map = Pf::Map[foo: 10, bar: 20]
       map.keys.to_set.should eq(Set{"foo", "bar"})
@@ -230,6 +253,24 @@ describe Pf::Map do
       expect_raises(KeyError, "Map value not diggable for key: \"boo\"") do
         map2.dig("foo", "bar", "boo")
       end
+    end
+
+    it "supports #fetch?" do
+      map = Pf::Map[name: "John Doe", job: nil]
+      map.fetch?("job").should eq({nil})
+      map.fetch?("name").should eq({"John Doe"})
+      map.fetch?("age").should be_nil
+
+      if name_t = map.fetch?("name")
+        name, *_ = name_t
+        name.should eq("John Doe")
+      end
+
+      job = map.fetch("job") { "absent" }
+      job.should be_nil
+
+      job = map.fetch("age") { "absent" }
+      job.should eq("absent")
     end
 
     it "supports #assoc" do
@@ -313,6 +354,15 @@ describe Pf::Map do
       map.should eq(Pf::Map[foo: 300, bar: 500.8, baz: 300, boo: 1000.5])
 
       typeof(map).should eq(Pf::Map(String, Int32 | Float64))
+    end
+
+    it "supports #concat(Enumerable)" do
+      a = Pf::Map[foo: 100, bar: 200, baz: 300]
+      map = a.concat([{"x", 123}, {"y", 456}])
+      map.should eq(Pf::Map[foo: 100, bar: 200, baz: 300, x: 123, y: 456])
+
+      map = a.concat(Pf::Set[{"foo", 100}, {"bar", 200}])
+      map.should be(a)
     end
 
     it "supports #select(&)" do
