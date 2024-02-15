@@ -41,7 +41,8 @@ module Pf
           @value == stored
         end
 
-        def author? : AuthorId?
+        def author : AuthorId
+          AUTHOR_NONE
         end
 
         def replace?(stored) : Bool
@@ -53,7 +54,7 @@ module Pf
         include IProbeAdd(T)
 
         getter value : T
-        getter? author : AuthorId?
+        getter author : AuthorId
 
         def initialize(@value, @author)
         end
@@ -87,7 +88,8 @@ module Pf
           @value == stored
         end
 
-        def author? : AuthorId?
+        def author : AuthorId
+          AUTHOR_NONE
         end
       end
 
@@ -95,7 +97,7 @@ module Pf
         include IProbeDelete
 
         getter value : T
-        getter? author : AuthorId?
+        getter author : AuthorId
 
         def initialize(@value, @author)
         end
@@ -112,7 +114,7 @@ module Pf
 
     # fixme: different fibers touching the same commit?
     class Commit(T)
-      @@id : Atomic(UInt64) = Atomic.new(0u64)
+      @@id : Atomic(UInt64) = Atomic.new(AUTHOR_FIRST)
 
       def self.genid
         @@id.add(1)

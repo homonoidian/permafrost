@@ -114,12 +114,13 @@ module Pf
       end
 
       struct AssocImm(K, V) < Assoc(K, V)
-        def author? : AuthorId?
+        def author : AuthorId
+          AUTHOR_NONE
         end
       end
 
       struct AssocMut(K, V) < Assoc(K, V)
-        getter? author : AuthorId?
+        getter author : AuthorId
 
         def initialize(key, value, @author)
           super(key, value)
@@ -142,12 +143,13 @@ module Pf
       end
 
       struct DissocImm(K, V) < Dissoc(K, V)
-        def author? : AuthorId?
+        def author : AuthorId
+          AUTHOR_NONE
         end
       end
 
       struct DissocMut(K, V) < Dissoc(K, V)
-        getter? author : AuthorId?
+        getter author : AuthorId
 
         def initialize(key, @author)
           super(key)
@@ -157,7 +159,7 @@ module Pf
 
     # fixme: different fibers touching the same commit?
     class Commit(K, V)
-      @@id : Atomic(UInt64) = Atomic.new(0u64)
+      @@id : Atomic(UInt64) = Atomic.new(AUTHOR_FIRST)
 
       def self.genid
         @@id.add(1)

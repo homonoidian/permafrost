@@ -1,6 +1,10 @@
 module Pf::Core
   struct Sparse32(T)
-    def initialize(@mem : Pointer(T), @bitmap : UInt32)
+    # Returns the bitmap. The bitmap specifies which slots out of the 32 available
+    # ones are occupied.
+    getter bitmap : UInt32
+
+    def initialize(@mem : T*, @bitmap : UInt32)
     end
 
     def self.new
@@ -12,6 +16,11 @@ module Pf::Core
 
       mask = 1u32 << index
       {mask, (@bitmap & (mask &- 1)).popcount}
+    end
+
+    # Returns a pointer to the internal buffer where `self`'s elements are stored.
+    def to_unsafe : T*
+      @mem
     end
 
     # Returns the amount of elements in this array.

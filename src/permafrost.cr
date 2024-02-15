@@ -9,5 +9,8 @@ module Pf
 
   # :nodoc:
   module Core
+    macro hash64(object)
+      ({{object}}).hash
+    end
   end
 end
