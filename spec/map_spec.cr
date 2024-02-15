@@ -411,6 +411,63 @@ describe Pf::Map do
     end
   end
 
+  it "should raise resolved error if commit is retained" do
+    cobj = nil
+    map = Pf::Map[name: "John", age: 23]
+    map.transaction do |commit|
+      cobj = commit
+      commit.assoc("age", 25)
+    end
+    cobj.not_nil!["name"]?.should eq("John")
+    cobj.not_nil!["age"]?.should eq(25)
+    expect_raises(Pf::ResolvedError) { cobj.not_nil!.assoc("name", "Susan") }
+    expect_raises(Pf::ResolvedError) { cobj.not_nil!.dissoc("name") }
+    expect_raises(Pf::ResolvedError) { cobj.not_nil!.resolve }
+  end
+
+  it "should raise readonly error if commit is passed to another fiber" do
+    went_through_chain = Channel(Bool).new
+    chan_assoc = Channel(Pf::Map::Commit(String, Int32)).new
+    chan_dissoc = Channel(Pf::Map::Commit(String, Int32)).new
+    chan_resolve = Channel(Pf::Map::Commit(String, Int32)).new
+
+    spawn do
+      commit = chan_assoc.receive
+      begin
+        commit.assoc("foo", 123)
+        went_through_chain.send(false)
+      rescue Pf::ReadonlyError
+        chan_dissoc.send(commit)
+      end
+    end
+
+    spawn do
+      commit = chan_dissoc.receive
+      begin
+        commit.dissoc("foo")
+        went_through_chain.send(false)
+      rescue Pf::ReadonlyError
+        chan_resolve.send(commit)
+      end
+    end
+
+    spawn do
+      commit = chan_resolve.receive
+      begin
+        commit.resolve
+        went_through_chain.send(false)
+      rescue Pf::ReadonlyError
+        went_through_chain.send(true)
+      end
+    end
+
+    map = Pf::Map[foo: 0, bar: 1, baz: 2]
+    map.transaction do |commit|
+      chan_assoc.send(commit)
+      went_through_chain.receive.should be_true
+    end
+  end
+
   it "should pass the novels example" do
     n1 = File.read("#{__DIR__}/novels/01.txt")
     n2 = File.read("#{__DIR__}/novels/02.txt")

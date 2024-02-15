@@ -55,15 +55,8 @@ module Pf
     include Core
     include Enumerable({K, V})
 
-    struct Entry(K, V)
-      getter k : K
-      getter v : V
-
-      def initialize(@k : K, @v : V)
-      end
-    end
-
-    # Returns if two mapping values *v1* and *v2* are equal.
+    # Returns if two mapping values *v1* and *v2* are equal taking `Pf::Eq`
+    # into account.
     def self.eqv?(v1 : V, v2 : V) : Bool forall V
       {% if V < ::Pf::Eq || V == ::Nil || V == ::Bool || V == ::Char || V == ::String || V == ::Symbol || V < ::Number::Primitive %}
         v1 == v2
@@ -74,9 +67,17 @@ module Pf
       {% end %}
     end
 
-    module Probe
+    private struct Entry(K, V)
+      getter k : K
+      getter v : V
+
+      def initialize(@k : K, @v : V)
+      end
+    end
+
+    private module Probes
       struct Fetch(K, V)
-        include IProbeAt
+        include IProbeFetch(Entry(K, V))
 
         def initialize(@key : K)
         end
@@ -85,8 +86,8 @@ module Pf
           Core.hash64(@key)
         end
 
-        def match?(stored) : Bool
-          stored.is_a?(Entry) && @key == stored.k
+        def match?(stored : Entry(K, V)) : Bool
+          @key == stored.k
         end
       end
 
@@ -128,7 +129,7 @@ module Pf
       end
 
       abstract struct Dissoc(K, V)
-        include IProbeDelete
+        include IProbeDelete(Entry(K, V))
 
         def initialize(@key : K)
         end
@@ -137,8 +138,8 @@ module Pf
           Core.hash64(@key)
         end
 
-        def match?(stored) : Bool
-          stored.is_a?(Entry) && @key == stored.k
+        def match?(stored : Entry(K, V)) : Bool
+          @key == stored.k
         end
       end
 
@@ -157,7 +158,6 @@ module Pf
       end
     end
 
-    # fixme: different fibers touching the same commit?
     class Commit(K, V)
       @@id : Atomic(UInt64) = Atomic.new(AUTHOR_FIRST)
 
@@ -165,7 +165,7 @@ module Pf
         @@id.add(1)
       end
 
-      protected def initialize(@map : Map(K, V))
+      protected def initialize(@map : Map(K, V), @fiber : UInt64)
         @id = AuthorId.new(Commit.genid)
         @resolved = false
       end
@@ -174,6 +174,7 @@ module Pf
 
       def assoc(key : K, value : V)
         raise ResolvedError.new if @resolved
+        raise ReadonlyError.new unless @fiber == fiber_id
 
         @map = @map.assoc!(key, value, @id)
 
@@ -182,6 +183,7 @@ module Pf
 
       def dissoc(key : K)
         raise ResolvedError.new if @resolved
+        raise ReadonlyError.new unless @fiber == fiber_id
 
         @map = @map.dissoc!(key, @id)
 
@@ -190,6 +192,7 @@ module Pf
 
       def resolve
         raise ResolvedError.new if @resolved
+        raise ReadonlyError.new unless @fiber == fiber_id
 
         @resolved = true
         @map
@@ -228,19 +231,30 @@ module Pf
     # typeof(map) # => Pf::Map(String, String | Int32)
     # ```
     def self.[](**entries)
-      map = Map(String, typeof(Enumerable.element_type(entries.values))).new
-      entries.each do |k, v|
-        map = map.assoc(k.to_s, v)
+      Map(String, typeof(Enumerable.element_type(entries.values))).transaction do |commit|
+        entries.each { |k, v| commit.assoc(k.to_s, v) }
       end
-      map
     end
 
+    # Shorthand for `new.transaction`.
     def self.transaction(& : Commit(K, V) ->) : Map(K, V)
       new.transaction { |commit| yield commit }
     end
 
+    # Yields a `Commit` object which allows you to mutate a copy of `self`.
+    #
+    # - The commit object is marked as *resolved* after the block. You should not
+    #   retain it. If you do, all operations on the object (including readonly ones)
+    #   will raise `ResolvedError`.
+    # - If you pass the commit object to another fiber in the block, e.g. via
+    #   a channel, and fiber yield immediately after that, the commit obviously
+    #   would not be marked as *resolved* as the resolution code would not have
+    #   been reached yet. However, if you then attempt to call mutation methods
+    #   on the commit, another error, `ReadonlyError`, will be raised. *In other
+    #   words, the yielded commit object is readonly in any other fiber except
+    #   for the fiber that it was originally yielded to*.
     def transaction(& : Commit(K, V) ->) : Map(K, V)
-      commit = Commit.new(self)
+      commit = Commit.new(self, fiber_id)
       yield commit
       commit.resolve
     end
@@ -296,7 +310,7 @@ module Pf
     end
 
     def fetch?(key : K) : {V}?
-      return unless entry_t = @node.at?(Probe::Fetch(K, V).new(key))
+      return unless entry_t = @node.fetch?(Probes::Fetch(K, V).new(key))
 
       entry, *_ = entry_t
       {entry.v}
@@ -433,12 +447,12 @@ module Pf
     # branch2["bar"]? # => nil
     # ```
     def assoc(key : K, value : V) : Map(K, V)
-      added, node = @node.with(Probe::AssocImm(K, V).new(key, value))
+      added, node = @node.add(Probes::AssocImm(K, V).new(key, value))
       Map.new(node, added ? @size + 1 : @size)
     end
 
     protected def assoc!(key : K, value : V, author : AuthorId) : Map(K, V)
-      added, node = @node.with(Probe::AssocMut(K, V).new(key, value, author))
+      added, node = @node.add(Probes::AssocMut(K, V).new(key, value, author))
       Map.new(node, added ? @size + 1 : @size)
     end
 
@@ -481,12 +495,12 @@ module Pf
     # branch2["bar"]? # => nil
     # ```
     def dissoc(key : K) : Map(K, V)
-      removed, node = @node.without(Probe::DissocImm(K, V).new(key))
+      removed, node = @node.delete(Probes::DissocImm(K, V).new(key))
       Map.new(node, removed ? @size - 1 : @size)
     end
 
     protected def dissoc!(key : K, author : AuthorId) : Map(K, V)
-      removed, node = @node.without(Probe::DissocMut(K, V).new(key, author))
+      removed, node = @node.delete(Probes::DissocMut(K, V).new(key, author))
       Map.new(node, removed ? @size - 1 : @size)
     end
 

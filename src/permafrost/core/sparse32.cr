@@ -1,5 +1,26 @@
 module Pf::Core
   struct Sparse32(T)
+    # Maps item count to expected capacity. '0' means 'keep' (do not grow).
+    GROWTH = StaticArray(UInt8, 33).new(0u8)
+
+    # Grow * 1.5
+    GROWTH[0] = 2
+    GROWTH[2] = 3
+    GROWTH[3] = 5
+    GROWTH[5] = 8
+    GROWTH[8] = 12
+    GROWTH[12] = 18
+    GROWTH[18] = 27
+    GROWTH[27] = 32
+
+    # Maps population count (array size) to capacity directly.
+    CAPS = StaticArray(UInt8, 33).new(0u8)
+
+    state = GROWTH[0]
+    GROWTH.each_with_index do |capacity, size|
+      CAPS[size] = state = Math.max(capacity, state)
+    end
+
     # Returns the bitmap. The bitmap specifies which slots out of the 32 available
     # ones are occupied.
     getter bitmap : UInt32
@@ -72,13 +93,8 @@ module Pf::Core
       end
 
       size = self.size
-
-      # Grow if necessary.
-      #
-      # Growth-triggering sizes are powers of two. Only bother growing
-      # to the next capacity if size is a power of two, then.
-      if size < 32 && size & (size &- 1) == 0
-        capacity = Math.pw2ceil(size + 1)
+      capacity = GROWTH[size]
+      unless capacity.zero?
         @mem = @mem.realloc(capacity)
       end
 
@@ -113,14 +129,14 @@ module Pf::Core
       size = self.size
 
       if @bitmap.bits_set?(mask)
-        mem = Pointer(T).malloc(size)
+        mem = Pointer(T).malloc(CAPS[size])
         mem.copy_from(@mem, size)
         mem[offset] = el
         return Sparse32.new(mem, @bitmap)
       end
 
       # Copy before offset, put element at offset, copy after offset.
-      mem = Pointer(T).malloc(size + 1)
+      mem = Pointer(T).malloc(CAPS[size + 1])
       mem.copy_from(@mem, offset)
       mem[offset] = el
       (mem + offset + 1).copy_from(@mem + offset, size - offset)

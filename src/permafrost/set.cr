@@ -1,7 +1,4 @@
 module Pf
-  class ResolvedError < Exception
-  end
-
   # A thread-safe, persistent, unordered set.
   #
   # See also: `Map`.
@@ -11,7 +8,7 @@ module Pf
 
     module Probe
       struct Includes(T)
-        include IProbeAt
+        include IProbeFetch(T)
 
         def initialize(@value : T)
         end
@@ -20,7 +17,7 @@ module Pf
           Core.hash64(@value)
         end
 
-        def match?(stored) : Bool
+        def match?(stored : T) : Bool
           @value == stored
         end
       end
@@ -73,7 +70,7 @@ module Pf
       end
 
       struct Delete(T)
-        include IProbeDelete
+        include IProbeDelete(T)
 
         getter value : T
 
@@ -84,7 +81,7 @@ module Pf
           Core.hash64(@value)
         end
 
-        def match?(stored) : Bool
+        def match?(stored : T) : Bool
           @value == stored
         end
 
@@ -94,7 +91,7 @@ module Pf
       end
 
       struct MutDelete(T)
-        include IProbeDelete
+        include IProbeDelete(T)
 
         getter value : T
         getter author : AuthorId
@@ -106,13 +103,12 @@ module Pf
           Core.hash64(@value)
         end
 
-        def match?(stored) : Bool
+        def match?(stored : T) : Bool
           @value == stored
         end
       end
     end
 
-    # fixme: different fibers touching the same commit?
     class Commit(T)
       @@id : Atomic(UInt64) = Atomic.new(AUTHOR_FIRST)
 
@@ -120,13 +116,16 @@ module Pf
         @@id.add(1)
       end
 
-      protected def initialize(@set : Set(T))
+      protected def initialize(@set : Set(T), @fiber : UInt64)
         @id = AuthorId.new(Commit.genid)
         @resolved = false
       end
 
+      delegate :includes?, to: @set
+
       def add(element : T)
         raise ResolvedError.new if @resolved
+        raise ReadonlyError.new unless @fiber == fiber_id
 
         @set = @set.add!(element, @id)
 
@@ -135,6 +134,7 @@ module Pf
 
       def delete(element : T)
         raise ResolvedError.new if @resolved
+        raise ReadonlyError.new unless @fiber == fiber_id
 
         @set = @set.delete!(element, @id)
 
@@ -143,6 +143,7 @@ module Pf
 
       def resolve
         raise ResolvedError.new if @resolved
+        raise ReadonlyError.new unless @fiber == fiber_id
 
         @resolved = true
         @set
@@ -227,7 +228,7 @@ module Pf
     # "foobar".in?(set) # => false
     # ```
     def includes?(element : T) : Bool
-      !!@node.at?(Probe::Includes.new(element))
+      !!@node.fetch?(Probe::Includes.new(element))
     end
 
     # :nodoc:
@@ -241,7 +242,7 @@ module Pf
     end
 
     def transaction(& : Commit(T) ->) : Set(T)
-      commit = Commit.new(self)
+      commit = Commit.new(self, fiber_id)
       yield commit
       commit.resolve
     end
@@ -332,12 +333,12 @@ module Pf
     # set.add(400) # => Pf::Set[100, 200, 400]
     # ```
     def add(element : T) : Set(T)
-      added, node = @node.with(Probe::Add.new(element))
+      added, node = @node.add(Probe::Add.new(element))
       added ? Set.new(node, @size + 1) : self
     end
 
     protected def add!(element : T, author : AuthorId)
-      added, node = @node.with(Probe::MutAdd.new(element, author))
+      added, node = @node.add(Probe::MutAdd.new(element, author))
       added ? Set.new(node, @size + 1) : self
     end
 
@@ -352,12 +353,12 @@ module Pf
     # set.delete(200) # => Pf::Set[100, 300]
     # ```
     def delete(element : T) : Set(T)
-      removed, node = @node.without(Probe::Delete.new(element))
+      removed, node = @node.delete(Probe::Delete.new(element))
       removed ? Set.new(node, @size - 1) : self
     end
 
     protected def delete!(element : T, author : AuthorId) : Set(T)
-      removed, node = @node.without(Probe::MutDelete.new(element, author))
+      removed, node = @node.delete(Probe::MutDelete.new(element, author))
       removed ? Set.new(node, @size - 1) : self
     end
 

@@ -4,16 +4,16 @@ module Pf::Core
   AUTHOR_NONE  = AuthorId.new(0)
   AUTHOR_FIRST = AUTHOR_NONE + 1
 
-  module IProbeAt
+  module IProbeFetch(T)
     # Returns the full path to the stored value (usually the stored value's hash).
     abstract def path : UInt64
 
     # Returns `true` if this probe accepts the given stored value.
-    abstract def match?(stored) : Bool
+    abstract def match?(stored : T) : Bool
   end
 
   module IProbeAdd(T)
-    include IProbeAt
+    include IProbeFetch(T)
 
     # Returns the value associated with this probe, to be stored in `Node`.
     abstract def value : T
@@ -23,8 +23,8 @@ module Pf::Core
     abstract def replace?(stored : T) : Bool
   end
 
-  module IProbeDelete
-    include IProbeAt
+  module IProbeDelete(T)
+    include IProbeFetch(T)
 
     abstract def author : AuthorId
   end
@@ -144,8 +144,8 @@ module Pf::Core
     #
     # The returned value is wrapped in a tuple to differentiate between `nil`
     # as value and `nil` as absence.
-    def at?(probe : IProbeAt) : {T}?
-      at?(probe, path: probe.path)
+    def fetch?(probe : IProbeFetch(T)) : {T}?
+      fetch?(probe, path: probe.path)
     end
 
     # Updates or inserts the stored value accepted by *probe*.
@@ -159,8 +159,8 @@ module Pf::Core
     #
     # If no changes were made (the stored value is the same as that of *probe*)
     # the second element is also exactly `self` (and the first element is `false`).
-    def with(probe : IProbeAdd(T)) : {Bool, Node(T)}
-      self.with(probe, path: probe.path)
+    def add(probe : IProbeAdd(T)) : {Bool, Node(T)}
+      add(probe, path: probe.path)
     end
 
     # Removes the stored value accepted by *probe*. Returns a tuple where the first
@@ -169,11 +169,11 @@ module Pf::Core
     #
     # If *probe* wishes mutation, the second element is exactly `self`. If no changes
     # were made (nothing was removed), the second element is also exactly `self`.
-    def without(probe : IProbeDelete) : {Bool, Node(T)}
-      self.without(probe, path: probe.path)
+    def delete(probe : IProbeDelete(T)) : {Bool, Node(T)}
+      delete(probe, path: probe.path)
     end
 
-    protected def at?(probe : IProbeAt, path : UInt64) : {T}?
+    protected def fetch?(probe : IProbeFetch, path : UInt64) : {T}?
       node = self
       while true
         index = path & WINDOW
@@ -184,7 +184,7 @@ module Pf::Core
       end
     end
 
-    protected def with(probe : IProbeAdd(T), path : UInt64) : {Bool, Node(T)}
+    protected def add(probe : IProbeAdd(T), path : UInt64) : {Bool, Node(T)}
       index = path & WINDOW
       items = self.items
       item = items.at?(index)
@@ -210,7 +210,7 @@ module Pf::Core
         created = true
       end
 
-      added, newchild = child.with(probe, path >> WINDOW_SIZE)
+      added, newchild = child.add(probe, path >> WINDOW_SIZE)
       return added, self if !created && child.same?(newchild)
 
       if probe.author != AUTHOR_NONE && @writer_children == probe.author
@@ -222,7 +222,7 @@ module Pf::Core
       end
     end
 
-    protected def without(probe : IProbeDelete, path : UInt64) : {Bool, Node(T)}
+    protected def delete(probe : IProbeDelete, path : UInt64) : {Bool, Node(T)}
       index = path & WINDOW
       items = self.items
       item = items.at?(index)
@@ -241,7 +241,7 @@ module Pf::Core
 
       return false, self unless child = children.at?(index)
 
-      removed, newchild = child.without(probe, path >> WINDOW_SIZE)
+      removed, newchild = child.delete(probe, path >> WINDOW_SIZE)
       return removed, self if child.same?(newchild)
 
       if newchild.empty?
