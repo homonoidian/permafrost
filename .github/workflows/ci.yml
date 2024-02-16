@@ -2,7 +2,7 @@ on:
   push:
     branches: [trunk]
   schedule:
-    - cron: "0 21 * * *"
+    - cron: "0 21 * * */3"
 
 jobs:
   test:
