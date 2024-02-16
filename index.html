@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.9.2">
+<meta name="generator" content="Crystal Docs 1.10.1">
 <meta name="crystal_docs.project_version" content="trunk">
 <meta name="crystal_docs.project_name" content="permafrost">
 
@@ -77,13 +77,43 @@
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Map" data-name="pf::map(k, v)">
+  <li class="parent " data-id="permafrost/Pf/Map" data-name="pf::map(k, v)">
       <a href="Pf/Map.html">Map</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Map/Commit" data-name="pf::map::commit(k, v)">
+      <a href="Pf/Map/Commit.html">Commit</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Set" data-name="pf::set(t)">
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ReadonlyError" data-name="pf::readonlyerror">
+      <a href="Pf/ReadonlyError.html">ReadonlyError</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ResolvedError" data-name="pf::resolvederror">
+      <a href="Pf/ResolvedError.html">ResolvedError</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Set" data-name="pf::set(t)">
       <a href="Pf/Set.html">Set</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Set/Commit" data-name="pf::set::commit(t)">
+      <a href="Pf/Set/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
       
     </li>
   
@@ -139,6 +169,36 @@ map                   <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 100,
 
 map.dissoc(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; Pf::Map{&quot;bar&quot; =&gt; 200}</span>
 map               <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &quot;bar&quot; =&gt; 200}</span></code></pre>
+<h2><a id="performance" class="anchor" href="#performance">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Performance</h2>
+<p>You can run the benchmark file, <code>bench.cr</code>, for a (very dumb and useless) benchmark
+of the map vs. what we consider the speed-of-light implementation, <code>Hash</code>, and what
+seems to be our only competitor, <code>Immutable::Map</code> from the wonderful shard <a href="https://github.com/lucaong/immutable">Immutable</a>.
+The latter you'd have to install somehow, maybe by cloning this repo and modifying
+<code>shard.yml</code> directly.</p>
+<p>Note that each benchmark run you'd get (somewhat) different results depending on how
+good the hash seed was, which is picked by Crystal randomly. I haven't found a way
+to reliably disable that. If you know how let me know, maybe make a PR or something.</p>
+<pre><code class="language-text">                   add speed of light 246.08  (  4.06ms) (±10.20%)  4.75MB/op    3996.95× slower
+          add + delete speed of light 180.79  (  5.53ms) (±13.95%)  4.75MB/op    5440.44× slower
+                  each speed of light   5.99k (166.85µs) (± 0.06%)    0.0B/op     164.11× slower
+                          pf::map add  11.27  ( 88.75ms) (±15.27%)  94.8MB/op   87291.70× slower
+                 pf::map add + delete   5.45  (183.59ms) (± 7.59%)   185MB/op  180574.80× slower
+                       pf::map add tx  81.73  ( 12.24ms) (±21.03%)  4.73MB/op   12034.54× slower
+              pf::map add + delete tx  50.65  ( 19.74ms) (±16.36%)  4.73MB/op   19418.83× slower
+                         pf::map each 666.27  (  1.50ms) (± 1.96%)  2.27kB/op    1476.23× slower
+                   immutable::map add   3.42  (292.54ms) (±12.00%)   219MB/op  287731.67× slower
+          immutable::map add + delete   1.68  (595.51ms) (± 2.07%)   373MB/op  585727.94× slower
+         immutable::map add transient   6.06  (165.15ms) (±11.56%)   101MB/op  162433.23× slower
+immutable::map add + delete transient   3.28  (304.88ms) (± 2.18%)   134MB/op  299866.65× slower
+                  immutable::map each   7.05  (141.87ms) (± 9.33%)  87.4MB/op  139537.29× slower</code></pre>
+<p>The ± numbers being so big smells weird, but the results clearly show the winner! Note how
+memory use is almost the same between <code><a href="Pf/Map.html">Pf::Map</a></code> with transactions and <code>Hash</code>.</p>
+<p>Again, I picked this run among others because it is the fastest. With a different hash seed,
+you'll get different results, faster or slower than those presented here.</p>
 <h2><a id="development" class="anchor" href="#development">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -146,14 +206,14 @@ map               <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &qu
 </a>Development</h2>
 <p>The implementation is pretty simple, it's found in <code>src/permafrost/core/node.cr</code>.
 If you find any errors please let me know or (even better!) fix them yourself and
-submit a PR. Same with new features.</p>
+submit a PR. Same with new features. New methods for <code><a href="Pf/Map.html">Pf::Map</a></code>, <code><a href="Pf/Set.html">Pf::Set</a></code> and <code><a href="Pf/BidiMap.html">Pf::BidiMap</a></code> are especially welcome.</p>
 <h2><a id="see-also" class="anchor" href="#see-also">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>See also</h2>
 <p>I've no clue whether what I've written truly is a HAMT or not, as long
-as it works I'm fine. Here are some &quot;true&quot; HAMTs:</p>
+as it works I'm fine. For reference, here are some HAMTs that consider themselves HAMTs:</p>
 <ul>
 <li><a href="https://github.com/lucaong/immutable">Immutable</a></li>
 <li><a href="https://github.com/mkirchner/hamt">HAMT for C with good internals explanation</a></li>
