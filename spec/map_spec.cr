@@ -48,7 +48,7 @@ describe Pf::Map do
       "foo".in?(empty).should be_false
 
       br = empty.assoc("bar", 100) # transition into Mapping
-      br.should_not be(empty)
+      br.same?(empty).should_not be_true
       br["bar"]?.should eq(100)
       empty["bar"]?.should eq(nil)
 
@@ -56,7 +56,7 @@ describe Pf::Map do
       upd["foo"]?.should eq(100)
       empty["foo"]?.should be_nil
 
-      empty.dissoc("foo").should be(empty)
+      empty.dissoc("foo").same?(empty).should be_true
     end
 
     it "supports correct size, each, find, assoc, dissoc for single mapping" do
@@ -72,7 +72,7 @@ describe Pf::Map do
       "bar".in?(single).should be_false
 
       br1 = single.assoc("bar", 200) # transition into Row
-      br1.should_not be(single)
+      br1.same?(single).should_not be_true
 
       br1["foo"]?.should eq(123)
       br1["bar"]?.should eq(200)
@@ -80,15 +80,15 @@ describe Pf::Map do
       single["foo"]?.should eq(123)
       single["bar"]?.should be_nil
 
-      single.assoc("foo", 123).should be(single)
+      single.assoc("foo", 123).same?(single).should be_true
       upd = single.assoc("foo", 456)
-      upd.should_not be(single)
+      upd.same?(single).should_not be_true
       upd["foo"]?.should eq(456)
       single["foo"]?.should eq(123)
 
-      single.update("foo", 123, &.itself).should be(single)
+      single.update("foo", 123, &.itself).same?(single).should be_true
       upd = single.update("foo", 123, &.succ)
-      upd.should_not be(single)
+      upd.same?(single).should_not be_true
       upd["foo"]?.should eq(124)
 
       del = upd.dissoc("foo")
@@ -96,7 +96,7 @@ describe Pf::Map do
       del.each { |k, v| true.should be_false }
 
       upd["foo"]?.should eq(124)
-      upd.dissoc("bar").should be(upd)
+      upd.dissoc("bar").same?(upd).should be_true
     end
 
     it "supports correct size, each, find, assoc, update, dissoc for collisions" do
@@ -118,9 +118,9 @@ describe Pf::Map do
         {"Doe", "Lee", "Bar"}.should contain(v)
       end
 
-      map.assoc(Collider.new("Samuel"), "Bar").should be(map)
+      map.assoc(Collider.new("Samuel"), "Bar").same?(map).should be_true
       upd = map.assoc(Collider.new("Samuel"), "Bee")
-      upd.should_not be(map)
+      upd.same?(map).should_not be_true
       upd[Collider.new("John")]?.should eq("Doe")
       upd[Collider.new("Samantha")]?.should eq("Lee")
       upd[Collider.new("Samuel")]?.should eq("Bee")
@@ -130,7 +130,7 @@ describe Pf::Map do
       map2 = map2.assoc(Collider.new("Bob"), 20)
 
       upd = map2.update(Collider.new("John"), 100, &.succ)
-      upd.should_not be(map2)
+      upd.same?(map2).should_not be_true
       upd.should eq(
         Pf::Map
           .assoc(Collider.new("John"), 11)
@@ -181,7 +181,7 @@ describe Pf::Map do
       end
 
       map1.should eq(Pf::Map(String, Int32)[])
-      map3.should be(map1)
+      map3.same?(map1).should be_true
     end
 
     it "supports #keys" do
@@ -320,8 +320,8 @@ describe Pf::Map do
 
       a = Pf::Map[foo: 100, bar: 200]
       b = Pf::Map[foo: 100, bar: 200]
-      a.merge(b).should be(a)
-      b.merge(a).should be(b)
+      a.merge(b).same?(a).should be_true
+      b.merge(a).same?(b).should be_true
     end
 
     it "supports #merge (k2, v2)" do
@@ -362,7 +362,7 @@ describe Pf::Map do
       map.should eq(Pf::Map[foo: 100, bar: 200, baz: 300, x: 123, y: 456])
 
       map = a.concat(Pf::Set[{"foo", 100}, {"bar", 200}])
-      map.should be(a)
+      map.same?(a).should be_true
     end
 
     it "supports #select(&)" do
@@ -593,13 +593,13 @@ describe Pf::Map do
         .assoc(0, Info1.new("John", "Doe"))
         .assoc(1, Info1.new("Barbara", "Doe"))
 
-      people.assoc(0, Info1.new("John", "Doe")).should_not be(people)
+      people.assoc(0, Info1.new("John", "Doe")).same?(people).should_not be_true
 
       people = Pf::Map
         .assoc(0, Info2.new("John", "Doe"))
         .assoc(1, Info2.new("Barbara", "Doe"))
 
-      people.assoc(0, Info2.new("John", "Doe")).should be(people)
+      people.assoc(0, Info2.new("John", "Doe")).same?(people).should be_true
     end
   end
 end

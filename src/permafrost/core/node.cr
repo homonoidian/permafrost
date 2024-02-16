@@ -136,7 +136,7 @@ module Pf::Core
       bmp = bitmap
       bmp.items = items.bitmap
 
-      Node.new(items.to_unsafe, @children, bmp.bits, writer, @writer_children)
+      Node(T).new(items.to_unsafe, @children, bmp.bits, writer, @writer_children)
     end
 
     # Returns a new `Node` where the children array and its writer are changed to
@@ -145,7 +145,7 @@ module Pf::Core
       bmp = bitmap
       bmp.children = children.bitmap
 
-      Node.new(@items, children.to_unsafe, bmp.bits, @writer_items, writer)
+      Node(T).new(@items, children.to_unsafe, bmp.bits, @writer_items, writer)
     end
 
     # Returns `true` if this node holds no items and points to no children.

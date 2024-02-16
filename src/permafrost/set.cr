@@ -34,7 +34,7 @@ module Pf
           Core.hash64(@value)
         end
 
-        def match?(stored) : Bool
+        def match?(stored : T) : Bool
           @value == stored
         end
 
@@ -60,7 +60,7 @@ module Pf
           Core.hash64(@value)
         end
 
-        def match?(stored) : Bool
+        def match?(stored : T) : Bool
           @value == stored
         end
 
@@ -255,7 +255,7 @@ module Pf
     # "foobar".in?(set) # => false
     # ```
     def includes?(element : T) : Bool
-      !!@node.fetch?(Probes::Includes.new(element))
+      !!@node.fetch?(Probes::Includes(T).new(element))
     end
 
     # :nodoc:
@@ -402,12 +402,12 @@ module Pf
     # set.add(400) # => Pf::Set[100, 200, 400]
     # ```
     def add(element : T) : Set(T)
-      added, node = @node.add(Probes::Add.new(element))
+      added, node = @node.add(Probes::Add(T).new(element))
       added ? Set.new(node, @size + 1) : self
     end
 
     protected def add!(element : T, author : AuthorId)
-      added, node = @node.add(Probes::MutAdd.new(element, author))
+      added, node = @node.add(Probes::MutAdd(T).new(element, author))
       added ? Set.new(node, @size + 1) : self
     end
 
@@ -422,12 +422,12 @@ module Pf
     # set.delete(200) # => Pf::Set[100, 300]
     # ```
     def delete(element : T) : Set(T)
-      removed, node = @node.delete(Probes::Delete.new(element))
+      removed, node = @node.delete(Probes::Delete(T).new(element))
       removed ? Set.new(node, @size - 1) : self
     end
 
     protected def delete!(element : T, author : AuthorId) : Set(T)
-      removed, node = @node.delete(Probes::MutDelete.new(element, author))
+      removed, node = @node.delete(Probes::MutDelete(T).new(element, author))
       removed ? Set.new(node, @size - 1) : self
     end
 

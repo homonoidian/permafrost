@@ -101,12 +101,12 @@ module Pf
           Core.hash64(@key)
         end
 
-        def match?(stored) : Bool
-          stored.is_a?(Entry) && @key == stored.k
+        def match?(stored : Entry(K, V)) : Bool
+          @key == stored.k
         end
 
-        def replace?(stored) : Bool
-          !(stored.is_a?(Entry) && Map.eqv?(@value, stored.v))
+        def replace?(stored : Entry(K, V)) : Bool
+          !Map.eqv?(@value, stored.v)
         end
 
         def value : Entry(K, V)
@@ -231,15 +231,199 @@ module Pf
       end
     end
 
-    # Returns the number of associations in this map.
-    getter size : Int32
+    # :nodoc:
+    #
+    # Kernel defines the basic ways of how `Map` can talk to `Node`.
+    abstract struct Kernel(K, V)
+      # Returns the amount of key-value pairs.
+      abstract def size : Int32
 
-    protected def initialize(@node : Node(Entry(K, V)), @size = 0)
+      # Returns `true` if this and *other* kernels are the same (by reference,
+      # if possible).
+      abstract def same?(other : Kernel(K, V)) : Bool
+
+      # Yields each key-value pair.
+      abstract def each(& : {K, V} ->)
+
+      # Returns the value associated with the given *key*.
+      abstract def fetch?(key : K) : {V}?
+
+      # Creates an association between *key* and *value*. Returns the modified
+      # copy of this kernel.
+      abstract def assoc(key : K, value : V) : Kernel(K, V)
+
+      # Mutably creates an association between *key* and *value*. Returns the
+      # modified copy of this kernel.
+      abstract def assoc!(key : K, value : V, author : AuthorId) : Kernel(K, V)
+
+      # Removes the association between *key* and some value, does nothing if
+      # *key* does not exist. Returns the modified copy of this kernel.
+      abstract def dissoc(key : K) : Kernel(K, V)
+
+      # Mutably removes the association between *key* and some value, does nothing
+      # if *key* does not exist. Returns the modified copy of this kernel.
+      abstract def dissoc!(key : K, author : AuthorId) : Kernel(K, V)
+    end
+
+    # :nodoc:
+    #
+    # Optimized kernel implementation for an empty map.
+    struct Kernel::Empty(K, V) < Kernel(K, V)
+      def size : Int32
+        0
+      end
+
+      def same?(other : Empty(K, V)) : Bool
+        true
+      end
+
+      def same?(other) : Bool
+        false
+      end
+
+      def each(& : {K, V} ->)
+      end
+
+      def fetch?(key : K) : {V}?
+      end
+
+      def assoc(key : K, value : V) : Kernel(K, V)
+        One(K, V).new(key, value)
+      end
+
+      def assoc!(key : K, value : V, author : AuthorId) : Kernel(K, V)
+        assoc(key, value)
+      end
+
+      def dissoc(key : K) : Kernel(K, V)
+        self
+      end
+
+      def dissoc!(key : K, author : AuthorId) : Kernel(K, V)
+        dissoc(key)
+      end
+    end
+
+    # :nodoc:
+    #
+    # Optimized kernel implementation for a single-element map.
+    struct Kernel::One(K, V) < Kernel(K, V)
+      def initialize(@key : K, @value : V)
+      end
+
+      def size : Int32
+        1
+      end
+
+      def same?(other : One(K, V)) : Bool
+        {% begin %}
+          {% if K < ::Reference %}
+            p1 = @key.same?(other.@key)
+          {% else %}
+            p1 = @key == other.@key
+          {% end %}
+
+          {% if V < ::Reference %}
+            p2 = @value.same?(other.@value)
+          {% else %}
+            p2 = @value == other.@value
+          {% end %}
+
+          p1 && p2
+        {% end %}
+      end
+
+      def same?(other) : Bool
+        false
+      end
+
+      def each(& : {K, V} ->)
+        yield({@key, @value})
+      end
+
+      def fetch?(key : K) : {V}?
+        key == @key ? {@value} : nil
+      end
+
+      def assoc(key : K, value : V) : Kernel(K, V)
+        return One(K, V).new(key, value) if key == @key
+
+        many = Many(K, V).new
+        many.assoc(@key, @value).assoc(key, value)
+      end
+
+      def assoc!(key : K, value : V, author : AuthorId) : Kernel(K, V)
+        assoc(key, value)
+      end
+
+      def dissoc(key : K) : Kernel(K, V)
+        key == @key ? Empty(K, V).new : self
+      end
+
+      def dissoc!(key : K, author : AuthorId) : Kernel(K, V)
+        dissoc(key)
+      end
+    end
+
+    # :nodoc:
+    #
+    # Kernel implementation for a multi-element map.
+    struct Kernel::Many(K, V) < Kernel(K, V)
+      getter size : Int32
+
+      def initialize(@node : Node(Entry(K, V)), @size : Int32)
+      end
+
+      def initialize
+        initialize(node: Node(Entry(K, V)).new, size: 0)
+      end
+
+      def each(& : {K, V} ->)
+        @node.each { |entry| yield({entry.k, entry.v}) }
+      end
+
+      def same?(other : Many(K, V)) : Bool
+        @node.same?(other.@node)
+      end
+
+      def same?(other) : Bool
+        false
+      end
+
+      def fetch?(key : K) : {V}?
+        return unless entry_t = @node.fetch?(Probes::Fetch(K, V).new(key))
+
+        entry, *_ = entry_t
+        {entry.v}
+      end
+
+      def assoc(key : K, value : V) : Kernel(K, V)
+        added, node = @node.add(Probes::AssocImm(K, V).new(key, value))
+        Many(K, V).new(node, added ? @size + 1 : @size)
+      end
+
+      def assoc!(key : K, value : V, author : AuthorId) : Kernel(K, V)
+        added, node = @node.add(Probes::AssocMut(K, V).new(key, value, author))
+        Many(K, V).new(node, added ? @size + 1 : @size)
+      end
+
+      def dissoc(key : K) : Kernel(K, V)
+        removed, node = @node.delete(Probes::DissocImm(K, V).new(key))
+        Many(K, V).new(node, removed ? @size - 1 : @size)
+      end
+
+      def dissoc!(key : K, author : AuthorId) : Kernel(K, V)
+        removed, node = @node.delete(Probes::DissocMut(K, V).new(key, author))
+        Many(K, V).new(node, removed ? @size - 1 : @size)
+      end
+    end
+
+    protected def initialize(@kernel : Kernel(K, V))
     end
 
     # Constructs an empty `Map`.
     def self.new : Map(K, V)
-      new(Node(Entry(K, V)).new)
+      new(Kernel::Empty(K, V).new)
     end
 
     # Constructs a `Map` from an *enumerable* of key-value pairs.
@@ -249,7 +433,7 @@ module Pf
 
     # A shorthand for `new.assoc`.
     def self.assoc(key : K, value : V) : Map(K, V)
-      Map(K, V).new.assoc(key, value)
+      new(Kernel::One(K, V).new(key, value))
     end
 
     # :nodoc:
@@ -276,6 +460,11 @@ module Pf
     # Shorthand for `new.transaction`.
     def self.transaction(& : Commit(K, V) ->) : Map(K, V)
       new.transaction { |commit| yield commit }
+    end
+
+    # Returns the number of associations in this map.
+    def size : Int32
+      @kernel.size
     end
 
     # Yields a `Commit` object which allows you to mutate a copy of `self`.
@@ -324,7 +513,7 @@ module Pf
 
     # Yields each key-value pair to the block.
     def each(& : {K, V} ->) : Nil
-      @node.each { |entry| yield({entry.k, entry.v}) }
+      @kernel.each { |k, v| yield({k, v}) }
     end
 
     # Yields each key to the block.
@@ -383,10 +572,7 @@ module Pf
     # end
     # ```
     def fetch?(key : K) : {V}?
-      return unless entry_t = @node.fetch?(Probes::Fetch(K, V).new(key))
-
-      entry, *_ = entry_t
-      {entry.v}
+      @kernel.fetch?(key)
     end
 
     # Returns the value mapped to *key*, or yields if *key* is absent.
@@ -520,13 +706,11 @@ module Pf
     # branch2["bar"]? # => nil
     # ```
     def assoc(key : K, value : V) : Map(K, V)
-      added, node = @node.add(Probes::AssocImm(K, V).new(key, value))
-      Map.new(node, added ? @size + 1 : @size)
+      Map.new(@kernel.assoc(key, value))
     end
 
     protected def assoc!(key : K, value : V, author : AuthorId) : Map(K, V)
-      added, node = @node.add(Probes::AssocMut(K, V).new(key, value, author))
-      Map.new(node, added ? @size + 1 : @size)
+      Map.new(@kernel.assoc!(key, value, author))
     end
 
     # Returns an updated copy of `self`.
@@ -568,13 +752,11 @@ module Pf
     # branch2["bar"]? # => nil
     # ```
     def dissoc(key : K) : Map(K, V)
-      removed, node = @node.delete(Probes::DissocImm(K, V).new(key))
-      Map.new(node, removed ? @size - 1 : @size)
+      Map(K, V).new(@kernel.dissoc(key))
     end
 
     protected def dissoc!(key : K, author : AuthorId) : Map(K, V)
-      removed, node = @node.delete(Probes::DissocMut(K, V).new(key, author))
-      Map.new(node, removed ? @size - 1 : @size)
+      Map(K, V).new(@kernel.dissoc!(key, author))
     end
 
     # :nodoc:
@@ -796,9 +978,6 @@ module Pf
       fmap { |k, v| {k, (yield v)} }
     end
 
-    # :nodoc:
-    delegate :object_id, to: @node
-
     # Returns `true` if `self` and *other* refer to the same map in memory.
     #
     # Due to the way `Map` is implemented, this method can be used as
@@ -810,7 +989,7 @@ module Pf
     # map1.same?(map2) # => true
     # ```
     def same?(other : Map(K, V)) : Bool
-      object_id == other.object_id
+      @kernel.same?(other.@kernel)
     end
 
     # :nodoc:
@@ -841,7 +1020,7 @@ module Pf
       # It sounds like a dangerous thing to say but I guess exec_recursive_clone
       # isn't needed here, it's the responsibility of the value (and we never
       # actually clone Nodes anyway?)
-      transaction do |commit|
+      Map(K, V).transaction do |commit|
         each { |k, v| commit.assoc(k.clone, v.clone) }
       end
     end
