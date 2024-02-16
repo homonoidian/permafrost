@@ -1,6 +1,31 @@
 module Pf::Core
   struct Sparse32(T)
-    def initialize(@mem : Pointer(T), @bitmap : UInt32)
+    # Maps item count to expected capacity. '0' means 'keep' (do not grow).
+    GROWTH = StaticArray(UInt8, 33).new(0u8)
+
+    # Grow * 1.5
+    GROWTH[0] = 2
+    GROWTH[2] = 3
+    GROWTH[3] = 5
+    GROWTH[5] = 8
+    GROWTH[8] = 12
+    GROWTH[12] = 18
+    GROWTH[18] = 27
+    GROWTH[27] = 32
+
+    # Maps population count (array size) to capacity directly.
+    CAPS = StaticArray(UInt8, 33).new(0u8)
+
+    state = GROWTH[0]
+    GROWTH.each_with_index do |capacity, size|
+      CAPS[size] = state = Math.max(capacity, state)
+    end
+
+    # Returns the bitmap. The bitmap specifies which slots out of the 32 available
+    # ones are occupied.
+    getter bitmap : UInt32
+
+    def initialize(@mem : T*, @bitmap : UInt32)
     end
 
     def self.new
@@ -14,14 +39,33 @@ module Pf::Core
       {mask, (@bitmap & (mask &- 1)).popcount}
     end
 
+    # Returns a pointer to the internal buffer where `self`'s elements are stored.
+    def to_unsafe : T*
+      @mem
+    end
+
     # Returns the amount of elements in this array.
     def size
       @bitmap.popcount
     end
 
+    # Returns `true` if this array contains no elements.
+    def empty? : Bool
+      @bitmap.zero?
+    end
+
+    # :nodoc:
+    #
+    # Returns *n*-th *stored* value.
+    def nth?(n : Int)
+      raise IndexError.new unless n.in?(0...32)
+
+      n < size ? @mem[n] : nil
+    end
+
     # Yields each element from this array followed by its index.
     #
-    # - *lo* can be used to specify the lower bound (the index where to start).
+    # - *lo* can be used to specify the lower bound (the index where to start; inclusive).
     def each(from lo = 0u8, & : T, UInt8 ->)
       hi = size
       while lo < hi
@@ -32,27 +76,67 @@ module Pf::Core
 
     # Returns the element at *index*, or nil.
     #
-    # *index* must be in `0...32`, otherwise `IndexError` is raised.
+    # *index* must be in `0...32`, otherwise this method raises `IndexError`.
     def at?(index : Int) : T?
       mask, offset = get_mask_and_offset(index)
 
       @bitmap.bits_set?(mask) ? @mem[offset] : nil
     end
 
-    # Returns a copy of this array where *el* is resent at *index*.
+    # Modifies this array at *index* by updating or inserting *el* there.
+    def with!(index : Int, el : T) : self
+      mask, offset = get_mask_and_offset(index)
+
+      if @bitmap.bits_set?(mask)
+        @mem[offset] = el
+        return self
+      end
+
+      size = self.size
+      capacity = GROWTH[size]
+      unless capacity.zero?
+        @mem = @mem.realloc(capacity)
+      end
+
+      if offset < size
+        (@mem + offset + 1).move_from(@mem + offset, size - offset)
+      end
+
+      @mem[offset] = el
+      @bitmap |= mask
+
+      self
+    end
+
+    # Modifies this array by removing the element at *index* if it was present.
+    def without!(index : Int) : self
+      mask, offset = get_mask_and_offset(index)
+      return self unless @bitmap.bits_set?(mask)
+
+      size = self.size
+
+      (@mem + offset).move_from(@mem + offset + 1, size - offset - 1)
+      (@mem + (size - 1)).clear
+
+      @bitmap &= ~mask
+
+      self
+    end
+
+    # Returns a copy of this array where *el* is present at *index*.
     def with(index : Int, el : T) : Sparse32(T)
       mask, offset = get_mask_and_offset(index)
       size = self.size
 
       if @bitmap.bits_set?(mask)
-        mem = Pointer(T).malloc(size)
+        mem = Pointer(T).malloc(CAPS[size])
         mem.copy_from(@mem, size)
         mem[offset] = el
         return Sparse32.new(mem, @bitmap)
       end
 
       # Copy before offset, put element at offset, copy after offset.
-      mem = Pointer(T).malloc(size + 1)
+      mem = Pointer(T).malloc(CAPS[size + 1])
       mem.copy_from(@mem, offset)
       mem[offset] = el
       (mem + offset + 1).copy_from(@mem + offset, size - offset)

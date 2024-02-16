@@ -6,7 +6,9 @@ module Enumerable(T)
   # (0...10).to_pf_map { |n| {n, n * 2} } # => Pf::Map{2 => 4, 3 => 6, 4 => 8, ...}
   # ```
   def to_pf_map(& : T -> {K, V}) : Pf::Map(K, V) forall K, V
-    reduce(Pf::Map(K, V).new) { |map, el| map.assoc(*yield el) }
+    Pf::Map(K, V).transaction do |commit|
+      each { |el| commit.assoc(*yield el) }
+    end
   end
 
   # Creates a `Pf::Map` out of an Enumerable whose elements respond

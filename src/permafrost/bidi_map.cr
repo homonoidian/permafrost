@@ -130,7 +130,7 @@ module Pf
     # ```
     def assoc(key : K, value : V) : BidiMap(K, V)
       if v = value_for?(key)
-        return self if Core::Node.eqv?(v, value)
+        return self if Map.eqv?(v, value)
         keyof = @keyof.dissoc(v)
       else
         keyof = @keyof

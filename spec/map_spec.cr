@@ -7,7 +7,7 @@ struct Collider
   def_equals @val
 
   def hash
-    1
+    1u64
   end
 end
 
@@ -161,6 +161,29 @@ describe Pf::Map do
   end
 
   describe "user-facing" do
+    it "runs the example from #transaction" do
+      map1 = Pf::Map(String, Int32).new
+      map2 = map1.transaction do |commit|
+        commit.assoc("John Doe", 12)
+        commit.assoc("Susan Doe", 34)
+        commit.dissoc("John Doe")
+        if "John Doe".in?(commit)
+          commit.assoc("Mark Doe", 21)
+        else
+          commit.assoc("John Doe", 456)
+          commit.assoc("Susan Doe", commit["Susan Doe"] + 1)
+        end
+      end
+      map1.should eq(Pf::Map(String, Int32)[])
+      map2.should eq(Pf::Map["John Doe": 456, "Susan Doe": 35])
+
+      map3 = map1.transaction do |commit|
+      end
+
+      map1.should eq(Pf::Map(String, Int32)[])
+      map3.should be(map1)
+    end
+
     it "supports #keys" do
       map = Pf::Map[foo: 10, bar: 20]
       map.keys.to_set.should eq(Set{"foo", "bar"})
@@ -230,6 +253,24 @@ describe Pf::Map do
       expect_raises(KeyError, "Map value not diggable for key: \"boo\"") do
         map2.dig("foo", "bar", "boo")
       end
+    end
+
+    it "supports #fetch?" do
+      map = Pf::Map[name: "John Doe", job: nil]
+      map.fetch?("job").should eq({nil})
+      map.fetch?("name").should eq({"John Doe"})
+      map.fetch?("age").should be_nil
+
+      if name_t = map.fetch?("name")
+        name, *_ = name_t
+        name.should eq("John Doe")
+      end
+
+      job = map.fetch("job") { "absent" }
+      job.should be_nil
+
+      job = map.fetch("age") { "absent" }
+      job.should eq("absent")
     end
 
     it "supports #assoc" do
@@ -313,6 +354,15 @@ describe Pf::Map do
       map.should eq(Pf::Map[foo: 300, bar: 500.8, baz: 300, boo: 1000.5])
 
       typeof(map).should eq(Pf::Map(String, Int32 | Float64))
+    end
+
+    it "supports #concat(Enumerable)" do
+      a = Pf::Map[foo: 100, bar: 200, baz: 300]
+      map = a.concat([{"x", 123}, {"y", 456}])
+      map.should eq(Pf::Map[foo: 100, bar: 200, baz: 300, x: 123, y: 456])
+
+      map = a.concat(Pf::Set[{"foo", 100}, {"bar", 200}])
+      map.should be(a)
     end
 
     it "supports #select(&)" do
@@ -408,6 +458,71 @@ describe Pf::Map do
           .assoc('c', 2)
           .assoc('d', 3)
       )
+
+      ({'a', 'b', 'c', 'd'}).zip(0..3).to_pf_map { |k, v| {k.to_s.upcase, v + 1} }.should eq(
+        Pf::Map
+          .assoc("A", 1)
+          .assoc("B", 2)
+          .assoc("C", 3)
+          .assoc("D", 4)
+      )
+    end
+  end
+
+  it "should raise resolved error if commit is retained" do
+    cobj = nil
+    map = Pf::Map[name: "John", age: 23]
+    map.transaction do |commit|
+      cobj = commit
+      commit.assoc("age", 25)
+    end
+    cobj.not_nil!["name"]?.should eq("John")
+    cobj.not_nil!["age"]?.should eq(25)
+    expect_raises(Pf::ResolvedError) { cobj.not_nil!.assoc("name", "Susan") }
+    expect_raises(Pf::ResolvedError) { cobj.not_nil!.dissoc("name") }
+    expect_raises(Pf::ResolvedError) { cobj.not_nil!.resolve }
+  end
+
+  it "should raise readonly error if commit is passed to another fiber" do
+    went_through_chain = Channel(Bool).new
+    chan_assoc = Channel(Pf::Map::Commit(String, Int32)).new
+    chan_dissoc = Channel(Pf::Map::Commit(String, Int32)).new
+    chan_resolve = Channel(Pf::Map::Commit(String, Int32)).new
+
+    spawn do
+      commit = chan_assoc.receive
+      begin
+        commit.assoc("foo", 123)
+        went_through_chain.send(false)
+      rescue Pf::ReadonlyError
+        chan_dissoc.send(commit)
+      end
+    end
+
+    spawn do
+      commit = chan_dissoc.receive
+      begin
+        commit.dissoc("foo")
+        went_through_chain.send(false)
+      rescue Pf::ReadonlyError
+        chan_resolve.send(commit)
+      end
+    end
+
+    spawn do
+      commit = chan_resolve.receive
+      begin
+        commit.resolve
+        went_through_chain.send(false)
+      rescue Pf::ReadonlyError
+        went_through_chain.send(true)
+      end
+    end
+
+    map = Pf::Map[foo: 0, bar: 1, baz: 2]
+    map.transaction do |commit|
+      chan_assoc.send(commit)
+      went_through_chain.receive.should be_true
     end
   end
 
@@ -426,8 +541,16 @@ describe Pf::Map do
 
     map_tally1 = words_n1.reduce(Pf::Map(String, Int32).new) { |map, word| map.assoc(word, (map[word]? || 0) + 1) }
     map_tally2 = words_n2.reduce(Pf::Map(String, Int32).new) { |map, word| map.assoc(word, (map[word]? || 0) + 1) }
-    map_tally3 = words_n3.reduce(Pf::Map(String, Int32).new) { |map, word| map.assoc(word, (map[word]? || 0) + 1) }
-    map_tally4 = words_n4.reduce(Pf::Map(String, Int32).new) { |map, word| map.assoc(word, (map[word]? || 0) + 1) }
+    map_tally3 = Pf::Map(String, Int32).transaction do |commit|
+      words_n3.each do |word|
+        commit.assoc(word, (commit[word]? || 0) + 1)
+      end
+    end
+    map_tally4 = Pf::Map(String, Int32).transaction do |commit|
+      words_n4.each do |word|
+        commit.assoc(word, (commit[word]? || 0) + 1)
+      end
+    end
 
     map_tally1.size.should eq(5308)
     map_tally1.sum { |_, n| n }.should eq(26471)

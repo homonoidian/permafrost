@@ -1,287 +1,290 @@
-# Includers are `Pf::Map` value types whose `#==` method can be used
-# to determine whether two values are equal after reassignment. This
-# helps to avoid path copying if the values do indeed turn out equal.
-module Pf::Eq
-end
-
 module Pf::Core
-  abstract class Node(K, V)
-    # Window size over a 32-bit path to the mapping.
-    PROGRESS_STEP = 5
+  alias AuthorId = UInt64
 
-    # Window mask (`PROGRESS_STEP` x `1`s).
-    PROGRESS_WINDOW = 0x1f
+  AUTHOR_NONE  = AuthorId.new(0)
+  AUTHOR_FIRST = AUTHOR_NONE + 1
 
-    # Returns the 32 bit hash of *object*.
-    macro hash32(object)
-      ({{object}}).hash.unsafe_as(UInt32)
-    end
+  # Includers can look up a stored value in the trie.
+  module IProbeFetch(T)
+    # Returns the full path to the stored value (usually the stored value's hash).
+    abstract def path : UInt64
 
-    # Returns `0...32` index based on a 32-bit *path* and a *progress* offset
-    # into that path. *progress* should be a multiple of `PROGRESS_STEP`.
-    macro index32(path, progress)
-      (({{path}}) >> ({{progress}})) & PROGRESS_WINDOW
-    end
-
-    # Returns if two mapping values *v1* and *v2* are equal.
-    def self.eqv?(v1 : V, v2 : V) : Bool
-      {% if V < ::Pf::Eq || V == ::Nil || V == ::Bool || V == ::Char || V == ::String || V == ::Symbol || V < ::Number::Primitive %}
-        v1 == v2
-      {% elsif V < ::Reference %}
-        v1.same?(v2)
-      {% else %}
-        false
-      {% end %}
-    end
-
-    # Returns the amount of mappings in this node.
-    abstract def size : Int32
-
-    # Yields each mapping starting from `self`.
-    abstract def each(& : K, V ->) : Nil
-
-    # Tries to find which value *needle* key is mapped to starting from `self`.
-    abstract def find?(needle : K) : Cloak(V)?
-
-    # :nodoc:
-    abstract def assoc(mapping : Mapping(K, V), path : UInt32, progress : UInt32) : Node(K, V)
-
-    # Inserts or replaces `self` with the given *mapping*. Returns the
-    # new version of `self`.
-    def assoc(mapping : Mapping(K, V)) : Node(K, V)
-      assoc(mapping, path: hash32(mapping.kv[0]), progress: 0)
-    end
-
-    # :nodoc:
-    abstract def dissoc(needle : K, path : UInt32, progress : UInt32) : Node(K, V)
-
-    # Removes the mapping of *needle*, if any.
-    def dissoc(needle : K) : Node(K, V)
-      dissoc(needle, path: hash32(needle), progress: 0)
-    end
+    # Returns `true` if this probe accepts the given stored value.
+    abstract def match?(stored : T) : Bool
   end
 
-  # No mappings. Returned (a) when creating a new map or (b) when all
-  # mappings were removed from a map.
-  class Node::Empty(K, V) < Node(K, V)
-    def size : Int32
-      0
+  # Includers can author a change in the trie, enabling them to later mutate
+  # the part of the trie they've already copied. See `author`.
+  module IProbeAuthored
+    # Returns the id of the author of the proposed addition. The author is made
+    # the owner of the path-copied items and children arrays in the trie. Meaning
+    # further changes along the same route *made by the same author* will not produce
+    # copies; the author's done the job already.
+    #
+    # Essentially `author` is the "password" for mutating the resulting part of the trie.
+    # Completely new nodes give write access to both arrays to `author` immediately.
+    #
+    # The id must be unique across distinct edits of the trie (this is guaranteed
+    # by `Pf::Map::Commit` and `Pf::Set::Commit`; they are the main users of this
+    # feature). By using the analogy defined above, if more than one entity knows
+    # the password to edit the trie in-place, everything about immutability
+    # or exclusive write access is broken.
+    #
+    # We never make full copies of the trie, not at the beginning, nor at the end.
+    # We only make copies of edited paths. When the edit sequence finishes, its
+    # author must be guaranteed to retire, as the trie is passed to the immutable
+    # interface as-is. So if the author does not retire and modifies the tree,
+    # the immutable version will change as well, which is not expected.
+    #
+    # If unavailable, you can return `AUTHOR_NONE`.
+    abstract def author : AuthorId
+  end
+
+  # Includers can add stored values to the trie, or replace them.
+  module IProbeAdd(T)
+    include IProbeFetch(T)
+    include IProbeAuthored
+
+    # Returns the value associated with this probe, to be stored in `Node`.
+    abstract def value : T
+
+    # Returns `true` if an existing *stored* value should be replaced with
+    # this probe's own `value`.
+    abstract def replace?(stored : T) : Bool
+  end
+
+  # Includers can remove stored values from the trie.
+  module IProbeDelete(T)
+    include IProbeFetch(T)
+    include IProbeAuthored
+  end
+
+  # Represents a trie node.
+  class Node(T)
+    private WINDOW      = 0x1fu32
+    private WINDOW_SIZE =       5
+
+    # Represents the bitmap for the items and children arrays.
+    #
+    # ```text
+    # BITMAP  = BMP_ITEMS BMP_CHILDREN
+    # --------  --------- ------------
+    # 64 bits    32 bits     32 bits
+    # ```
+    private struct Bitmap
+      getter bits : UInt64
+
+      def initialize(@bits : UInt64)
+      end
+
+      def items : UInt32
+        (@bits >> 32u64).unsafe_as(UInt32)
+      end
+
+      def children : UInt32
+        @bits.unsafe_as(UInt32)
+      end
+
+      def items=(items : UInt32)
+        @bits = (items.unsafe_as(UInt64) << 32) | @bits.unsafe_as(UInt32)
+      end
+
+      def children=(children : UInt32)
+        @bits = ((@bits >> 32) << 32) | children
+      end
     end
 
-    def each(& : K, V ->) : Nil
+    def initialize(@items = Pointer(T).null, @children = Pointer(Node(T)).null, @bitmap = 0u64, @writer_items = AUTHOR_NONE, @writer_children = AUTHOR_NONE)
     end
 
-    def find?(needle : K) : Cloak(V)?
+    # Returns the `Bitmap` for the items and children arrays.
+    private def bitmap : Bitmap
+      Bitmap.new(@bitmap)
     end
 
-    def assoc(mapping : Mapping(K, V), path : UInt32, progress : UInt32) : Node(K, V)
-      mapping
+    # Returns the items array.
+    protected def items : Sparse32
+      Sparse32.new(@items, bitmap.items)
     end
 
-    def dissoc(needle : K, path : UInt32, progress : UInt32) : Node(K, V)
+    # Returns the children array.
+    protected def children : Sparse32
+      Sparse32.new(@children, bitmap.children)
+    end
+
+    # Updates the items array to *array*.
+    protected def items=(array) : self
+      bmp = bitmap
+      bmp.items = array.bitmap
+      @items = array.to_unsafe
+      @bitmap = bmp.bits
       self
     end
-  end
 
-  # A single mapping. Returned when a map has only one entry.
-  class Node::Mapping(K, V) < Node(K, V)
-    def initialize(@key : K, @value : V)
+    # Updates the children array to *array*.
+    protected def children=(array) : self
+      bmp = bitmap
+      bmp.children = array.bitmap
+      @children = array.to_unsafe
+      @bitmap = bmp.bits
+      self
     end
 
-    # Returns the key and the value of this mapping.
-    def kv : {K, V}
-      {@key, @value}
+    # Returns a new `Node` where the items array and its writer are changed to
+    # the values provided in the arguments.
+    protected def change(*, items : Sparse32, writer : AuthorId) : Node(T)
+      bmp = bitmap
+      bmp.items = items.bitmap
+
+      Node.new(items.to_unsafe, @children, bmp.bits, writer, @writer_children)
     end
 
-    def size : Int32
-      1
+    # Returns a new `Node` where the children array and its writer are changed to
+    # the values provided in the arguments.
+    protected def change(*, children : Sparse32, writer : AuthorId) : Node(T)
+      bmp = bitmap
+      bmp.children = children.bitmap
+
+      Node.new(@items, children.to_unsafe, bmp.bits, @writer_items, writer)
     end
 
-    def each(& : K, V ->) : Nil
-      yield @key, @value
+    # Returns `true` if this node holds no items and points to no children.
+    def empty? : Bool
+      @bitmap.zero?
     end
 
-    def find?(needle : K) : Cloak(V)?
-      @key == needle ? Cloak.new(@value) : nil
-    end
-
-    def assoc(mapping : Mapping(K, V), path : UInt32, progress : UInt32) : Node(K, V)
-      here = hash32(@key)
-
-      index0 = index32(here, progress)
-      index1 = index32(path, progress)
-
-      # If indices are *not* equal we can assoc faster.
-      unless index0 == index1
-        return Row(K, V).new.assoc!(self, index0).assoc!(mapping, index1)
-      end
-
-      # If indices are the same but paths are different we have to insert
-      # smart. We can't just skip parts of the path so this will possibly
-      # create nested Rows.
-      unless here == path
-        return Row(K, V).new.assoc(self, here, progress).assoc(mapping, path, progress)
-      end
-
-      key, value = mapping.kv
-
-      # If paths are equal but keys are not, that's a collision. We must
-      # insulate Collision in a row because otherwise, Collision will accept
-      # all incoming mappings if `self` is the root node and that's the
-      # least cool thing ever.
-      unless @key == key
-        return Row(K, V).new.assoc!(Collision.new([self, mapping]), index0)
-      end
-
-      Node.eqv?(@value, value) ? self : mapping
-    end
-
-    def dissoc(needle : K, path : UInt32, progress : UInt32) : Node(K, V)
-      here = hash32(@key)
-
-      return self unless here == path
-      return self unless needle == @key
-
-      Empty(K, V).new
-    end
-  end
-
-  class Node::Row(K, V) < Node(K, V)
-    getter size : Int32
-
-    def initialize(@cols : Sparse32(Node(K, V)) = Sparse32(Node(K, V)).new, @size = 0)
-    end
-
-    # See `Sparse32`.
-    delegate :at?, to: @cols
-
-    def each(& : K, V ->) : Nil
-      stack = StaticStack(self, 7).new
+    # Yields each item from this node and from all child nodes.
+    def each(& : T ->) : Nil
+      stack = Array(self).new(children.size + 1)
       stack.push(self)
 
-      progress = StaticStack(UInt8, 7).new
-      progress.push(0u8)
-
-      while stack.size > 0
+      until stack.empty?
         node = stack.pop
-        start = progress.pop
-        node.@cols.each(from: start) do |child, index|
-          case child
-          when Mapping, Collision
-            child.each { |k, v| yield k, v }
-          when Row(K, V)
-            stack.push(node)
-            stack.push(child)
-            progress.push(index + 1u8)
-            progress.push(0u8)
-            break
-          end
+        node.items.each do |item|
+          yield item
+        end
+        node.children.each do |child|
+          stack.push(child)
         end
       end
     end
 
-    def find?(needle : K) : Cloak(V)?
+    # Retrieves the stored value that is accepted by *probe*. Returns the first
+    # stored value accepted by *probe*, or `nil` if *probe* accepted no values.
+    #
+    # The returned value is wrapped in a tuple to differentiate between `nil`
+    # as value and `nil` as absence.
+    def fetch?(probe : IProbeFetch(T)) : {T}?
+      fetch?(probe, path: probe.path)
+    end
+
+    # Updates or inserts the stored value accepted by *probe*.
+    #
+    # Returns a tuple where the first element is a boolean indicating whether
+    # the amount of elements in the trie increased by one, and the second element
+    # is the modified version of `self`.
+    #
+    # If *probe* wishes mutation, the second element is exactly `self` (and the
+    # first element still indicates whether the size increased).
+    #
+    # If no changes were made (the stored value is the same as that of *probe*)
+    # the second element is also exactly `self` (and the first element is `false`).
+    def add(probe : IProbeAdd(T)) : {Bool, Node(T)}
+      add(probe, path: probe.path)
+    end
+
+    # Removes the stored value accepted by *probe*. Returns a tuple where the first
+    # element is a boolean indicating whether the amount of elements in the trie
+    # decreased by one, and the second element is the modified version of `self`.
+    #
+    # If *probe* wishes mutation, the second element is exactly `self`. If no changes
+    # were made (nothing was removed), the second element is also exactly `self`.
+    def delete(probe : IProbeDelete(T)) : {Bool, Node(T)}
+      delete(probe, path: probe.path)
+    end
+
+    protected def fetch?(probe : IProbeFetch, path : UInt64) : {T}?
       node = self
-      path = hash32(needle)
-      7.times do
-        return unless newnode = node.at?(path & PROGRESS_WINDOW)
-        return newnode.find?(needle) unless newnode.is_a?(Row)
-        node = newnode
-        path >>= PROGRESS_STEP
+      while true
+        index = path & WINDOW
+        item = node.items.at?(index)
+        return {item} if item && probe.match?(item)
+        return unless node = node.children.at?(index)
+        path >>= WINDOW_SIZE
       end
     end
 
-    # Unsafe, mutable assoc. Assumes `self` is empty.
-    def assoc!(node : Node(K, V), index : UInt32) : Node(K, V)
-      @cols = @cols.with(index, node)
-      @size += node.size
-      self
-    end
+    protected def add(probe : IProbeAdd(T), path : UInt64) : {Bool, Node(T)}
+      index = path & WINDOW
+      items = self.items
+      item = items.at?(index)
 
-    def assoc(mapping : Mapping(K, V), path : UInt32, progress : UInt32) : Node(K, V)
-      index = index32(path, progress)
-      unless col = @cols.at?(index)
-        return Row.new(@cols.with(index, mapping), @size + 1)
+      if item.nil? || (accepted = probe.match?(item)) && (replaced = probe.replace?(item))
+        if probe.author != AUTHOR_NONE && @writer_items == probe.author
+          self.items = items.with!(index, probe.value)
+          return replaced != true, self
+        end
+        return replaced != true, change(items: items.with(index, probe.value), writer: probe.author)
       end
 
-      newcol = col.assoc(mapping, path, progress + PROGRESS_STEP)
-      return self if col.same?(newcol)
+      return false, self if accepted
 
-      Row.new(@cols.with(index, newcol), @size + (newcol.size - col.size))
-    end
+      children = self.children
 
-    def dissoc(needle : K, path : UInt32, progress : UInt32) : Node(K, V)
-      index = index32(path, progress)
-      return self unless col = @cols.at?(index)
-
-      newcol = col.dissoc(needle, path, progress + PROGRESS_STEP)
-      return self if col.same?(newcol)
-
-      delta = newcol.size - col.size
-      if newcol.size.zero?
-        return Empty(K, V).new if @cols.size == 1 # Will remove the last one
-
-        Row.new(@cols.without(index), @size + delta)
+      if child = children.at?(index)
+        created = false
       else
-        Row.new(@cols.with(index, newcol), @size + delta)
+        child = Node(T).new(writer_items: probe.author, writer_children: probe.author)
+        created = true
+      end
+
+      added, newchild = child.add(probe, path >> WINDOW_SIZE)
+      return added, self if !created && child.same?(newchild)
+
+      if probe.author != AUTHOR_NONE && @writer_children == probe.author
+        self.children = children.with!(index, newchild)
+        {added, self}
+      else
+        newchildren = children.with(index, newchild)
+        {added, change(children: newchildren, writer: probe.author)}
       end
     end
-  end
 
-  # Represents a collision between several mappings. A collision occurs
-  # when hashes of two keys (`hash`) are the same but the actual keys
-  # compare differently (`==`).
-  #
-  # This situation is generally rare, therefore, this node is kept
-  # simple & unoptimized (`Array#dup`s etc.).
-  class Node::Collision(K, V) < Node(K, V)
-    def initialize(@mappings = [] of Mapping(K, V))
-    end
+    protected def delete(probe : IProbeDelete, path : UInt64) : {Bool, Node(T)}
+      index = path & WINDOW
+      items = self.items
+      item = items.at?(index)
 
-    def size : Int32
-      @mappings.size
-    end
-
-    def each(& : K, V ->) : Nil
-      @mappings.each { |mapping| yield *mapping.kv }
-    end
-
-    def find?(needle : K) : Cloak(V)?
-      each { |key, value| return Cloak.new(value) if needle == key }
-    end
-
-    def assoc(mapping : Mapping(K, V), path : UInt32, progress : UInt32) : Node(K, V)
-      key, value = mapping.kv
-
-      @mappings.each_with_index do |other, index|
-        k, v = other.kv
-        if key == k
-          return self if Node.eqv?(value, v)
-          copy = @mappings.dup
-          copy.swap(0, index) # Lift due to usage
-          copy[0] = mapping
-          return Collision.new(copy)
+      if item && probe.match?(item)
+        if probe.author != AUTHOR_NONE && @writer_items == probe.author
+          self.items = items.without!(index)
+          return true, self
         end
+        return true, change(items: items.without(index), writer: probe.author)
       end
 
-      copy = @mappings.dup
-      copy.unshift(mapping)
+      children = self.children
 
-      Collision.new(copy)
-    end
+      return false, self unless child = children.at?(index)
 
-    def dissoc(needle : K, path : UInt32, progress : UInt32) : Node(K, V)
-      @mappings.each_with_index do |mapping, index|
-        k, v = mapping.kv
-        if needle == k
-          return Empty(K, V).new if @mappings.empty?
-          copy = @mappings.dup
-          copy.delete_at(index)
-          return Collision.new(copy)
+      removed, newchild = child.delete(probe, path >> WINDOW_SIZE)
+      return removed, self if child.same?(newchild)
+
+      if newchild.empty?
+        if probe.author != AUTHOR_NONE && @writer_children == probe.author
+          self.children = children.without!(index)
+          return removed, self
         end
+        newchildren = children.without(index)
+      else
+        if probe.author != AUTHOR_NONE && @writer_children == probe.author
+          self.children = children.with!(index, newchild)
+          return removed, self
+        end
+        newchildren = children.with(index, newchild)
       end
 
-      self
+      {removed, change(children: newchildren, writer: probe.author)}
     end
   end
 end

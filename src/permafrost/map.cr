@@ -1,4 +1,10 @@
 module Pf
+  # Includers are `Pf::Map` value types whose `#==` method can be used
+  # to determine whether two values are equal after reassignment. This
+  # helps to avoid path copying if the values do indeed turn out equal.
+  module Eq
+  end
+
   # A thread-safe, persistent, unordered hash map.
   #
   # ## Value equality
@@ -49,22 +55,206 @@ module Pf
     include Core
     include Enumerable({K, V})
 
-    protected def initialize(@node : Node(K, V))
+    # Returns `true` if two mapping values *v1* and *v2* are equal, taking
+    # `Pf::Eq` into account.
+    def self.eqv?(v1 : V, v2 : V) : Bool forall V
+      {% if V < ::Pf::Eq || V == ::Nil || V == ::Bool || V == ::Char || V == ::String || V == ::Symbol || V < ::Number::Primitive %}
+        v1 == v2
+      {% elsif V < ::Reference %}
+        v1.same?(v2)
+      {% else %}
+        false
+      {% end %}
     end
 
-    # Returns a new empty `Map`.
+    private struct Entry(K, V)
+      getter k : K
+      getter v : V
+
+      def initialize(@k : K, @v : V)
+      end
+    end
+
+    private module Probes
+      struct Fetch(K, V)
+        include IProbeFetch(Entry(K, V))
+
+        def initialize(@key : K)
+        end
+
+        def path : UInt64
+          Core.hash64(@key)
+        end
+
+        def match?(stored : Entry(K, V)) : Bool
+          @key == stored.k
+        end
+      end
+
+      abstract struct Assoc(K, V)
+        include IProbeAdd(Entry(K, V))
+
+        def initialize(@key : K, @value : V)
+        end
+
+        def path : UInt64
+          Core.hash64(@key)
+        end
+
+        def match?(stored) : Bool
+          stored.is_a?(Entry) && @key == stored.k
+        end
+
+        def replace?(stored) : Bool
+          !(stored.is_a?(Entry) && Map.eqv?(@value, stored.v))
+        end
+
+        def value : Entry(K, V)
+          Entry(K, V).new(@key, @value)
+        end
+      end
+
+      struct AssocImm(K, V) < Assoc(K, V)
+        def author : AuthorId
+          AUTHOR_NONE
+        end
+      end
+
+      struct AssocMut(K, V) < Assoc(K, V)
+        getter author : AuthorId
+
+        def initialize(key, value, @author)
+          super(key, value)
+        end
+      end
+
+      abstract struct Dissoc(K, V)
+        include IProbeDelete(Entry(K, V))
+
+        def initialize(@key : K)
+        end
+
+        def path : UInt64
+          Core.hash64(@key)
+        end
+
+        def match?(stored : Entry(K, V)) : Bool
+          @key == stored.k
+        end
+      end
+
+      struct DissocImm(K, V) < Dissoc(K, V)
+        def author : AuthorId
+          AUTHOR_NONE
+        end
+      end
+
+      struct DissocMut(K, V) < Dissoc(K, V)
+        getter author : AuthorId
+
+        def initialize(key, @author)
+          super(key)
+        end
+      end
+    end
+
+    # Commits allow you to compose multiple edits into one, big edit of the map.
+    # Thus you avoid creating many useless intermediate copies of the map.
+    class Commit(K, V)
+      @@id : Atomic(UInt64) = Atomic.new(AUTHOR_FIRST)
+
+      # :nodoc:
+      def self.genid
+        @@id.add(1)
+      end
+
+      protected def initialize(@map : Map(K, V), @fiber : UInt64)
+        @id = AuthorId.new(Commit.genid)
+        @resolved = false
+      end
+
+      # Runs `Map#includes?` on the map built so far.
+      def includes?(object) : Bool
+        @map.includes?(object)
+      end
+
+      # Runs `Map#[]?` on the map built so far.
+      def []?(key : K) : V?
+        @map[key]?
+      end
+
+      # Runs `Map#[]` on the map built so far.
+      def [](key : K) : V
+        @map[key]
+      end
+
+      # Commits the association between *key* and *value* to the map.
+      #
+      # Raises `ResolvedError` if this commit is used outside of the transaction
+      # (see `Map#transaction`) that produced it.
+      #
+      # Raises `ReadonlyError` if called by a fiber other than the fiber that
+      # initiated the transaction.
+      def assoc(key : K, value : V) : self
+        raise ResolvedError.new if @resolved
+        raise ReadonlyError.new unless @fiber == Core.fiber_id
+
+        @map = @map.assoc!(key, value, @id)
+
+        self
+      end
+
+      # Commits the removal of an association between *key* and *value* from
+      # the map.
+      #
+      # Raises `ResolvedError` if this commit is used outside of the transaction
+      # (see `Map#transaction`) that produced it.
+      #
+      # Raises `ReadonlyError` if called by a fiber other than the fiber that
+      # initiated the transaction.
+      def dissoc(key : K) : self
+        raise ResolvedError.new if @resolved
+        raise ReadonlyError.new unless @fiber == Core.fiber_id
+
+        @map = @map.dissoc!(key, @id)
+
+        self
+      end
+
+      # :nodoc:
+      def resolve
+        raise ResolvedError.new if @resolved
+        raise ReadonlyError.new unless @fiber == Core.fiber_id
+
+        @resolved = true
+        @map
+      end
+    end
+
+    # Returns the number of associations in this map.
+    getter size : Int32
+
+    protected def initialize(@node : Node(Entry(K, V)), @size = 0)
+    end
+
+    # Constructs an empty `Map`.
     def self.new : Map(K, V)
-      new(Node::Empty(K, V).new)
+      new(Node(Entry(K, V)).new)
     end
 
-    # Returns a map with mappings from an *enumerable* of key-value pairs.
+    # Constructs a `Map` from an *enumerable* of key-value pairs.
     def self.new(enumerable : Enumerable({K, V}))
-      enumerable.reduce(Map(K, V).new) { |map, (k, v)| map.assoc(k, v) }
+      Map(K, V).new.concat(enumerable)
     end
 
     # A shorthand for `new.assoc`.
     def self.assoc(key : K, value : V) : Map(K, V)
-      new(Node::Mapping(K, V).new(key, value))
+      Map(K, V).new.assoc(key, value)
+    end
+
+    # :nodoc:
+    def self.[]
+      Map(K, V).new
     end
 
     # A shorthand syntax for creating a `Map` with string keys. The type
@@ -78,16 +268,53 @@ module Pf
     # typeof(map) # => Pf::Map(String, String | Int32)
     # ```
     def self.[](**entries)
-      map = Map(String, typeof(Enumerable.element_type(entries.values))).new
-      entries.each do |k, v|
-        map = map.assoc(k.to_s, v)
+      Map(String, typeof(Enumerable.element_type(entries.values))).transaction do |commit|
+        entries.each { |k, v| commit.assoc(k.to_s, v) }
       end
-      map
     end
 
-    # Returns the number of mappings.
-    def size : Int32
-      @node.size
+    # Shorthand for `new.transaction`.
+    def self.transaction(& : Commit(K, V) ->) : Map(K, V)
+      new.transaction { |commit| yield commit }
+    end
+
+    # Yields a `Commit` object which allows you to mutate a copy of `self`.
+    #
+    # - The commit object is marked as *resolved* after the block. You should not
+    #   retain it. If you do, all operations on the object (including readonly ones)
+    #   will raise `ResolvedError`.
+    #
+    # - If you pass the commit object to another fiber in the block, e.g. via
+    #   a channel, and fiber yield immediately after that, the commit obviously
+    #   would not be marked as *resolved* as the resolution code would not have
+    #   been reached yet. However, if you then attempt to call mutation methods
+    #   on the commit, another error, `ReadonlyError`, will be raised. *In other
+    #   words, the yielded commit object is readonly for any other fiber except
+    #   for the fiber that it was originally yielded to*.
+    #
+    # Returns `self` if the transaction did not *touch* the map. If the map was
+    # changed but then the changes were reverted this method will return a new map.
+    #
+    # ```
+    # map1 = Pf::Map(String, Int32).new
+    # map2 = map1.transaction do |commit|
+    #   commit.assoc("John Doe", 12)
+    #   commit.assoc("Susan Doe", 34)
+    #   commit.dissoc("John Doe")
+    #   if "John Doe".in?(commit)
+    #     commit.assoc("Mark Doe", 21)
+    #   else
+    #     commit.assoc("John Doe", 456)
+    #     commit.assoc("Susan Doe", commit["Susan Doe"] + 1)
+    #   end
+    # end
+    # map1 # => Pf::Map[]
+    # map2 # => Pf::Map["John Doe" => 456, "Susan Doe" => 35]
+    # ```
+    def transaction(& : Commit(K, V) ->) : Map(K, V)
+      commit = Commit.new(self, Core.fiber_id)
+      yield commit
+      commit.resolve
     end
 
     # Returns `true` if this map contains no mappings.
@@ -97,7 +324,7 @@ module Pf
 
     # Yields each key-value pair to the block.
     def each(& : {K, V} ->) : Nil
-      @node.each { |k, v| yield({k, v}) }
+      @node.each { |entry| yield({entry.k, entry.v}) }
     end
 
     # Yields each key to the block.
@@ -140,13 +367,36 @@ module Pf
       values
     end
 
+    # Returns the value associated with *key*, or `nil` if the value is absent.
+    # The value is wrapped in a tuple to differentiate between `nil` as value
+    # and `nil` as absence.
+    #
+    # ```
+    # map = Pf::Map[name: "John Doe", job: nil]
+    # map.fetch?("job")  # => {nil}
+    # map.fetch?("name") # => {"John Doe"}
+    # map.fetch?("age")  # => nil
+    #
+    # if name_t = map.fetch?("name")
+    #   name, *_ = name_t
+    #   name # => "John Doe"
+    # end
+    # ```
+    def fetch?(key : K) : {V}?
+      return unless entry_t = @node.fetch?(Probes::Fetch(K, V).new(key))
+
+      entry, *_ = entry_t
+      {entry.v}
+    end
+
     # Returns the value mapped to *key*, or yields if *key* is absent.
     # This method mainly exists to circumvent nil as in value vs. nil
     # as in absence issue.
-    def fetch(key : K) : V
-      return yield unless cloak = @node.find?(key)
+    def fetch(key : K, & : -> T) : V | T forall T
+      return yield unless value_t = fetch?(key)
 
-      cloak.unwrap
+      value, *_ = value_t
+      value
     end
 
     # Returns `true` if *key* is present in this map.
@@ -173,7 +423,7 @@ module Pf
       includes?(key)
     end
 
-    # Returns the value mapped to *key*, or nil if *key* is absent.
+    # Returns the value associated with *key*, or nil if *key* is absent.
     #
     # ```
     # map = Pf::Map[foo: 10, bar: 20]
@@ -210,7 +460,7 @@ module Pf
       self[key]?
     end
 
-    # Returns the value mapped to *key*. Raises `KeyError` if there is
+    # Returns the value associated with *key*. Raises `KeyError` if there is
     # no such value.
     #
     # ```
@@ -248,7 +498,7 @@ module Pf
       self[key]? || raise KeyError.new("Map value not diggable for key: #{key.inspect}")
     end
 
-    # Returns a copy of `self` that contains the mapping of *key* to *value*.
+    # Returns a copy of `self` that contains the association between *key* and *value*.
     #
     # *Supports value equality.*
     #
@@ -270,16 +520,22 @@ module Pf
     # branch2["bar"]? # => nil
     # ```
     def assoc(key : K, value : V) : Map(K, V)
-      Map.new(@node.assoc(Node::Mapping(K, V).new(key, value)))
+      added, node = @node.add(Probes::AssocImm(K, V).new(key, value))
+      Map.new(node, added ? @size + 1 : @size)
+    end
+
+    protected def assoc!(key : K, value : V, author : AuthorId) : Map(K, V)
+      added, node = @node.add(Probes::AssocMut(K, V).new(key, value, author))
+      Map.new(node, added ? @size + 1 : @size)
     end
 
     # Returns an updated copy of `self`.
     #
-    # - If there is no mapping for *key*, the copy contains a mapping of
-    # *key* to *default*.
+    # - If there is no association for *key*, the copy contains an association
+    #   between *key* and *default*.
     #
-    # - If there is a mapping for *key*, its value is yielded to the block
-    # and the return value of the block is used as the next value of *key*.
+    # - If there is an association for *key*, its value is yielded to the block
+    #   and the return value of the block is used as the next value of *key*.
     #
     # *Supports value equality.*
     #
@@ -289,12 +545,12 @@ module Pf
     # map.update("baz", 0, &.succ) # => Pf::Map{"foo" => 100, "bar" => 200, "baz" => 0}
     # ```
     def update(key : K, default : V, & : V -> V)
-      cloak = @node.find?(key)
-      cloak ? assoc(key, yield cloak.unwrap) : assoc(key, default)
+      value = fetch(key) { return assoc(key, default) }
+      assoc(key, yield value)
     end
 
-    # Returns a copy of `self` that is guaranteed not to contain a mapping
-    # for *key*.
+    # Returns a copy of `self` that is guaranteed not to contain an association
+    # with the given *key*.
     #
     # ```
     # map = Pf::Map[foo: 100, bar: 200]
@@ -312,17 +568,25 @@ module Pf
     # branch2["bar"]? # => nil
     # ```
     def dissoc(key : K) : Map(K, V)
-      Map.new(@node.dissoc(key))
+      removed, node = @node.delete(Probes::DissocImm(K, V).new(key))
+      Map.new(node, removed ? @size - 1 : @size)
+    end
+
+    protected def dissoc!(key : K, author : AuthorId) : Map(K, V)
+      removed, node = @node.delete(Probes::DissocMut(K, V).new(key, author))
+      Map.new(node, removed ? @size - 1 : @size)
     end
 
     # :nodoc:
     def merge(other : Map(K, V)) : Map(K, V)
       return other if empty?
 
-      other.reduce(self) { |map, (k2, v2)| map.assoc(k2, v2) }
+      transaction do |commit|
+        other.each { |k2, v2| commit.assoc(k2, v2) }
+      end
     end
 
-    # Returns a new map with mappings from `self` and *other* combined.
+    # Returns a new map with associations from `self` and *other* combined.
     #
     # If some key is common both to `self` and *other*, *other*'s value
     # is preferred.
@@ -339,12 +603,13 @@ module Pf
     # typeof(map) # => Pf::Map(String, String | Int32 | Bool)
     # ```
     def merge(other : Map(K2, V2)) : Map(K | K2, V | V2) forall K2, V2
-      acc = Map(K | K2, V | V2).new
-      acc = reduce(acc) { |map, (k, v1)| map.assoc(k.as(K | K2), v1.as(V | V2)) }
-      other.reduce(acc) { |map, (k, v2)| map.assoc(k.as(K | K2), v2.as(V | V2)) }
+      Map(K | K2, V | V2).transaction do |commit|
+        self.each { |k, v1| commit.assoc(k.as(K | K2), v1.as(V | V2)) }
+        other.each { |k, v2| commit.assoc(k.as(K | K2), v2.as(V | V2)) }
+      end
     end
 
-    # Returns a new map with mappings from `self` and *other* combined.
+    # Returns a new map with assocations from `self` and *other* combined.
     #
     # If some key is common both to `self` and *other*, that key is
     # yielded to the block together with the two values. The return
@@ -360,19 +625,35 @@ module Pf
     # typeof(map) # => Pf::Map(String, Int32 | Float64)
     # ```
     def merge(other : Map(K2, V2), & : K, V, V2 -> V | V2) : Map(K | K2, V | V2) forall K2, V2
-      acc = Map(K | K2, V | V2).new
-      acc = reduce(acc) { |map, (k, v1)| map.assoc(k.as(K | K2), v1.as(V | V2)) }
-      other.reduce(acc) do |map, (k, v2)|
-        k = k.as(K | K2)
-        if v1 = acc[k]?
-          map.assoc(k, (yield k.as(K), v1.as(V), v2.as(V2)).as(V | V2))
-        else
-          map.assoc(k, v2.as(V | V2))
+      Map(K | K2, V | V2).transaction do |commit|
+        self.each { |k, v1| commit.assoc(k.as(K | K2), v1.as(V | V2)) }
+        other.each do |k, v2|
+          k = k.as(K | K2)
+          if v1 = commit[k]?
+            commit.assoc(k, (yield k.as(K), v1.as(V), v2.as(V2)).as(V | V2))
+          else
+            commit.assoc(k, v2.as(V | V2))
+          end
         end
       end
     end
 
-    # Returns a copy of `self` which includes only mappings for which
+    # Returns a new map with associations from `self` and *other* combined, where
+    # *other* is an enumerable of key-value pairs.
+    #
+    # *Supports value equality.*
+    #
+    # ```
+    # map = Pf::Map[foo: 100, bar: 200, baz: 300]
+    # map.concat([{"x", 123}, {"y", 456}]) # => Pf::Map[foo: 100, bar: 200, baz: 300, x: 123, y: 456]
+    # ```
+    def concat(other : Enumerable({K, V})) : Map(K, V)
+      transaction do |commit|
+        other.each { |k2, v2| commit.assoc(k2, v2) }
+      end
+    end
+
+    # Returns a copy of `self` which includes only associations for which
     # the block is *truthy*.
     #
     # *Supports value equality.*
@@ -381,13 +662,13 @@ module Pf
     # map = Pf::Map[foo: 2, bar: 3, baz: 4, boo: 5]
     # map.select { |_, v| v.even? } # => Pf::Map{"foo" => 2, "baz" => 4}
     # ```
-    def select(& : {K, V} ->) : Map(K, V)
-      reduce(self) { |map, (k, v)| yield({k, v}) ? map : map.dissoc(k) }
+    def select(& : {K, V} -> Bool) : Map(K, V)
+      transaction do |commit|
+        each { |k, v| commit.dissoc(k) unless yield({k, v}) }
+      end
     end
 
-    # Returns a new map which includes only mappings with the given *keys*.
-    #
-    # *Supports value equality.*
+    # Returns a new map which includes only associations with the given *keys*.
     #
     # ```
     # map = Pf::Map[foo: 2, bar: 3, baz: 4, boo: 5]
@@ -395,7 +676,12 @@ module Pf
     # map.select("foo", "boo")   # => Pf::Map{"foo" => 2, "boo" => 5}
     # ```
     def select(keys : Enumerable)
-      keys.reduce(Map(K, V).new) { |map, k| (v = self[k]?) ? map.assoc(k, v) : map }
+      Map(K, V).transaction do |commit|
+        keys.each do |key|
+          next unless value = self[key]?
+          commit.assoc(key, value)
+        end
+      end
     end
 
     # :ditto:
@@ -403,7 +689,7 @@ module Pf
       self.select(keys)
     end
 
-    # Returns a copy of `self` which includes only mappings for which
+    # Returns a copy of `self` which includes only associations for which
     # the block is *falsey*.
     #
     # *Supports value equality.*
@@ -412,13 +698,11 @@ module Pf
     # map = Pf::Map[foo: 2, bar: 3, baz: 4, boo: 5]
     # map.reject { |_, v| v.even? } # => Pf::Map{"bar" => 3, "boo" => 5}
     # ```
-    def reject(& : {K, V} ->) : Map(K, V)
-      reduce(self) { |map, (k, v)| yield({k, v}) ? map.dissoc(k) : map }
+    def reject(& : {K, V} -> Bool) : Map(K, V)
+      self.select { |k, v| !yield({k, v}) }
     end
 
     # Returns a new map which is guaranteed not to include the given *keys*.
-    #
-    # *Supports value equality.*
     #
     # ```
     # map = Pf::Map[foo: 2, bar: 3, baz: 4, boo: 5]
@@ -426,7 +710,9 @@ module Pf
     # map.reject("foo", "boo")   # => Pf::Map{"bar" => 3, "baz" => 4}
     # ```
     def reject(keys : Enumerable)
-      keys.reduce(self) { |map, key| map.dissoc(key) }
+      transaction do |commit|
+        keys.each { |key| commit.dissoc(key) }
+      end
     end
 
     # :ditto:
@@ -444,8 +730,11 @@ module Pf
     # typeof(map.compact) # => Pf::Map(String, Int32)
     # ```
     def compact
-      reduce(Map(K, typeof(Enumerable.element_type(self)[1].not_nil!)).new) do |map, (k, v)|
-        v ? map.assoc(k, v) : map
+      Map(K, typeof(Enumerable.element_type(self)[1].not_nil!)).transaction do |commit|
+        each do |key, value|
+          next unless value
+          commit.assoc(key, value)
+        end
       end
     end
 
@@ -462,15 +751,21 @@ module Pf
     # ```
     def fmap(& : {K, V} -> {K2, V2}) : Map(K2, V2) forall K2, V2
       {% if K == K2 && V == V2 %}
-        ok = true
-        newmap = Map(K, V).new
-        each do |k, v|
-          newk, newv = yield({k, v})
-          newself = assoc(newk, newv) if ok
-          newmap = newmap.assoc(newk, newv)
-          ok &&= same?(newself)
+        same = true
+        map = Map(K, V).transaction do |commit|
+          each do |key, value|
+            newkey, newvalue = yield({key, value})
+            commit.assoc(newkey, newvalue)
+            next unless same
+            unless oldvalue_t = fetch?(newkey)
+              same = false
+              next
+            end
+            oldvalue, *_ = oldvalue_t
+            same = Map.eqv?(oldvalue, newvalue)
+          end
         end
-        ok ? self : newmap
+        same ? self : map
       {% else %}
         to_pf_map { |k, v| yield({k, v}) }
       {% end %}
@@ -546,10 +841,12 @@ module Pf
       # It sounds like a dangerous thing to say but I guess exec_recursive_clone
       # isn't needed here, it's the responsibility of the value (and we never
       # actually clone Nodes anyway?)
-      reduce(Map(K, V).new) { |map, (k, v)| map.assoc(k.clone, v.clone) }
+      transaction do |commit|
+        each { |k, v| commit.assoc(k.clone, v.clone) }
+      end
     end
 
-    # Compares `self` with *other*. Returns `true` if all mappings are
+    # Compares `self` with *other*. Returns `true` if all associations are
     # the same (values are compared using `==`).
     def ==(other : Map) : Bool
       return true if same?(other)

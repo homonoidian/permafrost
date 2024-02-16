@@ -163,4 +163,87 @@ describe Pf::Set do
       set1.hash.should_not eq(map.hash)
     end
   end
+
+  it "should raise resolved error if commit is retained" do
+    cobj = nil
+    map = Pf::Set[1, 2, 3]
+    map.transaction do |commit|
+      cobj = commit
+      commit.add(4)
+    end
+    3.in?(cobj.not_nil!).should be_true
+    4.in?(cobj.not_nil!).should be_true
+    100.in?(cobj.not_nil!).should be_false
+    expect_raises(Pf::ResolvedError) { cobj.not_nil!.add(56) }
+    expect_raises(Pf::ResolvedError) { cobj.not_nil!.delete(4) }
+    expect_raises(Pf::ResolvedError) { cobj.not_nil!.resolve }
+  end
+
+  it "should raise readonly error if commit is passed to another fiber" do
+    went_through_chain = Channel(Bool).new
+    chan_add = Channel(Pf::Set::Commit(Int32)).new
+    chan_delete = Channel(Pf::Set::Commit(Int32)).new
+    chan_resolve = Channel(Pf::Set::Commit(Int32)).new
+
+    spawn do
+      commit = chan_add.receive
+      begin
+        commit.add(123)
+        went_through_chain.send(false)
+      rescue Pf::ReadonlyError
+        chan_delete.send(commit)
+      end
+    end
+
+    spawn do
+      commit = chan_delete.receive
+      begin
+        commit.delete(456)
+        went_through_chain.send(false)
+      rescue Pf::ReadonlyError
+        chan_resolve.send(commit)
+      end
+    end
+
+    spawn do
+      commit = chan_resolve.receive
+      begin
+        commit.resolve
+        went_through_chain.send(false)
+      rescue Pf::ReadonlyError
+        went_through_chain.send(true)
+      end
+    end
+
+    set = Pf::Set[1, 2, 3]
+    set.transaction do |commit|
+      chan_add.send(commit)
+      went_through_chain.receive.should be_true
+    end
+  end
+
+  it "should run the example from #transaction" do
+    set1 = Pf::Set[1, 2, 3]
+    set2 = set1.transaction do |commit|
+      commit.add(4)
+      commit.delete(2) if 4.in?(commit)
+      if 2.in?(commit)
+        commit.delete(4)
+        commit.add(6)
+      else
+        commit.delete(4)
+        commit.add(2)
+        commit.add(5)
+      end
+    end
+
+    set1.should eq(Pf::Set[1, 2, 3])
+    set2.should eq(Pf::Set[1, 2, 3, 5])
+
+    set3 = set1.transaction do |commit|
+    end
+
+    set1.should eq(Pf::Set[1, 2, 3])
+    set3.should be(set1)
+  end
 end
