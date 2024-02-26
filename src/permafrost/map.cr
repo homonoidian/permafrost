@@ -70,8 +70,9 @@ module Pf
     private struct Entry(K, V)
       getter k : K
       getter v : V
+      getter fullpath : UInt64
 
-      def initialize(@k : K, @v : V)
+      def initialize(@k : K, @v : V, @fullpath : UInt64)
       end
     end
 
@@ -94,15 +95,14 @@ module Pf
       abstract struct Assoc(K, V)
         include IProbeAdd(Entry(K, V))
 
-        def initialize(@key : K, @value : V)
-        end
+        getter path : UInt64
 
-        def path : UInt64
-          Core.hash64(@key)
+        def initialize(@key : K, @value : V)
+          @path = Core.hash64(@key)
         end
 
         def match?(stored : Entry(K, V)) : Bool
-          @key == stored.k
+          @path == stored.fullpath && @key == stored.k
         end
 
         def replace?(stored : Entry(K, V)) : Bool
@@ -110,7 +110,7 @@ module Pf
         end
 
         def value : Entry(K, V)
-          Entry(K, V).new(@key, @value)
+          Entry(K, V).new(@key, @value, fullpath: path)
         end
       end
 
@@ -131,15 +131,14 @@ module Pf
       abstract struct Dissoc(K, V)
         include IProbeDelete(Entry(K, V))
 
-        def initialize(@key : K)
-        end
+        getter path : UInt64
 
-        def path : UInt64
-          Core.hash64(@key)
+        def initialize(@key : K)
+          @path = Core.hash64(@key)
         end
 
         def match?(stored : Entry(K, V)) : Bool
-          @key == stored.k
+          @path == stored.fullpath && @key == stored.k
         end
       end
 
@@ -234,7 +233,7 @@ module Pf
     # :nodoc:
     #
     # Kernel defines the basic ways of how `Map` can talk to `Node`.
-    abstract struct Kernel(K, V)
+    module Kernel(K, V)
       # Returns the amount of key-value pairs.
       abstract def size : Int32
 
@@ -268,17 +267,15 @@ module Pf
     # :nodoc:
     #
     # Optimized kernel implementation for an empty map.
-    struct Kernel::Empty(K, V) < Kernel(K, V)
+    struct Kernel::Empty(K, V)
+      include Kernel(K, V)
+
       def size : Int32
         0
       end
 
-      def same?(other : Empty(K, V)) : Bool
-        true
-      end
-
       def same?(other) : Bool
-        false
+        other.is_a?(Empty(K, V))
       end
 
       def each(& : {K, V} ->)
@@ -307,7 +304,9 @@ module Pf
     # :nodoc:
     #
     # Optimized kernel implementation for a single-element map.
-    struct Kernel::One(K, V) < Kernel(K, V)
+    struct Kernel::One(K, V)
+      include Kernel(K, V)
+
       def initialize(@key : K, @value : V)
       end
 
@@ -315,7 +314,9 @@ module Pf
         1
       end
 
-      def same?(other : One(K, V)) : Bool
+      def same?(other) : Bool
+        return false unless other.is_a?(One(K, V))
+
         {% begin %}
           {% if K < ::Reference %}
             p1 = @key.same?(other.@key)
@@ -331,10 +332,6 @@ module Pf
 
           p1 && p2
         {% end %}
-      end
-
-      def same?(other) : Bool
-        false
       end
 
       def each(& : {K, V} ->)
@@ -368,7 +365,9 @@ module Pf
     # :nodoc:
     #
     # Kernel implementation for a multi-element map.
-    struct Kernel::Many(K, V) < Kernel(K, V)
+    struct Kernel::Many(K, V)
+      include Kernel(K, V)
+
       getter size : Int32
 
       def initialize(@node : Node(Entry(K, V)), @size : Int32)
@@ -382,12 +381,8 @@ module Pf
         @node.each { |entry| yield({entry.k, entry.v}) }
       end
 
-      def same?(other : Many(K, V)) : Bool
-        @node.same?(other.@node)
-      end
-
       def same?(other) : Bool
-        false
+        other.is_a?(Many(K, V)) && @node.same?(other.@node)
       end
 
       def fetch?(key : K) : {V}?
