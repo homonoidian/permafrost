@@ -112,7 +112,7 @@ module Pf
     # Commits allow you to compose multiple edits into one, big edit of the set.
     # Thus you avoid creating many useless intermediate copies of the set.
     class Commit(T)
-      @@id : Atomic(UInt64) = Atomic.new(AUTHOR_FIRST)
+      @@id : Atomic(AuthorId) = Atomic.new(AUTHOR_FIRST)
 
       # :nodoc:
       def self.genid
@@ -284,7 +284,8 @@ module Pf
     #   for the fiber that it was originally yielded to*.
     #
     # Returns `self` if the transaction did not *touch* the set. If the set was
-    # changed but then the changes were reverted this method will return a new set.
+    # changed but then the changes were reverted this method will return a new
+    # set (one equal to `self`).
     #
     # ```
     # set1 = Pf::Set[1, 2, 3]

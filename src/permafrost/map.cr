@@ -160,7 +160,7 @@ module Pf
     # Commits allow you to compose multiple edits into one, big edit of the map.
     # Thus you avoid creating many useless intermediate copies of the map.
     class Commit(K, V)
-      @@id : Atomic(UInt64) = Atomic.new(AUTHOR_FIRST)
+      @@id : Atomic(AuthorId) = Atomic.new(AUTHOR_FIRST)
 
       # :nodoc:
       def self.genid
@@ -175,6 +175,11 @@ module Pf
       # Runs `Map#includes?` on the map built so far.
       def includes?(object) : Bool
         @map.includes?(object)
+      end
+
+      # Runs `Map#size` on the map built so far.
+      def size : Int32
+        @map.size
       end
 
       # Runs `Map#[]?` on the map built so far.
@@ -232,16 +237,18 @@ module Pf
 
     # :nodoc:
     #
-    # Kernel defines the basic ways of how `Map` can talk to `Node`.
+    # A narrower subset of map methods which the main `Map` implementation sits on
+    # top of, and which are overridden with optimized variants for the empty map,
+    # single-entry map, and multi-entry map.
     module Kernel(K, V)
-      # Returns the amount of key-value pairs.
+      # Returns the amount of associations.
       abstract def size : Int32
 
       # Returns `true` if this and *other* kernels are the same (by reference,
       # if possible).
       abstract def same?(other : Kernel(K, V)) : Bool
 
-      # Yields each key-value pair.
+      # Yields each association.
       abstract def each(& : {K, V} ->)
 
       # Returns the value associated with the given *key*.
@@ -253,7 +260,9 @@ module Pf
 
       # Mutably creates an association between *key* and *value*. Returns the
       # modified copy of this kernel.
-      abstract def assoc!(key : K, value : V, author : AuthorId) : Kernel(K, V)
+      def assoc!(key : K, value : V, author : AuthorId) : Kernel(K, V)
+        assoc(key, value)
+      end
 
       # Removes the association between *key* and some value, does nothing if
       # *key* does not exist. Returns the modified copy of this kernel.
@@ -261,7 +270,9 @@ module Pf
 
       # Mutably removes the association between *key* and some value, does nothing
       # if *key* does not exist. Returns the modified copy of this kernel.
-      abstract def dissoc!(key : K, author : AuthorId) : Kernel(K, V)
+      def dissoc!(key : K, author : AuthorId) : Kernel(K, V)
+        dissoc(key)
+      end
     end
 
     # :nodoc:
@@ -288,22 +299,14 @@ module Pf
         One(K, V).new(key, value)
       end
 
-      def assoc!(key : K, value : V, author : AuthorId) : Kernel(K, V)
-        assoc(key, value)
-      end
-
       def dissoc(key : K) : Kernel(K, V)
         self
-      end
-
-      def dissoc!(key : K, author : AuthorId) : Kernel(K, V)
-        dissoc(key)
       end
     end
 
     # :nodoc:
     #
-    # Optimized kernel implementation for a single-element map.
+    # Optimized kernel implementation for a single-entry map.
     struct Kernel::One(K, V)
       include Kernel(K, V)
 
@@ -343,28 +346,28 @@ module Pf
       end
 
       def assoc(key : K, value : V) : Kernel(K, V)
-        return One(K, V).new(key, value) if key == @key
+        unless key == @key
+          author = AuthorId.new(Commit.genid)
+          return Many(K, V).new
+            .assoc!(@key, @value, author)
+            .assoc!(key, value, author)
+        end
 
-        many = Many(K, V).new
-        many.assoc(@key, @value).assoc(key, value)
-      end
+        unless Map.eqv?(@value, value)
+          return One(K, V).new(key, value)
+        end
 
-      def assoc!(key : K, value : V, author : AuthorId) : Kernel(K, V)
-        assoc(key, value)
+        self
       end
 
       def dissoc(key : K) : Kernel(K, V)
         key == @key ? Empty(K, V).new : self
       end
-
-      def dissoc!(key : K, author : AuthorId) : Kernel(K, V)
-        dissoc(key)
-      end
     end
 
     # :nodoc:
     #
-    # Kernel implementation for a multi-element map.
+    # Kernel implementation for a multi-entry map.
     struct Kernel::Many(K, V)
       include Kernel(K, V)
 
@@ -394,21 +397,25 @@ module Pf
 
       def assoc(key : K, value : V) : Kernel(K, V)
         added, node = @node.add(Probes::AssocImm(K, V).new(key, value))
+
         Many(K, V).new(node, added ? @size + 1 : @size)
       end
 
       def assoc!(key : K, value : V, author : AuthorId) : Kernel(K, V)
         added, node = @node.add(Probes::AssocMut(K, V).new(key, value, author))
+
         Many(K, V).new(node, added ? @size + 1 : @size)
       end
 
       def dissoc(key : K) : Kernel(K, V)
         removed, node = @node.delete(Probes::DissocImm(K, V).new(key))
+
         Many(K, V).new(node, removed ? @size - 1 : @size)
       end
 
       def dissoc!(key : K, author : AuthorId) : Kernel(K, V)
         removed, node = @node.delete(Probes::DissocMut(K, V).new(key, author))
+
         Many(K, V).new(node, removed ? @size - 1 : @size)
       end
     end

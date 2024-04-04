@@ -1,5 +1,5 @@
 module Pf::Core
-  alias AuthorId = UInt64
+  alias AuthorId = UInt32
 
   AUTHOR_NONE  = AuthorId.new(0)
   AUTHOR_FIRST = AUTHOR_NONE + 1
@@ -60,110 +60,70 @@ module Pf::Core
   end
 
   # Represents a trie node.
+  #
+  # Instances of *T* are stored inline. Meaning if *T* is a large struct lots and lots
+  # of bytes are going to be copied, mostly unnecessarily. Callers will probably want
+  # to catch large value *T*s and wrap them in a pointer. The notion of "large" depends
+  # on the caller. It could be an interface or could be a sizeof threshold.
   class Node(T)
     private WINDOW      = 0x1fu32
     private WINDOW_SIZE =       5
 
-    # Represents the bitmap for the items and children arrays.
-    #
-    # ```text
-    # BITMAP  = BMP_ITEMS BMP_CHILDREN
-    # --------  --------- ------------
-    # 64 bits    32 bits     32 bits
-    # ```
-    private struct Bitmap
-      getter bits : UInt64
+    def initialize(
+      @items = Sparse32(T).new,
+      @children = Sparse32(Node(T)).new,
+      @itemsof = AUTHOR_NONE,
+      @childrenof = AUTHOR_NONE
+    )
+    end
 
-      def initialize(@bits : UInt64)
+    # Returns `true` if the current items array belongs to *author*.
+    private def items_belong_to?(author : AuthorId) : Bool
+      @itemsof == author && author != AUTHOR_NONE
+    end
+
+    # Returns `true` if the current children array belongs to *author*.
+    private def children_belong_to?(author : AuthorId)
+      @childrenof == author && author != AUTHOR_NONE
+    end
+
+    # Mutably or immutably (depending on *author*) modifies the *item* or *child*
+    # at the given *index*.
+    private def modify(*, at index : Int, item : {T}?, author : AuthorId)
+      if items_belong_to?(author)
+        @items = item ? @items.with!(index, item[0]) : @items.without!(index)
+        self
+      else
+        Node(T).new(item ? @items.with(index, item[0]) : @items.without(index), @children, author, @childrenof)
       end
+    end
 
-      def items : UInt32
-        (@bits >> 32u64).unsafe_as(UInt32)
+    # :ditto:
+    private def modify(*, at index : Int, child : Node(T)?, author : AuthorId)
+      if children_belong_to?(author)
+        @children = child ? @children.with!(index, child) : @children.without!(index)
+        self
+      else
+        Node(T).new(@items, child ? @children.with(index, child) : @children.without(index), @itemsof, author)
       end
-
-      def children : UInt32
-        @bits.unsafe_as(UInt32)
-      end
-
-      def items=(items : UInt32)
-        @bits = (items.unsafe_as(UInt64) << 32) | @bits.unsafe_as(UInt32)
-      end
-
-      def children=(children : UInt32)
-        @bits = ((@bits >> 32) << 32) | children
-      end
-    end
-
-    def initialize(@items = Pointer(T).null, @children = Pointer(Node(T)).null, @bitmap = 0u64, @writer_items = AUTHOR_NONE, @writer_children = AUTHOR_NONE)
-    end
-
-    # Returns the `Bitmap` for the items and children arrays.
-    private def bitmap : Bitmap
-      Bitmap.new(@bitmap)
-    end
-
-    # Returns the items array.
-    protected def items : Sparse32
-      Sparse32.new(@items, bitmap.items)
-    end
-
-    # Returns the children array.
-    protected def children : Sparse32
-      Sparse32.new(@children, bitmap.children)
-    end
-
-    # Updates the items array to *array*.
-    protected def items=(array) : self
-      bmp = bitmap
-      bmp.items = array.bitmap
-      @items = array.to_unsafe
-      @bitmap = bmp.bits
-      self
-    end
-
-    # Updates the children array to *array*.
-    protected def children=(array) : self
-      bmp = bitmap
-      bmp.children = array.bitmap
-      @children = array.to_unsafe
-      @bitmap = bmp.bits
-      self
-    end
-
-    # Returns a new `Node` where the items array and its writer are changed to
-    # the values provided in the arguments.
-    protected def change(*, items : Sparse32, writer : AuthorId) : Node(T)
-      bmp = bitmap
-      bmp.items = items.bitmap
-
-      Node(T).new(items.to_unsafe, @children, bmp.bits, writer, @writer_children)
-    end
-
-    # Returns a new `Node` where the children array and its writer are changed to
-    # the values provided in the arguments.
-    protected def change(*, children : Sparse32, writer : AuthorId) : Node(T)
-      bmp = bitmap
-      bmp.children = children.bitmap
-
-      Node(T).new(@items, children.to_unsafe, bmp.bits, @writer_items, writer)
     end
 
     # Returns `true` if this node holds no items and points to no children.
     def empty? : Bool
-      @bitmap.zero?
+      @items.empty? && @children.empty?
     end
 
     # Yields each item from this node and from all child nodes.
     def each(& : T ->) : Nil
-      stack = Array(self).new(children.size + 1)
+      stack = Array(self).new(@children.size + 1)
       stack.push(self)
 
       until stack.empty?
         node = stack.pop
-        node.items.each do |item|
+        node.@items.each do |item|
           yield item
         end
-        node.children.each do |child|
+        node.@children.each do |child|
           stack.push(child)
         end
       end
@@ -207,84 +167,64 @@ module Pf::Core
       node = self
       while true
         index = path & WINDOW
-        item = node.items.at?(index)
+        item = node.@items.at?(index)
         return {item} if item && probe.match?(item)
-        return unless node = node.children.at?(index)
+        return unless node = node.@children.at?(index)
         path >>= WINDOW_SIZE
       end
     end
 
     protected def add(probe : IProbeAdd(T), path : UInt64) : {Bool, Node(T)}
       index = path & WINDOW
-      items = self.items
-      item = items.at?(index)
 
-      if item.nil? || (accepted = probe.match?(item)) && (replaced = probe.replace?(item))
-        if probe.author != AUTHOR_NONE && @writer_items == probe.author
-          self.items = items.with!(index, probe.value)
-          return replaced != true, self
-        end
-        return replaced != true, change(items: items.with(index, probe.value), writer: probe.author)
+      # Item does not exist. Add it.
+      unless item = @items.at?(index)
+        return true, modify(at: index, item: {probe.value}, author: probe.author)
       end
 
-      return false, self if accepted
+      # Probe matched and wants to replace the item. We're replacing, not adding
+      # the item, hence return `false` as the number of items didn't change.
+      matches = probe.match?(item)
+      if matches && probe.replace?(item)
+        return false, modify(at: index, item: {probe.value}, author: probe.author)
+      end
 
-      children = self.children
+      # Probe matched but doesn't want to replace the item -- we're done,
+      # no change.
+      return false, self if matches
 
-      if child = children.at?(index)
-        created = false
-      else
-        child = Node(T).new(writer_items: probe.author, writer_children: probe.author)
-        created = true
+      # Child does not exist.
+      unless child = @children.at?(index)
+        _, child = Node(T)
+          .new(itemsof: probe.author, childrenof: probe.author)
+          .add(probe, path >> WINDOW_SIZE)
+
+        return true, modify(at: index, child: child, author: probe.author)
       end
 
       added, newchild = child.add(probe, path >> WINDOW_SIZE)
-      return added, self if !created && child.same?(newchild)
 
-      if probe.author != AUTHOR_NONE && @writer_children == probe.author
-        self.children = children.with!(index, newchild)
-        {added, self}
-      else
-        newchildren = children.with(index, newchild)
-        {added, change(children: newchildren, writer: probe.author)}
-      end
+      # Child exists, remains the same after addition.
+      return added, self if child.same?(newchild)
+
+      {added, modify(at: index, child: newchild, author: probe.author)}
     end
 
     protected def delete(probe : IProbeDelete, path : UInt64) : {Bool, Node(T)}
       index = path & WINDOW
-      items = self.items
-      item = items.at?(index)
+      item = @items.at?(index)
 
       if item && probe.match?(item)
-        if probe.author != AUTHOR_NONE && @writer_items == probe.author
-          self.items = items.without!(index)
-          return true, self
-        end
-        return true, change(items: items.without(index), writer: probe.author)
+        return true, modify(at: index, item: nil, author: probe.author)
       end
 
-      children = self.children
+      # If child cannot be found indicate no change.
+      return false, self unless child = @children.at?(index)
 
-      return false, self unless child = children.at?(index)
+      removed, child = child.delete(probe, path >> WINDOW_SIZE)
+      return false, self unless removed
 
-      removed, newchild = child.delete(probe, path >> WINDOW_SIZE)
-      return removed, self if child.same?(newchild)
-
-      if newchild.empty?
-        if probe.author != AUTHOR_NONE && @writer_children == probe.author
-          self.children = children.without!(index)
-          return removed, self
-        end
-        newchildren = children.without(index)
-      else
-        if probe.author != AUTHOR_NONE && @writer_children == probe.author
-          self.children = children.with!(index, newchild)
-          return removed, self
-        end
-        newchildren = children.with(index, newchild)
-      end
-
-      {removed, change(children: newchildren, writer: probe.author)}
+      {true, modify(at: index, child: child.empty? ? nil : child, author: probe.author)}
     end
   end
 end

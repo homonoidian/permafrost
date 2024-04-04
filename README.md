@@ -47,19 +47,19 @@ good the hash seed was, which is picked by Crystal randomly. I haven't found a w
 to reliably disable that. If you know how let me know, maybe make a PR or something.
 
 ```text
-                   add speed of light 237.89  (  4.20ms) (±12.31%)  4.75MB/op    24.99× slower
-          add + delete speed of light 177.93  (  5.62ms) (±13.60%)  4.75MB/op    33.41× slower
-                  each speed of light   5.94k (168.23µs) (± 1.35%)    0.0B/op          fastest
-                          pf::map add   8.45  (118.37ms) (±10.16%)   102MB/op   703.59× slower
-                 pf::map add + delete   4.12  (242.62ms) (± 6.37%)   197MB/op  1442.18× slower
-                       pf::map add tx  58.49  ( 17.10ms) (±18.50%)  7.13MB/op   101.62× slower
-              pf::map add + delete tx  38.15  ( 26.21ms) (±19.07%)  7.13MB/op   155.80× slower
-                         pf::map each 395.54  (  2.53ms) (± 2.48%)  2.17kB/op    15.03× slower
-                   immutable::map add   3.26  (306.59ms) (± 8.76%)   219MB/op  1822.40× slower
-          immutable::map add + delete   1.62  (615.78ms) (± 1.01%)   374MB/op  3660.31× slower
-         immutable::map add transient   5.70  (175.44ms) (± 8.66%)   101MB/op  1042.87× slower
-immutable::map add + delete transient   3.08  (324.19ms) (± 2.00%)   133MB/op  1927.06× slower
-                  immutable::map each   6.06  (165.10ms) (± 5.81%)  87.3MB/op   981.39× slower
+                   add speed of light 248.08  (  4.03ms) (±14.85%)  4.75MB/op    24.15× slower
+          add + delete speed of light 185.80  (  5.38ms) (±14.95%)  4.75MB/op    32.24× slower
+                  each speed of light   5.99k (166.94µs) (± 0.11%)    0.0B/op          fastest
+                          pf::map add  10.06  ( 99.41ms) (±15.09%)   102MB/op   595.46× slower
+                 pf::map add + delete   4.76  (209.87ms) (± 6.69%)   197MB/op  1257.12× slower
+                       pf::map add tx  61.16  ( 16.35ms) (±19.17%)  7.11MB/op    97.94× slower
+              pf::map add + delete tx  34.49  ( 28.99ms) (±15.60%)  7.11MB/op   173.66× slower
+                         pf::map each 392.52  (  2.55ms) (± 6.44%)  2.17kB/op    15.26× slower
+                   immutable::map add   3.27  (305.69ms) (± 9.73%)   219MB/op  1831.09× slower
+          immutable::map add + delete   1.64  (611.49ms) (± 2.58%)   374MB/op  3662.89× slower
+         immutable::map add transient   5.70  (175.40ms) (±10.56%)   101MB/op  1050.69× slower
+immutable::map add + delete transient   3.29  (303.55ms) (± 1.99%)   134MB/op  1818.29× slower
+                  immutable::map each   6.80  (147.04ms) (± 9.53%)  87.4MB/op   880.81× slower
 ```
 
 The ± numbers being so big smells weird, but the results clearly show the winner!
