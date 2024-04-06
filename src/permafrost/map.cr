@@ -67,7 +67,7 @@ module Pf
       {% end %}
     end
 
-    private struct Entry(K, V)
+    private class Entry(K, V)
       getter k : K
       getter v : V
       getter fullpath : UInt64
