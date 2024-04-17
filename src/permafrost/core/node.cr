@@ -62,9 +62,9 @@ module Pf::Core
   # Represents a trie node.
   #
   # Instances of *T* are stored inline. Meaning if *T* is a large struct lots and lots
-  # of bytes are going to be copied, mostly unnecessarily. Callers will probably want
+  # of bytes are going to be copied, mostly unnecessarily. Clients will probably want
   # to catch large value *T*s and wrap them in a pointer. The notion of "large" depends
-  # on the caller. It could be an interface or could be a sizeof threshold.
+  # on the client. It could be an interface or could be a sizeof threshold.
   class Node(T)
     private WINDOW      = 0x1fu32
     private WINDOW_SIZE =       5

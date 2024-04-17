@@ -9,14 +9,16 @@ module Pf
   #
   # ## Value equality
   #
-  # Being a persistent map, `Pf::Map` tries to avoid path copying. This
-  # is done by comparing the old and new values using `==`. In particular,
-  # methods that *support value equality* do so.
+  # Being a persistent map, `Pf::Map` requires path copying. However, path
+  # copying is unnecessary for equal values. If your values can be compared
+  # cheaply, you can make them include `Pf::Eq`. Then an additional comparison
+  # using `==` will take place to figure out whether path copying should occur.
   #
-  # Note that, out of the box, `==` is called only when your value is
-  # of the types `nil`, `Bool`, `Char`, `String`, `Symbol`, or of a
-  # primitive number type.
+  # Methods that are marked with *supports value equality* guarantee to return
+  # exactly `self` if what they've done resulted in no change in `self`.
   #
+  # Note that out of the box, `==` is called only when your value is of the types
+  # `nil`, `Bool`, `Char`, `String`, `Symbol`, or of a primitive number type. And
   # `same?` is called on all reference (`Reference`) types.
   #
   # ```
@@ -29,7 +31,7 @@ module Pf
   # map2.merge(map).same?(map2) # => true, no change
   # ```
   #
-  # If you want to enable `==` for our own object, you should include
+  # If you want to enable `==` for your value, you should make them include
   # `Pf::Eq`.
   #
   # ```
@@ -40,12 +42,20 @@ module Pf
   #   .assoc(1, Info.new("Barbara", "Doe"))
   #
   # people.assoc(0, Info.new("John", "Doe")).same?(people) # => false
+  # # ^ Even though the value is the same the map is path-copied.
   #
-  # struct Info
+  # # v But if we include `Pf::Eq`...
+  # record InfoEq, first_name : String, last_name : String do
   #   include Pf::Eq
   # end
   #
-  # people.assoc(0, Info.new("John", "Doe")).same?(people) # => true
+  # people = Pf::Map
+  #   .assoc(0, InfoEq.new("John", "Doe"))
+  #   .assoc(1, InfoEq.new("Barbara", "Doe"))
+  #
+  # # ... no path copying is going to be done at the expense of comparing
+  # # the values too.
+  # people.assoc(0, InfoEq.new("John", "Doe")).same?(people) # => true
   # ```
   #
   # Since `BidiMap` is backed by `Map`, the same applies to it. On the
@@ -84,7 +94,7 @@ module Pf
         end
 
         def path : UInt64
-          Core.hash64(@key)
+          Pf.hash64(@key)
         end
 
         def match?(stored : Entry(K, V)) : Bool
@@ -98,7 +108,7 @@ module Pf
         getter path : UInt64
 
         def initialize(@key : K, @value : V)
-          @path = Core.hash64(@key)
+          @path = Pf.hash64(@key)
         end
 
         def match?(stored : Entry(K, V)) : Bool
@@ -134,7 +144,7 @@ module Pf
         getter path : UInt64
 
         def initialize(@key : K)
-          @path = Core.hash64(@key)
+          @path = Pf.hash64(@key)
         end
 
         def match?(stored : Entry(K, V)) : Bool
@@ -201,7 +211,7 @@ module Pf
       # initiated the transaction.
       def assoc(key : K, value : V) : self
         raise ResolvedError.new if @resolved
-        raise ReadonlyError.new unless @fiber == Core.fiber_id
+        raise ReadonlyError.new unless @fiber == Pf.fiber_id
 
         @map = @map.assoc!(key, value, @id)
 
@@ -218,7 +228,7 @@ module Pf
       # initiated the transaction.
       def dissoc(key : K) : self
         raise ResolvedError.new if @resolved
-        raise ReadonlyError.new unless @fiber == Core.fiber_id
+        raise ReadonlyError.new unless @fiber == Pf.fiber_id
 
         @map = @map.dissoc!(key, @id)
 
@@ -228,7 +238,7 @@ module Pf
       # :nodoc:
       def resolve
         raise ResolvedError.new if @resolved
-        raise ReadonlyError.new unless @fiber == Core.fiber_id
+        raise ReadonlyError.new unless @fiber == Pf.fiber_id
 
         @resolved = true
         @map
@@ -503,7 +513,7 @@ module Pf
     # map2 # => Pf::Map["John Doe" => 456, "Susan Doe" => 35]
     # ```
     def transaction(& : Commit(K, V) ->) : Map(K, V)
-      commit = Commit.new(self, Core.fiber_id)
+      commit = Commit.new(self, Pf.fiber_id)
       yield commit
       commit.resolve
     end

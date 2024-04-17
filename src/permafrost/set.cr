@@ -14,7 +14,7 @@ module Pf
         end
 
         def path : UInt64
-          Core.hash64(@value)
+          Pf.hash64(@value)
         end
 
         def match?(stored : T) : Bool
@@ -31,7 +31,7 @@ module Pf
         end
 
         def path : UInt64
-          Core.hash64(@value)
+          Pf.hash64(@value)
         end
 
         def match?(stored : T) : Bool
@@ -57,7 +57,7 @@ module Pf
         end
 
         def path : UInt64
-          Core.hash64(@value)
+          Pf.hash64(@value)
         end
 
         def match?(stored : T) : Bool
@@ -78,7 +78,7 @@ module Pf
         end
 
         def path : UInt64
-          Core.hash64(@value)
+          Pf.hash64(@value)
         end
 
         def match?(stored : T) : Bool
@@ -100,7 +100,7 @@ module Pf
         end
 
         def path : UInt64
-          Core.hash64(@value)
+          Pf.hash64(@value)
         end
 
         def match?(stored : T) : Bool
@@ -138,7 +138,7 @@ module Pf
       # initiated the transaction.
       def add(element : T) : self
         raise ResolvedError.new if @resolved
-        raise ReadonlyError.new unless @fiber == Core.fiber_id
+        raise ReadonlyError.new unless @fiber == Pf.fiber_id
 
         @set = @set.add!(element, @id)
 
@@ -154,7 +154,7 @@ module Pf
       # initiated the transaction.
       def delete(element : T) : self
         raise ResolvedError.new if @resolved
-        raise ReadonlyError.new unless @fiber == Core.fiber_id
+        raise ReadonlyError.new unless @fiber == Pf.fiber_id
 
         @set = @set.delete!(element, @id)
 
@@ -164,7 +164,7 @@ module Pf
       # :nodoc:
       def resolve
         raise ResolvedError.new if @resolved
-        raise ReadonlyError.new unless @fiber == Core.fiber_id
+        raise ReadonlyError.new unless @fiber == Pf.fiber_id
 
         @resolved = true
         @set
@@ -306,7 +306,7 @@ module Pf
     # set2 # => Pf::Set[1, 2, 3, 5]
     # ```
     def transaction(& : Commit(T) ->) : Set(T)
-      commit = Commit.new(self, Core.fiber_id)
+      commit = Commit.new(self, Pf.fiber_id)
       yield commit
       commit.resolve
     end
