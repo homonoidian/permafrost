@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.10.1">
+<meta name="generator" content="Crystal Docs 1.11.2">
 <meta name="crystal_docs.project_version" content="trunk">
 <meta name="crystal_docs.project_name" content="permafrost">
 
@@ -69,6 +69,51 @@
   
   <li class=" " data-id="permafrost/Pf/BidiMap" data-name="pf::bidimap(k, v)">
       <a href="../Pf/BidiMap.html">BidiMap</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Core" data-name="pf::core">
+      <a href="../Pf/Core.html">Core</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Core/AuthorId" data-name="pf::core::authorid">
+      <a href="../Pf/Core/AuthorId.html">AuthorId</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/IProbeAdd" data-name="pf::core::iprobeadd(t)">
+      <a href="../Pf/Core/IProbeAdd.html">IProbeAdd</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/IProbeAuthored" data-name="pf::core::iprobeauthored">
+      <a href="../Pf/Core/IProbeAuthored.html">IProbeAuthored</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/IProbeDelete" data-name="pf::core::iprobedelete(t)">
+      <a href="../Pf/Core/IProbeDelete.html">IProbeDelete</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/IProbeFetch" data-name="pf::core::iprobefetch(t)">
+      <a href="../Pf/Core/IProbeFetch.html">IProbeFetch</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/Node" data-name="pf::core::node(t)">
+      <a href="../Pf/Core/Node.html">Node</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/Sparse32" data-name="pf::core::sparse32(t)">
+      <a href="../Pf/Core/Sparse32.html">Sparse32</a>
+      
+    </li>
+  
+</ul>
+
       
     </li>
   
@@ -156,13 +201,15 @@
     <use href="#octicon-link"/>
   </svg>
 </a>Value equality</h2>
-<p>Being a persistent map, <code><a href="../Pf/Map.html">Pf::Map</a></code> tries to avoid path copying. This
-is done by comparing the old and new values using <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code>. In particular,
-methods that <em>support value equality</em> do so.</p>
-<p>Note that, out of the box, <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code> is called only when your value is
-of the types <code>nil</code>, <code>Bool</code>, <code>Char</code>, <code>String</code>, <code>Symbol</code>, or of a
-primitive number type.</p>
-<p><code><a href="../Pf/Map.html#same%3F%28other%3AMap%28K%2CV%29%29%3ABool-instance-method">#same?</a></code> is called on all reference (<code>Reference</code>) types.</p>
+<p>Being a persistent map, <code><a href="../Pf/Map.html">Pf::Map</a></code> requires path copying. However, path
+copying is unnecessary for equal values. If your values can be compared
+cheaply, you can make them include <code><a href="../Pf/Eq.html">Pf::Eq</a></code>. Then an additional comparison
+using <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code> will take place to figure out whether path copying should occur.</p>
+<p>Methods that are marked with <em>supports value equality</em> guarantee to return
+exactly <code>self</code> if what they've done resulted in no change in <code>self</code>.</p>
+<p>Note that out of the box, <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code> is called only when your value is of the types
+<code>nil</code>, <code>Bool</code>, <code>Char</code>, <code>String</code>, <code>Symbol</code>, or of a primitive number type. And
+<code><a href="../Pf/Map.html#same%3F%28other%3AMap%28K%2CV%29%29%3ABool-instance-method">#same?</a></code> is called on all reference (<code>Reference</code>) types.</p>
 <pre><code class="language-crystal">map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">100</span>, bar: <span class="n">200</span>]
 map.assoc(<span class="s">&quot;foo&quot;</span>, <span class="n">100</span>).same?(map)             <span class="c"># =&gt; true, no change</span>
 map.update(<span class="s">&quot;foo&quot;</span>, <span class="n">0</span>, <span class="o">&amp;</span>.succ.pred).same?(map) <span class="c"># =&gt; true, no change</span>
@@ -170,7 +217,7 @@ map.update(<span class="s">&quot;foo&quot;</span>, <span class="n">0</span>, <sp
 map2 <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">100</span>, bar: <span class="n">200</span>]
 map.merge(map2).same?(map)  <span class="c"># =&gt; true, no change</span>
 map2.merge(map).same?(map2) <span class="c"># =&gt; true, no change</span></code></pre>
-<p>If you want to enable <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code> for our own object, you should include
+<p>If you want to enable <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code> for your value, you should make them include
 <code><a href="../Pf/Eq.html">Pf::Eq</a></code>.</p>
 <pre><code class="language-crystal">record <span class="t">Info</span>, first_name : <span class="t">String</span>, last_name : <span class="t">String</span>
 
@@ -179,12 +226,20 @@ people <span class="o">=</span> <span class="t">Pf</span><span class="t">::</spa
   .assoc(<span class="n">1</span>, <span class="t">Info</span>.new(<span class="s">&quot;Barbara&quot;</span>, <span class="s">&quot;Doe&quot;</span>))
 
 people.assoc(<span class="n">0</span>, <span class="t">Info</span>.new(<span class="s">&quot;John&quot;</span>, <span class="s">&quot;Doe&quot;</span>)).same?(people) <span class="c"># =&gt; false</span>
+<span class="c"># ^ Even though the value is the same the map is path-copied.</span>
 
-<span class="k">struct</span> <span class="t">Info</span>
+<span class="c"># v But if we include `Pf::Eq`...</span>
+record <span class="t">InfoEq</span>, first_name : <span class="t">String</span>, last_name : <span class="t">String</span> <span class="k">do</span>
   <span class="k">include</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Eq</span>
 <span class="k">end</span>
 
-people.assoc(<span class="n">0</span>, <span class="t">Info</span>.new(<span class="s">&quot;John&quot;</span>, <span class="s">&quot;Doe&quot;</span>)).same?(people) <span class="c"># =&gt; true</span></code></pre>
+people <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>
+  .assoc(<span class="n">0</span>, <span class="t">InfoEq</span>.new(<span class="s">&quot;John&quot;</span>, <span class="s">&quot;Doe&quot;</span>))
+  .assoc(<span class="n">1</span>, <span class="t">InfoEq</span>.new(<span class="s">&quot;Barbara&quot;</span>, <span class="s">&quot;Doe&quot;</span>))
+
+<span class="c"># ... no path copying is going to be done at the expense of comparing</span>
+<span class="c"># the values too.</span>
+people.assoc(<span class="n">0</span>, <span class="t">InfoEq</span>.new(<span class="s">&quot;John&quot;</span>, <span class="s">&quot;Doe&quot;</span>)).same?(people) <span class="c"># =&gt; true</span></code></pre>
 <p>Since <code><a href="../Pf/BidiMap.html">BidiMap</a></code> is backed by <code><a href="../Pf/Map.html">Map</a></code>, the same applies to it. On the
 other hand, elements of a <code><a href="../Pf/Set.html">Set</a></code> are <em>keys</em> so they are always compared
 using <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-method">#==</a></code> eventually.</p>
@@ -205,7 +260,7 @@ using <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-meth
     
       <li class="other-type"><a href="../Enumerable.html">Enumerable({K, V})</a></li>
     
-      <li class="other-type">Pf::Core</li>
+      <li class="other-type"><a href="../Pf/Core.html">Pf::Core</a></li>
     
   </ul>
 
@@ -228,7 +283,7 @@ using <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-meth
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L54" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L64" target="_blank">
         permafrost/map.cr
       </a>
     
@@ -637,20 +692,6 @@ using <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-meth
 
     
 
-  <h3>Macros inherited from module <code>Pf::Core</code></h3>
-  
-  
-    <a href="../Pf/Core.html#fiber_id-macro" class="tooltip">
-      <span>fiber_id</span>
-    fiber_id</a>, 
-    
-  
-    <a href="../Pf/Core.html#hash64%28object%29-macro" class="tooltip">
-      <span>hash64(object)</span>
-    hash64</a>
-    
-  
-
 
   
     
@@ -720,7 +761,7 @@ using <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-meth
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L432" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L442" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -741,7 +782,7 @@ using <code><a href="../Pf/Map.html#%3D%3D%28other%3AMap%29%3ABool-instance-meth
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L427" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L437" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -780,7 +821,7 @@ map[<span class="s">&quot;age&quot;</span>]  <span class="c"># =&gt; 25</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L456" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L466" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -801,7 +842,7 @@ map[<span class="s">&quot;age&quot;</span>]  <span class="c"># =&gt; 25</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L437" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L447" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -823,7 +864,7 @@ map[<span class="s">&quot;age&quot;</span>]  <span class="c"># =&gt; 25</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L60" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -844,7 +885,7 @@ map[<span class="s">&quot;age&quot;</span>]  <span class="c"># =&gt; 25</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L463" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L473" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -880,7 +921,7 @@ the same (values are compared using <code><a href="../Pf/Map.html#%3D%3D%28other
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L1032" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L1042" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -905,7 +946,7 @@ map[<span class="s">&quot;bar&quot;</span>] <span class="c"># raises KeyError</s
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L659" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L669" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -930,7 +971,7 @@ map[<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</spa
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L671" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L681" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -955,7 +996,7 @@ map[<span class="s">&quot;baz&quot;</span>]? <span class="c"># =&gt; nil</span><
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L622" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L632" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -980,7 +1021,7 @@ map[<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</spa
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L634" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L644" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1017,7 +1058,7 @@ branch2[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; nil</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L710" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L720" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1048,7 +1089,7 @@ map2 <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; [1, 2, 3], &quot;bar&
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L1017" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L1027" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1074,7 +1115,7 @@ map.compact <span class="c"># =&gt; Pf::Map{&quot;bar&quot; =&gt; 123}</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L916" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L926" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1099,7 +1140,7 @@ map.concat([{<span class="s">&quot;x&quot;</span>, <span class="n">123</span>}, 
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L834" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L844" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1134,7 +1175,7 @@ branch2[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; nil</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L756" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L766" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1155,7 +1196,7 @@ branch2[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; nil</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L517" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L527" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1176,7 +1217,7 @@ branch2[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; nil</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L522" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L532" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1197,7 +1238,7 @@ branch2[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; nil</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L527" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L537" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1218,7 +1259,7 @@ branch2[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; nil</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L512" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L522" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1241,7 +1282,7 @@ as in absence issue.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L583" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L593" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1273,7 +1314,7 @@ map.fetch?(<span class="s">&quot;age&quot;</span>)  <span class="c"># =&gt; nil<
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L576" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L586" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1299,7 +1340,7 @@ map.fmap { <span class="o">|</span>k, v<span class="o">|</span> {k.upcase, v.upc
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L936" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L946" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1320,7 +1361,7 @@ map.fmap { <span class="o">|</span>k, v<span class="o">|</span> {k.upcase, v.upc
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L610" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L620" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1341,7 +1382,7 @@ map.fmap { <span class="o">|</span>k, v<span class="o">|</span> {k.upcase, v.upc
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L1045" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L1055" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1366,7 +1407,7 @@ map.fmap { <span class="o">|</span>k, v<span class="o">|</span> {k.upcase, v.upc
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L598" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L608" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1382,7 +1423,7 @@ map.fmap { <span class="o">|</span>k, v<span class="o">|</span> {k.upcase, v.upc
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L1064" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L1074" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1406,7 +1447,7 @@ map.keys <span class="c"># =&gt; [&quot;foo&quot;, &quot;bar&quot;]</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L538" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L548" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1430,7 +1471,7 @@ map.map_key(<span class="o">&amp;</span>.upcase) <span class="c"># =&gt; Pf::Map
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L966" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L976" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1455,7 +1496,7 @@ map.map_value(<span class="o">&amp;</span>.upcase) <span class="c"># =&gt; Pf::M
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L979" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L989" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1486,7 +1527,7 @@ map <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; &quot;hello&quot;, &qu
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L789" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L799" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1517,7 +1558,7 @@ map <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 300, &quot;bar&quot; =
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L811" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L821" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1533,7 +1574,7 @@ map <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 300, &quot;bar&quot; =
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L1078" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L1088" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1558,7 +1599,7 @@ map.reject { <span class="o">|</span>_, v<span class="o">|</span> v.even? } <spa
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L885" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L895" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1582,7 +1623,7 @@ map.reject(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;boo&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L896" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L906" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1606,7 +1647,7 @@ map.reject(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;boo&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L903" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L913" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1632,7 +1673,7 @@ map1.same?(map2) <span class="c"># =&gt; true</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L993" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L1003" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1657,7 +1698,7 @@ map.<span class="k">select</span> { <span class="o">|</span>_, v<span class="o">
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L849" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L859" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1681,7 +1722,7 @@ map.<span class="k">select</span>(<span class="s">&quot;foo&quot;</span>, <span 
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L862" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L872" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1705,7 +1746,7 @@ map.<span class="k">select</span>(<span class="s">&quot;foo&quot;</span>, <span 
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L872" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L882" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1726,7 +1767,7 @@ map.<span class="k">select</span>(<span class="s">&quot;foo&quot;</span>, <span 
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L468" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L478" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1742,7 +1783,7 @@ map.<span class="k">select</span>(<span class="s">&quot;foo&quot;</span>, <span 
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L1068" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L1078" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1795,7 +1836,7 @@ map2 <span class="c"># =&gt; Pf::Map[&quot;John Doe&quot; =&gt; 456, &quot;Susan
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L505" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L515" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1830,7 +1871,7 @@ map.update(<span class="s">&quot;baz&quot;</span>, <span class="n">0</span>, <sp
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L733" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L743" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1854,7 +1895,7 @@ map.values <span class="c"># =&gt; [10, 20]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1c89674a87032856232b2e77367f0383fb127560/src/permafrost/map.cr#L553" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/map.cr#L563" target="_blank">View source</a>]
         
       </div>
     </div>

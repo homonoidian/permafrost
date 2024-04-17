@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../../js/doc.js"></script>
 
   <meta name="repository-name" content="permafrost">
-  <title>Pf::Set::Commit(T) - permafrost trunk</title>
+  <title>Pf::Core::IProbeAdd(T) - permafrost trunk</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../";
   </script>
@@ -72,7 +72,7 @@
       
     </li>
   
-  <li class="parent " data-id="permafrost/Pf/Core" data-name="pf::core">
+  <li class="parent open current" data-id="permafrost/Pf/Core" data-name="pf::core">
       <a href="../../Pf/Core.html">Core</a>
       
         <ul>
@@ -82,7 +82,7 @@
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/IProbeAdd" data-name="pf::core::iprobeadd(t)">
+  <li class=" current" data-id="permafrost/Pf/Core/IProbeAdd" data-name="pf::core::iprobeadd(t)">
       <a href="../../Pf/Core/IProbeAdd.html">IProbeAdd</a>
       
     </li>
@@ -147,12 +147,12 @@
       
     </li>
   
-  <li class="parent open current" data-id="permafrost/Pf/Set" data-name="pf::set(t)">
+  <li class="parent " data-id="permafrost/Pf/Set" data-name="pf::set(t)">
       <a href="../../Pf/Set.html">Set</a>
       
         <ul>
   
-  <li class=" current" data-id="permafrost/Pf/Set/Commit" data-name="pf::set::commit(t)">
+  <li class=" " data-id="permafrost/Pf/Set/Commit" data-name="pf::set::commit(t)">
       <a href="../../Pf/Set/Commit.html">Commit</a>
       
     </li>
@@ -176,12 +176,10 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Pf::<wbr>Set::<wbr>Commit(T)
+  <span class="kind">module</span> Pf::<wbr>Core::<wbr>IProbeAdd(T)
 
 </h1>
 
-
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Pf/Set/Commit.html">Pf::Set::Commit(T)</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
 
 
 
@@ -195,8 +193,27 @@
     Overview
   </h2>
 
-  <p>Commits allow you to compose multiple edits into one, big edit of the set.
-Thus you avoid creating many useless intermediate copies of the set.</p>
+  <p>Includers can add stored values to the trie, or replace them.</p>
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../../Pf/Core/IProbeAuthored.html">Pf::Core::IProbeAuthored</a></li>
+    
+      <li class="other-type"><a href="../../Pf/Core/IProbeFetch.html">Pf::Core::IProbeFetch(T)</a></li>
+    
+  </ul>
 
 
 
@@ -204,9 +221,23 @@ Thus you avoid creating many useless intermediate copies of the set.</p>
 
 
 
-
-
-
+  <h2>
+    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Direct including types
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../../Pf/Map/Probes/Assoc.html">Pf::Map::Probes::Assoc(K, V)</a></li>
+    
+      <li class="other-type"><a href="../../Pf/Set/Probes/Add.html">Pf::Set::Probes::Add(T)</a></li>
+    
+      <li class="other-type"><a href="../../Pf/Set/Probes/MutAdd.html">Pf::Set::Probes::MutAdd(T)</a></li>
+    
+  </ul>
 
 
 
@@ -221,8 +252,8 @@ Thus you avoid creating many useless intermediate copies of the set.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/set.cr#L114" target="_blank">
-        permafrost/set.cr
+      <a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/core/node.cr#L44" target="_blank">
+        permafrost/core/node.cr
       </a>
     
     <br/>
@@ -249,23 +280,16 @@ Thus you avoid creating many useless intermediate copies of the set.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#add%28element%3AT%29%3Aself-instance-method" class="signature"><strong>#add</strong>(element : T) : <span class="k">self</span></a>
+        <a href="#replace%3F%28stored%3AT%29%3ABool-instance-method" class="signature"><strong>#replace?</strong>(stored : T) : Bool</a>
         
-          <div class="summary"><p>Commits the addition of <em>element</em> to the set.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#delete%28element%3AT%29%3Aself-instance-method" class="signature"><strong>#delete</strong>(element : T) : <span class="k">self</span></a>
-        
-          <div class="summary"><p>Commits the removal of <em>element</em> from the set.</p></div>
+          <div class="summary"><p>Returns <code>true</code> if an existing <em>stored</em> value should be replaced with this probe's own <code><a href="../../Pf/Core/IProbeAdd.html#value%3AT-instance-method">#value</a></code>.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#includes%3F%28object%29%3ABool-instance-method" class="signature"><strong>#includes?</strong>(object) : Bool</a>
+        <a href="#value%3AT-instance-method" class="signature"><strong>#value</strong> : T</a>
         
-          <div class="summary"><p>Runs <code><a href="../../Pf/Set.html#includes%3F%28element%3AT%29%3ABool-instance-method">Set#includes?</a></code> on the set built so far.</p></div>
+          <div class="summary"><p>Returns the value associated with this probe, to be stored in <code><a href="../../Pf/Core/Node.html">Node</a></code>.</p></div>
         
       </li>
     
@@ -277,6 +301,15 @@ Thus you avoid creating many useless intermediate copies of the set.</p>
   
     
 
+  <h3>Instance methods inherited from module <code><a href="../../Pf/Core/IProbeAuthored.html">Pf::Core::IProbeAuthored</a></code></h3>
+  
+  
+    <a href="../../Pf/Core/IProbeAuthored.html#author%3AAuthorId-instance-method" class="tooltip">
+      <span>author : AuthorId</span>
+    author</a>
+    
+  
+
 
     
 
@@ -289,6 +322,20 @@ Thus you avoid creating many useless intermediate copies of the set.</p>
 
   
     
+
+  <h3>Instance methods inherited from module <code><a href="../../Pf/Core/IProbeFetch.html">Pf::Core::IProbeFetch(T)</a></code></h3>
+  
+  
+    <a href="../../Pf/Core/IProbeFetch.html#match%3F%28stored%3AT%29%3ABool-instance-method" class="tooltip">
+      <span>match?(stored : T) : Bool</span>
+    match?</a>, 
+    
+  
+    <a href="../../Pf/Core/IProbeFetch.html#path%3AUInt64-instance-method" class="tooltip">
+      <span>path : UInt64</span>
+    path</a>
+    
+  
 
 
     
@@ -319,73 +366,45 @@ Thus you avoid creating many useless intermediate copies of the set.</p>
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="add(element:T):self-instance-method">
+    <div class="entry-detail" id="replace?(stored:T):Bool-instance-method">
       <div class="signature">
-        
-        def <strong>add</strong>(element : T) : <span class="k">self</span>
+        abstract 
+        def <strong>replace?</strong>(stored : T) : Bool
 
-        <a class="method-permalink" href="#add%28element%3AT%29%3Aself-instance-method">#</a>
+        <a class="method-permalink" href="#replace%3F%28stored%3AT%29%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Commits the addition of <em>element</em> to the set.</p>
-<p>Raises <code><a href="../../Pf/ResolvedError.html">ResolvedError</a></code> if this commit is used outside of the transaction
-(see <code><a href="../../Pf/Set.html#transaction%28%26%3ACommit%28T%29-%3E%29%3ASet%28T%29-instance-method">Set#transaction</a></code>) that produced it.</p>
-<p>Raises <code><a href="../../Pf/ReadonlyError.html">ReadonlyError</a></code> if called by a fiber other than the fiber that
-initiated the transaction.</p>
+          <p>Returns <code>true</code> if an existing <em>stored</em> value should be replaced with
+this probe's own <code><a href="../../Pf/Core/IProbeAdd.html#value%3AT-instance-method">#value</a></code>.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/set.cr#L139" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/core/node.cr#L53" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="delete(element:T):self-instance-method">
+    <div class="entry-detail" id="value:T-instance-method">
       <div class="signature">
-        
-        def <strong>delete</strong>(element : T) : <span class="k">self</span>
+        abstract 
+        def <strong>value</strong> : T
 
-        <a class="method-permalink" href="#delete%28element%3AT%29%3Aself-instance-method">#</a>
+        <a class="method-permalink" href="#value%3AT-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Commits the removal of <em>element</em> from the set.</p>
-<p>Raises <code><a href="../../Pf/ResolvedError.html">ResolvedError</a></code> if this commit is used outside of the transaction
-(see <code><a href="../../Pf/Set.html#transaction%28%26%3ACommit%28T%29-%3E%29%3ASet%28T%29-instance-method">Set#transaction</a></code>) that produced it.</p>
-<p>Raises <code><a href="../../Pf/ReadonlyError.html">ReadonlyError</a></code> if called by a fiber other than the fiber that
-initiated the transaction.</p>
+          <p>Returns the value associated with this probe, to be stored in <code><a href="../../Pf/Core/Node.html">Node</a></code>.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/set.cr#L155" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="includes?(object):Bool-instance-method">
-      <div class="signature">
-        
-        def <strong>includes?</strong>(object) : Bool
-
-        <a class="method-permalink" href="#includes%3F%28object%29%3ABool-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Runs <code><a href="../../Pf/Set.html#includes%3F%28element%3AT%29%3ABool-instance-method">Set#includes?</a></code> on the set built so far.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/set.cr#L128" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/core/node.cr#L49" target="_blank">View source</a>]
         
       </div>
     </div>

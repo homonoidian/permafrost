@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="permafrost">
-  <title>Pf::ResolvedError - permafrost trunk</title>
+  <title>Pf::Core - permafrost trunk</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -72,7 +72,7 @@
       
     </li>
   
-  <li class="parent " data-id="permafrost/Pf/Core" data-name="pf::core">
+  <li class="parent open current" data-id="permafrost/Pf/Core" data-name="pf::core">
       <a href="../Pf/Core.html">Core</a>
       
         <ul>
@@ -142,7 +142,7 @@
       
     </li>
   
-  <li class=" current" data-id="permafrost/Pf/ResolvedError" data-name="pf::resolvederror">
+  <li class=" " data-id="permafrost/Pf/ResolvedError" data-name="pf::resolvederror">
       <a href="../Pf/ResolvedError.html">ResolvedError</a>
       
     </li>
@@ -176,12 +176,29 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Pf::<wbr>ResolvedError
+  <span class="kind">module</span> Pf::<wbr>Core
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Pf/ResolvedError.html">Pf::ResolvedError</a></li><li class="superclass">Exception</li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>If you don't like <code><a href="../Pf/Map.html">Pf::Map</a></code>, <code><a href="../Pf/Set.html">Pf::Set</a></code>, etc., or they aren't performant enough
+for you, you can build your own map/set/HAMT-like thingy using <code><a href="../Pf/Core/Node.html">Node</a></code>, writing
+probe implementations that satisfy the corresponding interfaces (see, for instance,
+<code><a href="../Pf/Core/IProbeAdd.html">IProbeAdd</a></code>, <code><a href="../Pf/Core/IProbeFetch.html">IProbeFetch</a></code>, etc).</p>
+<p>For an example of how to use <code><a href="../Pf/Core/Node.html">Node</a></code> look into the source code of <code><a href="../Pf/Map.html">Pf::Map</a></code>
+or <code><a href="../Pf/Set.html">Pf::Set</a></code>.</p>
 
 
 
@@ -193,8 +210,21 @@
 
 
 
-
-
+  <h2>
+    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Direct including types
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../Pf/Map.html">Pf::Map(K, V)</a></li>
+    
+      <li class="other-type"><a href="../Pf/Set.html">Pf::Set(T)</a></li>
+    
+  </ul>
 
 
 
@@ -209,14 +239,52 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/error.cr#L2" target="_blank">
-        permafrost/error.cr
+      <a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost.cr#L28" target="_blank">
+        permafrost.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/core/node.cr#L1" target="_blank">
+        permafrost/core/node.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/28b994a91931b973be79577bbbdb7298e417dac3/src/permafrost/core/sparse32.cr#L1" target="_blank">
+        permafrost/core/sparse32.cr
       </a>
     
     <br/>
   
 
 
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="AUTHOR_FIRST">
+        <strong>AUTHOR_FIRST</strong> = <code><span class="t">AUTHOR_NONE</span> <span class="o">+</span> <span class="n">1</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="AUTHOR_NONE">
+        <strong>AUTHOR_NONE</strong> = <code><span class="t">AuthorId</span>.new(<span class="n">0</span>)</code>
+      </dt>
+      
+    
+  </dl>
 
 
 
@@ -229,45 +297,6 @@
 
 
 <div class="methods-inherited">
-  
-    
-
-
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
-    
-
-
   
 </div>
 
