@@ -33,7 +33,9 @@ module Pf::Core
     end
 
     private def get_mask_and_offset(index)
-      raise IndexError.new unless index.in?(0...32)
+      {% unless flag?(:release) %}
+        raise IndexError.new unless index.in?(0...32)
+      {% end %}
 
       mask = 1u32 << index
       {mask, (@bitmap & (mask &- 1)).popcount}
@@ -45,11 +47,13 @@ module Pf::Core
     end
 
     # Returns the amount of elements in this array.
+    @[AlwaysInline]
     def size
       @bitmap.popcount
     end
 
     # Returns `true` if this array contains no elements.
+    @[AlwaysInline]
     def empty? : Bool
       @bitmap.zero?
     end
@@ -58,7 +62,9 @@ module Pf::Core
     #
     # Returns *n*-th *stored* value.
     def nth?(n : Int)
-      raise IndexError.new unless n.in?(0...32)
+      {% unless flag?(:release) %}
+        raise IndexError.new unless n.in?(0...32)
+      {% end %}
 
       n < size ? @mem[n] : nil
     end
@@ -93,7 +99,10 @@ module Pf::Core
       end
 
       size = self.size
-      capacity = GROWTH[size]
+      # max(size) = popcount(max(u32)) = 32
+      # size(GROWTH) = 33
+      # size < size(GROWTH) always
+      capacity = GROWTH.unsafe_fetch(size)
       unless capacity.zero?
         @mem = @mem.realloc(capacity)
       end
