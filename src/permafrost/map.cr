@@ -518,12 +518,12 @@ module Pf
       commit.resolve
     end
 
-    # Returns `true` if this map contains no mappings.
+    # Returns `true` if this map contains no associations.
     def empty? : Bool
       size.zero?
     end
 
-    # Yields each key-value pair to the block.
+    # Yields each association to the block.
     def each(& : {K, V} ->) : Nil
       @kernel.each { |k, v| yield({k, v}) }
     end
@@ -658,8 +658,8 @@ module Pf
       self[key]?
     end
 
-    # Returns the value associated with *key*. Raises `KeyError` if there is
-    # no such value.
+    # Returns the value associated with *key*. Raises `KeyError` if *key*
+    # is absent.
     #
     # ```
     # map = Pf::Map[foo: 10]
