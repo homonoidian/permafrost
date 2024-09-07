@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.11.2">
+<meta name="generator" content="Crystal Docs 1.12.2">
 <meta name="crystal_docs.project_version" content="trunk">
 <meta name="crystal_docs.project_name" content="permafrost">
 
@@ -237,7 +237,7 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L5" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L5" target="_blank">
         permafrost/set.cr
       </a>
     
@@ -332,6 +332,13 @@
         <a href="#%2B%28other%29%3ASet%28T%29-instance-method" class="signature"><strong>#+</strong>(other) : Set(T)</a>
         
           <div class="summary"><p>Shorthand for <code><a href="../Pf/Set.html#concat%28other%3AEnumerable%28T%29%29%3ASet%28T%29-instance-method">#concat</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#-%28other%3ASet%28T%29%29%3ASet%28T%29-instance-method" class="signature"><strong>#-</strong>(other : Set(T)) : Set(T)</a>
+        
+          <div class="summary"><p>Returns a new set containing elements in this set that are not present in <em>other</em>.</p></div>
         
       </li>
     
@@ -570,7 +577,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L185" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L185" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -593,7 +600,7 @@ set <span class="c"># =&gt; Pf::Set[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L205" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L205" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -616,7 +623,7 @@ set.empty? <span class="o">=&gt;</span> <span class="n">true</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L195" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L195" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -654,7 +661,7 @@ set <span class="c"># =&gt; Pf::Set[1, &quot;Hello&quot;, 3, true]</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L229" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L229" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -675,7 +682,7 @@ set <span class="c"># =&gt; Pf::Set[1, &quot;Hello&quot;, 3, true]</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L210" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L210" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -713,7 +720,7 @@ a <span class="o">&amp;</span> b <span class="c"># =&gt; Pf::Set[1, 2]</span></c
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L391" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L391" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -734,7 +741,31 @@ a <span class="o">&amp;</span> b <span class="c"># =&gt; Pf::Set[1, 2]</span></c
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L467" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L479" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="-(other:Set(T)):Set(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>-</strong>(other : <a href="../Pf/Set.html">Set</a>(T)) : <a href="../Pf/Set.html">Set</a>(T)
+
+        <a class="method-permalink" href="#-%28other%3ASet%28T%29%29%3ASet%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new set containing elements in this set that are not present
+in <em>other</em>.</p>
+<p><em>Supports value equality</em>.</p>
+<pre><code class="language-crystal"><span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">:a</span>, <span class="n">:b</span>, <span class="n">:c</span>, <span class="n">:d</span>] <span class="o">-</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Set</span>[<span class="n">:a</span>, <span class="n">:c</span>] <span class="c"># =&gt; Pf::Set[:b, :d]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L404" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -755,7 +786,7 @@ a <span class="o">&amp;</span> b <span class="c"># =&gt; Pf::Set[1, 2]</span></c
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L529" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L541" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -793,7 +824,7 @@ blue <span class="c"># =&gt; false</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L509" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L521" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -818,7 +849,7 @@ set.add(<span class="n">400</span>) <span class="c"># =&gt; Pf::Set[100, 200, 40
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L405" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L417" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -843,7 +874,7 @@ a.concat([<span class="n">4</span>, <span class="n">5</span>, <span class="n">1<
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L457" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L469" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -869,7 +900,7 @@ set.delete(<span class="n">200</span>) <span class="c"># =&gt; Pf::Set[100, 300]
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L425" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L437" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -890,7 +921,7 @@ set.delete(<span class="n">200</span>) <span class="c"># =&gt; Pf::Set[100, 300]
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L267" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L267" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -916,7 +947,7 @@ newset.empty? <span class="c"># =&gt; false</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L242" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L242" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -946,7 +977,7 @@ set.fmap(<span class="o">&amp;</span>.succ.pred).same?(set) <span class="c"># =&
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L329" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L329" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -967,7 +998,7 @@ set.fmap(<span class="o">&amp;</span>.succ.pred).same?(set) <span class="c"># =&
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L542" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L554" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -995,7 +1026,7 @@ set.fmap(<span class="o">&amp;</span>.succ.pred).same?(set) <span class="c"># =&
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L257" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L257" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1016,7 +1047,7 @@ set.fmap(<span class="o">&amp;</span>.succ.pred).same?(set) <span class="c"># =&
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L514" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L526" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1032,7 +1063,7 @@ set.fmap(<span class="o">&amp;</span>.succ.pred).same?(set) <span class="c"># =&
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L524" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L536" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1057,7 +1088,7 @@ set.reject(<span class="o">&amp;</span>.even?) <span class="c"># =&gt; Pf::Set[1
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L380" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L380" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1083,7 +1114,7 @@ set1.same?(set2) <span class="c"># =&gt; true</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L484" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L496" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1108,7 +1139,7 @@ set.<span class="k">select</span>(<span class="o">&amp;</span>.even?) <span clas
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L361" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L361" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1131,7 +1162,7 @@ set.size <span class="c"># =&gt; 2</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L180" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L180" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1147,7 +1178,7 @@ set.size <span class="c"># =&gt; 2</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L518" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L530" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1204,7 +1235,7 @@ set2 <span class="c"># =&gt; Pf::Set[1, 2, 3, 5]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/79e690698c537fc3ab357a918c5b2ac6e1ed5060/src/permafrost/set.cr#L308" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/735070a28436ed701d690297f04739ada9fe2204/src/permafrost/set.cr#L308" target="_blank">View source</a>]
         
       </div>
     </div>
