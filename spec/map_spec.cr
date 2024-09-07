@@ -38,6 +38,30 @@ record Point2, x : Int32, y : Int32 do
   end
 end
 
+struct H1A
+  def hash
+    1u64
+  end
+
+  def_equals
+end
+
+struct H1B
+  def hash
+    1u64
+  end
+
+  def_equals
+end
+
+struct H2
+  def hash
+    2u64
+  end
+
+  def_equals
+end
+
 describe Pf::Map do
   describe "internals" do
     it "supports correct size, each, find, assoc, dissoc for empty map" do
@@ -295,6 +319,12 @@ describe Pf::Map do
       map = Pf::Map[foo: 100, bar: 200]
       map.update("foo", 0, &.succ).should eq(Pf::Map[foo: 101, bar: 200])
       map.update("baz", 0, &.succ).should eq(Pf::Map[foo: 100, bar: 200, baz: 0])
+
+      map.update("foo", 0, &.succ.pred).same?(map).should be_true
+
+      map.update("foo", &.succ).should eq(Pf::Map[foo: 101, bar: 200])
+      map.update("baz", &.succ).same?(map).should be_true
+      map.update("baz", &.succ.pred).same?(map).should be_true
     end
 
     it "supports #dissoc" do
@@ -585,6 +615,43 @@ describe Pf::Map do
     # Get the most used one
     word, count = map_uwords12.max_by { |_, n| n }
     word.should eq("Alice")
+  end
+
+  describe "bugs" do
+    it "should find deepest entry on update" do
+      m = Pf::Map(H1A | H1B | H2, Int32).new
+
+      m = m.assoc(H1A.new, 1)
+      m = m.assoc(H1B.new, 2)
+      m = m.assoc(H2.new, 3)
+      # ... h1a ... h2 ...
+      #      v children[]
+      #     h1b
+
+      m = m.dissoc(H1A.new)
+      # ... <slot> ... h2 ...
+      #       v children[]
+      #      h1b
+
+      m = m.assoc(H1B.new, 4)
+      # BUG (duplicate keys):
+      # ... h1b' ... h2 ...
+      #      v children[]
+      #     h1b
+      #
+      # CORRECT (sort of, ideally we'd want to lift old entry, but could be
+      # too expensive to do; I've no idea):
+      #
+      # ... <slot> ... h2 ...
+      #       v children[]
+      #      h1b'
+
+      keys = m.keys
+      keys.count(&.is_a?(H1A)).should eq(0)
+      keys.count(&.is_a?(H1B)).should eq(1)
+      keys.count(&.is_a?(H2)).should eq(1)
+      keys.size.should eq(2)
+    end
   end
 
   describe "Pf::Eq" do

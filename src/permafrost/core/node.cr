@@ -177,43 +177,37 @@ module Pf::Core
     protected def add(probe : IProbeAdd(T), path : UInt64) : {Bool, Node(T)}
       index = path & WINDOW
 
-      # Item does not exist. Add it.
-      unless item = @items.at?(index)
-        return true, modify(at: index, item: {probe.value}, author: probe.author)
-      end
-
-      # Probe matched and wants to replace the item. We're replacing, not adding
-      # the item, hence return `false` as the number of items didn't change.
-      matches = probe.match?(item)
-      if matches && probe.replace?(item)
+      item = @items.at?(index)
+      if item && probe.match?(item)
+        # If probe matched and wants to replace the item, replace it. Otherwise
+        # we're done, no change. Since we're replacing, not adding the item,
+        # hence we return `false` as the number of items didn't change.
+        return false, self unless probe.replace?(item)
         return false, modify(at: index, item: {probe.value}, author: probe.author)
       end
 
-      # Probe matched but doesn't want to replace the item -- we're done,
-      # no change.
-      return false, self if matches
+      child0 = @children.at?(index)
 
-      # Child does not exist.
-      unless child = @children.at?(index)
-        _, child = Node(T)
-          .new(itemsof: probe.author, childrenof: probe.author)
-          .add(probe, path >> WINDOW_SIZE)
-
-        return true, modify(at: index, child: child, author: probe.author)
+      if child0 # Child exists, proceed deeper.
+        added, child1 = child0.add(probe, path >> WINDOW_SIZE)
+        return added, child0.same?(child1) ? self : modify(at: index, child: child1, author: probe.author)
       end
 
-      added, newchild = child.add(probe, path >> WINDOW_SIZE)
+      if item.nil? # Child doesn't exist and item slot is unoccupied.
+        return true, modify(at: index, item: {probe.value}, author: probe.author)
+      end
 
-      # Child exists, remains the same after addition.
-      return added, self if child.same?(newchild)
+      # Child does not exist and item slot is occupied. Create a child.
+      child0 = Node(T).new(itemsof: probe.author, childrenof: probe.author)
+      added, child1 = child0.add(probe, path >> WINDOW_SIZE)
 
-      {added, modify(at: index, child: newchild, author: probe.author)}
+      {added, modify(at: index, child: child1, author: probe.author)}
     end
 
     protected def delete(probe : IProbeDelete, path : UInt64) : {Bool, Node(T)}
       index = path & WINDOW
-      item = @items.at?(index)
 
+      item = @items.at?(index)
       if item && probe.match?(item)
         return true, modify(at: index, item: nil, author: probe.author)
       end

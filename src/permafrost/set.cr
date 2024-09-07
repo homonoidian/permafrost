@@ -393,6 +393,18 @@ module Pf
       smaller.select { |element| element.in?(larger) }
     end
 
+    # Returns a new set containing elements in this set that are not present
+    # in *other*.
+    #
+    # *Supports value equality*.
+    #
+    # ```
+    # Pf::Set[:a, :b, :c, :d] - Pf::Set[:a, :c] # => Pf::Set[:b, :d]
+    # ```
+    def -(other : Set(T)) : Set(T)
+      reject(&.in?(other))
+    end
+
     # Returns a copy of this set that includes *element*.
     #
     # *Supports value equality*.

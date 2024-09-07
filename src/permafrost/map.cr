@@ -745,6 +745,25 @@ module Pf
       assoc(key, yield value)
     end
 
+    # Returns an updated copy of `self`.
+    #
+    # - If there is no association for *key*, returns `self`.
+    # - If there is an association for *key*, its value is yielded to the block
+    #   and the return value of the block is used as the next value of *key*.
+    #
+    # *Supports value equality.*
+    #
+    # ```
+    # map = Pf::Map[foo: 100, bar: 200]
+    # map.update("foo", &.succ) # => Pf::Map{"foo" => 101, "bar" => 200}
+    # map.update("baz", &.succ) # => Pf::Map{"foo" => 100, "bar" => 200}
+    # ```
+    def update(key : K, & : V -> V) : Map(K, V)
+      return self unless value = self[key]?
+
+      assoc(key, yield value)
+    end
+
     # Returns a copy of `self` that is guaranteed not to contain an association
     # with the given *key*.
     #

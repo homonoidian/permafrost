@@ -76,7 +76,7 @@ describe Pf::Set do
       set.fmap(&.succ.pred).should be(set)
     end
 
-    it "supports #select, #reject, #+ (concat), #&" do
+    it "supports #select, #reject, #+ (concat), #&, #-" do
       evens = (0...10).to_pf_set.select(&.even?)
       odds = (0...10).to_pf_set.reject(&.even?)
 
@@ -107,6 +107,19 @@ describe Pf::Set do
       xs = Pf::Set[2, 4, 6]
       xs.select(&.even?).should be(xs)
       xs.reject(&.odd?).should be(xs)
+
+      (Pf::Set[:a, :b, :c, :d] - Pf::Set[:a, :c]).should eq(Pf::Set[:b, :d])
+
+      xs = (0...10).to_pf_set
+      (xs - Pf::Set(Int32)[]).should be(xs)
+      (xs - evens).should eq(odds)
+      (xs - odds).should eq(evens)
+      (xs - xs).empty?.should be_true
+      (evens - xs).empty?.should be_true
+      (odds - xs).empty?.should be_true
+      ys = (10...20).to_pf_set
+      (xs - ys).should be(xs)
+      (ys - xs).should be(ys)
     end
 
     it "supports #add, #delete" do
