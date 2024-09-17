@@ -115,16 +115,52 @@ module Pf::Core
 
     # Yields each item from this node and from all child nodes.
     def each(& : T ->) : Nil
-      stack = Array(self).new(@children.size + 1)
-      stack.push(self)
+      # Lower part of the iteration stack -- use stack space.
+      lower = uninitialized self[128]
+      lower[0] = self
 
-      until stack.empty?
-        node = stack.pop
-        node.@items.each do |item|
-          yield item
+      # Upper part of the iteration stack -- use heap space (array) on demand.
+      # It would be really really hard to hit this, unless the hash function
+      # produces a lot (a lot!) of collisions or the number of elements
+      # is astronomical.
+      upper = nil
+
+      sp = 1 # < stack pointer
+
+      while sp > 0
+        # Pop node
+        sp &-= 1
+        lo = sp < lower.size
+        node = lo ? lower.unsafe_fetch(sp) : upper.not_nil!.unsafe_fetch(sp - lower.size)
+
+        # Yield items.
+        node.@items.each { |item| yield item }
+
+        # Fast path: all children fit into lower.
+        if sp + node.@children.size < lower.size
+          node.@children.each do |child|
+            lower.unsafe_put(sp, child)
+            sp &+= 1
+          end
+          next
         end
+
+        # Slow (ish) path.
         node.@children.each do |child|
-          stack.push(child)
+          if lo
+            lower.unsafe_put(sp, child)
+          else
+            upper ||= [] of self
+            index = sp - lower.size
+            if index < upper.size
+              upper.unsafe_put(index, child)
+            else
+              upper.push(child)
+            end
+          end
+
+          sp &+= 1
+          lo = sp < lower.size
         end
       end
     end
@@ -165,6 +201,7 @@ module Pf::Core
 
     protected def fetch?(probe : IProbeFetch, path : UInt64) : {T}?
       node = self
+
       while true
         index = path & WINDOW
         item = node.@items.at?(index)

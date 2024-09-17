@@ -207,7 +207,7 @@ module Pf
     end
 
     # Shorthand for `new.transaction`.
-    def self.transaction(& : Commit(T) -> Commit(T)) : Set(T)
+    def self.transaction(& : Commit(T) ->) : Set(T)
       new.transaction { |commit| yield commit }
     end
 

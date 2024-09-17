@@ -667,7 +667,7 @@ module Pf
     # map["bar"] # raises KeyError
     # ```
     def [](key : K) : V
-      self[key]? || raise KeyError.new("Missing map key: #{key.inspect}")
+      fetch(key) { raise KeyError.new("Missing map key: #{key.inspect}") }
     end
 
     # Traverses nested maps/`Hash`es and returns the value. Raises
@@ -693,7 +693,7 @@ module Pf
 
     # :nodoc:
     def dig(key : K)
-      self[key]? || raise KeyError.new("Map value not diggable for key: #{key.inspect}")
+      fetch(key) { raise KeyError.new("Map value not diggable for key: #{key.inspect}") }
     end
 
     # Returns a copy of `self` that contains the association between *key* and *value*.

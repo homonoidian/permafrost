@@ -255,6 +255,10 @@ describe Pf::Map do
       expect_raises(KeyError, "Missing map key: \"bar\"") do
         map["bar"]
       end
+
+      map = Pf::Map[foo: 100, bar: nil]
+      map["foo"].should eq(100)
+      map["bar"].should be_nil
     end
 
     it "supports #[] (dig)" do
@@ -277,6 +281,10 @@ describe Pf::Map do
       expect_raises(KeyError, "Map value not diggable for key: \"boo\"") do
         map2.dig("foo", "bar", "boo")
       end
+
+      map = Pf::Map[quux: Pf::Map[foo: 100, bar: nil]]
+      map.dig("quux", "foo").should eq(100)
+      map.dig("quux", "bar").should be_nil
     end
 
     it "supports #fetch?" do
