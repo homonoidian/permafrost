@@ -72,6 +72,7 @@ module Pf::Core
     def initialize(
       @items = Sparse32(T).new,
       @children = Sparse32(Node(T)).new,
+      @beneath = 0,
       @itemsof = AUTHOR_NONE,
       @childrenof = AUTHOR_NONE
     )
@@ -87,6 +88,22 @@ module Pf::Core
       @childrenof == author && author != AUTHOR_NONE
     end
 
+    # Mutably or immutably shifts the number of beneath items by *delta*.
+    # Beneath is conceptually grouped with children. Its mutability or
+    # immutability depends on whether the children are owned by *author*.
+    private def modify(*, author : AuthorId, delta : Int) : Node(T)
+      return self if delta.zero? # Let the caller be careless.
+
+      if children_belong_to?(author)
+        @beneath += delta
+        self
+      else
+        # We do not actually make a copy of children here; there's no need to (huh?)
+        # But we must make sure the node itself is copied.
+        Node(T).new(@items, @children, @beneath + delta, @itemsof, author)
+      end
+    end
+
     # Mutably or immutably (depending on *author*) modifies the *item* or *child*
     # at the given *index*.
     private def modify(*, at index : Int, item : {T}?, author : AuthorId)
@@ -94,23 +111,28 @@ module Pf::Core
         @items = item ? @items.with!(index, item[0]) : @items.without!(index)
         self
       else
-        Node(T).new(item ? @items.with(index, item[0]) : @items.without(index), @children, author, @childrenof)
+        Node(T).new(item ? @items.with(index, item[0]) : @items.without(index), @children, @beneath, author, @childrenof)
       end
     end
 
     # :ditto:
-    private def modify(*, at index : Int, child : Node(T)?, author : AuthorId)
+    private def modify(*, at index : Int, child : Node(T)?, author : AuthorId, delta : Int)
       if children_belong_to?(author)
+        @beneath += delta
         @children = child ? @children.with!(index, child) : @children.without!(index)
         self
       else
-        Node(T).new(@items, child ? @children.with(index, child) : @children.without(index), @itemsof, author)
+        Node(T).new(@items, child ? @children.with(index, child) : @children.without(index), @beneath + delta, @itemsof, author)
       end
     end
 
     # Returns `true` if this node holds no items and points to no children.
     def empty? : Bool
       @items.empty? && @children.empty?
+    end
+
+    def size : Int32
+      @items.size + @beneath
     end
 
     # Yields each item from this node and from all child nodes.
@@ -227,7 +249,10 @@ module Pf::Core
 
       if child0 # Child exists, proceed deeper.
         added, child1 = child0.add(probe, path >> WINDOW_SIZE)
-        return added, child0.same?(child1) ? self : modify(at: index, child: child1, author: probe.author)
+        if child0.same?(child1)
+          return added, modify(author: probe.author, delta: added ? 1 : 0)
+        end
+        return added, modify(at: index, child: child1, author: probe.author, delta: added ? 1 : 0)
       end
 
       if item.nil? # Child doesn't exist and item slot is unoccupied.
@@ -238,7 +263,7 @@ module Pf::Core
       child0 = Node(T).new(itemsof: probe.author, childrenof: probe.author)
       added, child1 = child0.add(probe, path >> WINDOW_SIZE)
 
-      {added, modify(at: index, child: child1, author: probe.author)}
+      {added, modify(at: index, child: child1, author: probe.author, delta: added ? 1 : 0)}
     end
 
     protected def delete(probe : IProbeDelete, path : UInt64) : {Bool, Node(T)}
@@ -250,12 +275,14 @@ module Pf::Core
       end
 
       # If child cannot be found indicate no change.
-      return false, self unless child = @children.at?(index)
+      unless child = @children.at?(index)
+        return false, self
+      end
 
       removed, child = child.delete(probe, path >> WINDOW_SIZE)
       return false, self unless removed
 
-      {true, modify(at: index, child: child.empty? ? nil : child, author: probe.author)}
+      {true, modify(at: index, child: child.empty? ? nil : child, author: probe.author, delta: -1)}
     end
   end
 end

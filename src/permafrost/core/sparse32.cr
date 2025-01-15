@@ -167,5 +167,12 @@ module Pf::Core
 
       Sparse32.new(mem, @bitmap & ~mask)
     end
+
+    def inspect(io)
+      slice = Slice.new(@mem, size)
+      io << "Sparse32("
+      slice.join(io, ", ")
+      io << ")"
+    end
   end
 end

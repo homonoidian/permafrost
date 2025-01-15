@@ -381,13 +381,15 @@ module Pf
     struct Kernel::Many(K, V)
       include Kernel(K, V)
 
-      getter size : Int32
-
-      def initialize(@node : Node(Entry(K, V)), @size : Int32)
+      def initialize(@node : Node(Entry(K, V)))
       end
 
       def initialize
-        initialize(node: Node(Entry(K, V)).new, size: 0)
+        initialize(node: Node(Entry(K, V)).new)
+      end
+
+      def size : Int32
+        @node.size
       end
 
       def each(& : {K, V} ->)
@@ -406,27 +408,27 @@ module Pf
       end
 
       def assoc(key : K, value : V) : Kernel(K, V)
-        added, node = @node.add(Probes::AssocImm(K, V).new(key, value))
+        _, node = @node.add(Probes::AssocImm(K, V).new(key, value))
 
-        Many(K, V).new(node, added ? @size + 1 : @size)
+        Many(K, V).new(node)
       end
 
       def assoc!(key : K, value : V, author : AuthorId) : Kernel(K, V)
-        added, node = @node.add(Probes::AssocMut(K, V).new(key, value, author))
+        _, node = @node.add(Probes::AssocMut(K, V).new(key, value, author))
 
-        Many(K, V).new(node, added ? @size + 1 : @size)
+        Many(K, V).new(node)
       end
 
       def dissoc(key : K) : Kernel(K, V)
-        removed, node = @node.delete(Probes::DissocImm(K, V).new(key))
+        _, node = @node.delete(Probes::DissocImm(K, V).new(key))
 
-        Many(K, V).new(node, removed ? @size - 1 : @size)
+        Many(K, V).new(node)
       end
 
       def dissoc!(key : K, author : AuthorId) : Kernel(K, V)
-        removed, node = @node.delete(Probes::DissocMut(K, V).new(key, author))
+        _, node = @node.delete(Probes::DissocMut(K, V).new(key, author))
 
-        Many(K, V).new(node, removed ? @size - 1 : @size)
+        Many(K, V).new(node)
       end
     end
 
