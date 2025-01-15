@@ -6,7 +6,7 @@ require "./permafrost/bidi_map"
 require "./permafrost/ext"
 
 module Pf
-  VERSION = "0.3.1"
+  VERSION = "0.4.0"
 
   # :nodoc:
   macro hash64(object)
