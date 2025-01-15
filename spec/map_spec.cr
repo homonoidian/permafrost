@@ -625,6 +625,38 @@ describe Pf::Map do
     word.should eq("Alice")
   end
 
+  describe "nth" do
+    it "should work" do
+      n1 = File.read("#{__DIR__}/novels/01.txt")
+      n2 = File.read("#{__DIR__}/novels/02.txt")
+      n3 = File.read("#{__DIR__}/novels/03.txt")
+      n4 = File.read("#{__DIR__}/novels/04.txt")
+
+      words_n1 = n1.split(/\s+/)
+      words_n2 = n2.split(/\s+/)
+      words_n3 = n3.split(/\s+/)
+      words_n4 = n4.split(/\s+/)
+
+      map_tally1 = words_n1.reduce(Pf::Map(String, Int32).new) { |map, word| map.assoc(word, (map[word]? || 0) + 1) }
+      map_tally2 = words_n2.reduce(Pf::Map(String, Int32).new) { |map, word| map.assoc(word, (map[word]? || 0) + 1) }
+      map_tally3 = Pf::Map(String, Int32).transaction do |commit|
+        words_n3.each do |word|
+          commit.assoc(word, (commit[word]? || 0) + 1)
+        end
+      end
+      map_tally4 = Pf::Map(String, Int32).transaction do |commit|
+        words_n4.each do |word|
+          commit.assoc(word, (commit[word]? || 0) + 1)
+        end
+      end
+
+      (0...map_tally1.size).to_a { |index| map_tally1.nth?(index) }.should eq(map_tally1.to_a)
+      (0...map_tally2.size).to_a { |index| map_tally2.nth?(index) }.should eq(map_tally2.to_a)
+      (0...map_tally3.size).to_a { |index| map_tally3.nth?(index) }.should eq(map_tally3.to_a)
+      (0...map_tally4.size).to_a { |index| map_tally4.nth?(index) }.should eq(map_tally4.to_a)
+    end
+  end
+
   describe "bugs" do
     it "should find deepest entry on update" do
       m = Pf::Map(H1A | H1B | H2, Int32).new

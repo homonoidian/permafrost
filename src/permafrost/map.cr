@@ -254,6 +254,10 @@ module Pf
       # Returns the amount of associations.
       abstract def size : Int32
 
+      # Returns *n*-th entry. Maximum *n* is `size - 1`. Returns `nil` if *n*
+      # is out of bounds.
+      abstract def nth?(n : Int32) : {K, V}?
+
       # Returns `true` if this and *other* kernels are the same (by reference,
       # if possible).
       abstract def same?(other : Kernel(K, V)) : Bool
@@ -295,6 +299,9 @@ module Pf
         0
       end
 
+      def nth?(n : Int32) : {K, V}?
+      end
+
       def same?(other) : Bool
         other.is_a?(Empty(K, V))
       end
@@ -325,6 +332,10 @@ module Pf
 
       def size : Int32
         1
+      end
+
+      def nth?(n : Int32) : {K, V}?
+        n == 0 ? {@key, @value} : nil
       end
 
       def same?(other) : Bool
@@ -390,6 +401,10 @@ module Pf
 
       def size : Int32
         @node.size
+      end
+
+      def nth?(n : Int32) : {K, V}?
+        @node.nth?(n).try { |entry| {entry.k, entry.v} }
       end
 
       def each(& : {K, V} ->)
@@ -479,6 +494,13 @@ module Pf
     # Returns the number of associations in this map.
     def size : Int32
       @kernel.size
+    end
+
+    # Returns the *n*-th association in this map. Their order is the same as
+    # in `each` and is determined by the hash function. *n* can range from
+    # `0` to `size - 1` (otherwise returns `nil`).
+    def nth?(n : Int32) : {K, V}?
+      @kernel.nth?(n)
     end
 
     # Yields a `Commit` object which allows you to mutate a copy of `self`.

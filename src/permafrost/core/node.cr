@@ -131,8 +131,28 @@ module Pf::Core
       @items.empty? && @children.empty?
     end
 
+    # Returns the number of items in this node and all nodes beneath.
     def size : Int32
       @items.size + @beneath
+    end
+
+    # Returns *n*-th item in this node or in one of the nodes beneath.
+    #
+    # The order of items is the same as in `each`.
+    def nth?(n : Int32) : T?
+      return if n < 0
+
+      if n < @items.size
+        return @items.to_unsafe[n]
+      end
+
+      n &-= @items.size
+
+      @children.each do |child|
+        return child.nth?(n) if n.in?(0...child.size)
+        return if n < child.size
+        n &-= child.size
+      end
     end
 
     # Yields each item from this node and from all child nodes.
@@ -160,7 +180,7 @@ module Pf::Core
 
         # Fast path: all children fit into lower.
         if sp + node.@children.size < lower.size
-          node.@children.each do |child|
+          node.@children.reverse_each do |child|
             lower.unsafe_put(sp, child)
             sp &+= 1
           end
@@ -168,7 +188,7 @@ module Pf::Core
         end
 
         # Slow (ish) path.
-        node.@children.each do |child|
+        node.@children.reverse_each do |child|
           if lo
             lower.unsafe_put(sp, child)
           else

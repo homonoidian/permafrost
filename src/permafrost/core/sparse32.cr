@@ -80,6 +80,15 @@ module Pf::Core
       end
     end
 
+    # Yields each element from this array starting at the rightmost one and moving left.
+    def reverse_each(& : T ->)
+      hi = size
+      while hi > 0
+        yield @mem[hi - 1]
+        hi &-= 1
+      end
+    end
+
     # Returns the element at *index*, or nil.
     #
     # *index* must be in `0...32`, otherwise this method raises `IndexError`.
