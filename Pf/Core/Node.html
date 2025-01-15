@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.12.2">
+<meta name="generator" content="Crystal Docs 1.14.0">
 <meta name="crystal_docs.project_version" content="trunk">
 <meta name="crystal_docs.project_name" content="permafrost">
 
@@ -224,7 +224,7 @@ on the client. It could be an interface or could be a sizeof threshold.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/node.cr#L68" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/node.cr#L68" target="_blank">
         permafrost/core/node.cr
       </a>
     
@@ -246,7 +246,7 @@ on the client. It could be an interface or could be a sizeof threshold.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28items%3APf%3A%3ACore%3A%3ASparse32%28T%29%3DSparse32%28T%29.new%2Cchildren%3APf%3A%3ACore%3A%3ASparse32%28Pf%3A%3ACore%3A%3ANode%28T%29%29%3DSparse32%28Node%28T%29%29.new%2Citemsof%3AUInt32%3DAUTHOR_NONE%2Cchildrenof%3AUInt32%3DAUTHOR_NONE%29-class-method" class="signature"><strong>.new</strong>(items : Pf::Core::Sparse32(T) = <span class="t">Sparse32</span>(<span class="t">T</span>).new, children : Pf::Core::Sparse32(Pf::Core::Node(T)) = <span class="t">Sparse32</span>(<span class="t">Node</span>(<span class="t">T</span>)).new, itemsof : UInt32 = <span class="t">AUTHOR_NONE</span>, childrenof : UInt32 = <span class="t">AUTHOR_NONE</span>)</a>
+        <a href="#new%28items%3APf%3A%3ACore%3A%3ASparse32%28T%29%3DSparse32%28T%29.new%2Cchildren%3APf%3A%3ACore%3A%3ASparse32%28Pf%3A%3ACore%3A%3ANode%28T%29%29%3DSparse32%28Node%28T%29%29.new%2Cbeneath%3AInt32%3D0%2Citemsof%3AUInt32%3DAUTHOR_NONE%2Cchildrenof%3AUInt32%3DAUTHOR_NONE%29-class-method" class="signature"><strong>.new</strong>(items : Pf::Core::Sparse32(T) = <span class="t">Sparse32</span>(<span class="t">T</span>).new, children : Pf::Core::Sparse32(Pf::Core::Node(T)) = <span class="t">Sparse32</span>(<span class="t">Node</span>(<span class="t">T</span>)).new, beneath : Int32 = <span class="n">0</span>, itemsof : UInt32 = <span class="t">AUTHOR_NONE</span>, childrenof : UInt32 = <span class="t">AUTHOR_NONE</span>)</a>
         
       </li>
     
@@ -303,6 +303,20 @@ on the client. It could be an interface or could be a sizeof threshold.</p>
         
       </li>
     
+      <li class="entry-summary">
+        <a href="#nth%3F%28n%3AInt32%29%3AT%7CNil-instance-method" class="signature"><strong>#nth?</strong>(n : Int32) : T | Nil</a>
+        
+          <div class="summary"><p>Returns <em>n</em>-th item in this node or in one of the nodes beneath.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3AInt32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the number of items in this node and all nodes beneath.</p></div>
+        
+      </li>
+    
   </ul>
 
 
@@ -347,18 +361,18 @@ on the client. It could be an interface or could be a sizeof threshold.</p>
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(items:Pf::Core::Sparse32(T)=Sparse32(T).new,children:Pf::Core::Sparse32(Pf::Core::Node(T))=Sparse32(Node(T)).new,itemsof:UInt32=AUTHOR_NONE,childrenof:UInt32=AUTHOR_NONE)-class-method">
+    <div class="entry-detail" id="new(items:Pf::Core::Sparse32(T)=Sparse32(T).new,children:Pf::Core::Sparse32(Pf::Core::Node(T))=Sparse32(Node(T)).new,beneath:Int32=0,itemsof:UInt32=AUTHOR_NONE,childrenof:UInt32=AUTHOR_NONE)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(items : <a href="../../Pf/Core/Sparse32.html">Pf::Core::Sparse32</a>(T) = <span class="t">Sparse32</span>(<span class="t">T</span>).new, children : <a href="../../Pf/Core/Sparse32.html">Pf::Core::Sparse32</a>(<a href="../../Pf/Core/Node.html">Pf::Core::Node</a>(T)) = <span class="t">Sparse32</span>(<span class="t">Node</span>(<span class="t">T</span>)).new, itemsof : UInt32 = <span class="t">AUTHOR_NONE</span>, childrenof : UInt32 = <span class="t">AUTHOR_NONE</span>)
+        def self.<strong>new</strong>(items : <a href="../../Pf/Core/Sparse32.html">Pf::Core::Sparse32</a>(T) = <span class="t">Sparse32</span>(<span class="t">T</span>).new, children : <a href="../../Pf/Core/Sparse32.html">Pf::Core::Sparse32</a>(<a href="../../Pf/Core/Node.html">Pf::Core::Node</a>(T)) = <span class="t">Sparse32</span>(<span class="t">Node</span>(<span class="t">T</span>)).new, beneath : Int32 = <span class="n">0</span>, itemsof : UInt32 = <span class="t">AUTHOR_NONE</span>, childrenof : UInt32 = <span class="t">AUTHOR_NONE</span>)
 
-        <a class="method-permalink" href="#new%28items%3APf%3A%3ACore%3A%3ASparse32%28T%29%3DSparse32%28T%29.new%2Cchildren%3APf%3A%3ACore%3A%3ASparse32%28Pf%3A%3ACore%3A%3ANode%28T%29%29%3DSparse32%28Node%28T%29%29.new%2Citemsof%3AUInt32%3DAUTHOR_NONE%2Cchildrenof%3AUInt32%3DAUTHOR_NONE%29-class-method">#</a>
+        <a class="method-permalink" href="#new%28items%3APf%3A%3ACore%3A%3ASparse32%28T%29%3DSparse32%28T%29.new%2Cchildren%3APf%3A%3ACore%3A%3ASparse32%28Pf%3A%3ACore%3A%3ANode%28T%29%29%3DSparse32%28Node%28T%29%29.new%2Cbeneath%3AInt32%3D0%2Citemsof%3AUInt32%3DAUTHOR_NONE%2Cchildrenof%3AUInt32%3DAUTHOR_NONE%29-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/node.cr#L72" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/node.cr#L72" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -402,7 +416,7 @@ the second element is also exactly <code>self</code> (and the first element is <
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/node.cr#L188" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/node.cr#L230" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -427,7 +441,7 @@ were made (nothing was removed), the second element is also exactly <code>self</
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/node.cr#L198" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/node.cr#L240" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -448,7 +462,7 @@ were made (nothing was removed), the second element is also exactly <code>self</
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/node.cr#L117" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/node.cr#L159" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -469,7 +483,7 @@ were made (nothing was removed), the second element is also exactly <code>self</
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/node.cr#L112" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/node.cr#L130" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -493,7 +507,50 @@ as value and <code>nil</code> as absence.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/node.cr#L173" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/node.cr#L215" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="nth?(n:Int32):T|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>nth?</strong>(n : Int32) : T | Nil
+
+        <a class="method-permalink" href="#nth%3F%28n%3AInt32%29%3AT%7CNil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <em>n</em>-th item in this node or in one of the nodes beneath.</p>
+<p>The order of items is the same as in <code><a href="../../Pf/Core/Node.html#each%28%26%3AT-%3E%29%3ANil-instance-method">#each</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/node.cr#L142" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong> : Int32
+
+        <a class="method-permalink" href="#size%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the number of items in this node and all nodes beneath.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/node.cr#L135" target="_blank">View source</a>]
         
       </div>
     </div>

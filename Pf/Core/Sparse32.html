@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.12.2">
+<meta name="generator" content="Crystal Docs 1.14.0">
 <meta name="crystal_docs.project_version" content="trunk">
 <meta name="crystal_docs.project_name" content="permafrost">
 
@@ -209,7 +209,7 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L2" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L2" target="_blank">
         permafrost/core/sparse32.cr
       </a>
     
@@ -315,6 +315,18 @@
         <a href="#empty%3F%3ABool-instance-method" class="signature"><strong>#empty?</strong> : Bool</a>
         
           <div class="summary"><p>Returns <code>true</code> if this array contains no elements.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inspect%28io%29-instance-method" class="signature"><strong>#inspect</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reverse_each%28%26%3AT-%3E%29-instance-method" class="signature"><strong>#reverse_each</strong>(& : T -> )</a>
+        
+          <div class="summary"><p>Yields each element from this array starting at the rightmost one and moving left.</p></div>
         
       </li>
     
@@ -428,7 +440,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L28" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -444,7 +456,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -482,7 +494,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L86" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L95" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -504,7 +516,7 @@ ones are occupied.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L26" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -528,7 +540,7 @@ ones are occupied.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L75" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L75" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -549,7 +561,44 @@ ones are occupied.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L57" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L57" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inspect(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>inspect</strong>(io)
+
+        <a class="method-permalink" href="#inspect%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L180" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reverse_each(&amp;:T-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>reverse_each</strong>(& : T -> )
+
+        <a class="method-permalink" href="#reverse_each%28%26%3AT-%3E%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields each element from this array starting at the rightmost one and moving left.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L84" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -570,7 +619,7 @@ ones are occupied.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L51" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -591,7 +640,7 @@ ones are occupied.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L45" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L45" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -612,7 +661,7 @@ ones are occupied.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L136" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L145" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -633,7 +682,7 @@ ones are occupied.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L102" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -654,7 +703,7 @@ ones are occupied.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L157" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L166" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -675,7 +724,7 @@ ones are occupied.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/aa55ef8a97e260ef81bcbde784665a0056064e2b/src/permafrost/core/sparse32.cr#L121" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/core/sparse32.cr#L130" target="_blank">View source</a>]
         
       </div>
     </div>
