@@ -313,8 +313,8 @@ want to crash our only competitor in Crystal-land.</p>
   <span class="k">end</span>
 <span class="k">end</span></code></pre>
 <p>This reports the following on my machine (Ryzen 3 2200G):</p>
-<pre><code class="language-text">   uset32   5.58m (179.30s ) (± 0.00%)  4.79GB/op  77.95× slower
-bit array 434.74m (  2.30s ) (± 0.46%)   256MB/op        fastest</code></pre>
+<pre><code class="language-text">   uset32   9.28m (107.77s ) (± 0.00%)  4.79GB/op  46.95× slower
+bit array 435.66m (  2.30s ) (± 1.14%)   256MB/op        fastest</code></pre>
 <p>Horrendous, isn't it? Except remember that bit array allocates all the memory upfront,
 and does a neat sequ pass where it doesn't follow even a single pointer. Paradise for
 a modern CPU!</p>
@@ -434,7 +434,7 @@ however, my timings were slightly slower without the flag.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L207" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L207" target="_blank">
         permafrost/uset32.cr
       </a>
     
@@ -721,7 +721,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L312" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L312" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -742,7 +742,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L303" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L303" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -758,7 +758,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L225" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L225" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -779,7 +779,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L235" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L235" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -800,7 +800,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L230" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L230" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -826,7 +826,7 @@ will lead to UB.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L293" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L293" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -858,7 +858,7 @@ will lead to UB.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L440" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L440" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -879,7 +879,7 @@ will lead to UB.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L415" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L415" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -900,7 +900,7 @@ will lead to UB.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L380" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L380" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -922,7 +922,7 @@ indicating whether <em>value</em> was added during the call.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L389" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L389" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -943,7 +943,7 @@ indicating whether <em>value</em> was added during the call.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L371" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L371" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -968,7 +968,7 @@ indicating whether <em>value</em> was added during the call.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L451" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L451" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -989,7 +989,7 @@ indicating whether <em>value</em> was added during the call.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L317" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L317" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1005,7 +1005,7 @@ indicating whether <em>value</em> was added during the call.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L430" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L430" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1021,7 +1021,7 @@ indicating whether <em>value</em> was added during the call.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L426" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L426" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1043,7 +1043,7 @@ indicating whether <em>value</em> was added during the call.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L352" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L352" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1065,7 +1065,7 @@ is smaller than this set. Returns <code>false</code> otherwise.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L366" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L366" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1086,7 +1086,7 @@ is smaller than this set. Returns <code>false</code> otherwise.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L325" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L325" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1108,7 +1108,7 @@ is smaller than this set. Returns <code>false</code> otherwise.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L334" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L334" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1130,7 +1130,7 @@ is smaller than this set. Returns <code>false</code> otherwise.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L360" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L360" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1146,7 +1146,7 @@ is smaller than this set. Returns <code>false</code> otherwise.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L436" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L436" target="_blank">View source</a>]
         
       </div>
     </div>
