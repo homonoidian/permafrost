@@ -3,6 +3,7 @@ require "./permafrost/error"
 require "./permafrost/map"
 require "./permafrost/set"
 require "./permafrost/bidi_map"
+require "./permafrost/uset32"
 require "./permafrost/ext"
 
 module Pf

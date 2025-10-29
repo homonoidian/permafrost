@@ -30,6 +30,15 @@ module Enumerable(T)
     Pf::Set.new(self)
   end
 
+  # Creates a `Pf::USet32` out of a UInt32 enumerable.
+  #
+  # ```
+  # (0u32...5u32).to_pf_uset32 # => Pf::USet32[0, 1, 2, 3, 4]
+  # ```
+  def to_pf_uset32 : Pf::USet32
+    Pf::USet32.new(self)
+  end
+
   # Like `to_pf_map`, but creates a `Pf::BidiMap`.
   #
   # ```

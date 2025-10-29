@@ -1,7 +1,14 @@
 # permafrost
 
-Permafrost implements a (relatively) fast unordered persistent map. Plus a set
-and a bidirectional map based on the map.
+Permafrost is a collection of thread-safe, persistent, immutable data structures for Crystal.
+
+- An unordered map `Pf::Map`
+- An unordered set `Pf::Set`
+- An unordered bidirectional map (bimap) `Pf::BidiMap`.
+- An unsigned 32-bit integer set `Pf::USet32`.
+
+Most of the data structures in Permafrost come from my main project, [Wirewright](https://github.com/wirewright/wirewright).
+Wirewright is also the main user of Permafrost.
 
 ## Installation
 
@@ -17,22 +24,7 @@ and a bidirectional map based on the map.
 
 ## Usage
 
-I implemented most useful stuff (?) from `Hash` and `Set`. `BidiMap` is mostly for myself
-so you may forget it exists :) All in all refer to [the docs](https://homonoidian.github.io/permafrost/).
-
-```crystal
-require "permafrost"
-
-map = Pf::Map[foo: 100, bar: 200]
-map["foo"]? # => 100
-map["bar"]? # => 200
-
-map.assoc("baz", 300) # => Pf::Map{"foo" => 100, "bar" => 200, "baz" => 300}
-map                   # => Pf::Map{"foo" => 100, "bar" => 200}
-
-map.dissoc("foo") # => Pf::Map{"bar" => 200}
-map               # => Pf::Map{"foo" => 100, "bar" => 200}
-```
+See [the docs](https://homonoidian.github.io/permafrost/). 
 
 ## Performance
 
@@ -69,20 +61,20 @@ you'll get different results, faster or slower than those presented here.
 
 ## Development
 
-The implementation is pretty simple, it's found in `src/permafrost/core/node.cr`.
-If you find any errors please let me know or (even better!) fix them yourself and
-submit a PR. Same with new features. New methods for `Pf::Map`, `Pf::Set` and `Pf::BidiMap` are especially welcome.
+- If you find any errors please let me know or (even better!) fix them yourself and
+  submit a PR.
+- New methods or quality improvements are welcome, especially if they already exist in
+  Crystal's stdlib.
+- Optimizations are *especially* welcome. E.g. Wirewright currently uses Permafrost in
+  extremely hot places. A dozen nanoseconds shaved off of something hot in Permafrost itself
+  would be very nice.
 
-
-## See also
-
-I've no clue whether what I've written truly is a HAMT or not, as long
-as it works I'm fine. For reference, here are some HAMTs that consider themselves HAMTs:
+## References
 
 - [Immutable](https://github.com/lucaong/immutable)
 - [HAMT for C with good internals explanation](https://github.com/mkirchner/hamt)
 - [Clojure's PersistentHashMap](https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/PersistentHashMap.java)
-- etc.
+- [Roaring bitmaps](https://roaringbitmap.org/)
 
 ## Contributing
 
