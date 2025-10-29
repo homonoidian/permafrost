@@ -74,7 +74,7 @@ module Pf::Core
       @children = Sparse32(Node(T)).new,
       @beneath = 0,
       @itemsof = AUTHOR_NONE,
-      @childrenof = AUTHOR_NONE
+      @childrenof = AUTHOR_NONE,
     )
     end
 
@@ -100,7 +100,7 @@ module Pf::Core
       else
         # We do not actually make a copy of children here; there's no need to (huh?)
         # But we must make sure the node itself is copied.
-        Node(T).new(@items, @children, @beneath + delta, @itemsof, author)
+        Node(T).new(@items, @children, @beneath + delta, @itemsof, @childrenof)
       end
     end
 
