@@ -111,8 +111,8 @@
 # This reports the following on my machine (Ryzen 3 2200G):
 #
 # ```text
-#    uset32   5.58m (179.30s ) (± 0.00%)  4.79GB/op  77.95× slower
-# bit array 434.74m (  2.30s ) (± 0.46%)   256MB/op        fastest
+#    uset32   9.28m (107.77s ) (± 0.00%)  4.79GB/op  46.95× slower
+# bit array 435.66m (  2.30s ) (± 1.14%)   256MB/op        fastest
 # ```
 #
 # Horrendous, isn't it? Except remember that bit array allocates all the memory upfront,
