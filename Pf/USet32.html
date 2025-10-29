@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.17.1">
+<meta name="crystal_docs.project_version" content="trunk">
+<meta name="crystal_docs.project_name" content="permafrost">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="permafrost">
+  <title>Pf::USet32 - permafrost trunk</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          permafrost
+        </a>
+      </h1>
+
+      <span class="project-version">
+        trunk
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="permafrost/Enumerable" data-name="enumerable(t)">
+      <a href="../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf" data-name="pf">
+      <a href="../Pf.html">Pf</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/BidiMap" data-name="pf::bidimap(k, v)">
+      <a href="../Pf/BidiMap.html">BidiMap</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Core" data-name="pf::core">
+      <a href="../Pf/Core.html">Core</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Core/AuthorId" data-name="pf::core::authorid">
+      <a href="../Pf/Core/AuthorId.html">AuthorId</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/IProbeAdd" data-name="pf::core::iprobeadd(t)">
+      <a href="../Pf/Core/IProbeAdd.html">IProbeAdd</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/IProbeAuthored" data-name="pf::core::iprobeauthored">
+      <a href="../Pf/Core/IProbeAuthored.html">IProbeAuthored</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/IProbeDelete" data-name="pf::core::iprobedelete(t)">
+      <a href="../Pf/Core/IProbeDelete.html">IProbeDelete</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/IProbeFetch" data-name="pf::core::iprobefetch(t)">
+      <a href="../Pf/Core/IProbeFetch.html">IProbeFetch</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/Node" data-name="pf::core::node(t)">
+      <a href="../Pf/Core/Node.html">Node</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Core/Sparse32" data-name="pf::core::sparse32(t)">
+      <a href="../Pf/Core/Sparse32.html">Sparse32</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="../Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Map" data-name="pf::map(k, v)">
+      <a href="../Pf/Map.html">Map</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Map/Commit" data-name="pf::map::commit(k, v)">
+      <a href="../Pf/Map/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ReadonlyError" data-name="pf::readonlyerror">
+      <a href="../Pf/ReadonlyError.html">ReadonlyError</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ResolvedError" data-name="pf::resolvederror">
+      <a href="../Pf/ResolvedError.html">ResolvedError</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Set" data-name="pf::set(t)">
+      <a href="../Pf/Set.html">Set</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Set/Commit" data-name="pf::set::commit(t)">
+      <a href="../Pf/Set/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf/USet32" data-name="pf::uset32">
+      <a href="../Pf/USet32.html">USet32</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/USet32/Commit" data-name="pf::uset32::commit">
+      <a href="../Pf/USet32/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">
+    struct
+  </span> Pf::<wbr>USet32
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Pf/USet32.html">Pf::USet32</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>A thread-safe, persistent set of 32-bit unsigned integers.</p>
+<p><span class="flag orange">TODO</span>  many essential set operations are more or less trivial to implement
+but are missing at the moment.</p>
+<p><span class="flag orange">TODO</span>  The current implementation is far more stupid versus e.g. <code><a href="../Pf/Set.html">Pf::Set</a></code>
+wrt no-change semantics. In other words, you will pay even if you <code><a href="../Pf/USet32.html#add%28value%3AUInt32%29%3AUSet32-instance-method">#add</a></code>
+something that already exists. Optimization of all set operations wrt
+no-change remains future work.</p>
+<h2><a id="how-it-works" class="anchor" href="#how-it-works">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>How it works?</h2>
+<p>The most important takeaway is that with USet32, <em>integer magnitude directly
+affects performance</em>.</p>
+<p>See the diagram below.</p>
+<pre><code class="language-text">                (0-31)             (0-15)           (0-15)
+LSB          bitmap index         n0 index         n2 index       MSB
+               ─────────           ───────         ───────
+   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   ───────────           ─────────         ───────         ───────
+    bit index           chunk index        n1 index        n3 index
+      (0-63)              (0-31)            (0-15)          (0-15)
+
+
+
+
+    ┌─────┐                        ▲
+    │N3   │                        │
+    └──┬──┘                        │
+       │  16-way branch            │
+       ▼                           │
+    ┌─────┐                        │
+    │N2   │                        │
+    └──┬──┘                        │
+       │  16-way branch            │
+       ▼                           │
+    ┌─────┐                        │
+    │N1   │                        │
+    └──┬──┘                        │
+       │  16-way branch            │
+       ▼                           │
+    ┌─────┐                        │
+    │N0   │                        │
+    └──┬──┘                        │
+       │  16-way branch            │  instantiated on-demand
+       ▼                           │  as the numbers grow
+  ┌─────────┐                      │
+  │wide node│                      │
+  └────┬────┘                      │
+       │  32-way branch            │
+       ▼                           │
+  ┌─────────┐                      │
+  │  chunk  │                      │
+  └────┬────┘                      │
+       │  32-way branch            │
+       ▼                           │
+  ┌───────────────────────────┐    │
+  │ bitmap                    │    │
+  │                           │    │
+  │ 0 0 0 0 0 0 0 ... 0 0 0 0 │    │
+  │ ───────────────────────── │    │
+  │          64 bits          │    │
+  └───────────────────────────┘    │</code></pre>
+<p>USet32 effectively &quot;reifies&quot; the number tree (each number is a path through
+that tree), providing an indexing data structure on top of the u32 number line.</p>
+<p>Note how this implementation penalizes large numbers or sets containing large
+numbers (numbers far away from origin).</p>
+<p>Bitmaps are very cheap, so if your numbers are frequently in the 0-63 range, you're
+well set. The larger your number, the more allocation overhead you will have and
+the &quot;taller&quot; the tree will grow.</p>
+<p>Everything from <em>chunk</em> upwards adds an allocation / a pointer dereference. On
+one hand, that's nice because you will copy less and share more. On the other hand,
+modern CPUs penalize pointer chasing so you're going to suffer: dozens of nanoseconds
+up to 100ns for an insertion is not unheard of.</p>
+<h2><a id="performance" class="anchor" href="#performance">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Performance</h2>
+<p>Let's add all i32s. We can't add all u32s because BitArray crashes on that. We don't
+want to crash our only competitor in Crystal-land.</p>
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;benchmark&quot;</span>
+<span class="k">require</span> <span class="s">&quot;bit_array&quot;</span>
+
+<span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
+  x.report(<span class="s">&quot;uset32&quot;</span>) <span class="k">do</span>
+    _ <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>.transaction <span class="k">do</span> <span class="o">|</span>set<span class="o">|</span>
+      (<span class="n">0u32</span>..<span class="t">Int32</span><span class="t">::</span><span class="t">MAX</span>).each <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
+        set <span class="o">&lt;&lt;</span> n.to_u32
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  x.report(<span class="s">&quot;bit array&quot;</span>) <span class="k">do</span>
+    bits <span class="o">=</span> <span class="t">BitArray</span>.new(<span class="t">Int32</span><span class="t">::</span><span class="t">MAX</span>)
+    (<span class="n">0u32</span>..<span class="t">Int32</span><span class="t">::</span><span class="t">MAX</span>).each <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
+      bits.unsafe_put(n, <span class="n">true</span>)
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+<p>This reports the following on my machine (Ryzen 3 2200G):</p>
+<pre><code class="language-text">   uset32   5.58m (179.30s ) (± 0.00%)  4.79GB/op  77.95× slower
+bit array 434.74m (  2.30s ) (± 0.46%)   256MB/op        fastest</code></pre>
+<p>Horrendous, isn't it? Except remember that bit array allocates all the memory upfront,
+and does a neat sequ pass where it doesn't follow even a single pointer. Paradise for
+a modern CPU!</p>
+<p>Now, USet32 is a dynamic, immutable set that is explicitly designed in such a way that
+large numbers are penalized (versus, say, Roaring bitmaps, where magnitude does not
+matter and instead small <em>bitmaps</em> are penalized). USet32 lets you work with small
+numbers practically for free.</p>
+<p>If you have a different origin far from zero in your domain, you can normalize the numbers
+before inserting them into <code><a href="../Pf/USet32.html">USet32</a></code>. To support negative numbers, create two sets: one for
+negative numbers and another for positive ones. This is also the way to store <code>Int32</code>s efficiently,
+since their raw binary representation is <em>very</em> far from zero if cast to <code>UInt32</code>.</p>
+<p>USet32 is particularly well-suited for recording small, sequential ids, with an occasional
+immutable add or set operation. USet32 is suited for situations where you have thousands
+of small immutable sets, especially when they have a common ancestor.</p>
+<p>In fact, USet32 works beautifully well for set operations, since, point A, it's a trie,
+and point B, we have bitmaps at the leaves. This is almost perfect for any kind of set
+operation, be it union, intersection, difference, etc. See, for instance, the following:</p>
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;benchmark&quot;</span>
+
+xs_r <span class="o">=</span> (<span class="n">0u32</span>...<span class="n">100_000u32</span>).to_a.shuffle!
+xs_uset <span class="o">=</span> xs_r.to_pf_uset32
+xs_set <span class="o">=</span> xs_r.to_set
+
+ys_r <span class="o">=</span> (<span class="n">0u32</span>...<span class="n">20_000u32</span>).to_a.shuffle!
+ys_uset <span class="o">=</span> ys_r.to_pf_uset32
+ys_set <span class="o">=</span> ys_r.to_set
+
+zs_r <span class="o">=</span> (<span class="n">80_000u32</span>...<span class="n">150_000u32</span>).to_a.shuffle!
+zs_uset <span class="o">=</span> zs_r.to_pf_uset32
+zs_set <span class="o">=</span> zs_r.to_a.shuffle!.to_set
+
+<span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
+  x.report(<span class="s">&quot;USet32: create 100k&quot;</span>) <span class="k">do</span>
+    xs_r.to_pf_uset32
+  <span class="k">end</span>
+
+  x.report(<span class="s">&quot;Set: create 100k&quot;</span>) <span class="k">do</span>
+    xs_r.to_set
+  <span class="k">end</span>
+
+  x.report(<span class="s">&quot;USet32: subset&quot;</span>) <span class="k">do</span>
+    ys_uset.subset_of?(xs_uset)
+  <span class="k">end</span>
+
+  x.report(<span class="s">&quot;Set: subset&quot;</span>) <span class="k">do</span>
+    ys_set.subset_of?(xs_set)
+  <span class="k">end</span>
+
+  x.report(<span class="s">&quot;USet32: xs union zs&quot;</span>) <span class="k">do</span>
+    xs_uset <span class="o">|</span> zs_uset
+  <span class="k">end</span>
+
+  x.report(<span class="s">&quot;Set: xs union zs&quot;</span>) <span class="k">do</span>
+    xs_set <span class="o">|</span> zs_set
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+<p>This benchmark runs the following way on my machine (meaningless &quot;slowest-fastest&quot; omitted):</p>
+<pre><code class="language-crystal">USet32: create 100k 360.93  (  2.77ms) (± 1.06%)   231kB/op
+   Set: create 100k 512.03  (  1.95ms) (± 2.95%)   2.0MB/op
+     USet32: subset  24.55M ( 40.74ns) (±10.13%)   32.0B/op
+        Set: subset   2.90k (344.70µs) (± 0.97%)    0.0B/op
+USet32: xs union zs 542.41k (  1.84µs) (± 5.55%)  3.38kB/op
+   Set: xs union zs 190.36  (  5.25ms) (± 2.30%)   6.0MB/op</code></pre>
+<p>USet32 makes set operations and checks so cheap one almost wants to forgive it
+the horrendous construction performance.</p>
+<p>Obviously I'm not going to compare <code><a href="../Pf/Set.html">Set</a></code>'s <code>dup.add</code> with <code><a href="../Pf/USet32.html#add%28value%3AUInt32%29%3AUSet32-instance-method">#add</a></code> because that's not
+how the world works; this will be as humiliating for sets as construction perf is
+for <code><a href="../Pf/USet32.html">USet32</a></code>. Everything has its trade-offs.</p>
+<p><span class="flag purple">NOTE</span>  You are recommended to compile with <code>--mcpu=native</code> to make sure the Crystal compiler
+and LLVM consider vectorization if your CPU supports it. Or maybe they consider it anyway;
+however, my timings were slightly slower without the flag.</p>
+<h2><a id="inspired-by" class="anchor" href="#inspired-by">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Inspired by</h2>
+<ul>
+<li><a href="https://roaringbitmap.org/">Roaring bitmaps</a></li>
+</ul>
+
+
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../Enumerable.html">Enumerable(UInt32)</a></li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L207" target="_blank">
+        permafrost/uset32.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%3AUSet32-class-method" class="signature"><strong>.[]</strong> : USet32</a>
+        
+          <div class="summary"><p>Constructs an empty set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%28%2Avalues%3AUInt32%29%3AUSet32-class-method" class="signature"><strong>.[]</strong>(*values : UInt32) : USet32</a>
+        
+          <div class="summary"><p>Constructs a set with the given <em>values</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#additive_identity%3Aself-class-method" class="signature"><strong>.additive_identity</strong> : <span class="k">self</span></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new%28ee%3AEnumerable%28UInt32%29%29%3AUSet32-class-method" class="signature"><strong>.new</strong>(ee : Enumerable(UInt32)) : USet32</a>
+        
+          <div class="summary"><p>Construct a set from the given enumerable <em>ee</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new%3AUSet32-class-method" class="signature"><strong>.new</strong> : USet32</a>
+        
+          <div class="summary"><p>Constructs an empty set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#transaction%28%26%3ACommit-%3E%29%3AUSet32-class-method" class="signature"><strong>.transaction</strong>(& : Commit -> ) : USet32</a>
+        
+          <div class="summary"><p>Lets you build a possibly large set using <code><a href="../Pf/USet32/Commit.html">Commit</a></code>, which offers mutable versions of methods from <code><a href="../Pf/USet32.html">USet32</a></code>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3AUSet32%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : USet32) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%7C%28other%3AUSet32%29%3AUSet32-instance-method" class="signature"><strong>#|</strong>(other : USet32) : USet32</a>
+        
+          <div class="summary"><p>Returns a new set that contains integers from this and <em>other</em> sets.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#add%28value%3AUInt32%29%3AUSet32-instance-method" class="signature"><strong>#add</strong>(value : UInt32) : USet32</a>
+        
+          <div class="summary"><p>Returns a copy of this set with <em>value</em> present.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#add%3F%28value%3AUInt32%29%3ATuple%28USet32%2CBool%29-instance-method" class="signature"><strong>#add?</strong>(value : UInt32) : Tuple(USet32, Bool)</a>
+        
+          <div class="summary"><p>Returns a copy of this set with <em>value</em> present, followed by a boolean indicating whether <em>value</em> was added during the call.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each%28%26%3AUInt32-%3E%29-instance-method" class="signature"><strong>#each</strong>(& : UInt32 -> )</a>
+        
+          <div class="summary"><p>Yields integers stored in this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hash%28hasher%29-instance-method" class="signature"><strong>#hash</strong>(hasher)</a>
+        
+          <div class="summary"><p>See <code>Object#hash(hasher)</code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#includes%3F%28value%29%3ABool-instance-method" class="signature"><strong>#includes?</strong>(value) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this set contains <em>value</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inspect%28io%29-instance-method" class="signature"><strong>#inspect</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pretty_print%28pp%29-instance-method" class="signature"><strong>#pretty_print</strong>(pp)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#proper_subset_of%3F%28other%3AUSet32%29%3ABool-instance-method" class="signature"><strong>#proper_subset_of?</strong>(other : USet32) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if all integers in this set are contained in <em>other</em>, and <em>other</em> is larger than this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#proper_superset_of%3F%28other%3AUSet32%29%3ABool-instance-method" class="signature"><strong>#proper_superset_of?</strong>(other : USet32) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this set contains all integers from <em>other</em>, and <em>other</em> is smaller than this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3AInt32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the number of integers in this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#subset_of%3F%28other%3AUSet32%29%3ABool-instance-method" class="signature"><strong>#subset_of?</strong>(other : USet32) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if all integers in this set are contained on <em>other</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#superset_of%3F%28other%3AUSet32%29%3ABool-instance-method" class="signature"><strong>#superset_of?</strong>(other : USet32) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this set contains all integers from <em>other</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s%28io%29-instance-method" class="signature"><strong>#to_s</strong>(io)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <div class="methods-inherited">
+    
+      
+
+  <h3>Instance methods inherited from module <code><a href="../Enumerable.html">Enumerable(UInt32)</a></code></h3>
+  
+  
+    <a href="../Enumerable.html#to_pf_bidi-instance-method" class="tooltip">
+      <span>to_pf_bidi</span>
+    to_pf_bidi</a>, 
+    
+  
+    <a href="../Enumerable.html#to_pf_map%28%26%3AT-%3ETuple%28K%2CV%29%29%3APf%3A%3AMap%28K%2CV%29forallK%2CV-instance-method" class="tooltip">
+      <span>to_pf_map(& : T -> Tuple(K, V)) : Pf::Map(K, V) forall K, V<br/>to_pf_map</span>
+    to_pf_map</a>, 
+    
+  
+    <a href="../Enumerable.html#to_pf_set%3APf%3A%3ASet%28T%29-instance-method" class="tooltip">
+      <span>to_pf_set : Pf::Set(T)</span>
+    to_pf_set</a>, 
+    
+  
+    <a href="../Enumerable.html#to_pf_uset32%3APf%3A%3AUSet32-instance-method" class="tooltip">
+      <span>to_pf_uset32 : Pf::USet32</span>
+    to_pf_uset32</a>
+    
+  
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+  </div>
+
+  
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="[]:USet32-class-method">
+      <div class="signature">
+        
+        def self.<strong>[]</strong> : <a href="../Pf/USet32.html">USet32</a>
+
+        <a class="method-permalink" href="#%5B%5D%3AUSet32-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Constructs an empty set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L312" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[](*values:UInt32):USet32-class-method">
+      <div class="signature">
+        
+        def self.<strong>[]</strong>(*values : UInt32) : <a href="../Pf/USet32.html">USet32</a>
+
+        <a class="method-permalink" href="#%5B%5D%28%2Avalues%3AUInt32%29%3AUSet32-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Constructs a set with the given <em>values</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L303" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="additive_identity:self-class-method">
+      <div class="signature">
+        
+        def self.<strong>additive_identity</strong> : <span class="k">self</span>
+
+        <a class="method-permalink" href="#additive_identity%3Aself-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L225" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(ee:Enumerable(UInt32)):USet32-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(ee : <a href="../Enumerable.html">Enumerable</a>(UInt32)) : <a href="../Pf/USet32.html">USet32</a>
+
+        <a class="method-permalink" href="#new%28ee%3AEnumerable%28UInt32%29%29%3AUSet32-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Construct a set from the given enumerable <em>ee</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L235" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new:USet32-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong> : <a href="../Pf/USet32.html">USet32</a>
+
+        <a class="method-permalink" href="#new%3AUSet32-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Constructs an empty set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L230" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="transaction(&amp;:Commit-&gt;):USet32-class-method">
+      <div class="signature">
+        
+        def self.<strong>transaction</strong>(& : <a href="../Pf/USet32/Commit.html">Commit</a> -> ) : <a href="../Pf/USet32.html">USet32</a>
+
+        <a class="method-permalink" href="#transaction%28%26%3ACommit-%3E%29%3AUSet32-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Lets you build a possibly large set using <code><a href="../Pf/USet32/Commit.html">Commit</a></code>, which offers mutable versions
+of methods from <code><a href="../Pf/USet32.html">USet32</a></code>.</p>
+<p><span class="flag yellow">WARNING</span>  The yielded <code><a href="../Pf/USet32/Commit.html">Commit</a></code> must, under no circumstances, outlive the block or
+escape it otherwise, through retained closures, instance variables, etc. It uses
+pointers into stack-allocated memory, so using it after the block returns
+will lead to UB.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L293" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="==(other:USet32):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : <a href="../Pf/USet32.html">USet32</a>) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%28other%3AUSet32%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L440" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="|(other:USet32):USet32-instance-method">
+      <div class="signature">
+        
+        def <strong>|</strong>(other : <a href="../Pf/USet32.html">USet32</a>) : <a href="../Pf/USet32.html">USet32</a>
+
+        <a class="method-permalink" href="#%7C%28other%3AUSet32%29%3AUSet32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a new set that contains integers from this and <em>other</em> sets.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L415" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="add(value:UInt32):USet32-instance-method">
+      <div class="signature">
+        
+        def <strong>add</strong>(value : UInt32) : <a href="../Pf/USet32.html">USet32</a>
+
+        <a class="method-permalink" href="#add%28value%3AUInt32%29%3AUSet32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of this set with <em>value</em> present.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L380" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="add?(value:UInt32):Tuple(USet32,Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>add?</strong>(value : UInt32) : Tuple(<a href="../Pf/USet32.html">USet32</a>, Bool)
+
+        <a class="method-permalink" href="#add%3F%28value%3AUInt32%29%3ATuple%28USet32%2CBool%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of this set with <em>value</em> present, followed by a boolean
+indicating whether <em>value</em> was added during the call.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L389" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each(&amp;:UInt32-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>each</strong>(& : UInt32 -> )
+
+        <a class="method-permalink" href="#each%28%26%3AUInt32-%3E%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields integers stored in this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L371" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hash(hasher)-instance-method">
+      <div class="signature">
+        
+        def <strong>hash</strong>(hasher)
+
+        <a class="method-permalink" href="#hash%28hasher%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from struct Struct
+            </div>
+          
+          <p>See <code>Object#hash(hasher)</code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L451" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="includes?(value):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>includes?</strong>(value) : Bool
+
+        <a class="method-permalink" href="#includes%3F%28value%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this set contains <em>value</em>. Returns <code>false</code> otherwise.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L317" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inspect(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>inspect</strong>(io)
+
+        <a class="method-permalink" href="#inspect%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L430" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pretty_print(pp)-instance-method">
+      <div class="signature">
+        
+        def <strong>pretty_print</strong>(pp)
+
+        <a class="method-permalink" href="#pretty_print%28pp%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L426" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="proper_subset_of?(other:USet32):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>proper_subset_of?</strong>(other : <a href="../Pf/USet32.html">USet32</a>) : Bool
+
+        <a class="method-permalink" href="#proper_subset_of%3F%28other%3AUSet32%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if all integers in this set are contained in <em>other</em>, and
+<em>other</em> is larger than this set. Returns <code>false</code> otherwise.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L352" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="proper_superset_of?(other:USet32):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>proper_superset_of?</strong>(other : <a href="../Pf/USet32.html">USet32</a>) : Bool
+
+        <a class="method-permalink" href="#proper_superset_of%3F%28other%3AUSet32%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this set contains all integers from <em>other</em>, and <em>other</em>
+is smaller than this set. Returns <code>false</code> otherwise.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L366" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong> : Int32
+
+        <a class="method-permalink" href="#size%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the number of integers in this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L325" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="subset_of?(other:USet32):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>subset_of?</strong>(other : <a href="../Pf/USet32.html">USet32</a>) : Bool
+
+        <a class="method-permalink" href="#subset_of%3F%28other%3AUSet32%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if all integers in this set are contained on <em>other</em>. Returns
+<code>false</code> otherwise.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L334" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="superset_of?(other:USet32):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>superset_of?</strong>(other : <a href="../Pf/USet32.html">USet32</a>) : Bool
+
+        <a class="method-permalink" href="#superset_of%3F%28other%3AUSet32%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this set contains all integers from <em>other</em>. Returns
+<code>false</code> otherwise.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L360" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong>(io)
+
+        <a class="method-permalink" href="#to_s%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L436" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+</div>
+
+</body>
+</html>

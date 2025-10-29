@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../../js/doc.js"></script>
 
   <meta name="repository-name" content="permafrost">
-  <title>Pf::Core::IProbeAdd(T) - permafrost trunk</title>
+  <title>Pf::USet32::Commit - permafrost trunk</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../";
   </script>
@@ -72,7 +72,7 @@
       
     </li>
   
-  <li class="parent open current" data-id="permafrost/Pf/Core" data-name="pf::core">
+  <li class="parent " data-id="permafrost/Pf/Core" data-name="pf::core">
       <a href="../../Pf/Core.html">Core</a>
       
         <ul>
@@ -82,7 +82,7 @@
       
     </li>
   
-  <li class=" current" data-id="permafrost/Pf/Core/IProbeAdd" data-name="pf::core::iprobeadd(t)">
+  <li class=" " data-id="permafrost/Pf/Core/IProbeAdd" data-name="pf::core::iprobeadd(t)">
       <a href="../../Pf/Core/IProbeAdd.html">IProbeAdd</a>
       
     </li>
@@ -162,12 +162,12 @@
       
     </li>
   
-  <li class="parent " data-id="permafrost/Pf/USet32" data-name="pf::uset32">
+  <li class="parent open current" data-id="permafrost/Pf/USet32" data-name="pf::uset32">
       <a href="../../Pf/USet32.html">USet32</a>
       
         <ul>
   
-  <li class=" " data-id="permafrost/Pf/USet32/Commit" data-name="pf::uset32::commit">
+  <li class=" current" data-id="permafrost/Pf/USet32/Commit" data-name="pf::uset32::commit">
       <a href="../../Pf/USet32/Commit.html">Commit</a>
       
     </li>
@@ -192,11 +192,13 @@
 <h1 class="type-name">
 
   <span class="kind">
-    module
-  </span> Pf::<wbr>Core::<wbr>IProbeAdd(T)
+    struct
+  </span> Pf::<wbr>USet32::<wbr>Commit
 
 </h1>
 
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Pf/USet32/Commit.html">Pf::USet32::Commit</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
 
 
 
@@ -210,7 +212,8 @@
     Overview
   </h2>
 
-  <p>Includers can add stored values to the trie, or replace them.</p>
+  <p>Exposes mutable versions of <code><a href="../../Pf/USet32.html">USet32</a></code> methods to let you construct your
+sets quickly.</p>
 
 
 
@@ -218,45 +221,11 @@
 
 
 
-  <h2>
-    <a id="included-modules" class="anchor" href="#included-modules">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Included Modules
-  </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type"><a href="../../Pf/Core/IProbeAuthored.html">Pf::Core::IProbeAuthored</a></li>
-    
-      <li class="other-type"><a href="../../Pf/Core/IProbeFetch.html">Pf::Core::IProbeFetch(T)</a></li>
-    
-  </ul>
 
 
 
 
 
-
-
-  <h2>
-    <a id="direct-including-types" class="anchor" href="#direct-including-types">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Direct including types
-  </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type"><a href="../../Pf/Map/Probes/Assoc.html">Pf::Map::Probes::Assoc(K, V)</a></li>
-    
-      <li class="other-type"><a href="../../Pf/Set/Probes/Add.html">Pf::Set::Probes::Add(T)</a></li>
-    
-      <li class="other-type"><a href="../../Pf/Set/Probes/MutAdd.html">Pf::Set::Probes::MutAdd(T)</a></li>
-    
-  </ul>
 
 
 
@@ -271,8 +240,8 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/core/node.cr#L44" target="_blank">
-        permafrost/core/node.cr
+      <a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L243" target="_blank">
+        permafrost/uset32.cr
       </a>
     
     <br/>
@@ -300,16 +269,31 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#replace%3F%28stored%3AT%29%3ABool-instance-method" class="signature"><strong>#replace?</strong>(stored : T) : Bool</a>
+        <a href="#%3C%3C%28value%3AUInt32%29%3Aself-instance-method" class="signature"><strong>#<<</strong>(value : UInt32) : <span class="k">self</span></a>
         
-          <div class="summary"><p>Returns <code>true</code> if an existing <em>stored</em> value should be replaced with this probe's own <code><a href="../../Pf/Core/IProbeAdd.html#value%3AT-instance-method">#value</a></code>.</p></div>
+          <div class="summary"><p>Adds <em>value</em> to this set.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#value%3AT-instance-method" class="signature"><strong>#value</strong> : T</a>
+        <a href="#includes%3F%28value%3AUInt32%29%3ABool-instance-method" class="signature"><strong>#includes?</strong>(value : UInt32) : Bool</a>
         
-          <div class="summary"><p>Returns the value associated with this probe, to be stored in <code><a href="../../Pf/Core/Node.html">Node</a></code>.</p></div>
+          <div class="summary"><p>Returns <code>true</code> if the underlying set currently includes <em>value</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inspect%28io%29-instance-method" class="signature"><strong>#inspect</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pretty_print%28pp%29-instance-method" class="signature"><strong>#pretty_print</strong>(pp)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s%28io%29-instance-method" class="signature"><strong>#to_s</strong>(io)</a>
         
       </li>
     
@@ -321,15 +305,6 @@
     
       
 
-  <h3>Instance methods inherited from module <code><a href="../../Pf/Core/IProbeAuthored.html">Pf::Core::IProbeAuthored</a></code></h3>
-  
-  
-    <a href="../../Pf/Core/IProbeAuthored.html#author%3AAuthorId-instance-method" class="tooltip">
-      <span>author : AuthorId</span>
-    author</a>
-    
-  
-
 
       
 
@@ -343,19 +318,18 @@
     
       
 
-  <h3>Instance methods inherited from module <code><a href="../../Pf/Core/IProbeFetch.html">Pf::Core::IProbeFetch(T)</a></code></h3>
-  
-  
-    <a href="../../Pf/Core/IProbeFetch.html#match%3F%28stored%3AT%29%3ABool-instance-method" class="tooltip">
-      <span>match?(stored : T) : Bool</span>
-    match?</a>, 
+
+      
+
+
+      
+
+
+      
+
+
     
-  
-    <a href="../../Pf/Core/IProbeFetch.html#path%3AUInt64-instance-method" class="tooltip">
-      <span>path : UInt64</span>
-    path</a>
-    
-  
+      
 
 
       
@@ -386,45 +360,93 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="replace?(stored:T):Bool-instance-method">
+    <div class="entry-detail" id="&lt;&lt;(value:UInt32):self-instance-method">
       <div class="signature">
-        abstract 
-        def <strong>replace?</strong>(stored : T) : Bool
+        
+        def <strong><<</strong>(value : UInt32) : <span class="k">self</span>
 
-        <a class="method-permalink" href="#replace%3F%28stored%3AT%29%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#%3C%3C%28value%3AUInt32%29%3Aself-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns <code>true</code> if an existing <em>stored</em> value should be replaced with
-this probe's own <code><a href="../../Pf/Core/IProbeAdd.html#value%3AT-instance-method">#value</a></code>.</p>
+          <p>Adds <em>value</em> to this set.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/core/node.cr#L53" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L258" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="value:T-instance-method">
+    <div class="entry-detail" id="includes?(value:UInt32):Bool-instance-method">
       <div class="signature">
-        abstract 
-        def <strong>value</strong> : T
+        
+        def <strong>includes?</strong>(value : UInt32) : Bool
 
-        <a class="method-permalink" href="#value%3AT-instance-method">#</a>
+        <a class="method-permalink" href="#includes%3F%28value%3AUInt32%29%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns the value associated with this probe, to be stored in <code><a href="../../Pf/Core/Node.html">Node</a></code>.</p>
+          <p>Returns <code>true</code> if the underlying set currently includes <em>value</em>. Returns
+<code>false</code> otherwise.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/core/node.cr#L49" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L250" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inspect(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>inspect</strong>(io)
+
+        <a class="method-permalink" href="#inspect%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L275" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pretty_print(pp)-instance-method">
+      <div class="signature">
+        
+        def <strong>pretty_print</strong>(pp)
+
+        <a class="method-permalink" href="#pretty_print%28pp%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L271" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong>(io)
+
+        <a class="method-permalink" href="#to_s%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/uset32.cr#L281" target="_blank">View source</a>]
         
       </div>
     </div>

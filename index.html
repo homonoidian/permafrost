@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.14.0">
+<meta name="generator" content="Crystal Docs 1.17.1">
 <meta name="crystal_docs.project_version" content="trunk">
 <meta name="crystal_docs.project_name" content="permafrost">
 
@@ -162,6 +162,21 @@
       
     </li>
   
+  <li class="parent " data-id="permafrost/Pf/USet32" data-name="pf::uset32">
+      <a href="Pf/USet32.html">USet32</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/USet32/Commit" data-name="pf::uset32::commit">
+      <a href="Pf/USet32/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
 </ul>
 
       
@@ -178,8 +193,15 @@
     <use href="#octicon-link"/>
   </svg>
 </a>permafrost</h1>
-<p>Permafrost implements a (relatively) fast unordered persistent map. Plus a set
-and a bidirectional map based on the map.</p>
+<p>Permafrost is a collection of thread-safe, persistent, immutable data structures for Crystal.</p>
+<ul>
+<li>An unordered map <code><a href="Pf/Map.html">Pf::Map</a></code></li>
+<li>An unordered set <code><a href="Pf/Set.html">Pf::Set</a></code></li>
+<li>An unordered bidirectional map (bimap) <code><a href="Pf/BidiMap.html">Pf::BidiMap</a></code>.</li>
+<li>An unsigned 32-bit integer set <code><a href="Pf/USet32.html">Pf::USet32</a></code>.</li>
+</ul>
+<p>Most of the data structures in Permafrost come from my main project, <a href="https://github.com/wirewright/wirewright">Wirewright</a>.
+Wirewright is also the main user of Permafrost.</p>
 <h2><a id="installation" class="anchor" href="#installation">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -201,19 +223,7 @@ and a bidirectional map based on the map.</p>
     <use href="#octicon-link"/>
   </svg>
 </a>Usage</h2>
-<p>I implemented most useful stuff (?) from <code>Hash</code> and <code>Set</code>. <code>BidiMap</code> is mostly for myself
-so you may forget it exists :) All in all refer to <a href="https://homonoidian.github.io/permafrost/">the docs</a>.</p>
-<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;permafrost&quot;</span>
-
-map <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Map</span>[foo: <span class="n">100</span>, bar: <span class="n">200</span>]
-map[<span class="s">&quot;foo&quot;</span>]? <span class="c"># =&gt; 100</span>
-map[<span class="s">&quot;bar&quot;</span>]? <span class="c"># =&gt; 200</span>
-
-map.assoc(<span class="s">&quot;baz&quot;</span>, <span class="n">300</span>) <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &quot;bar&quot; =&gt; 200, &quot;baz&quot; =&gt; 300}</span>
-map                   <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &quot;bar&quot; =&gt; 200}</span>
-
-map.dissoc(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; Pf::Map{&quot;bar&quot; =&gt; 200}</span>
-map               <span class="c"># =&gt; Pf::Map{&quot;foo&quot; =&gt; 100, &quot;bar&quot; =&gt; 200}</span></code></pre>
+<p>See <a href="https://homonoidian.github.io/permafrost/">the docs</a>.</p>
 <h2><a id="performance" class="anchor" href="#performance">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -248,21 +258,25 @@ you'll get different results, faster or slower than those presented here.</p>
     <use href="#octicon-link"/>
   </svg>
 </a>Development</h2>
-<p>The implementation is pretty simple, it's found in <code>src/permafrost/core/node.cr</code>.
-If you find any errors please let me know or (even better!) fix them yourself and
-submit a PR. Same with new features. New methods for <code><a href="Pf/Map.html">Pf::Map</a></code>, <code><a href="Pf/Set.html">Pf::Set</a></code> and <code><a href="Pf/BidiMap.html">Pf::BidiMap</a></code> are especially welcome.</p>
-<h2><a id="see-also" class="anchor" href="#see-also">
+<ul>
+<li>If you find any errors please let me know or (even better!) fix them yourself and
+submit a PR.</li>
+<li>New methods or quality improvements are welcome, especially if they already exist in
+Crystal's stdlib.</li>
+<li>Optimizations are <em>especially</em> welcome. E.g. Wirewright currently uses Permafrost in
+extremely hot places. A dozen nanoseconds shaved off of something hot in Permafrost itself
+would be very nice.</li>
+</ul>
+<h2><a id="references" class="anchor" href="#references">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>See also</h2>
-<p>I've no clue whether what I've written truly is a HAMT or not, as long
-as it works I'm fine. For reference, here are some HAMTs that consider themselves HAMTs:</p>
+</a>References</h2>
 <ul>
 <li><a href="https://github.com/lucaong/immutable">Immutable</a></li>
 <li><a href="https://github.com/mkirchner/hamt">HAMT for C with good internals explanation</a></li>
 <li><a href="https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/PersistentHashMap.java">Clojure's PersistentHashMap</a></li>
-<li>etc.</li>
+<li><a href="https://roaringbitmap.org/">Roaring bitmaps</a></li>
 </ul>
 <h2><a id="contributing" class="anchor" href="#contributing">
   <svg class="octicon-link" aria-hidden="true">

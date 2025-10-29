@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.14.0">
+<meta name="generator" content="Crystal Docs 1.17.1">
 <meta name="crystal_docs.project_version" content="trunk">
 <meta name="crystal_docs.project_name" content="permafrost">
 
@@ -162,6 +162,21 @@
       
     </li>
   
+  <li class="parent " data-id="permafrost/Pf/USet32" data-name="pf::uset32">
+      <a href="Pf/USet32.html">USet32</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/USet32/Commit" data-name="pf::uset32::commit">
+      <a href="Pf/USet32/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
 </ul>
 
       
@@ -176,7 +191,9 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">module</span> Enumerable(T)
+  <span class="kind">
+    module
+  </span> Enumerable(T)
 
 </h1>
 
@@ -226,6 +243,8 @@ the <code>Iterator</code> and <code>Iterable</code> modules.</p>
 
 
 
+
+
   <h2>
     <a id="direct-including-types" class="anchor" href="#direct-including-types">
   <svg class="octicon-link" aria-hidden="true">
@@ -242,6 +261,8 @@ the <code>Iterator</code> and <code>Iterable</code> modules.</p>
     
       <li class="other-type"><a href="Pf/Set.html">Pf::Set(T)</a></li>
     
+      <li class="other-type"><a href="Pf/USet32.html">Pf::USet32</a></li>
+    
   </ul>
 
 
@@ -257,7 +278,7 @@ the <code>Iterator</code> and <code>Iterable</code> modules.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/ext.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/ext.cr#L1" target="_blank">
         permafrost/ext.cr
       </a>
     
@@ -268,12 +289,13 @@ the <code>Iterator</code> and <code>Iterable</code> modules.</p>
 
 
 
+  
 
+  
 
+  
 
-
-
-
+  
   <h2>
     <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
   <svg class="octicon-link" aria-hidden="true">
@@ -312,21 +334,28 @@ the <code>Iterator</code> and <code>Iterable</code> modules.</p>
         
       </li>
     
+      <li class="entry-summary">
+        <a href="#to_pf_uset32%3APf%3A%3AUSet32-instance-method" class="signature"><strong>#to_pf_uset32</strong> : Pf::USet32</a>
+        
+          <div class="summary"><p>Creates a <code><a href="Pf/USet32.html">Pf::USet32</a></code> out of a UInt32 enumerable.</p></div>
+        
+      </li>
+    
   </ul>
 
 
 
-<div class="methods-inherited">
+  <div class="methods-inherited">
+    
+  </div>
+
   
-</div>
 
+  
 
+  
 
-
-
-
-
-
+  
   <h2>
     <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
   <svg class="octicon-link" aria-hidden="true">
@@ -353,7 +382,7 @@ the <code>Iterator</code> and <code>Iterable</code> modules.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/ext.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/ext.cr#L47" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -376,7 +405,7 @@ by the block.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/ext.cr#L8" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/ext.cr#L8" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -399,7 +428,7 @@ to <code>.[0]</code> and <code>.[1]</code>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/ext.cr#L20" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/ext.cr#L20" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -421,11 +450,34 @@ to <code>.[0]</code> and <code>.[1]</code>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/12421668705232a8fe628871af67b971e42fb129/src/permafrost/ext.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/ext.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
   
+    <div class="entry-detail" id="to_pf_uset32:Pf::USet32-instance-method">
+      <div class="signature">
+        
+        def <strong>to_pf_uset32</strong> : <a href="Pf/USet32.html">Pf::USet32</a>
+
+        <a class="method-permalink" href="#to_pf_uset32%3APf%3A%3AUSet32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates a <code><a href="Pf/USet32.html">Pf::USet32</a></code> out of a UInt32 enumerable.</p>
+<pre><code class="language-crystal">(<span class="n">0u32</span>...<span class="n">5u32</span>).to_pf_uset32 <span class="c"># =&gt; Pf::USet32[0, 1, 2, 3, 4]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/695b7b1dc810bcd935a63582ccf8b8e19f31595f/src/permafrost/ext.cr#L38" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
 
 
 </div>
