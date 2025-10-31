@@ -213,8 +213,6 @@
   </h2>
 
   <p>A thread-safe, persistent set of 32-bit unsigned integers.</p>
-<p><span class="flag orange">TODO</span>  many essential set operations are more or less trivial to implement
-but are missing at the moment.</p>
 <p><span class="flag orange">TODO</span>  The current implementation is far more stupid versus e.g. <code><a href="../Pf/Set.html">Pf::Set</a></code>
 wrt no-change semantics. In other words, you will pay even if you <code><a href="../Pf/USet32.html#add%28value%3AUInt32%29%3AUSet32-instance-method">#add</a></code>
 something that already exists. Optimization of all set operations wrt
@@ -286,6 +284,10 @@ the &quot;taller&quot; the tree will grow.</p>
 one hand, that's nice because you will copy less and share more. On the other hand,
 modern CPUs penalize pointer chasing so you're going to suffer: dozens of nanoseconds
 up to 100ns for an insertion is not unheard of.</p>
+<p>We will probably provide support for USet64-256 in the future, because as you can see,
+this construction scales rather trivially; and USet256 especially would be useful for
+storing hashes such as SHA256 and BLAKE3. In that case, easing indirection and control
+overhead would become a high-priority goal.</p>
 <h2><a id="performance" class="anchor" href="#performance">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -299,7 +301,7 @@ want to crash our only competitor in Crystal-land.</p>
 <span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
   x.report(<span class="s">&quot;uset32&quot;</span>) <span class="k">do</span>
     _ <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>.transaction <span class="k">do</span> <span class="o">|</span>set<span class="o">|</span>
-      (<span class="n">0u32</span>..<span class="t">Int32</span><span class="t">::</span><span class="t">MAX</span>).each <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
+      (<span class="n">0</span>..<span class="t">Int32</span><span class="t">::</span><span class="t">MAX</span>).each <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
         set <span class="o">&lt;&lt;</span> n.to_u32
       <span class="k">end</span>
     <span class="k">end</span>
@@ -307,7 +309,7 @@ want to crash our only competitor in Crystal-land.</p>
 
   x.report(<span class="s">&quot;bit array&quot;</span>) <span class="k">do</span>
     bits <span class="o">=</span> <span class="t">BitArray</span>.new(<span class="t">Int32</span><span class="t">::</span><span class="t">MAX</span>)
-    (<span class="n">0u32</span>..<span class="t">Int32</span><span class="t">::</span><span class="t">MAX</span>).each <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
+    (<span class="n">0</span>..<span class="t">Int32</span><span class="t">::</span><span class="t">MAX</span>).each <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
       bits.unsafe_put(n, <span class="n">true</span>)
     <span class="k">end</span>
   <span class="k">end</span>
@@ -331,7 +333,8 @@ immutable add or set operation. USet32 is suited for situations where you have t
 of small immutable sets, especially when they have a common ancestor.</p>
 <p>In fact, USet32 works beautifully well for set operations, since, point A, it's a trie,
 and point B, we have bitmaps at the leaves. This is almost perfect for any kind of set
-operation, be it union, intersection, difference, etc. See, for instance, the following:</p>
+operation, be it union, intersection, difference, etc.</p>
+<p>Consider, for instance, the following micro-benchmarks:</p>
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;benchmark&quot;</span>
 
 xs_r <span class="o">=</span> (<span class="n">0u32</span>...<span class="n">100_000u32</span>).to_a.shuffle!
@@ -347,37 +350,56 @@ zs_uset <span class="o">=</span> zs_r.to_pf_uset32
 zs_set <span class="o">=</span> zs_r.to_a.shuffle!.to_set
 
 <span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
-  x.report(<span class="s">&quot;USet32: create 100k&quot;</span>) <span class="k">do</span>
-    xs_r.to_pf_uset32
-  <span class="k">end</span>
+  x.report(<span class="s">&quot;USet32: create 100k&quot;</span>) { xs_r.to_pf_uset32 }
+  x.report(<span class="s">&quot;Set: create 100k&quot;</span>) { xs_r.to_set }
+<span class="k">end</span>
 
-  x.report(<span class="s">&quot;Set: create 100k&quot;</span>) <span class="k">do</span>
-    xs_r.to_set
-  <span class="k">end</span>
+<span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
+  x.report(<span class="s">&quot;USet32: subset&quot;</span>) { ys_uset.subset_of?(xs_uset) }
+  x.report(<span class="s">&quot;Set: subset&quot;</span>) { ys_set.subset_of?(xs_set) }
+<span class="k">end</span>
 
-  x.report(<span class="s">&quot;USet32: subset&quot;</span>) <span class="k">do</span>
-    ys_uset.subset_of?(xs_uset)
-  <span class="k">end</span>
+<span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
+  x.report(<span class="s">&quot;USet32: xs union zs&quot;</span>) { xs_uset <span class="o">|</span> zs_uset }
+  x.report(<span class="s">&quot;Set: xs union zs&quot;</span>) { xs_set <span class="o">|</span> zs_set }
+<span class="k">end</span>
 
-  x.report(<span class="s">&quot;Set: subset&quot;</span>) <span class="k">do</span>
-    ys_set.subset_of?(xs_set)
-  <span class="k">end</span>
+<span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
+  x.report(<span class="s">&quot;USet32: xs intersects? zs&quot;</span>) { xs_uset.intersects?(zs_uset) }
+  x.report(<span class="s">&quot;Set: xs intersects? zs&quot;</span>) { xs_set.intersects?(zs_set) }
+<span class="k">end</span>
 
-  x.report(<span class="s">&quot;USet32: xs union zs&quot;</span>) <span class="k">do</span>
-    xs_uset <span class="o">|</span> zs_uset
-  <span class="k">end</span>
+<span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
+  x.report(<span class="s">&quot;USet32: xs intersect zs&quot;</span>) { xs_uset <span class="o">&amp;</span> zs_uset }
+  x.report(<span class="s">&quot;Set: xs intersect zs&quot;</span>) { xs_set <span class="o">&amp;</span> zs_set }
+<span class="k">end</span>
 
-  x.report(<span class="s">&quot;Set: xs union zs&quot;</span>) <span class="k">do</span>
-    xs_set <span class="o">|</span> zs_set
-  <span class="k">end</span>
+<span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
+  x.report(<span class="s">&quot;USet32: xs difference zs&quot;</span>) { xs_uset <span class="o">-</span> zs_uset }
+  x.report(<span class="s">&quot;Set: xs difference zs&quot;</span>) { xs_set <span class="o">-</span> zs_set }
 <span class="k">end</span></code></pre>
-<p>This benchmark runs the following way on my machine (meaningless &quot;slowest-fastest&quot; omitted):</p>
-<pre><code class="language-crystal">USet32: create 100k 360.93  (  2.77ms) (± 1.06%)   231kB/op
-   Set: create 100k 512.03  (  1.95ms) (± 2.95%)   2.0MB/op
-     USet32: subset  24.55M ( 40.74ns) (±10.13%)   32.0B/op
-        Set: subset   2.90k (344.70µs) (± 0.97%)    0.0B/op
-USet32: xs union zs 542.41k (  1.84µs) (± 5.55%)  3.38kB/op
-   Set: xs union zs 190.36  (  5.25ms) (± 2.30%)   6.0MB/op</code></pre>
+<p>They give the following results on my machine:</p>
+<pre><code class="language-crystal">USet32: create 100k 336.02  (  2.98ms) (± 1.15%)  231kB/op   1.49× slower
+   Set: create 100k 500.30  (  2.00ms) (± 2.98%)  2.0MB/op        fastest
+
+USet32: subset  25.07M ( 39.88ns) (±12.30%)  32.0B/op          fastest
+   Set: subset   2.61k (382.91µs) (± 0.71%)   0.0B/op  9600.69× slower
+
+USet32: xs union zs 543.26k (  1.84µs) (± 3.44%)  3.38kB/op          fastest
+   Set: xs union zs 189.07  (  5.29ms) (± 1.72%)   6.0MB/op  2873.25× slower
+
+# NOTE: the quality of this benchmark needs improvement because it hits the fast
+# path in both cases.
+USet32: xs intersects? zs  82.90M ( 12.06ns) (± 1.57%)  0.0B/op   1.07× slower
+   Set: xs intersects? zs  89.11M ( 11.22ns) (± 1.76%)  0.0B/op        fastest
+
+USet32: xs intersect zs 592.29k (  1.69µs) (± 5.73%)  2.79kB/op          fastest
+   Set: xs intersect zs 340.63  (  2.94ms) (± 7.84%)   769kB/op  1738.79× slower
+
+USet32: xs difference zs   1.24M (804.59ns) (± 6.80%)    608B/op          fastest
+   Set: xs difference zs 147.97  (  6.76ms) (± 4.26%)  3.75MB/op  8399.25× slower</code></pre>
+<p><span class="flag orange">TODO</span>  compare with BitArray and CRoaring. We will likely win over BitArray but lose
+to CRoaring due to indirection, although probably only on very large bitmaps.</p>
 <p>USet32 makes set operations and checks so cheap one almost wants to forgive it
 the horrendous construction performance.</p>
 <p>Obviously I'm not going to compare <code><a href="../Pf/Set.html">Set</a></code>'s <code>dup.add</code> with <code><a href="../Pf/USet32.html#add%28value%3AUInt32%29%3AUSet32-instance-method">#add</a></code> because that's not
@@ -434,7 +456,7 @@ however, my timings were slightly slower without the flag.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L207" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L231" target="_blank">
         permafrost/uset32.cr
       </a>
     
@@ -515,6 +537,27 @@ however, my timings were slightly slower without the flag.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
+        <a href="#%26%28other%3AUSet32%29%3AUSet32-instance-method" class="signature"><strong>#&</strong>(other : USet32) : USet32</a>
+        
+          <div class="summary"><p>Intersection: returns a new set containing integers common to this and <em>other</em> sets.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%2B%28other%3AUSet32%29%3AUSet32-instance-method" class="signature"><strong>#+</strong>(other : USet32) : USet32</a>
+        
+          <div class="summary"><p>Alias of <code><a href="../Pf/USet32.html#%7C%28other%3AUSet32%29%3AUSet32-instance-method">#|</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#-%28other%3AUSet32%29%3AUSet32-instance-method" class="signature"><strong>#-</strong>(other : USet32) : USet32</a>
+        
+          <div class="summary"><p>Difference: returns a new set containing integers from this set that are not in the <em>other</em> set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#%3D%3D%28other%3AUSet32%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : USet32) : Bool</a>
         
       </li>
@@ -522,7 +565,7 @@ however, my timings were slightly slower without the flag.</p>
       <li class="entry-summary">
         <a href="#%7C%28other%3AUSet32%29%3AUSet32-instance-method" class="signature"><strong>#|</strong>(other : USet32) : USet32</a>
         
-          <div class="summary"><p>Returns a new set that contains integers from this and <em>other</em> sets.</p></div>
+          <div class="summary"><p>Union: returns a new set containing integers from this and <em>other</em> sets.</p></div>
         
       </li>
     
@@ -541,7 +584,14 @@ however, my timings were slightly slower without the flag.</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#each%28%26%3AUInt32-%3E%29-instance-method" class="signature"><strong>#each</strong>(& : UInt32 -> )</a>
+        <a href="#delete%28value%3AUInt32%29%3AUSet32-instance-method" class="signature"><strong>#delete</strong>(value : UInt32) : USet32</a>
+        
+          <div class="summary"><p>Returns a copy of this set without <em>value</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each%28%26%3AUInt32-%3E%29%3ANil-instance-method" class="signature"><strong>#each</strong>(& : UInt32 -> ) : Nil</a>
         
           <div class="summary"><p>Yields integers stored in this set.</p></div>
         
@@ -563,6 +613,13 @@ however, my timings were slightly slower without the flag.</p>
     
       <li class="entry-summary">
         <a href="#inspect%28io%29-instance-method" class="signature"><strong>#inspect</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#intersects%3F%28other%3AUSet32%29%3ABool-instance-method" class="signature"><strong>#intersects?</strong>(other : USet32) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this set has common integers with <em>other</em>.</p></div>
         
       </li>
     
@@ -721,7 +778,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L312" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L348" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -742,7 +799,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L303" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L339" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -758,7 +815,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L225" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L249" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -779,7 +836,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L235" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L259" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -800,7 +857,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L230" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L254" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -821,12 +878,21 @@ of methods from <code><a href="../Pf/USet32.html">USet32</a></code>.</p>
 escape it otherwise, through retained closures, instance variables, etc. It uses
 pointers into stack-allocated memory, so using it after the block returns
 will lead to UB.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>.transaction <span class="k">do</span> <span class="o">|</span>commit<span class="o">|</span>
+  commit <span class="o">&lt;&lt;</span> <span class="n">1</span>
+  commit <span class="o">&lt;&lt;</span> <span class="n">2</span>
+  <span class="k">if</span> commit.includes?(<span class="n">2</span>)
+    commit <span class="o">&lt;&lt;</span> <span class="n">3</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+set <span class="c"># Pf::USet32[1, 2, 3]</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L293" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L329" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -847,6 +913,73 @@ will lead to UB.</p>
     Instance Method Detail
   </h2>
   
+    <div class="entry-detail" id="&amp;(other:USet32):USet32-instance-method">
+      <div class="signature">
+        
+        def <strong>&</strong>(other : <a href="../Pf/USet32.html">USet32</a>) : <a href="../Pf/USet32.html">USet32</a>
+
+        <a class="method-permalink" href="#%26%28other%3AUSet32%29%3AUSet32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Intersection: returns a new set containing integers common to this and
+<em>other</em> sets.</p>
+<pre><code class="language-crystal"><span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>] <span class="o">&amp;</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>] <span class="c"># =&gt; Pf::USet32[2, 3]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L569" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="+(other:USet32):USet32-instance-method">
+      <div class="signature">
+        
+        def <strong>+</strong>(other : <a href="../Pf/USet32.html">USet32</a>) : <a href="../Pf/USet32.html">USet32</a>
+
+        <a class="method-permalink" href="#%2B%28other%3AUSet32%29%3AUSet32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Alias of <code><a href="../Pf/USet32.html#%7C%28other%3AUSet32%29%3AUSet32-instance-method">#|</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L559" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="-(other:USet32):USet32-instance-method">
+      <div class="signature">
+        
+        def <strong>-</strong>(other : <a href="../Pf/USet32.html">USet32</a>) : <a href="../Pf/USet32.html">USet32</a>
+
+        <a class="method-permalink" href="#-%28other%3AUSet32%29%3AUSet32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Difference: returns a new set containing integers from this set that are
+not in the <em>other</em> set.</p>
+<pre><code class="language-crystal"><span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>] <span class="o">-</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>] <span class="c"># =&gt; Pf::USet32[1]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L586" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="==(other:USet32):Bool-instance-method">
       <div class="signature">
         
@@ -858,7 +991,7 @@ will lead to UB.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L440" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L611" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -873,13 +1006,14 @@ will lead to UB.</p>
       
         <div class="doc">
           
-          <p>Returns a new set that contains integers from this and <em>other</em> sets.</p>
+          <p>Union: returns a new set containing integers from this and <em>other</em> sets.</p>
+<pre><code class="language-crystal"><span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>] <span class="o">|</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>] <span class="c"># =&gt; Pf::USet32[1, 2, 3, 4, 5, 6]</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L415" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L547" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -895,12 +1029,16 @@ will lead to UB.</p>
         <div class="doc">
           
           <p>Returns a copy of this set with <em>value</em> present.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+
+set.add(<span class="n">4</span>) <span class="c"># =&gt; Pf::USet32[1, 2, 3, 4]</span>
+set        <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L380" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L492" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -917,22 +1055,53 @@ will lead to UB.</p>
           
           <p>Returns a copy of this set with <em>value</em> present, followed by a boolean
 indicating whether <em>value</em> was added during the call.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+
+set.add?(<span class="n">4</span>) <span class="c"># =&gt; {Pf::USet32[1, 2, 3, 4], true}</span>
+set.add?(<span class="n">1</span>) <span class="c"># =&gt; {Pf::USet32[1, 2, 3], false}</span>
+
+set <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L389" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L510" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="each(&amp;:UInt32-&gt;)-instance-method">
+    <div class="entry-detail" id="delete(value:UInt32):USet32-instance-method">
       <div class="signature">
         
-        def <strong>each</strong>(& : UInt32 -> )
+        def <strong>delete</strong>(value : UInt32) : <a href="../Pf/USet32.html">USet32</a>
 
-        <a class="method-permalink" href="#each%28%26%3AUInt32-%3E%29-instance-method">#</a>
+        <a class="method-permalink" href="#delete%28value%3AUInt32%29%3AUSet32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of this set without <em>value</em>.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+
+set.delete(<span class="n">2</span>) <span class="c"># =&gt; Pf::USet32[1, 3]</span>
+set           <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L535" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each(&amp;:UInt32-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each</strong>(& : UInt32 -> ) : Nil
+
+        <a class="method-permalink" href="#each%28%26%3AUInt32-%3E%29%3ANil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -943,7 +1112,7 @@ indicating whether <em>value</em> was added during the call.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L371" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L476" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -968,7 +1137,7 @@ indicating whether <em>value</em> was added during the call.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L451" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L622" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -984,12 +1153,15 @@ indicating whether <em>value</em> was added during the call.</p>
         <div class="doc">
           
           <p>Returns <code>true</code> if this set contains <em>value</em>. Returns <code>false</code> otherwise.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+set.includes?(<span class="n">2</span>)   <span class="c"># =&gt; true</span>
+set.includes?(<span class="n">100</span>) <span class="c"># =&gt; false</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L317" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L359" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1005,7 +1177,35 @@ indicating whether <em>value</em> was added during the call.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L430" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L601" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="intersects?(other:USet32):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>intersects?</strong>(other : <a href="../Pf/USet32.html">USet32</a>) : Bool
+
+        <a class="method-permalink" href="#intersects%3F%28other%3AUSet32%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this set has common integers with <em>other</em>. Returns
+<code>false</code> otherwise.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+ys <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>]
+zs <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">3</span>, <span class="n">5</span>, <span class="n">6</span>]
+
+xs.intersects?(ys) <span class="c"># =&gt; false, nothing in common</span>
+xs.intersects?(zs) <span class="c"># =&gt; true, they both have `3`</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L464" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1021,7 +1221,7 @@ indicating whether <em>value</em> was added during the call.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L426" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L597" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1038,12 +1238,19 @@ indicating whether <em>value</em> was added during the call.</p>
           
           <p>Returns <code>true</code> if all integers in this set are contained in <em>other</em>, and
 <em>other</em> is larger than this set. Returns <code>false</code> otherwise.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+ys <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>]
+
+xs.proper_subset_of?(ys) <span class="c"># =&gt; true</span>
+
+ys.subset_of?(ys)        <span class="c"># =&gt; true</span>
+ys.proper_subset_of?(ys) <span class="c"># =&gt; false</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L352" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L417" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1060,12 +1267,19 @@ indicating whether <em>value</em> was added during the call.</p>
           
           <p>Returns <code>true</code> if this set contains all integers from <em>other</em>, and <em>other</em>
 is smaller than this set. Returns <code>false</code> otherwise.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+ys <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>]
+
+ys.proper_superset_of?(xs) <span class="c"># =&gt; true</span>
+
+ys.superset_of?(ys)        <span class="c"># =&gt; true</span>
+ys.proper_superset_of?(ys) <span class="c"># =&gt; false</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L366" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L449" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1081,12 +1295,14 @@ is smaller than this set. Returns <code>false</code> otherwise.</p>
         <div class="doc">
           
           <p>Returns the number of integers in this set.</p>
+<pre><code class="language-crystal">set <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+set.size <span class="c"># =&gt; 3</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L325" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L372" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1103,12 +1319,17 @@ is smaller than this set. Returns <code>false</code> otherwise.</p>
           
           <p>Returns <code>true</code> if all integers in this set are contained on <em>other</em>. Returns
 <code>false</code> otherwise.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+ys <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>]
+
+xs.subset_of?(ys) <span class="c"># =&gt; true</span>
+ys.subset_of?(xs) <span class="c"># =&gt; false</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L334" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L389" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1125,12 +1346,17 @@ is smaller than this set. Returns <code>false</code> otherwise.</p>
           
           <p>Returns <code>true</code> if this set contains all integers from <em>other</em>. Returns
 <code>false</code> otherwise.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+ys <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>]
+
+xs.superset_of?(ys) <span class="c"># =&gt; false</span>
+ys.superset_of?(xs) <span class="c"># =&gt; true</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L360" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L433" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1146,7 +1372,7 @@ is smaller than this set. Returns <code>false</code> otherwise.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/14f4c875dbcf58c023366467b6bd961251d154e7/src/permafrost/uset32.cr#L436" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L607" target="_blank">View source</a>]
         
       </div>
     </div>
