@@ -98,10 +98,10 @@ module Pf::Core::USet
 
   def fetch(node, bit_index, &)
     selector = 1u32 << bit_index
-    return unless (node.presence & selector) == selector
+    return unless (presence(node) & selector) == selector
 
-    index = (node.presence & (selector &- 1)).popcount
-    yield node.children[index]
+    index = (presence(node) & (selector &- 1)).popcount
+    yield nth(node, index)
   end
 
   def fetch(node, bit_index)
@@ -339,9 +339,40 @@ module Pf::Core::USet
     end
   end
 
-  # def intersects?(s0 : Bitmap, s1 : Bitmap) : Bool
-  #   (s0.bits & s1.bits) > 0
-  # end
+  def intersects?(s0 : Bitmap, s1 : Bitmap) : Bool
+    !(s0.bits & s1.bits).zero?
+  end
+
+  def intersects?(s0 : Bitmap, s1 : BitmapP) : Bool
+    intersects?(s0, trie(s1))
+  end
+
+  {% for cls in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
+    def intersects?(s0 : {{cls.id}}, s1 : {{cls.id}} | {{cls.id}}P) : Bool
+      common = presence(s0) & presence(s1)
+      if common.zero?
+        return false
+      end
+
+      if s1.is_a?({{cls.id}}) && s0.children == s1.children
+        return true
+      end
+
+      each_set_bit(common) do |bit_index|
+        x = fetch(s0, bit_index)
+        y = fetch(s1, bit_index)
+        if intersects?(x, y)
+          return true
+        end
+      end
+
+      false
+    end
+  {% end %}
+
+  def intersects?(s0, s1) : Bool
+    eqcast(s0, s1) { |x, y| intersects?(x, y) }
+  end
 
   def subset?(lg : Bitmap, sm : Bitmap) : Bool
     (lg.bits & sm.bits) == sm.bits
@@ -483,13 +514,112 @@ module Pf::Core::USet
     eqcast(s0, s1) { |x, y| union(x, y) }
   end
 
-  # def intersection(s0 : Bitmap, s1 : Bitmap) : Bitmap
-  # end
+  def intersection?(s0 : Bitmap, s1 : Bitmap)
+    bits = s0.bits & s1.bits
+    bits.zero? ? nil : Bitmap.new(bits)
+  end
 
-  # def difference?(s0 : Bitmap, s1 : Bitmap) : Bitmap?
-  #   bits = s0.bits & ~s1.bits
-  #   bits.zero? ? nil : Bitmap.new(bits)
-  # end
+  def intersection?(s0 : Bitmap, s1 : BitmapP)
+    intersection?(s0, trie(s1))
+  end
+
+  {% for cls, i in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
+    {% childcls = %w(Bitmap Chunk WideNode Node0 Node1 Node2)[i] %}
+    {% branches = [32, 32, 16, 16, 16, 16][i] %}
+
+    def intersection?(s0 : {{cls.id}}, s1 : {{cls.id}} | {{cls.id}}P)
+      common = presence(s0) & presence(s1)
+      return if common.zero?
+
+      if s1.is_a?({{cls.id}}) && s0.children == s1.children
+        return s0
+      end
+
+      mem = Pointer({{childcls.id}}).null
+      top = 0
+      skipped = 0
+      presence = 0u{{branches}}
+      cardinality = 0u32
+
+      each_set_bit(common) do |bit_index|
+        x = fetch(s0, bit_index)
+        y = fetch(s1, bit_index)
+        unless ix = intersection?(x, y)
+          skipped += 1
+          next
+        end
+
+        unless mem
+          # We may skip stuff ahead as well but nah, we're doing better than
+          # an upfront malloc() anyway; we don't have to be too smart.
+          mem = Pointer({{childcls.id}}).malloc(common.popcount - skipped)
+        end
+
+        mem[top] = ix
+        top += 1
+        presence |= 1u{{branches}} << bit_index
+        cardinality += cardinality(ix)
+      end
+
+      mem ? {{cls.id}}.new(mem, presence, cardinality) : nil
+    end
+  {% end %}
+
+  def intersection?(s0, s1)
+    eqcast(s0, s1) { |x, y| intersection?(x, y) }
+  end
+
+  def difference?(s0 : Bitmap, s1 : Bitmap)
+    bits = s0.bits & ~s1.bits
+    bits.zero? ? nil : Bitmap.new(bits)
+  end
+
+  def difference?(s0 : Bitmap, s1 : BitmapP)
+    difference?(s0, trie(s1))
+  end
+
+  {% for cls, i in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
+    {% childcls = %w(Bitmap Chunk WideNode Node0 Node1 Node2)[i] %}
+    {% branches = [32, 32, 16, 16, 16, 16][i] %}
+
+    def difference?(s0 : {{cls.id}}, s1 : {{cls.id}} | {{cls.id}}P)
+      mem = Pointer({{childcls.id}}).null
+      top = 0
+      skipped = 0
+      presence = 0u{{branches}}
+      cardinality = 0u32
+
+      each_set_bit(presence(s0)) do |bit_index|
+        x0 = fetch(s0, bit_index)
+
+        if bit_set?(presence(s1), bit_index)
+          # Subtract common recursively.
+          unless x1 = difference?(x0, fetch(s1, bit_index))
+            skipped += 1
+            next
+          end
+        else
+          # Copy unique to s0.
+          x1 = x0
+        end
+
+        unless mem
+          mem = Pointer({{childcls.id}}).malloc(presence(s0).popcount - skipped)
+        end
+
+        mem[top] = x1
+        top += 1
+        presence |= 1u{{branches}} << bit_index
+        cardinality += cardinality(x1)
+      end
+
+      mem ? {{cls.id}}.new(mem, presence, cardinality) : nil
+    end
+  {% end %}
+
+  def difference?(s0, s1)
+    eqcast(s0, s1) { |x, y| difference?(x, y) }
+  end
 
   # def xor(s0 : Bitmap, s1 : Bitmap) : Bitmap
   # end
@@ -506,11 +636,13 @@ module Pf::Core::USet
     def equals?(s0 : {{cls.id}}, s1 : {{cls.id}} | {{cls.id}}P)
       return false unless presence(s0) == presence(s1)
 
-      if s1.is_a?({{cls.id}})
-        # Pointer equality. Since we're doing structural sharing, this could be
-        # hit at some point and is thus a useful fast path.
-        return true if s0.children == s1.children
+      # Pointer equality. Since we're doing structural sharing, this could be
+      # hit at some point and is thus a useful fast path.
+      if s1.is_a?({{cls.id}}) && s0.children == s1.children
+        return true
       end
+
+      return false unless cardinality(s0) == cardinality(s1)
 
       index = 0
       each_child(s0) do |a|

@@ -1,8 +1,5 @@
 # A thread-safe, persistent set of 32-bit unsigned integers.
 #
-# TODO: many essential set operations are more or less trivial to implement
-# but are missing at the moment.
-#
 # TODO: The current implementation is far more stupid versus e.g. `Pf::Set`
 # wrt no-change semantics. In other words, you will pay even if you `add`
 # something that already exists. Optimization of all set operations wrt
@@ -81,6 +78,11 @@
 # modern CPUs penalize pointer chasing so you're going to suffer: dozens of nanoseconds
 # up to 100ns for an insertion is not unheard of.
 #
+# We will probably provide support for USet64-256 in the future, because as you can see,
+# this construction scales rather trivially; and USet256 especially would be useful for
+# storing hashes such as SHA256 and BLAKE3. In that case, easing indirection and control
+# overhead would become a high-priority goal.
+#
 # ## Performance
 #
 # Let's add all i32s. We can't add all u32s because BitArray crashes on that. We don't
@@ -93,7 +95,7 @@
 # Benchmark.ips do |x|
 #   x.report("uset32") do
 #     _ = Pf::USet32.transaction do |set|
-#       (0u32..Int32::MAX).each do |n|
+#       (0..Int32::MAX).each do |n|
 #         set << n.to_u32
 #       end
 #     end
@@ -101,7 +103,7 @@
 #
 #   x.report("bit array") do
 #     bits = BitArray.new(Int32::MAX)
-#     (0u32..Int32::MAX).each do |n|
+#     (0..Int32::MAX).each do |n|
 #       bits.unsafe_put(n, true)
 #     end
 #   end
@@ -135,7 +137,9 @@
 #
 # In fact, USet32 works beautifully well for set operations, since, point A, it's a trie,
 # and point B, we have bitmaps at the leaves. This is almost perfect for any kind of set
-# operation, be it union, intersection, difference, etc. See, for instance, the following:
+# operation, be it union, intersection, difference, etc.
+#
+# Consider, for instance, the following micro-benchmarks:
 #
 # ```
 # require "benchmark"
@@ -153,42 +157,62 @@
 # zs_set = zs_r.to_a.shuffle!.to_set
 #
 # Benchmark.ips do |x|
-#   x.report("USet32: create 100k") do
-#     xs_r.to_pf_uset32
-#   end
+#   x.report("USet32: create 100k") { xs_r.to_pf_uset32 }
+#   x.report("Set: create 100k") { xs_r.to_set }
+# end
 #
-#   x.report("Set: create 100k") do
-#     xs_r.to_set
-#   end
+# Benchmark.ips do |x|
+#   x.report("USet32: subset") { ys_uset.subset_of?(xs_uset) }
+#   x.report("Set: subset") { ys_set.subset_of?(xs_set) }
+# end
 #
-#   x.report("USet32: subset") do
-#     ys_uset.subset_of?(xs_uset)
-#   end
+# Benchmark.ips do |x|
+#   x.report("USet32: xs union zs") { xs_uset | zs_uset }
+#   x.report("Set: xs union zs") { xs_set | zs_set }
+# end
 #
-#   x.report("Set: subset") do
-#     ys_set.subset_of?(xs_set)
-#   end
+# Benchmark.ips do |x|
+#   x.report("USet32: xs intersects? zs") { xs_uset.intersects?(zs_uset) }
+#   x.report("Set: xs intersects? zs") { xs_set.intersects?(zs_set) }
+# end
 #
-#   x.report("USet32: xs union zs") do
-#     xs_uset | zs_uset
-#   end
+# Benchmark.ips do |x|
+#   x.report("USet32: xs intersect zs") { xs_uset & zs_uset }
+#   x.report("Set: xs intersect zs") { xs_set & zs_set }
+# end
 #
-#   x.report("Set: xs union zs") do
-#     xs_set | zs_set
-#   end
+# Benchmark.ips do |x|
+#   x.report("USet32: xs difference zs") { xs_uset - zs_uset }
+#   x.report("Set: xs difference zs") { xs_set - zs_set }
 # end
 # ```
 #
-# This benchmark runs the following way on my machine (meaningless "slowest-fastest" omitted):
+# They give the following results on my machine:
 #
 # ```
-# USet32: create 100k 360.93  (  2.77ms) (± 1.06%)   231kB/op
-#    Set: create 100k 512.03  (  1.95ms) (± 2.95%)   2.0MB/op
-#      USet32: subset  24.55M ( 40.74ns) (±10.13%)   32.0B/op
-#         Set: subset   2.90k (344.70µs) (± 0.97%)    0.0B/op
-# USet32: xs union zs 542.41k (  1.84µs) (± 5.55%)  3.38kB/op
-#    Set: xs union zs 190.36  (  5.25ms) (± 2.30%)   6.0MB/op
+# USet32: create 100k 336.02  (  2.98ms) (± 1.15%)  231kB/op   1.49× slower
+#    Set: create 100k 500.30  (  2.00ms) (± 2.98%)  2.0MB/op        fastest
+#
+# USet32: subset  25.07M ( 39.88ns) (±12.30%)  32.0B/op          fastest
+#    Set: subset   2.61k (382.91µs) (± 0.71%)   0.0B/op  9600.69× slower
+#
+# USet32: xs union zs 543.26k (  1.84µs) (± 3.44%)  3.38kB/op          fastest
+#    Set: xs union zs 189.07  (  5.29ms) (± 1.72%)   6.0MB/op  2873.25× slower
+#
+# # NOTE: the quality of this benchmark needs improvement because it hits the fast
+# # path in both cases.
+# USet32: xs intersects? zs  82.90M ( 12.06ns) (± 1.57%)  0.0B/op   1.07× slower
+#    Set: xs intersects? zs  89.11M ( 11.22ns) (± 1.76%)  0.0B/op        fastest
+#
+# USet32: xs intersect zs 592.29k (  1.69µs) (± 5.73%)  2.79kB/op          fastest
+#    Set: xs intersect zs 340.63  (  2.94ms) (± 7.84%)   769kB/op  1738.79× slower
+#
+# USet32: xs difference zs   1.24M (804.59ns) (± 6.80%)    608B/op          fastest
+#    Set: xs difference zs 147.97  (  6.76ms) (± 4.26%)  3.75MB/op  8399.25× slower
 # ```
+#
+# TODO: compare with BitArray and CRoaring. We will likely win over BitArray but lose
+# to CRoaring due to indirection, although probably only on very large bitmaps.
 #
 # USet32 makes set operations and checks so cheap one almost wants to forgive it
 # the horrendous construction performance.
@@ -290,6 +314,18 @@ struct Pf::USet32
   # escape it otherwise, through retained closures, instance variables, etc. It uses
   # pointers into stack-allocated memory, so using it after the block returns
   # will lead to UB.
+  #
+  # ```
+  # set = Pf::USet32.transaction do |commit|
+  #   commit << 1
+  #   commit << 2
+  #   if commit.includes?(2)
+  #     commit << 3
+  #   end
+  # end
+  #
+  # set # Pf::USet32[1, 2, 3]
+  # ```
   def self.transaction(& : Commit ->) : USet32
     instance = uninitialized Kernel[1]
     instance[0] = Empty.new
@@ -314,6 +350,12 @@ struct Pf::USet32
   end
 
   # Returns `true` if this set contains *value*. Returns `false` otherwise.
+  #
+  # ```
+  # set = Pf::USet32[1, 2, 3]
+  # set.includes?(2)   # => true
+  # set.includes?(100) # => false
+  # ```
   def includes?(value) : Bool
     case k = @kernel
     in Empty    then false
@@ -322,6 +364,11 @@ struct Pf::USet32
   end
 
   # Returns the number of integers in this set.
+  #
+  # ```
+  # set = Pf::USet32[1, 2, 3]
+  # set.size # => 3
+  # ```
   def size : Int32
     case k = @kernel
     in Empty    then 0
@@ -331,6 +378,14 @@ struct Pf::USet32
 
   # Returns `true` if all integers in this set are contained on *other*. Returns
   # `false` otherwise.
+  #
+  # ```
+  # xs = Pf::USet32[1, 2, 3]
+  # ys = Pf::USet32[1, 2, 3, 4, 5, 6]
+  #
+  # xs.subset_of?(ys) # => true
+  # ys.subset_of?(xs) # => false
+  # ```
   def subset_of?(other : USet32) : Bool
     return false unless size <= other.size
 
@@ -349,6 +404,16 @@ struct Pf::USet32
 
   # Returns `true` if all integers in this set are contained in *other*, and
   # *other* is larger than this set. Returns `false` otherwise.
+  #
+  # ```
+  # xs = Pf::USet32[1, 2, 3]
+  # ys = Pf::USet32[1, 2, 3, 4, 5, 6]
+  #
+  # xs.proper_subset_of?(ys) # => true
+  #
+  # ys.subset_of?(ys)        # => true
+  # ys.proper_subset_of?(ys) # => false
+  # ```
   def proper_subset_of?(other : USet32) : Bool
     return false unless size < other.size
 
@@ -357,18 +422,58 @@ struct Pf::USet32
 
   # Returns `true` if this set contains all integers from *other*. Returns
   # `false` otherwise.
+  #
+  # ```
+  # xs = Pf::USet32[1, 2, 3]
+  # ys = Pf::USet32[1, 2, 3, 4, 5, 6]
+  #
+  # xs.superset_of?(ys) # => false
+  # ys.superset_of?(xs) # => true
+  # ```
   def superset_of?(other : USet32) : Bool
     other.subset_of?(self)
   end
 
   # Returns `true` if this set contains all integers from *other*, and *other*
   # is smaller than this set. Returns `false` otherwise.
+  #
+  # ```
+  # xs = Pf::USet32[1, 2, 3]
+  # ys = Pf::USet32[1, 2, 3, 4, 5, 6]
+  #
+  # ys.proper_superset_of?(xs) # => true
+  #
+  # ys.superset_of?(ys)        # => true
+  # ys.proper_superset_of?(ys) # => false
+  # ```
   def proper_superset_of?(other : USet32) : Bool
     other.proper_subset_of?(self)
   end
 
+  # Returns `true` if this set has common integers with *other*. Returns
+  # `false` otherwise.
+  #
+  # ```
+  # xs = Pf::USet32[1, 2, 3]
+  # ys = Pf::USet32[4, 5, 6]
+  # zs = Pf::USet32[3, 5, 6]
+  #
+  # xs.intersects?(ys) # => false, nothing in common
+  # xs.intersects?(zs) # => true, they both have `3`
+  # ```
+  def intersects?(other : USet32) : Bool
+    k0, k1 = @kernel, other.@kernel
+
+    case {k0, k1}
+    in {Empty, _}, {Nonempty, Empty}
+      false
+    in {Nonempty, Nonempty}
+      USet.intersects?(k0, k1)
+    end
+  end
+
   # Yields integers stored in this set.
-  def each(& : UInt32 ->)
+  def each(& : UInt32 ->) : Nil
     case k = @kernel
     in Empty
     in Nonempty
@@ -377,6 +482,13 @@ struct Pf::USet32
   end
 
   # Returns a copy of this set with *value* present.
+  #
+  # ```
+  # set = Pf::USet32[1, 2, 3]
+  #
+  # set.add(4) # => Pf::USet32[1, 2, 3, 4]
+  # set        # => Pf::USet32[1, 2, 3]
+  # ```
   def add(value : UInt32) : USet32
     case k = @kernel
     in Empty    then USet32.new(USet.trie(USet.path(value)))
@@ -386,6 +498,15 @@ struct Pf::USet32
 
   # Returns a copy of this set with *value* present, followed by a boolean
   # indicating whether *value* was added during the call.
+  #
+  # ```
+  # set = Pf::USet32[1, 2, 3]
+  #
+  # set.add?(4) # => {Pf::USet32[1, 2, 3, 4], true}
+  # set.add?(1) # => {Pf::USet32[1, 2, 3], false}
+  #
+  # set # => Pf::USet32[1, 2, 3]
+  # ```
   def add?(value : UInt32) : {USet32, Bool}
     case k = @kernel
     in Empty
@@ -404,14 +525,25 @@ struct Pf::USet32
   end
 
   # Returns a copy of this set without *value*.
-  # def delete(value : UInt32) : USet32
-  #   case k = @kernel
-  #   in Empty    then self
-  #   in Nonempty then USet32.new(USet.difference?(k, USet.path(value)) || Empty.new)
-  #   end
-  # end
+  #
+  # ```
+  # set = Pf::USet32[1, 2, 3]
+  #
+  # set.delete(2) # => Pf::USet32[1, 3]
+  # set           # => Pf::USet32[1, 2, 3]
+  # ```
+  def delete(value : UInt32) : USet32
+    case k = @kernel
+    in Empty    then self
+    in Nonempty then USet32.new(USet.difference?(k, USet.path(value)) || Empty.new)
+    end
+  end
 
-  # Returns a new set that contains integers from this and *other* sets.
+  # Union: returns a new set containing integers from this and *other* sets.
+  #
+  # ```
+  # Pf::USet32[1, 2, 3] | Pf::USet32[4, 5, 6] # => Pf::USet32[1, 2, 3, 4, 5, 6]
+  # ```
   def |(other : USet32) : USet32
     k0, k1 = @kernel, other.@kernel
 
@@ -420,6 +552,45 @@ struct Pf::USet32
     in {Empty, Nonempty}    then other
     in {Nonempty, Empty}    then self
     in {Nonempty, Nonempty} then USet32.new(USet.union(k0, k1))
+    end
+  end
+
+  # Alias of `|`.
+  def +(other : USet32) : USet32
+    self | other
+  end
+
+  # Intersection: returns a new set containing integers common to this and
+  # *other* sets.
+  #
+  # ```
+  # Pf::USet32[1, 2, 3] & Pf::USet32[2, 3, 4] # => Pf::USet32[2, 3]
+  # ```
+  def &(other : USet32) : USet32
+    k0, k1 = @kernel, other.@kernel
+
+    case {k0, k1}
+    in {Empty, _}        then self
+    in {Nonempty, Empty} then other
+    in {Nonempty, Nonempty}
+      USet32.new(USet.intersection?(k0, k1) || Empty.new)
+    end
+  end
+
+  # Difference: returns a new set containing integers from this set that are
+  # not in the *other* set.
+  #
+  # ```
+  # Pf::USet32[1, 2, 3] - Pf::USet32[2, 3, 4] # => Pf::USet32[1]
+  # ```
+  def -(other : USet32) : USet32
+    k0, k1 = @kernel, other.@kernel
+
+    case {k0, k1}
+    in {Empty, _}, {Nonempty, Empty}
+      self
+    in {Nonempty, Nonempty}
+      USet32.new(USet.difference?(k0, k1) || Empty.new)
     end
   end
 
