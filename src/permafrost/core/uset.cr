@@ -69,16 +69,6 @@ module Pf::Core::USet
     end
   end
 
-  {% for cls, i in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
-    {% childcls = %w(Bitmap Chunk WideNode Node0 Node1 Node2)[i] %}
-
-    def build(cls : {{cls.id}}.class, presence, & : {{childcls.id}}* -> UInt32)
-      mem = Pointer({{childcls.id}}).malloc(presence.popcount)
-      cardinality = yield mem
-      {{cls.id}}.new(mem, presence, cardinality)
-    end
-  {% end %}
-
   def nth(node : ChunkP | WideNodeP | Node0P | Node1P | Node2P | Node3P, n)
     unless n.zero?
       raise IndexError.new
@@ -197,6 +187,8 @@ module Pf::Core::USet
     end
   end
 
+  alias TrieP = BitmapP | ChunkP | WideNodeP | Node0P | Node1P | Node2P | Node3P
+
   record BitmapP, index : UInt8
   record ChunkP, child : BitmapP, index : UInt8
   record WideNodeP, child : ChunkP, index : UInt8
@@ -289,6 +281,10 @@ module Pf::Core::USet
 
   def cardinality(s : Chunk | WideNode | Node0 | Node1 | Node2 | Node3) : UInt32
     s.cardinality
+  end
+
+  def cardinality(s : TrieP) : UInt32
+    1u32
   end
 
   def includes?(s : Bitmap, value : UInt32) : Bool
@@ -415,49 +411,68 @@ module Pf::Core::USet
     Bitmap.new(s0.bits | (1u64 << s1.index))
   end
 
-  {% for cls in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
+  {% for cls, i in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
+    {% childcls = %w(Bitmap Chunk WideNode Node0 Node1 Node2)[i] %}
+
     def union(s0 : {{cls.id}}, s1 : {{cls.id}} | {{cls.id}}P)
       s0p = presence(s0)
       s1p = presence(s1)
       mix = s0p | s1p
 
-      build({{cls.id}}, mix) do |buffer|
-        l = i = j = 0
-        c = 0u32
-
-        each_set_bit(mix) do |index|
-          x = bit_set?(s0p, index)
-          y = bit_set?(s1p, index)
-
-          if x && y
-            buffer[l] = u = union(nth(s0, i), nth(s1, j))
-            c += cardinality(u)
-            i += 1
-            j += 1
-            l += 1
-          elsif x
-            buffer[l] = u = nth(s0, i)
-            c += cardinality(u)
-            i += 1
-            l += 1
-          elsif y
-            buffer[l] = u = trie(nth(s1, j))
-            c += cardinality(u)
-            j += 1
-            l += 1
-          end
-        end
-
-        c
+      # If mix is unchanged, there is the possibility that s1 is already in s0.
+      # Check using `subset?` to avoid malloc. Subset is relatively cheap. Either
+      # it's going to be deep and chase-y but we won't allocate -- in the positive
+      # case. Or it's going to exit early, after presence/cardinality checks -- in
+      # the very negative case (subsets differ greatly below). In the mid case, if
+      # some subsets are shared and others aren't, we'd still avoid allocations in
+      # the end, so that's a win.
+      if mix == s0p && subset?(s0, s1)
+        return s0
       end
+
+      mem = Pointer({{childcls.id}}).malloc(mix.popcount)
+
+      l = i = j = 0
+      cardinality = 0u32
+
+      each_set_bit(mix) do |index|
+        x = bit_set?(s0p, index)
+        y = bit_set?(s1p, index)
+
+        if x && y
+          mem[l] = u = union(nth(s0, i), nth(s1, j))
+          cardinality += cardinality(u)
+          i += 1
+          j += 1
+          l += 1
+        elsif x
+          mem[l] = u = nth(s0, i)
+          cardinality += cardinality(u)
+          i += 1
+          l += 1
+        elsif y
+          mem[l] = u = trie(nth(s1, j))
+          cardinality += cardinality(u)
+          j += 1
+          l += 1
+        end
+      end
+
+      {{cls.id}}.new(mem, mix, cardinality)
     end
   {% end %}
+
+  def union(s0, s1)
+    eqcast(s0, s1) { |x, y| union(x, y) }
+  end
 
   def union!(s0 : Bitmap, s1 : Bitmap | BitmapP)
     union(s0, s1)
   end
 
-  {% for cls in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
+  {% for cls, i in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
+    {% childcls = %w(Bitmap Chunk WideNode Node0 Node1 Node2)[i] %}
+
     def union!(s0 : {{cls.id}}, s1 : {{cls.id}} | {{cls.id}}P)
       mix = presence(s0) | presence(s1)
 
@@ -471,47 +486,44 @@ module Pf::Core::USet
 
       # If s1 adds to s0, union the old way; it's not going to make that much
       # of a difference. Make sure however to call the mutable version on children.
-      build({{cls.id}}, mix) do |buffer|
-        l = i = j = 0
-        c = 0u32
 
-        s0p = presence(s0)
-        s1p = presence(s1)
+      mem = Pointer({{childcls.id}}).malloc(mix.popcount)
 
-        each_set_bit(mix) do |index|
-          x = bit_set?(s0p, index)
-          y = bit_set?(s1p, index)
+      l = i = j = 0
+      cardinality = 0u32
 
-          if x && y
-            buffer[l] = u = union!(nth(s0, i), nth(s1, j))
-            c += cardinality(u)
-            i += 1
-            j += 1
-            l += 1
-          elsif x
-            buffer[l] = u = nth(s0, i)
-            c += cardinality(u)
-            i += 1
-            l += 1
-          elsif y
-            buffer[l] = u = trie(nth(s1, j))
-            c += cardinality(u)
-            j += 1
-            l += 1
-          end
+      s0p = presence(s0)
+      s1p = presence(s1)
+
+      each_set_bit(mix) do |index|
+        x = bit_set?(s0p, index)
+        y = bit_set?(s1p, index)
+
+        if x && y
+          mem[l] = u = union!(nth(s0, i), nth(s1, j))
+          cardinality += cardinality(u)
+          i += 1
+          j += 1
+          l += 1
+        elsif x
+          mem[l] = u = nth(s0, i)
+          cardinality += cardinality(u)
+          i += 1
+          l += 1
+        elsif y
+          mem[l] = u = trie(nth(s1, j))
+          cardinality += cardinality(u)
+          j += 1
+          l += 1
         end
-
-        c
       end
+
+      {{cls.id}}.new(mem, mix, cardinality)
     end
   {% end %}
 
   def union!(s0, s1)
     eqcast(s0, s1) { |x, y| union!(x, y) }
-  end
-
-  def union(s0, s1)
-    eqcast(s0, s1) { |x, y| union(x, y) }
   end
 
   def intersection?(s0 : Bitmap, s1 : Bitmap)

@@ -255,4 +255,13 @@ describe Pf::USet32 do
     ys_copy.should eq(ys)
     ys_copy.should eq(u - xs)
   end
+
+  it "reports presence correctly in #add?" do
+    Pf::USet32.new.add?(5).should eq({Pf::USet32[5], true})
+    Pf::USet32[5].add?(100).should eq({Pf::USet32[5, 100], true})
+    Pf::USet32[5, 100].add?(5).should eq({Pf::USet32[5, 100], false})
+    Pf::USet32[5, 100].add?(100).should eq({Pf::USet32[5, 100], false})
+    Pf::USet32[5, 100].add?(100_000).should eq({Pf::USet32[5, 100, 100_000], true})
+    Pf::USet32[5, 100, 100_000].add?(100_000).should eq({Pf::USet32[5, 100, 100_000], false})
+  end
 end

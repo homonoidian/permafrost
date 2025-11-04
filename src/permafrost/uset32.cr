@@ -1,9 +1,11 @@
 # A thread-safe, persistent set of 32-bit unsigned integers.
 #
-# TODO: The current implementation is far more stupid versus e.g. `Pf::Set`
-# wrt no-change semantics. In other words, you will pay even if you `add`
-# something that already exists. Optimization of all set operations wrt
-# no-change remains future work.
+# TODO: with this architectuyre, it is possible to union very large consecutive
+# integer spans really quickly by setting presence = UInt[16/32]::MAX and setting
+# fully covered bitmaps to UInt64::MAX. Bitmaps on the edges are union'd the way
+# we do it right now. This would probably require introducing a third option for
+# op rhs: right now we have Trie and TrieP (trie path), and to implement this we'd
+# need to have TrieSpan as well.
 #
 # ## How it works?
 #
@@ -152,6 +154,7 @@
 # ys_uset = ys_r.to_pf_uset32
 # ys_set = ys_r.to_set
 #
+# # Some shared with xs, others not.
 # zs_r = (80_000u32...150_000u32).to_a.shuffle!
 # zs_uset = zs_r.to_pf_uset32
 # zs_set = zs_r.to_a.shuffle!.to_set
@@ -172,6 +175,11 @@
 # end
 #
 # Benchmark.ips do |x|
+#   x.report("USet32: union subset") { xs_uset | ys_uset }
+#   x.report("Set: union subset") { xs_set | ys_set }
+# end
+#
+# Benchmark.ips do |x|
 #   x.report("USet32: xs intersects? zs") { xs_uset.intersects?(zs_uset) }
 #   x.report("Set: xs intersects? zs") { xs_set.intersects?(zs_set) }
 # end
@@ -185,6 +193,11 @@
 #   x.report("USet32: xs difference zs") { xs_uset - zs_uset }
 #   x.report("Set: xs difference zs") { xs_set - zs_set }
 # end
+#
+# Benchmark.ips do |x|
+#   x.report("USet32: Jaccard") { (xs_uset & zs_uset).size / (xs_uset | zs_uset).size }
+#   x.report("Set: Jaccard") { (xs_set & zs_set).size / (xs_set | zs_set).size }
+# end
 # ```
 #
 # They give the following results on my machine:
@@ -196,8 +209,11 @@
 # USet32: subset  25.07M ( 39.88ns) (±12.30%)  32.0B/op          fastest
 #    Set: subset   2.61k (382.91µs) (± 0.71%)   0.0B/op  9600.69× slower
 #
-# USet32: xs union zs 543.26k (  1.84µs) (± 3.44%)  3.38kB/op          fastest
+# USet32: xs union zs   2.39M (417.81ns) (± 3.58%)  0.99kB/op           fastest
 #    Set: xs union zs 189.07  (  5.29ms) (± 1.72%)   6.0MB/op  2873.25× slower
+#
+# USet32: union subset  22.38M ( 44.68ns) (± 2.76%)  32.0B/op           fastest
+#    Set: union subset 407.20  (  2.46ms) (± 1.47%)  2.0MB/op  54965.42× slower
 #
 # # NOTE: the quality of this benchmark needs improvement because it hits the fast
 # # path in both cases.
@@ -209,6 +225,9 @@
 #
 # USet32: xs difference zs   1.24M (804.59ns) (± 6.80%)    608B/op          fastest
 #    Set: xs difference zs 147.97  (  6.76ms) (± 4.26%)  3.75MB/op  8399.25× slower
+#
+# USet32: Jaccard 541.57k (  1.85µs) (± 1.45%)  3.78kB/op          fastest
+#    Set: Jaccard 121.14  (  8.25ms) (± 1.12%)  6.75MB/op  4470.50× slower
 # ```
 #
 # TODO: compare with BitArray and CRoaring. We will likely win over BitArray but lose
@@ -512,15 +531,12 @@ struct Pf::USet32
     in Empty
       {USet32.new(USet.trie(USet.path(value))), true}
     in Nonempty
-      # FIXME: The current implementation is very dumb about union-ing something
-      # that's already there, so we may do some stupid allocations in the process.
-      # Instead, do a cheap "has" check that's guaranteed to have no allocations
-      # before proceeding.
-      if USet.includes?(k, value)
+      k1 = USet.union(k, USet.path(value))
+      if k == k1 # Bitmap or pointer equality
         return self, false
       end
 
-      {USet32.new(USet.union(k, USet.path(value))), true}
+      {USet32.new(k1), true}
     end
   end
 
