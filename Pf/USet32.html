@@ -213,10 +213,12 @@
   </h2>
 
   <p>A thread-safe, persistent set of 32-bit unsigned integers.</p>
-<p><span class="flag orange">TODO</span>  The current implementation is far more stupid versus e.g. <code><a href="../Pf/Set.html">Pf::Set</a></code>
-wrt no-change semantics. In other words, you will pay even if you <code><a href="../Pf/USet32.html#add%28value%3AUInt32%29%3AUSet32-instance-method">#add</a></code>
-something that already exists. Optimization of all set operations wrt
-no-change remains future work.</p>
+<p><span class="flag orange">TODO</span>  with this architectuyre, it is possible to union very large consecutive
+integer spans really quickly by setting presence = UInt[16/32]::MAX and setting
+fully covered bitmaps to UInt64::MAX. Bitmaps on the edges are union'd the way
+we do it right now. This would probably require introducing a third option for
+op rhs: right now we have Trie and TrieP (trie path), and to implement this we'd
+need to have TrieSpan as well.</p>
 <h2><a id="how-it-works" class="anchor" href="#how-it-works">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -345,6 +347,7 @@ ys_r <span class="o">=</span> (<span class="n">0u32</span>...<span class="n">20_
 ys_uset <span class="o">=</span> ys_r.to_pf_uset32
 ys_set <span class="o">=</span> ys_r.to_set
 
+<span class="c"># Some shared with xs, others not.</span>
 zs_r <span class="o">=</span> (<span class="n">80_000u32</span>...<span class="n">150_000u32</span>).to_a.shuffle!
 zs_uset <span class="o">=</span> zs_r.to_pf_uset32
 zs_set <span class="o">=</span> zs_r.to_a.shuffle!.to_set
@@ -365,6 +368,11 @@ zs_set <span class="o">=</span> zs_r.to_a.shuffle!.to_set
 <span class="k">end</span>
 
 <span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
+  x.report(<span class="s">&quot;USet32: union subset&quot;</span>) { xs_uset <span class="o">|</span> ys_uset }
+  x.report(<span class="s">&quot;Set: union subset&quot;</span>) { xs_set <span class="o">|</span> ys_set }
+<span class="k">end</span>
+
+<span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
   x.report(<span class="s">&quot;USet32: xs intersects? zs&quot;</span>) { xs_uset.intersects?(zs_uset) }
   x.report(<span class="s">&quot;Set: xs intersects? zs&quot;</span>) { xs_set.intersects?(zs_set) }
 <span class="k">end</span>
@@ -377,6 +385,11 @@ zs_set <span class="o">=</span> zs_r.to_a.shuffle!.to_set
 <span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
   x.report(<span class="s">&quot;USet32: xs difference zs&quot;</span>) { xs_uset <span class="o">-</span> zs_uset }
   x.report(<span class="s">&quot;Set: xs difference zs&quot;</span>) { xs_set <span class="o">-</span> zs_set }
+<span class="k">end</span>
+
+<span class="t">Benchmark</span>.ips <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
+  x.report(<span class="s">&quot;USet32: Jaccard&quot;</span>) { (xs_uset <span class="o">&amp;</span> zs_uset).size <span class="o">/</span> (xs_uset <span class="o">|</span> zs_uset).size }
+  x.report(<span class="s">&quot;Set: Jaccard&quot;</span>) { (xs_set <span class="o">&amp;</span> zs_set).size <span class="o">/</span> (xs_set <span class="o">|</span> zs_set).size }
 <span class="k">end</span></code></pre>
 <p>They give the following results on my machine:</p>
 <pre><code class="language-crystal">USet32: create 100k 336.02  (  2.98ms) (± 1.15%)  231kB/op   1.49× slower
@@ -385,8 +398,11 @@ zs_set <span class="o">=</span> zs_r.to_a.shuffle!.to_set
 USet32: subset  25.07M ( 39.88ns) (±12.30%)  32.0B/op          fastest
    Set: subset   2.61k (382.91µs) (± 0.71%)   0.0B/op  9600.69× slower
 
-USet32: xs union zs 543.26k (  1.84µs) (± 3.44%)  3.38kB/op          fastest
+USet32: xs union zs   2.39M (417.81ns) (± 3.58%)  0.99kB/op           fastest
    Set: xs union zs 189.07  (  5.29ms) (± 1.72%)   6.0MB/op  2873.25× slower
+
+USet32: union subset  22.38M ( 44.68ns) (± 2.76%)  32.0B/op           fastest
+   Set: union subset 407.20  (  2.46ms) (± 1.47%)  2.0MB/op  54965.42× slower
 
 # NOTE: the quality of this benchmark needs improvement because it hits the fast
 # path in both cases.
@@ -397,7 +413,10 @@ USet32: xs intersect zs 592.29k (  1.69µs) (± 5.73%)  2.79kB/op          faste
    Set: xs intersect zs 340.63  (  2.94ms) (± 7.84%)   769kB/op  1738.79× slower
 
 USet32: xs difference zs   1.24M (804.59ns) (± 6.80%)    608B/op          fastest
-   Set: xs difference zs 147.97  (  6.76ms) (± 4.26%)  3.75MB/op  8399.25× slower</code></pre>
+   Set: xs difference zs 147.97  (  6.76ms) (± 4.26%)  3.75MB/op  8399.25× slower
+
+USet32: Jaccard 541.57k (  1.85µs) (± 1.45%)  3.78kB/op          fastest
+   Set: Jaccard 121.14  (  8.25ms) (± 1.12%)  6.75MB/op  4470.50× slower</code></pre>
 <p><span class="flag orange">TODO</span>  compare with BitArray and CRoaring. We will likely win over BitArray but lose
 to CRoaring due to indirection, although probably only on very large bitmaps.</p>
 <p>USet32 makes set operations and checks so cheap one almost wants to forgive it
@@ -456,7 +475,7 @@ however, my timings were slightly slower without the flag.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L231" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L250" target="_blank">
         permafrost/uset32.cr
       </a>
     
@@ -778,7 +797,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L348" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L367" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -799,7 +818,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L339" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L358" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -815,7 +834,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L249" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L268" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -836,7 +855,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L259" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L278" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -857,7 +876,7 @@ however, my timings were slightly slower without the flag.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L254" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L273" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -892,7 +911,7 @@ set <span class="c"># Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L329" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L348" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -931,7 +950,7 @@ set <span class="c"># Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L569" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L585" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -952,7 +971,7 @@ set <span class="c"># Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L559" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L575" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -975,7 +994,7 @@ not in the <em>other</em> set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L586" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L602" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -991,7 +1010,7 @@ not in the <em>other</em> set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L611" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L627" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1013,7 +1032,7 @@ not in the <em>other</em> set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L547" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L563" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1038,7 +1057,7 @@ set        <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L492" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L511" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1066,7 +1085,7 @@ set <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L510" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L529" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1091,7 +1110,7 @@ set           <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L535" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L551" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1112,7 +1131,7 @@ set           <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L476" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L495" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1137,7 +1156,7 @@ set           <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L622" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L638" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1161,7 +1180,7 @@ set.includes?(<span class="n">100</span>) <span class="c"># =&gt; false</span></
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L359" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L378" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1177,7 +1196,7 @@ set.includes?(<span class="n">100</span>) <span class="c"># =&gt; false</span></
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L601" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L617" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1205,7 +1224,7 @@ xs.intersects?(zs) <span class="c"># =&gt; true, they both have `3`</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L464" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L483" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1221,7 +1240,7 @@ xs.intersects?(zs) <span class="c"># =&gt; true, they both have `3`</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L597" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L613" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1250,7 +1269,7 @@ ys.proper_subset_of?(ys) <span class="c"># =&gt; false</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L417" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L436" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1279,7 +1298,7 @@ ys.proper_superset_of?(ys) <span class="c"># =&gt; false</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L449" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L468" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1302,7 +1321,7 @@ set.size <span class="c"># =&gt; 3</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L372" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L391" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1329,7 +1348,7 @@ ys.subset_of?(xs) <span class="c"># =&gt; false</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L389" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L408" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1356,7 +1375,7 @@ ys.superset_of?(xs) <span class="c"># =&gt; true</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L433" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L452" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1372,7 +1391,7 @@ ys.superset_of?(xs) <span class="c"># =&gt; true</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/fcb7b59f66ef677a10a9d5c8b11c4823a1b79489/src/permafrost/uset32.cr#L607" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/uset32.cr#L623" target="_blank">View source</a>]
         
       </div>
     </div>
