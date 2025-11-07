@@ -1,0 +1,6 @@
+name: permafrost-bench
+version: 0.0.0
+
+dependencies:
+  immutable:
+    github: lucaong/immutable

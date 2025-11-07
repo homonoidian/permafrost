@@ -1,0 +1,6 @@
+version: 2.0
+shards:
+  immutable:
+    git: https://github.com/lucaong/immutable.git
+    version: 0.1.24
+

@@ -142,6 +142,10 @@ module Pf::Kit
     def nth?(n : Int32) : T?
       return if n < 0
 
+      nth?(n.to_u32)
+    end
+
+    protected def nth?(n : UInt32) : T?
       if n < @items.size
         return @items.to_unsafe[n]
       end
@@ -149,60 +153,51 @@ module Pf::Kit
       n &-= @items.size
 
       @children.each do |child|
-        return child.nth?(n) if n.in?(0...child.size)
-        return if n < child.size
+        if 0 <= n < child.size
+          return child.nth?(n)
+        end
+
         n &-= child.size
       end
     end
 
     # Yields each item from this node and from all child nodes.
     def each(& : T ->) : Nil
-      # Lower part of the iteration stack -- use stack space.
-      lower = uninitialized self[128]
-      lower[0] = self
+      pivots = HybridArray(Node(T), 128).new
+      indices = HybridArray(UInt8, 128).new
 
-      # Upper part of the iteration stack -- use heap space (array) on demand.
-      # It would be really really hard to hit this, unless the hash function
-      # produces a lot (a lot!) of collisions or the number of elements
-      # is astronomical.
-      upper = nil
+      pivots << self
+      indices << UInt8::MAX
 
-      sp = 1 # < stack pointer
+      loop do
+        break unless pivot = pivots.top?
 
-      while sp > 0
-        # Pop node
-        sp &-= 1
-        lo = sp < lower.size
-        node = lo ? lower.unsafe_fetch(sp) : upper.not_nil!.unsafe_fetch(sp - lower.size)
+        index = indices.unsafe_top
 
-        # Yield items.
-        node.@items.each { |item| yield item }
+        if index == UInt8::MAX
+          pivot.@items.each { |item| yield item }
 
-        # Fast path: all children fit into lower.
-        if sp + node.@children.size < lower.size
-          node.@children.reverse_each do |child|
-            lower.unsafe_put(sp, child)
-            sp &+= 1
+          if pivot.@children.empty?
+            _ = pivots.pop?
+            _ = indices.pop?
+            next
           end
+
+          indices.unsafe_set(0u8)
           next
         end
 
-        # Slow (ish) path.
-        node.@children.reverse_each do |child|
-          if lo
-            lower.unsafe_put(sp, child)
-          else
-            upper ||= [] of self
-            index = sp - lower.size
-            if index < upper.size
-              upper.unsafe_put(index, child)
-            else
-              upper.push(child)
-            end
-          end
+        child = pivot.@children.to_unsafe[index]
 
-          sp &+= 1
-          lo = sp < lower.size
+        if index &+ 1 < pivot.@children.size
+          # Successor child exists.
+          pivots << child
+          indices.unsafe_set(index &+ 1)
+          indices << UInt8::MAX
+        else
+          # Last child.
+          pivots.unsafe_set(child)
+          indices.unsafe_set(UInt8::MAX)
         end
       end
     end

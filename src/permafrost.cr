@@ -19,6 +19,8 @@ module Pf
     ::Fiber.current.object_id
   end
 
+  # Auxiliary data structures.
+  #
   # If you don't like `Pf::Map`, `Pf::Set`, etc., or they aren't performant enough
   # for you, you can build your own map/set/HAMT-like thingy using `Node`, writing
   # probe implementations that satisfy the corresponding interfaces (see, for instance,
