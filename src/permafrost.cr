@@ -1,4 +1,4 @@
-require "./permafrost/core/*"
+require "./permafrost/kit/*"
 require "./permafrost/error"
 require "./permafrost/map"
 require "./permafrost/set"
@@ -26,6 +26,6 @@ module Pf
   #
   # For an example of how to use `Node` look into the source code of `Pf::Map`
   # or `Pf::Set`.
-  module Core
+  module Kit
   end
 end

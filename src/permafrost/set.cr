@@ -3,7 +3,7 @@ module Pf
   #
   # See also: `Map`.
   struct Set(T)
-    include Core
+    include Kit
     include Enumerable(T)
 
     private module Probes

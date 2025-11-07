@@ -1,5 +1,5 @@
 # :nodoc:
-module Pf::Core::USet
+module Pf::Kit::USet
   extend self
 
   def ptr(object : T) forall T

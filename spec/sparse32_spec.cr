@@ -1,8 +1,8 @@
 require "./spec_helper"
 
-include Pf::Core
+include Pf::Kit
 
-describe Pf::Core::Sparse32 do
+describe Pf::Kit::Sparse32 do
   it "should grow when capacity is exceeded, all the way to 32" do
     ary = Sparse32(Int32).new
     ary.empty?.should be_true

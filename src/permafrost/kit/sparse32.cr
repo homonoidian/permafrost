@@ -1,4 +1,4 @@
-module Pf::Core
+module Pf::Kit
   struct Sparse32(T)
     # Maps item count to expected capacity. '0' means 'keep' (do not grow).
     GROWTH = StaticArray(UInt8, 33).new(0u8)

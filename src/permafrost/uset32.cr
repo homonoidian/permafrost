@@ -250,7 +250,7 @@
 struct Pf::USet32
   include Enumerable(UInt32)
 
-  private alias USet = ::Pf::Core::USet
+  private alias USet = Kit::USet
 
   # :nodoc:
   alias Kernel = Empty | Nonempty

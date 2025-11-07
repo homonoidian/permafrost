@@ -1,4 +1,4 @@
-module Pf::Core
+module Pf::Kit
   alias AuthorId = UInt32
 
   AUTHOR_NONE  = AuthorId.new(0)

@@ -62,7 +62,7 @@ module Pf
   # other hand, elements of a `Set` are *keys* so they are always compared
   # using `==` eventually.
   struct Map(K, V)
-    include Core
+    include Kit
     include Enumerable({K, V})
 
     # Returns `true` if two mapping values *v1* and *v2* are equal, taking
