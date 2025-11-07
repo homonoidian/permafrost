@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../../js/doc.js"></script>
 
   <meta name="repository-name" content="permafrost">
-  <title>Pf::Core::IProbeDelete(T) - permafrost trunk</title>
+  <title>Pf::Kit::IProbeFetch(T) - permafrost trunk</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../";
   </script>
@@ -72,53 +72,63 @@
       
     </li>
   
-  <li class="parent open current" data-id="permafrost/Pf/Core" data-name="pf::core">
-      <a href="../../Pf/Core.html">Core</a>
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="../../Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf/Kit" data-name="pf::kit">
+      <a href="../../Pf/Kit.html">Kit</a>
       
         <ul>
   
-  <li class=" " data-id="permafrost/Pf/Core/AuthorId" data-name="pf::core::authorid">
-      <a href="../../Pf/Core/AuthorId.html">AuthorId</a>
+  <li class=" " data-id="permafrost/Pf/Kit/AuthorId" data-name="pf::kit::authorid">
+      <a href="../../Pf/Kit/AuthorId.html">AuthorId</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/IProbeAdd" data-name="pf::core::iprobeadd(t)">
-      <a href="../../Pf/Core/IProbeAdd.html">IProbeAdd</a>
+  <li class=" " data-id="permafrost/Pf/Kit/HybridArray" data-name="pf::kit::hybridarray(t, n)">
+      <a href="../../Pf/Kit/HybridArray.html">HybridArray</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/IProbeAuthored" data-name="pf::core::iprobeauthored">
-      <a href="../../Pf/Core/IProbeAuthored.html">IProbeAuthored</a>
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeAdd" data-name="pf::kit::iprobeadd(t)">
+      <a href="../../Pf/Kit/IProbeAdd.html">IProbeAdd</a>
       
     </li>
   
-  <li class=" current" data-id="permafrost/Pf/Core/IProbeDelete" data-name="pf::core::iprobedelete(t)">
-      <a href="../../Pf/Core/IProbeDelete.html">IProbeDelete</a>
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeAuthored" data-name="pf::kit::iprobeauthored">
+      <a href="../../Pf/Kit/IProbeAuthored.html">IProbeAuthored</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/IProbeFetch" data-name="pf::core::iprobefetch(t)">
-      <a href="../../Pf/Core/IProbeFetch.html">IProbeFetch</a>
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeDelete" data-name="pf::kit::iprobedelete(t)">
+      <a href="../../Pf/Kit/IProbeDelete.html">IProbeDelete</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/Node" data-name="pf::core::node(t)">
-      <a href="../../Pf/Core/Node.html">Node</a>
+  <li class=" current" data-id="permafrost/Pf/Kit/IProbeFetch" data-name="pf::kit::iprobefetch(t)">
+      <a href="../../Pf/Kit/IProbeFetch.html">IProbeFetch</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/Sparse32" data-name="pf::core::sparse32(t)">
-      <a href="../../Pf/Core/Sparse32.html">Sparse32</a>
+  <li class=" " data-id="permafrost/Pf/Kit/Node" data-name="pf::kit::node(t)">
+      <a href="../../Pf/Kit/Node.html">Node</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/Sparse32" data-name="pf::kit::sparse32(t)">
+      <a href="../../Pf/Kit/Sparse32.html">Sparse32</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/StaticRing" data-name="pf::kit::staticring(t, n)">
+      <a href="../../Pf/Kit/StaticRing.html">StaticRing</a>
       
     </li>
   
 </ul>
 
-      
-    </li>
-  
-  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
-      <a href="../../Pf/Eq.html">Eq</a>
       
     </li>
   
@@ -193,7 +203,7 @@
 
   <span class="kind">
     module
-  </span> Pf::<wbr>Core::<wbr>IProbeDelete(T)
+  </span> Pf::<wbr>Kit::<wbr>IProbeFetch(T)
 
 </h1>
 
@@ -210,29 +220,13 @@
     Overview
   </h2>
 
-  <p>Includers can remove stored values from the trie.</p>
+  <p>Includers can look up a stored value in the trie.</p>
 
 
 
 
 
 
-
-  <h2>
-    <a id="included-modules" class="anchor" href="#included-modules">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Included Modules
-  </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type"><a href="../../Pf/Core/IProbeAuthored.html">Pf::Core::IProbeAuthored</a></li>
-    
-      <li class="other-type"><a href="../../Pf/Core/IProbeFetch.html">Pf::Core::IProbeFetch(T)</a></li>
-    
-  </ul>
 
 
 
@@ -250,11 +244,13 @@
   </h2>
   <ul class="other-types-list">
     
-      <li class="other-type"><a href="../../Pf/Map/Probes/Dissoc.html">Pf::Map::Probes::Dissoc(K, V)</a></li>
+      <li class="other-type"><a href="../../Pf/Kit/IProbeAdd.html">Pf::Kit::IProbeAdd(T)</a></li>
     
-      <li class="other-type"><a href="../../Pf/Set/Probes/Delete.html">Pf::Set::Probes::Delete(T)</a></li>
+      <li class="other-type"><a href="../../Pf/Kit/IProbeDelete.html">Pf::Kit::IProbeDelete(T)</a></li>
     
-      <li class="other-type"><a href="../../Pf/Set/Probes/MutDelete.html">Pf::Set::Probes::MutDelete(T)</a></li>
+      <li class="other-type"><a href="../../Pf/Map/Probes/Fetch.html">Pf::Map::Probes::Fetch(K, V)</a></li>
+    
+      <li class="other-type"><a href="../../Pf/Set/Probes/Includes.html">Pf::Set::Probes::Includes(T)</a></li>
     
   </ul>
 
@@ -271,8 +267,8 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/core/node.cr#L57" target="_blank">
-        permafrost/core/node.cr
+      <a href="https://github.com/homonoidian/permafrost/blob/1ed74ae19839c01eb31be3338ec441e1ca70b462/src/permafrost/kit/node.cr#L8" target="_blank">
+        permafrost/kit/node.cr
       </a>
     
     <br/>
@@ -289,58 +285,35 @@
   
 
   
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#match%3F%28stored%3AT%29%3ABool-instance-method" class="signature"><strong>#match?</strong>(stored : T) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this probe accepts the given stored value.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#path%3AUInt64-instance-method" class="signature"><strong>#path</strong> : UInt64</a>
+        
+          <div class="summary"><p>Returns the full path to the stored value (usually the stored value's hash).</p></div>
+        
+      </li>
+    
+  </ul>
+
 
 
   <div class="methods-inherited">
-    
-      
-
-  <h3>Instance methods inherited from module <code><a href="../../Pf/Core/IProbeAuthored.html">Pf::Core::IProbeAuthored</a></code></h3>
-  
-  
-    <a href="../../Pf/Core/IProbeAuthored.html#author%3AAuthorId-instance-method" class="tooltip">
-      <span>author : AuthorId</span>
-    author</a>
-    
-  
-
-
-      
-
-
-      
-
-
-      
-
-
-    
-      
-
-  <h3>Instance methods inherited from module <code><a href="../../Pf/Core/IProbeFetch.html">Pf::Core::IProbeFetch(T)</a></code></h3>
-  
-  
-    <a href="../../Pf/Core/IProbeFetch.html#match%3F%28stored%3AT%29%3ABool-instance-method" class="tooltip">
-      <span>match?(stored : T) : Bool</span>
-    match?</a>, 
-    
-  
-    <a href="../../Pf/Core/IProbeFetch.html#path%3AUInt64-instance-method" class="tooltip">
-      <span>path : UInt64</span>
-    path</a>
-    
-  
-
-
-      
-
-
-      
-
-
-      
-
-
     
   </div>
 
@@ -351,6 +324,58 @@
   
 
   
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="match?(stored:T):Bool-instance-method">
+      <div class="signature">
+        abstract 
+        def <strong>match?</strong>(stored : T) : Bool
+
+        <a class="method-permalink" href="#match%3F%28stored%3AT%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this probe accepts the given stored value.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/1ed74ae19839c01eb31be3338ec441e1ca70b462/src/permafrost/kit/node.cr#L13" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="path:UInt64-instance-method">
+      <div class="signature">
+        abstract 
+        def <strong>path</strong> : UInt64
+
+        <a class="method-permalink" href="#path%3AUInt64-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the full path to the stored value (usually the stored value's hash).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/1ed74ae19839c01eb31be3338ec441e1ca70b462/src/permafrost/kit/node.cr#L10" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
 
 
 </div>

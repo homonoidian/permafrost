@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../../js/doc.js"></script>
 
   <meta name="repository-name" content="permafrost">
-  <title>Pf::Core::IProbeAdd(T) - permafrost trunk</title>
+  <title>Pf::Kit::IProbeAuthored - permafrost trunk</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../";
   </script>
@@ -72,53 +72,63 @@
       
     </li>
   
-  <li class="parent open current" data-id="permafrost/Pf/Core" data-name="pf::core">
-      <a href="../../Pf/Core.html">Core</a>
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="../../Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf/Kit" data-name="pf::kit">
+      <a href="../../Pf/Kit.html">Kit</a>
       
         <ul>
   
-  <li class=" " data-id="permafrost/Pf/Core/AuthorId" data-name="pf::core::authorid">
-      <a href="../../Pf/Core/AuthorId.html">AuthorId</a>
+  <li class=" " data-id="permafrost/Pf/Kit/AuthorId" data-name="pf::kit::authorid">
+      <a href="../../Pf/Kit/AuthorId.html">AuthorId</a>
       
     </li>
   
-  <li class=" current" data-id="permafrost/Pf/Core/IProbeAdd" data-name="pf::core::iprobeadd(t)">
-      <a href="../../Pf/Core/IProbeAdd.html">IProbeAdd</a>
+  <li class=" " data-id="permafrost/Pf/Kit/HybridArray" data-name="pf::kit::hybridarray(t, n)">
+      <a href="../../Pf/Kit/HybridArray.html">HybridArray</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/IProbeAuthored" data-name="pf::core::iprobeauthored">
-      <a href="../../Pf/Core/IProbeAuthored.html">IProbeAuthored</a>
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeAdd" data-name="pf::kit::iprobeadd(t)">
+      <a href="../../Pf/Kit/IProbeAdd.html">IProbeAdd</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/IProbeDelete" data-name="pf::core::iprobedelete(t)">
-      <a href="../../Pf/Core/IProbeDelete.html">IProbeDelete</a>
+  <li class=" current" data-id="permafrost/Pf/Kit/IProbeAuthored" data-name="pf::kit::iprobeauthored">
+      <a href="../../Pf/Kit/IProbeAuthored.html">IProbeAuthored</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/IProbeFetch" data-name="pf::core::iprobefetch(t)">
-      <a href="../../Pf/Core/IProbeFetch.html">IProbeFetch</a>
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeDelete" data-name="pf::kit::iprobedelete(t)">
+      <a href="../../Pf/Kit/IProbeDelete.html">IProbeDelete</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/Node" data-name="pf::core::node(t)">
-      <a href="../../Pf/Core/Node.html">Node</a>
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeFetch" data-name="pf::kit::iprobefetch(t)">
+      <a href="../../Pf/Kit/IProbeFetch.html">IProbeFetch</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/Sparse32" data-name="pf::core::sparse32(t)">
-      <a href="../../Pf/Core/Sparse32.html">Sparse32</a>
+  <li class=" " data-id="permafrost/Pf/Kit/Node" data-name="pf::kit::node(t)">
+      <a href="../../Pf/Kit/Node.html">Node</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/Sparse32" data-name="pf::kit::sparse32(t)">
+      <a href="../../Pf/Kit/Sparse32.html">Sparse32</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/StaticRing" data-name="pf::kit::staticring(t, n)">
+      <a href="../../Pf/Kit/StaticRing.html">StaticRing</a>
       
     </li>
   
 </ul>
 
-      
-    </li>
-  
-  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
-      <a href="../../Pf/Eq.html">Eq</a>
       
     </li>
   
@@ -193,7 +203,7 @@
 
   <span class="kind">
     module
-  </span> Pf::<wbr>Core::<wbr>IProbeAdd(T)
+  </span> Pf::<wbr>Kit::<wbr>IProbeAuthored
 
 </h1>
 
@@ -210,29 +220,14 @@
     Overview
   </h2>
 
-  <p>Includers can add stored values to the trie, or replace them.</p>
+  <p>Includers can author a change in the trie, enabling them to later mutate
+the part of the trie they've already copied. See <code><a href="../../Pf/Kit/IProbeAuthored.html#author%3AAuthorId-instance-method">#author</a></code>.</p>
 
 
 
 
 
 
-
-  <h2>
-    <a id="included-modules" class="anchor" href="#included-modules">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-    Included Modules
-  </h2>
-  <ul class="other-types-list">
-    
-      <li class="other-type"><a href="../../Pf/Core/IProbeAuthored.html">Pf::Core::IProbeAuthored</a></li>
-    
-      <li class="other-type"><a href="../../Pf/Core/IProbeFetch.html">Pf::Core::IProbeFetch(T)</a></li>
-    
-  </ul>
 
 
 
@@ -250,11 +245,9 @@
   </h2>
   <ul class="other-types-list">
     
-      <li class="other-type"><a href="../../Pf/Map/Probes/Assoc.html">Pf::Map::Probes::Assoc(K, V)</a></li>
+      <li class="other-type"><a href="../../Pf/Kit/IProbeAdd.html">Pf::Kit::IProbeAdd(T)</a></li>
     
-      <li class="other-type"><a href="../../Pf/Set/Probes/Add.html">Pf::Set::Probes::Add(T)</a></li>
-    
-      <li class="other-type"><a href="../../Pf/Set/Probes/MutAdd.html">Pf::Set::Probes::MutAdd(T)</a></li>
+      <li class="other-type"><a href="../../Pf/Kit/IProbeDelete.html">Pf::Kit::IProbeDelete(T)</a></li>
     
   </ul>
 
@@ -271,8 +264,8 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/core/node.cr#L44" target="_blank">
-        permafrost/core/node.cr
+      <a href="https://github.com/homonoidian/permafrost/blob/1ed74ae19839c01eb31be3338ec441e1ca70b462/src/permafrost/kit/node.cr#L18" target="_blank">
+        permafrost/kit/node.cr
       </a>
     
     <br/>
@@ -300,16 +293,9 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#replace%3F%28stored%3AT%29%3ABool-instance-method" class="signature"><strong>#replace?</strong>(stored : T) : Bool</a>
+        <a href="#author%3AAuthorId-instance-method" class="signature"><strong>#author</strong> : AuthorId</a>
         
-          <div class="summary"><p>Returns <code>true</code> if an existing <em>stored</em> value should be replaced with this probe's own <code><a href="../../Pf/Core/IProbeAdd.html#value%3AT-instance-method">#value</a></code>.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#value%3AT-instance-method" class="signature"><strong>#value</strong> : T</a>
-        
-          <div class="summary"><p>Returns the value associated with this probe, to be stored in <code><a href="../../Pf/Core/Node.html">Node</a></code>.</p></div>
+          <div class="summary"><p>Returns the id of the author of the proposed addition.</p></div>
         
       </li>
     
@@ -318,55 +304,6 @@
 
 
   <div class="methods-inherited">
-    
-      
-
-  <h3>Instance methods inherited from module <code><a href="../../Pf/Core/IProbeAuthored.html">Pf::Core::IProbeAuthored</a></code></h3>
-  
-  
-    <a href="../../Pf/Core/IProbeAuthored.html#author%3AAuthorId-instance-method" class="tooltip">
-      <span>author : AuthorId</span>
-    author</a>
-    
-  
-
-
-      
-
-
-      
-
-
-      
-
-
-    
-      
-
-  <h3>Instance methods inherited from module <code><a href="../../Pf/Core/IProbeFetch.html">Pf::Core::IProbeFetch(T)</a></code></h3>
-  
-  
-    <a href="../../Pf/Core/IProbeFetch.html#match%3F%28stored%3AT%29%3ABool-instance-method" class="tooltip">
-      <span>match?(stored : T) : Bool</span>
-    match?</a>, 
-    
-  
-    <a href="../../Pf/Core/IProbeFetch.html#path%3AUInt64-instance-method" class="tooltip">
-      <span>path : UInt64</span>
-    path</a>
-    
-  
-
-
-      
-
-
-      
-
-
-      
-
-
     
   </div>
 
@@ -386,45 +323,39 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="replace?(stored:T):Bool-instance-method">
+    <div class="entry-detail" id="author:AuthorId-instance-method">
       <div class="signature">
         abstract 
-        def <strong>replace?</strong>(stored : T) : Bool
+        def <strong>author</strong> : <a href="../../Pf/Kit/AuthorId.html">AuthorId</a>
 
-        <a class="method-permalink" href="#replace%3F%28stored%3AT%29%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#author%3AAuthorId-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns <code>true</code> if an existing <em>stored</em> value should be replaced with
-this probe's own <code><a href="../../Pf/Core/IProbeAdd.html#value%3AT-instance-method">#value</a></code>.</p>
+          <p>Returns the id of the author of the proposed addition. The author is made
+the owner of the path-copied items and children arrays in the trie. Meaning
+further changes along the same route <em>made by the same author</em> will not produce
+copies; the author's done the job already.</p>
+<p>Essentially <code><a href="../../Pf/Kit/IProbeAuthored.html#author%3AAuthorId-instance-method">#author</a></code> is the &quot;password&quot; for mutating the resulting part of the trie.
+Completely new nodes give write access to both arrays to <code><a href="../../Pf/Kit/IProbeAuthored.html#author%3AAuthorId-instance-method">#author</a></code> immediately.</p>
+<p>The id must be unique across distinct edits of the trie (this is guaranteed
+by <code><a href="../../Pf/Map/Commit.html">Pf::Map::Commit</a></code> and <code><a href="../../Pf/Set/Commit.html">Pf::Set::Commit</a></code>; they are the main users of this
+feature). By using the analogy defined above, if more than one entity knows
+the password to edit the trie in-place, everything about immutability
+or exclusive write access is broken.</p>
+<p>We never make full copies of the trie, not at the beginning, nor at the end.
+We only make copies of edited paths. When the edit sequence finishes, its
+author must be guaranteed to retire, as the trie is passed to the immutable
+interface as-is. So if the author does not retire and modifies the tree,
+the immutable version will change as well, which is not expected.</p>
+<p>If unavailable, you can return <code><a href="../../Pf/Kit.html#AUTHOR_NONE">AUTHOR_NONE</a></code>.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/core/node.cr#L53" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="value:T-instance-method">
-      <div class="signature">
-        abstract 
-        def <strong>value</strong> : T
-
-        <a class="method-permalink" href="#value%3AT-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Returns the value associated with this probe, to be stored in <code><a href="../../Pf/Core/Node.html">Node</a></code>.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/core/node.cr#L49" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1ed74ae19839c01eb31be3338ec441e1ca70b462/src/permafrost/kit/node.cr#L40" target="_blank">View source</a>]
         
       </div>
     </div>

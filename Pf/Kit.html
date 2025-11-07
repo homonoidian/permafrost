@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="permafrost">
-  <title>Pf::Core - permafrost trunk</title>
+  <title>Pf::Kit - permafrost trunk</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -72,53 +72,63 @@
       
     </li>
   
-  <li class="parent open current" data-id="permafrost/Pf/Core" data-name="pf::core">
-      <a href="../Pf/Core.html">Core</a>
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="../Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf/Kit" data-name="pf::kit">
+      <a href="../Pf/Kit.html">Kit</a>
       
         <ul>
   
-  <li class=" " data-id="permafrost/Pf/Core/AuthorId" data-name="pf::core::authorid">
-      <a href="../Pf/Core/AuthorId.html">AuthorId</a>
+  <li class=" " data-id="permafrost/Pf/Kit/AuthorId" data-name="pf::kit::authorid">
+      <a href="../Pf/Kit/AuthorId.html">AuthorId</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/IProbeAdd" data-name="pf::core::iprobeadd(t)">
-      <a href="../Pf/Core/IProbeAdd.html">IProbeAdd</a>
+  <li class=" " data-id="permafrost/Pf/Kit/HybridArray" data-name="pf::kit::hybridarray(t, n)">
+      <a href="../Pf/Kit/HybridArray.html">HybridArray</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/IProbeAuthored" data-name="pf::core::iprobeauthored">
-      <a href="../Pf/Core/IProbeAuthored.html">IProbeAuthored</a>
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeAdd" data-name="pf::kit::iprobeadd(t)">
+      <a href="../Pf/Kit/IProbeAdd.html">IProbeAdd</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/IProbeDelete" data-name="pf::core::iprobedelete(t)">
-      <a href="../Pf/Core/IProbeDelete.html">IProbeDelete</a>
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeAuthored" data-name="pf::kit::iprobeauthored">
+      <a href="../Pf/Kit/IProbeAuthored.html">IProbeAuthored</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/IProbeFetch" data-name="pf::core::iprobefetch(t)">
-      <a href="../Pf/Core/IProbeFetch.html">IProbeFetch</a>
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeDelete" data-name="pf::kit::iprobedelete(t)">
+      <a href="../Pf/Kit/IProbeDelete.html">IProbeDelete</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/Node" data-name="pf::core::node(t)">
-      <a href="../Pf/Core/Node.html">Node</a>
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeFetch" data-name="pf::kit::iprobefetch(t)">
+      <a href="../Pf/Kit/IProbeFetch.html">IProbeFetch</a>
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Core/Sparse32" data-name="pf::core::sparse32(t)">
-      <a href="../Pf/Core/Sparse32.html">Sparse32</a>
+  <li class=" " data-id="permafrost/Pf/Kit/Node" data-name="pf::kit::node(t)">
+      <a href="../Pf/Kit/Node.html">Node</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/Sparse32" data-name="pf::kit::sparse32(t)">
+      <a href="../Pf/Kit/Sparse32.html">Sparse32</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/StaticRing" data-name="pf::kit::staticring(t, n)">
+      <a href="../Pf/Kit/StaticRing.html">StaticRing</a>
       
     </li>
   
 </ul>
 
-      
-    </li>
-  
-  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
-      <a href="../Pf/Eq.html">Eq</a>
       
     </li>
   
@@ -193,7 +203,7 @@
 
   <span class="kind">
     module
-  </span> Pf::<wbr>Core
+  </span> Pf::<wbr>Kit
 
 </h1>
 
@@ -210,11 +220,12 @@
     Overview
   </h2>
 
-  <p>If you don't like <code><a href="../Pf/Map.html">Pf::Map</a></code>, <code><a href="../Pf/Set.html">Pf::Set</a></code>, etc., or they aren't performant enough
-for you, you can build your own map/set/HAMT-like thingy using <code><a href="../Pf/Core/Node.html">Node</a></code>, writing
+  <p>Auxiliary data structures.</p>
+<p>If you don't like <code><a href="../Pf/Map.html">Pf::Map</a></code>, <code><a href="../Pf/Set.html">Pf::Set</a></code>, etc., or they aren't performant enough
+for you, you can build your own map/set/HAMT-like thingy using <code><a href="../Pf/Kit/Node.html">Node</a></code>, writing
 probe implementations that satisfy the corresponding interfaces (see, for instance,
-<code><a href="../Pf/Core/IProbeAdd.html">IProbeAdd</a></code>, <code><a href="../Pf/Core/IProbeFetch.html">IProbeFetch</a></code>, etc).</p>
-<p>For an example of how to use <code><a href="../Pf/Core/Node.html">Node</a></code> look into the source code of <code><a href="../Pf/Map.html">Pf::Map</a></code>
+<code><a href="../Pf/Kit/IProbeAdd.html">IProbeAdd</a></code>, <code><a href="../Pf/Kit/IProbeFetch.html">IProbeFetch</a></code>, etc).</p>
+<p>For an example of how to use <code><a href="../Pf/Kit/Node.html">Node</a></code> look into the source code of <code><a href="../Pf/Map.html">Pf::Map</a></code>
 or <code><a href="../Pf/Set.html">Pf::Set</a></code>.</p>
 
 
@@ -258,22 +269,36 @@ or <code><a href="../Pf/Set.html">Pf::Set</a></code>.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost.cr#L29" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/1ed74ae19839c01eb31be3338ec441e1ca70b462/src/permafrost.cr#L31" target="_blank">
         permafrost.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/core/node.cr#L1" target="_blank">
-        permafrost/core/node.cr
+      <a href="https://github.com/homonoidian/permafrost/blob/1ed74ae19839c01eb31be3338ec441e1ca70b462/src/permafrost/kit/hybrid_array.cr#L1" target="_blank">
+        permafrost/kit/hybrid_array.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4f07161e8a84e57aeccce7bc9bfdc82c2f08179/src/permafrost/core/sparse32.cr#L1" target="_blank">
-        permafrost/core/sparse32.cr
+      <a href="https://github.com/homonoidian/permafrost/blob/1ed74ae19839c01eb31be3338ec441e1ca70b462/src/permafrost/kit/node.cr#L1" target="_blank">
+        permafrost/kit/node.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/1ed74ae19839c01eb31be3338ec441e1ca70b462/src/permafrost/kit/sparse32.cr#L1" target="_blank">
+        permafrost/kit/sparse32.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/1ed74ae19839c01eb31be3338ec441e1ca70b462/src/permafrost/kit/static_ring.cr#L1" target="_blank">
+        permafrost/kit/static_ring.cr
       </a>
     
     <br/>
