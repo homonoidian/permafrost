@@ -288,31 +288,29 @@ Hash (speed of light): bigram bag jaccard  15.11  ( 66.18ms) (± 1.97%)   522kB/
 </a>USet32</h3>
 <p>See <code>benchmark/uset32.cr</code> for <code><a href="Pf/USet32.html">Pf::USet32</a></code> benchmark source code.</p>
 <pre><code class="language-text">$ crystal build uset32.cr --release --mcpu native</code></pre>
-<pre><code class="language-text">   Set: create 100k 500.30  (  2.00ms) (± 2.98%)  2.0MB/op        fastest
-USet32: create 100k 336.02  (  2.98ms) (± 1.15%)  231kB/op   1.49× slower
+<pre><code class="language-text">   Set: create 100k 527.73  (  1.89ms) (± 1.32%)  2.0MB/op        fastest
+USet32: create 100k 339.35  (  2.95ms) (± 0.38%)  231kB/op   1.56× slower
 
-USet32: subset  25.07M ( 39.88ns) (±12.30%)  32.0B/op          fastest
-   Set: subset   2.61k (382.91µs) (± 0.71%)   0.0B/op  9600.69× slower
+USet32: subset   1.73M (578.78ns) (± 0.53%)  32.0B/op         fastest
+   Set: subset   2.55k (391.65µs) (± 1.92%)   0.0B/op  676.67× slower
 
-USet32: xs union zs   2.39M (417.81ns) (± 3.58%)  0.99kB/op           fastest
-   Set: xs union zs 189.07  (  5.29ms) (± 1.72%)   6.0MB/op  2873.25× slower
+USet32: xs union zs   1.19M (839.41ns) (± 2.58%)  0.99kB/op          fastest
+   Set: xs union zs 188.40  (  5.31ms) (± 5.98%)   6.0MB/op  6323.44× slower
 
-USet32: union subset  22.38M ( 44.68ns) (± 2.76%)  32.0B/op           fastest
-   Set: union subset 407.20  (  2.46ms) (± 1.47%)  2.0MB/op  54965.42× slower
+USet32: union subset   1.69M (591.87ns) (± 0.57%)  32.0B/op          fastest
+   Set: union subset 415.48  (  2.41ms) (± 1.25%)  2.0MB/op  4066.49× slower
 
-# NOTE: the quality of this benchmark needs improvement because it hits the fast
-# path in both cases.
-   Set: xs intersects? zs  89.11M ( 11.22ns) (± 1.76%)  0.0B/op        fastest
-USet32: xs intersects? zs  82.90M ( 12.06ns) (± 1.57%)  0.0B/op   1.07× slower
+USet32: xs intersects? zs  68.20M ( 14.66ns) (± 1.48%)  0.0B/op        fastest
+   Set: xs intersects? zs  22.86M ( 43.74ns) (± 0.72%)  0.0B/op   2.98× slower
 
-USet32: xs intersect zs 592.29k (  1.69µs) (± 5.73%)  2.79kB/op          fastest
-   Set: xs intersect zs 340.63  (  2.94ms) (± 7.84%)   769kB/op  1738.79× slower
+USet32: xs intersect zs 728.70k (  1.37µs) (± 2.05%)  2.79kB/op          fastest
+   Set: xs intersect zs 355.38  (  2.81ms) (± 7.41%)   769kB/op  2050.48× slower
 
-USet32: xs difference zs   1.24M (804.59ns) (± 6.80%)    608B/op          fastest
-   Set: xs difference zs 147.97  (  6.76ms) (± 4.26%)  3.75MB/op  8399.25× slower
+USet32: xs difference zs   1.26M (791.22ns) (± 2.34%)    608B/op          fastest
+   Set: xs difference zs 163.83  (  6.10ms) (± 2.93%)  3.75MB/op  7714.66× slower
 
-USet32: Jaccard 541.57k (  1.85µs) (± 1.45%)  3.78kB/op          fastest
-   Set: Jaccard 121.14  (  8.25ms) (± 1.12%)  6.75MB/op  4470.50× slower</code></pre>
+USet32: Jaccard 460.47k (  2.17µs) (± 0.87%)  3.78kB/op          fastest
+   Set: Jaccard 114.97  (  8.70ms) (± 2.86%)  6.75MB/op  4005.12× slower</code></pre>
 <p>See also the docs for <code><a href="Pf/USet32.html">Pf::USet32</a></code> for related prose.</p>
 <blockquote>
 <p>[!TODO]
