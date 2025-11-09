@@ -68,6 +68,9 @@ describe Pf::USet32 do
 
     ys = range(100_000_000, 100_020_000)
     ys.subset_of?(xs).should be_false
+
+    # BUG
+    Pf::USet32[25, 65, 69].subset_of?(Pf::USet32[19, 23, 25, 69]).should be_false
   end
 
   it "supports #add?" do

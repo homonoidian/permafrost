@@ -1,4 +1,5 @@
 require "benchmark"
+require "../src/permafrost"
 
 xs_r = (0u32...100_000u32).to_a.shuffle!
 xs_uset = xs_r.to_pf_uset32

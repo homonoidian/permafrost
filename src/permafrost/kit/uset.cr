@@ -391,11 +391,11 @@ module Pf::Kit::USet
       end
 
       each_child_with_bit_index(sm) do |child, bit_index|
-        next unless subset?(fetch(lg, bit_index), child)
-        return true
+        next if subset?(fetch(lg, bit_index), child)
+        return false
       end
 
-      false
+      true
     end
   {% end %}
 
