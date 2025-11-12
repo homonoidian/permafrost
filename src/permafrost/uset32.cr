@@ -296,6 +296,9 @@ struct Pf::USet32
   # Returns the number of consecutive integers following zero in this set
   # (i.e., all numbers from zero before the first "gap", if any).
   #
+  # Effectively, `prefix` performs the "trailing ones count" operation on
+  # the underlying bits of this set.
+  #
   # ```
   # Pf::USet32[0, 1, 2, 3].prefix # => 4
   # Pf::USet32[1, 2, 3].prefix    # => 0

@@ -707,7 +707,7 @@ module Pf::Kit::USet
     {(~s.bits).trailing_zeros_count.to_u32, true}
   end
 
-  {% for cls, index in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
+  {% for cls in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
     def prefix(s : {{cls.id}}) : {UInt32, Bool}
       if cardinality(s) == {{cls.id}}::CAPACITY
         return cardinality(s), false
@@ -717,9 +717,9 @@ module Pf::Kit::USet
 
       size = (~presence(s)).trailing_zeros_count
       size.times do |index|
-        n, gap = prefix(s.children[index])
+        n, has_gap = prefix(s.children[index])
         prefix += n
-        break if gap
+        break if has_gap
       end
 
       {prefix, true}
