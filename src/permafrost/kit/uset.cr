@@ -725,4 +725,44 @@ module Pf::Kit::USet
       {prefix, true}
     end
   {% end %}
+
+  def offset(s : Bitmap, path : BitmapP) : UInt32
+    mask = 1u64 << path.index
+
+    (s.bits & (mask &- 1)).popcount.to_u32
+  end
+
+  {% for cls, index in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
+    {% bits = [32, 32, 16, 16, 16, 16] %}
+    def offset(s : {{cls.id}}, path : {{cls.id}}P) : UInt32
+      offset = 0u32
+
+      mask = 1u{{bits[index]}} << path.index
+      preds = (presence(s) & (mask &- 1)).popcount
+      preds.times do |n|
+        pred = s.children[n]
+        offset &+= cardinality(pred)
+      end
+
+      unless presence(s) & mask > 0
+        return offset
+      end
+
+      # UNSAFE: assumes `s` is never empty. We use USet in such a way it never would.
+      offset &+= offset(s.children[preds], path.child)
+      offset
+    end
+  {% end %}
+
+  def offset(s, path)
+    # Path is longer than values stored in s, it encompasses all of s. I.e. path
+    # describes an integer well outside the bounds of *s*.
+    cardinality(s)
+  end
+
+  def offset(s, value : UInt32) : UInt32
+    path = promote(path(value), s)
+
+    offset(s, path)
+  end
 end

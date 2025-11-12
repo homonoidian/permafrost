@@ -1,6 +1,6 @@
 # A thread-safe, persistent set of 32-bit unsigned integers.
 #
-# TODO: with this architectuyre, it is possible to union very large consecutive
+# TODO: with this architecture, it is possible to union very large consecutive
 # integer spans really quickly by setting presence = UInt[16/32]::MAX and setting
 # fully covered bitmaps to UInt64::MAX. Bitmaps on the edges are union'd the way
 # we do it right now. This would probably require introducing a third option for
@@ -181,13 +181,14 @@ struct Pf::USet32
     def initialize(@ptr : Kernel*)
     end
 
-    # Returns `true` if the underlying set currently includes *value*. Returns
-    # `false` otherwise.
+    # Runs `USet32#includes?` on the set built so far.
     def includes?(value : UInt32) : Bool
-      case k = @ptr.value
-      in Empty    then false
-      in Nonempty then USet.includes?(k, value)
-      end
+      peek.includes?(value)
+    end
+
+    # Runs `USet32#offset` on the set built so far.
+    def offset(value : UInt32) : UInt32
+      peek.offset(value)
     end
 
     # Adds *value* to this set.
@@ -310,6 +311,52 @@ struct Pf::USet32
     in Nonempty
       prefix, _ = USet.prefix(k)
       prefix
+    end
+  end
+
+  # Returns the number of integers before *value* (even if *value* is absent).
+  #
+  # Effectively, `offset` counts the number of set bits before *value*-th
+  # bit in the underlying bits of this set.
+  #
+  # This is sometimes called the *rank* of *value*.
+  #
+  # ```
+  # Pf::USet32[1, 2, 3, 100].offset(1)    # => 0
+  # Pf::USet32[1, 2, 3, 100].offset(2)    # => 1
+  # Pf::USet32[1, 2, 3, 100].offset(3)    # => 2
+  # Pf::USet32[1, 2, 3, 100].offset(90)   # => 3
+  # Pf::USet32[1, 2, 3, 100].offset(100)  # => 3
+  # Pf::USet32[1, 2, 3, 100].offset(1234) # => 4
+  # ```
+  #
+  # As a side effect, you can use this method for sorting (similar to bisection
+  # in spirit).
+  #
+  # ```
+  # people = [
+  #   {"Alice", 32},
+  #   {"Bob", 45},
+  #   {"Charlie", 28},
+  #   {"Diana", 36},
+  #   {"Eve", 29},
+  # ]
+  #
+  # sorted = [] of {String, Int32}
+  #
+  # Pf::USet32.transaction do |uset|
+  #   people.each do |name, age|
+  #     sorted.insert(uset.offset(age.to_u32), {name, age})
+  #     uset << age.to_u32
+  #   end
+  # end
+  #
+  # pp sorted # => [{"Charlie", 28}, {"Eve", 29}, {"Alice", 32}, {"Diana", 36}, {"Bob", 45}]
+  # ```
+  def offset(value : UInt32) : UInt32
+    case k = @kernel
+    in Empty    then 0u32
+    in Nonempty then USet.offset(k, value)
     end
   end
 

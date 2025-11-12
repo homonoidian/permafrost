@@ -290,4 +290,41 @@ describe Pf::USet32 do
     range(0, 123456).prefix.should eq(123456u32)
     (range(0, 123456) - range(100, 200)).prefix.should eq(100u32) # 0-99
   end
+
+  it "reports #offset correctly" do
+    Pf::USet32[].offset(0u32).should eq(0u32)
+    Pf::USet32[].offset(100u32).should eq(0u32)
+    Pf::USet32[].offset(100_000_000u32).should eq(0u32)
+
+    Pf::USet32[1u32].offset(0u32).should eq(0u32)
+    Pf::USet32[1u32].offset(1u32).should eq(0u32)
+    Pf::USet32[1u32].offset(100u32).should eq(1u32)
+    Pf::USet32[1u32].offset(100_000_000u32).should eq(1u32)
+
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(0u32).should eq(0u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(1u32).should eq(0u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(2u32).should eq(1u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(100u32).should eq(2u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(1000u32).should eq(2u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(1233u32).should eq(2u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(1234u32).should eq(2u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(1235u32).should eq(3u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(100_000u32).should eq(3u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(99_999_999u32).should eq(3u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(100_000_000u32).should eq(3u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(100_000_001u32).should eq(4u32)
+
+    # sort
+    xs = (0...100_000).to_a.shuffle!
+    ys = [] of Int32
+
+    _ = Pf::USet32.transaction do |set|
+      xs.each do |x|
+        ys.insert(set.offset(x.to_u32), x)
+        set << x.to_u32
+      end
+    end
+
+    ys.should eq((0...100_000).to_a)
+  end
 end
