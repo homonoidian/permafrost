@@ -275,16 +275,38 @@ struct Pf::USet32
     end
   end
 
-  # Returns the number of integers in this set.
+  # Returns the number of integers in this set (as an `Int32`).
   #
   # ```
   # set = Pf::USet32[1, 2, 3]
   # set.size # => 3
   # ```
   def size : Int32
+    usize.to_i
+  end
+
+  # Returns the number of integers in this set (as a `UInt32`).
+  def usize : UInt32
     case k = @kernel
-    in Empty    then 0
-    in Nonempty then USet.cardinality(k).to_i
+    in Empty    then 0u32
+    in Nonempty then USet.cardinality(k)
+    end
+  end
+
+  # Returns the number of consecutive integers following zero in this set
+  # (i.e., all numbers from zero before the first "gap", if any).
+  #
+  # ```
+  # Pf::USet32[0, 1, 2, 3].prefix # => 4
+  # Pf::USet32[1, 2, 3].prefix    # => 0
+  # Pf::USet32[0, 1, 3].prefix    # => 2
+  # ```
+  def prefix : UInt32
+    case k = @kernel
+    in Empty then 0u32
+    in Nonempty
+      prefix, _ = USet.prefix(k)
+      prefix
     end
   end
 

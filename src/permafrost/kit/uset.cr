@@ -29,41 +29,55 @@ module Pf::Kit::USet
 
   alias Trie = Bitmap | Chunk | WideNode | Node0 | Node1 | Node2 | Node3
 
-  record Bitmap, bits : UInt64
+  record Bitmap, bits : UInt64 do
+    CAPACITY = 64u32
+  end
 
   # TODO: chunks exists so that we can do SIMD on bitmaps, but I don't know how
   # to do SIMD nor is there any tooling to do that in Crystal.
   record Chunk, children : Bitmap*, presence : UInt32, cardinality : UInt32 do
+    CAPACITY = 64u32*32u32
+
     def self.new(bitmap : Bitmap, presence : UInt32)
       new(USet.ptr(bitmap), presence, bitmap.bits.popcount.to_u32)
     end
   end
 
   record WideNode, children : Chunk*, presence : UInt32, cardinality : UInt32 do
+    CAPACITY = 64u32*32u32*32u32
+
     def self.new(chunk : Chunk, presence : UInt32)
       new(USet.ptr(chunk), presence, chunk.cardinality)
     end
   end
 
   record Node0, children : WideNode*, presence : UInt16, cardinality : UInt32 do
+    CAPACITY = 64u32*32u32*32u32*(1*16u32)
+
     def self.new(node : WideNode, presence : UInt16)
       new(USet.ptr(node), presence, node.cardinality)
     end
   end
 
   record Node1, children : Node0*, presence : UInt16, cardinality : UInt32 do
+    CAPACITY = 64u32*32u32*32u32*(2*16u32)
+
     def self.new(node : Node0, presence : UInt16)
       new(USet.ptr(node), presence, node.cardinality)
     end
   end
 
   record Node2, children : Node1*, presence : UInt16, cardinality : UInt32 do
+    CAPACITY = 64u32*32u32*32u32*(3*16u32)
+
     def self.new(node : Node1, presence : UInt16)
       new(USet.ptr(node), presence, node.cardinality)
     end
   end
 
   record Node3, children : Node2*, presence : UInt16, cardinality : UInt32 do
+    CAPACITY = 64u32*32u32*32u32*(4*16u32)
+
     def self.new(node : Node2, presence : UInt16)
       new(USet.ptr(node), presence, node.cardinality)
     end
@@ -682,6 +696,33 @@ module Pf::Kit::USet
         hasher = hash(child, hasher)
       end
       hasher
+    end
+  {% end %}
+
+  def prefix(s : Bitmap) : {UInt32, Bool}
+    if s.bits == UInt64::MAX
+      return 64u32, false
+    end
+
+    {(~s.bits).trailing_zeros_count.to_u32, true}
+  end
+
+  {% for cls, index in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
+    def prefix(s : {{cls.id}}) : {UInt32, Bool}
+      if cardinality(s) == {{cls.id}}::CAPACITY
+        return cardinality(s), false
+      end
+
+      prefix = 0u32
+
+      size = (~presence(s)).trailing_zeros_count
+      size.times do |index|
+        n, gap = prefix(s.children[index])
+        prefix += n
+        break if gap
+      end
+
+      {prefix, true}
     end
   {% end %}
 end
