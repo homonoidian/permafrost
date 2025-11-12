@@ -84,18 +84,27 @@ module Pf::Kit::USet
   end
 
   def nth(node : ChunkP | WideNodeP | Node0P | Node1P | Node2P | Node3P, n)
-    unless n.zero?
-      raise IndexError.new
-    end
+    # This can trigger only if there are severe implementation bugs in Pf::USet32
+    # itself. Wasting time on this check seems inappropriate. At our level every
+    # nanosecond counts; we're not fetching records from a database as you can
+    # probably see...
+    {% if flag?(:safe) || !flag?(:release) %}
+      unless n.zero?
+        raise IndexError.new
+      end
+    {% end %}
 
     node.child
   end
 
   def nth(node, n)
-    size = node.presence.popcount
-    unless n < size
-      raise IndexError.new
-    end
+    # Ditto
+    {% if flag?(:safe) || !flag?(:release) %}
+      size = node.presence.popcount
+      unless n < size
+        raise IndexError.new
+      end
+    {% end %}
 
     node.children[n]
   end
@@ -124,14 +133,14 @@ module Pf::Kit::USet
     child0 = node.children[index]
     child1 = yield child0
     node.children[index] = child1
-    node.copy_with(cardinality: cardinality(node) - cardinality(child0) + cardinality(child1))
+    node.copy_with(cardinality: cardinality(node) &- cardinality(child0) &+ cardinality(child1))
   end
 
   def each_child_with_bit_index(node, &)
-    index = 0
+    index = 0u32
     each_set_bit(node.presence) do |bit_index|
       yield node.children[index], bit_index
-      index += 1
+      index &+= 1
     end
   end
 
@@ -446,7 +455,7 @@ module Pf::Kit::USet
 
       mem = Pointer({{childcls.id}}).malloc(mix.popcount)
 
-      l = i = j = 0
+      l = i = j = 0u32
       cardinality = 0u32
 
       each_set_bit(mix) do |index|
@@ -455,20 +464,20 @@ module Pf::Kit::USet
 
         if x && y
           mem[l] = u = union(nth(s0, i), nth(s1, j))
-          cardinality += cardinality(u)
-          i += 1
-          j += 1
-          l += 1
+          cardinality &+= cardinality(u)
+          i &+= 1
+          j &+= 1
+          l &+= 1
         elsif x
           mem[l] = u = nth(s0, i)
-          cardinality += cardinality(u)
-          i += 1
-          l += 1
+          cardinality &+= cardinality(u)
+          i &+= 1
+          l &+= 1
         elsif y
           mem[l] = u = trie(nth(s1, j))
-          cardinality += cardinality(u)
-          j += 1
-          l += 1
+          cardinality &+= cardinality(u)
+          j &+= 1
+          l &+= 1
         end
       end
 
@@ -515,20 +524,20 @@ module Pf::Kit::USet
 
         if x && y
           mem[l] = u = union!(nth(s0, i), nth(s1, j))
-          cardinality += cardinality(u)
-          i += 1
-          j += 1
-          l += 1
+          cardinality &+= cardinality(u)
+          i &+= 1
+          j &+= 1
+          l &+= 1
         elsif x
           mem[l] = u = nth(s0, i)
-          cardinality += cardinality(u)
-          i += 1
-          l += 1
+          cardinality &+= cardinality(u)
+          i &+= 1
+          l &+= 1
         elsif y
           mem[l] = u = trie(nth(s1, j))
-          cardinality += cardinality(u)
-          j += 1
-          l += 1
+          cardinality &+= cardinality(u)
+          j &+= 1
+          l &+= 1
         end
       end
 
@@ -562,8 +571,8 @@ module Pf::Kit::USet
       end
 
       mem = Pointer({{childcls.id}}).null
-      top = 0
-      skipped = 0
+      top = 0u32
+      skipped = 0u32
       presence = 0u{{branches}}
       cardinality = 0u32
 
@@ -571,7 +580,7 @@ module Pf::Kit::USet
         x = fetch(s0, bit_index)
         y = fetch(s1, bit_index)
         unless ix = intersection?(x, y)
-          skipped += 1
+          skipped &+= 1
           next
         end
 
@@ -582,9 +591,9 @@ module Pf::Kit::USet
         end
 
         mem[top] = ix
-        top += 1
+        top &+= 1
         presence |= 1u{{branches}} << bit_index
-        cardinality += cardinality(ix)
+        cardinality &+= cardinality(ix)
       end
 
       mem ? {{cls.id}}.new(mem, presence, cardinality) : nil
@@ -610,8 +619,8 @@ module Pf::Kit::USet
 
     def difference?(s0 : {{cls.id}}, s1 : {{cls.id}} | {{cls.id}}P)
       mem = Pointer({{childcls.id}}).null
-      top = 0
-      skipped = 0
+      top = 0u32
+      skipped = 0u32
       presence = 0u{{branches}}
       cardinality = 0u32
 
@@ -621,7 +630,7 @@ module Pf::Kit::USet
         if bit_set?(presence(s1), bit_index)
           # Subtract common recursively.
           unless x1 = difference?(x0, fetch(s1, bit_index))
-            skipped += 1
+            skipped &+= 1
             next
           end
         else
@@ -634,9 +643,9 @@ module Pf::Kit::USet
         end
 
         mem[top] = x1
-        top += 1
+        top &+= 1
         presence |= 1u{{branches}} << bit_index
-        cardinality += cardinality(x1)
+        cardinality &+= cardinality(x1)
       end
 
       mem ? {{cls.id}}.new(mem, presence, cardinality) : nil
@@ -670,12 +679,12 @@ module Pf::Kit::USet
 
       return false unless cardinality(s0) == cardinality(s1)
 
-      index = 0
+      index = 0u32
       each_child(s0) do |a|
         b = nth(s1, index)
         return false unless equals?(a, b)
 
-        index += 1
+        index &+= 1
       end
 
       true
@@ -718,7 +727,7 @@ module Pf::Kit::USet
       size = (~presence(s)).trailing_zeros_count
       size.times do |index|
         n, has_gap = prefix(s.children[index])
-        prefix += n
+        prefix &+= n
         break if has_gap
       end
 
