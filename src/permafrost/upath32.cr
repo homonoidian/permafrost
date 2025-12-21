@@ -3,6 +3,9 @@ struct Pf::UPath32
   include Enumerable(UInt32)
 
   # :nodoc:
+  alias UInt96 = Kit::UInt96
+
+  # :nodoc:
   alias Any = Index | Dense | Sparse
 
   # NOTE: The idea here is not to have a single empty variant, but to have each
