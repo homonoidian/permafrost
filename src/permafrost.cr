@@ -4,6 +4,7 @@ require "./permafrost/map"
 require "./permafrost/set"
 require "./permafrost/bidi_map"
 require "./permafrost/uset32"
+require "./permafrost/upath32"
 require "./permafrost/ext"
 
 module Pf
