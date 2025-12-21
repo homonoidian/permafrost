@@ -254,7 +254,7 @@ struct Pf::UPath32
     end
 
     mem = Pointer(T).malloc(path.size + 1)
-    mem[0] = object
+    mem[0] = n
     (mem + 1).copy_from(path.to_unsafe, path.size)
 
     Slice.new(mem, path.size + 1, read_only: true)
