@@ -122,11 +122,6 @@
       
     </li>
   
-  <li class=" " data-id="permafrost/Pf/Kit/StaticRing" data-name="pf::kit::staticring(t, n)">
-      <a href="../../Pf/Kit/StaticRing.html">StaticRing</a>
-      
-    </li>
-  
 </ul>
 
       
@@ -218,6 +213,24 @@
 
 
 
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>A hybrid array stores <em>N</em> x <em>T</em>s on the stack and spills over to heap.</p>
+<p><span class="flag purple">NOTE</span>  This is a struct. You can assign it to a local variable or an instance
+variable and use it safely. When passing it to functions, however, be careful.
+First of all, naked HybridArrays are expected to be &quot;huge structs&quot; -- hundreds
+to thousands of bytes. Besides, if you pass a naked HybridArray, the callee
+will receive a copy -- not nice, most of the times. So prefer to use <code>pointerof(var)</code>
+or <code>pointerof(@ivar)</code>, but <em>please</em> be aware of their caveats (and unsafety!)</p>
+<p>Inspiration: One of Walter Bright talks, at https://www.youtube.com/watch?v=_PB6Hdi4R7M&amp;t=2606s</p>
+
 
 
 
@@ -257,7 +270,7 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L2" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L12" target="_blank">
         permafrost/kit/hybrid_array.cr
       </a>
     
@@ -265,25 +278,6 @@
   
 
 
-
-  
-    <h2>
-      <a id="constant-summary" class="anchor" href="#constant-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-      Constant Summary
-    </h2>
-  
-  <dl>
-    
-      <dt class="entry-const" id="INITIAL_SPILL_CAPACITY">
-        <strong>INITIAL_SPILL_CAPACITY</strong> = <code><span class="n">8</span></code>
-      </dt>
-      
-    
-  </dl>
 
 
 
@@ -322,19 +316,16 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#%3C%3C%28object%3AT%29%3ANil-instance-method" class="signature"><strong>#<<</strong>(object : T) : Nil</a>
+        <a href="#%3C%3C%28value%3AT%29%3ANil-instance-method" class="signature"><strong>#<<</strong>(value : T) : Nil</a>
+        
+          <div class="summary"><p>Inserts <em>value</em> at the back of this array.</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#clear%3ANil-instance-method" class="signature"><strong>#clear</strong> : Nil</a>
         
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#each%28%26%3AT-%3E%29-instance-method" class="signature"><strong>#each</strong>(& : T -> )</a>
-        
-          <div class="summary"><p>Calls the given block once for each element in <code>self</code>, passing that element as a parameter.</p></div>
+          <div class="summary"><p>Removes all values from this array.</p></div>
         
       </li>
     
@@ -344,12 +335,16 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#pop-instance-method" class="signature"><strong>#pop</strong></a>
+        <a href="#pop%3AT-instance-method" class="signature"><strong>#pop</strong> : T</a>
+        
+          <div class="summary"><p>Removes and returns the last value of this array.</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#pop%3F%3AT%7CNil-instance-method" class="signature"><strong>#pop?</strong> : T | Nil</a>
+        
+          <div class="summary"><p>Removes and returns the last value of this array.</p></div>
         
       </li>
     
@@ -359,7 +354,9 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#push%28object%3AT%29%3ANil-instance-method" class="signature"><strong>#push</strong>(object : T) : Nil</a>
+        <a href="#push%28value%3AT%29%3ANil-instance-method" class="signature"><strong>#push</strong>(value : T) : Nil</a>
+        
+          <div class="summary"><p>Inserts <em>value</em> at the back of this array.</p></div>
         
       </li>
     
@@ -378,13 +375,6 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#top%3F%3AT%7CNil-instance-method" class="signature"><strong>#top?</strong> : T | Nil</a>
-        
-          <div class="summary"><p>Provides fast access to the top of the stack.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
         <a href="#unsafe_fetch%28index%3AInt%29%3AT-instance-method" class="signature"><strong>#unsafe_fetch</strong>(index : Int) : T</a>
         
           <div class="summary"><p>Returns the element at the given <em>index</em>, without doing any bounds check.</p></div>
@@ -399,12 +389,9 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#unsafe_set%28object%3AT%29-instance-method" class="signature"><strong>#unsafe_set</strong>(object : T)</a>
+        <a href="#usize%3AUInt32-instance-method" class="signature"><strong>#usize</strong> : UInt32</a>
         
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#unsafe_top%3AT-instance-method" class="signature"><strong>#unsafe_top</strong> : T</a>
+          <div class="summary"><p>Returns the underlying <code>UInt32</code> size of this array.</p></div>
         
       </li>
     
@@ -552,7 +539,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L18" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -573,18 +560,26 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="&lt;&lt;(object:T):Nil-instance-method">
+    <div class="entry-detail" id="&lt;&lt;(value:T):Nil-instance-method">
       <div class="signature">
         
-        def <strong><<</strong>(object : T) : Nil
+        def <strong><<</strong>(value : T) : Nil
 
-        <a class="method-permalink" href="#%3C%3C%28object%3AT%29%3ANil-instance-method">#</a>
+        <a class="method-permalink" href="#%3C%3C%28value%3AT%29%3ANil-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Inserts <em>value</em> at the back of this array.</p>
+<p><span class="flag purple">NOTE</span>  Normally, in Crystal, <code>&lt;&lt;</code> (and <code><a href="../../Pf/Kit/HybridArray.html#push%28value%3AT%29%3ANil-instance-method">#push</a></code>) return <code>self</code>; but for
+<code><a href="../../Pf/Kit/HybridArray.html">HybridArray</a></code> this would be malicious, since it's stored largely
+on the stack.</p>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L81" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L81" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -597,40 +592,15 @@
         <a class="method-permalink" href="#clear%3ANil-instance-method">#</a>
       </div>
       
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L107" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="each(&amp;:T-&gt;)-instance-method">
-      <div class="signature">
-        
-        def <strong>each</strong>(& : T -> )
-
-        <a class="method-permalink" href="#each%28%26%3AT-%3E%29-instance-method">#</a>
-      </div>
-      
         <div class="doc">
           
-            <div class="doc-inherited">
-              Description copied from module Indexable(T)
-            </div>
-          
-          <p>Calls the given block once for each element in <code>self</code>, passing that
-element as a parameter.</p>
-<pre><code class="language-crystal">a <span class="o">=</span> [<span class="s">&quot;a&quot;</span>, <span class="s">&quot;b&quot;</span>, <span class="s">&quot;c&quot;</span>]
-a.each { <span class="o">|</span>x<span class="o">|</span> print x, <span class="s">&quot; -- &quot;</span> }</code></pre>
-<p>produces:</p>
-<pre><code class="language-text">a -- b -- c --</code></pre>
+          <p>Removes all values from this array.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L54" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L110" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -646,23 +616,29 @@ a.each { <span class="o">|</span>x<span class="o">|</span> print x, <span class=
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L113" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L118" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="pop-instance-method">
+    <div class="entry-detail" id="pop:T-instance-method">
       <div class="signature">
         
-        def <strong>pop</strong>
+        def <strong>pop</strong> : T
 
-        <a class="method-permalink" href="#pop-instance-method">#</a>
+        <a class="method-permalink" href="#pop%3AT-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Removes and returns the last value of this array. Raises <code>IndexError</code> if
+this array is empty.</p>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L103" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L105" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -675,10 +651,16 @@ a.each { <span class="o">|</span>x<span class="o">|</span> print x, <span class=
         <a class="method-permalink" href="#pop%3F%3AT%7CNil-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Removes and returns the last value of this array. Returns <code>nil</code> if
+this array is empty.</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L85" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L87" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -694,23 +676,28 @@ a.each { <span class="o">|</span>x<span class="o">|</span> print x, <span class=
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L123" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L128" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="push(object:T):Nil-instance-method">
+    <div class="entry-detail" id="push(value:T):Nil-instance-method">
       <div class="signature">
         
-        def <strong>push</strong>(object : T) : Nil
+        def <strong>push</strong>(value : T) : Nil
 
-        <a class="method-permalink" href="#push%28object%3AT%29%3ANil-instance-method">#</a>
+        <a class="method-permalink" href="#push%28value%3AT%29%3ANil-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Inserts <em>value</em> at the back of this array.</p>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L64" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L60" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -735,7 +722,7 @@ a.each { <span class="o">|</span>x<span class="o">|</span> print x, <span class=
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L20" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L39" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -760,28 +747,7 @@ a.each { <span class="o">|</span>x<span class="o">|</span> print x, <span class=
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L117" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="top?:T|Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>top?</strong> : T | Nil
-
-        <a class="method-permalink" href="#top%3F%3AT%7CNil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Provides fast access to the top of the stack.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L42" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L122" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -813,7 +779,7 @@ of performance.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L24" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L43" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -847,39 +813,30 @@ of performance.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L32" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="unsafe_set(object:T)-instance-method">
+    <div class="entry-detail" id="usize:UInt32-instance-method">
       <div class="signature">
         
-        def <strong>unsafe_set</strong>(object : T)
+        def <strong>usize</strong> : UInt32
 
-        <a class="method-permalink" href="#unsafe_set%28object%3AT%29-instance-method">#</a>
+        <a class="method-permalink" href="#usize%3AUInt32-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Returns the underlying <code>UInt32</code> size of this array.</p>
+<p><code><a href="../../Pf/Kit/HybridArray.html#size%3AInt32-instance-method">#size</a></code> simply converts it to <code>Int32</code>, which is what Crystal's standard
+library expects.</p>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L50" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="unsafe_top:T-instance-method">
-      <div class="signature">
-        
-        def <strong>unsafe_top</strong> : T
-
-        <a class="method-permalink" href="#unsafe_top%3AT-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/homonoidian/permafrost/blob/4220912906a0ec8bcf0d680daefa80378349c9d5/src/permafrost/kit/hybrid_array.cr#L46" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L35" target="_blank">View source</a>]
         
       </div>
     </div>
