@@ -170,9 +170,9 @@ module Pf::Kit
       indices << UInt8::MAX
 
       loop do
-        break unless pivot = pivots.top?
+        break unless pivot = pivots.last?
 
-        index = indices.unsafe_top
+        index = indices.last
 
         if index == UInt8::MAX
           pivot.@items.each { |item| yield item }
@@ -183,7 +183,7 @@ module Pf::Kit
             next
           end
 
-          indices.unsafe_set(0u8)
+          indices[-1] = 0u8
           next
         end
 
@@ -192,12 +192,12 @@ module Pf::Kit
         if index &+ 1 < pivot.@children.size
           # Successor child exists.
           pivots << child
-          indices.unsafe_set(index &+ 1)
+          indices[-1] = index &+ 1
           indices << UInt8::MAX
         else
           # Last child.
-          pivots.unsafe_set(child)
-          indices.unsafe_set(UInt8::MAX)
+          pivots[-1] = child
+          indices[-1] = UInt8::MAX
         end
       end
     end

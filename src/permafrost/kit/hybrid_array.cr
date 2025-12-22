@@ -1,7 +1,18 @@
 module Pf::Kit
+  # A hybrid array stores *N* x *T*s on the stack and spills over to heap.
+  #
+  # NOTE: This is a struct. You can assign it to a local variable or an instance
+  # variable and use it safely. When passing it to functions, however, be careful.
+  # First of all, naked HybridArrays are expected to be "huge structs" -- hundreds
+  # to thousands of bytes. Besides, if you pass a naked HybridArray, the callee
+  # will receive a copy -- not nice, most of the times. So prefer to use `pointerof(var)`
+  # or `pointerof(@ivar)`, but *please* be aware of their caveats (and unsafety!)
+  #
+  # Inspiration: One of Walter Bright talks, at https://www.youtube.com/watch?v=_PB6Hdi4R7M&t=2606s
   struct HybridArray(T, N)
     include Indexable::Mutable(T)
 
+    # :nodoc:
     INITIAL_SPILL_CAPACITY = 8
 
     def initialize
@@ -10,104 +21,98 @@ module Pf::Kit
       {% end %}
 
       @spill = Pointer(T).null
-
       @spillcap = 0u32
       @spillsize = 0u32
 
-      @ring = StaticRing(T, N).new
+      @size = 0u32
+      @data = uninitialized T[N]
+    end
+
+    # Returns the underlying `UInt32` size of this array.
+    #
+    # `size` simply converts it to `Int32`, which is what Crystal's standard
+    # library expects.
+    def usize : UInt32
+      @size + @spillsize
     end
 
     def size : Int32
-      (@spillsize.to_i + @ring.size)
+      usize.to_i
     end
 
     def unsafe_fetch(index : Int) : T
-      if index < @spillsize
-        return @spill[index]
+      if index < @size
+        return @data.unsafe_fetch(index)
       end
 
-      @ring.unsafe_fetch(index &- @spillsize)
+      @spill[index - @size]
     end
 
     def unsafe_put(index : Int, value : T) : Nil
-      if index < @spillsize
-        @spill[index] = value
+      if index < @size
+        return @data.unsafe_put(index, value)
+      end
+
+      @spill[index - @size] = value
+    end
+
+    # Inserts *value* at the back of this array.
+    def push(value : T) : Nil
+      if @size < N
+        @data.unsafe_put(@size, value)
+        @size += 1
         return
       end
 
-      @ring.unsafe_put(index &- @spillsize, value)
-    end
-
-    # Provides fast access to the top of the stack.
-    def top? : T?
-      @ring.top?
-    end
-
-    def unsafe_top : T
-      @ring.unsafe_top
-    end
-
-    def unsafe_set(object : T)
-      @ring.unsafe_set(object)
-    end
-
-    def each(& : T ->)
-      @spillsize.times do |index|
-        yield @spill[index]
+      unless @spillsize < @spillcap
+        @spillcap = Math.max(INITIAL_SPILL_CAPACITY, @spillcap * 1.5).to_u32
+        @spill = @spill.realloc(@spillcap)
       end
 
-      @ring.each do |object|
-        yield object
-      end
+      @spill[@spillsize] = value
+      @spillsize += 1
     end
 
-    def push(object : T) : Nil
-      @ring.push(object) do |front|
-        if (@spillsize &+ 1) > @spillcap
-          if @spillcap.zero?
-            @spillcap = INITIAL_SPILL_CAPACITY
-          else
-            @spillcap = (@spillcap * 1.5).to_u32!
-          end
-
-          @spill = @spill.realloc(@spillcap)
-        end
-
-        @spill[@spillsize] = front
-        @spillsize &+= 1
-      end
+    # :ditto:
+    #
+    # NOTE: Normally, in Crystal, `<<` (and `push`) return `self`; but for
+    # `HybridArray` this would be malicious, since it's stored largely
+    # on the stack.
+    def <<(value : T) : Nil
+      push(value)
     end
 
-    def <<(object : T) : Nil
-      push(object)
-    end
-
+    # Removes and returns the last value of this array. Returns `nil` if
+    # this array is empty.
     def pop? : T?
-      if object = @ring.pop?
-        return object
+      return unless @size > 0
+
+      if @spillsize > 0
+        @spillsize -= 1
+        value = @spill[@spillsize]
+        (@spill + @spillsize).clear
+        return value
       end
 
-      return if @spillsize.zero?
-
-      if @spillsize < N
-        @ring.unsafe_fill(@spill, @spillsize)
-        @spillsize = 0u32
-      else
-        @ring.unsafe_fill(@spill + (@spillsize &- N), N.to_u32)
-        @spillsize &-= N
-      end
-
-      @ring.pop?
+      @size -= 1
+      value = @data[@size]
+      (@data.to_unsafe + @size).clear
+      value
     end
 
-    def pop
+    # Removes and returns the last value of this array. Raises `IndexError` if
+    # this array is empty.
+    def pop : T
       pop? || raise IndexError.new
     end
 
+    # Removes all values from this array.
     def clear : Nil
-      @ring.clear
       @spill.clear(@spillsize)
       @spillsize = 0u32
+
+      @data.to_unsafe.clear(@size)
+      @size = 0u32
     end
 
     def inspect(io)
