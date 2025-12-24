@@ -33,17 +33,18 @@ struct Pf::UPath32
   # :nodoc:
   #
   # As an optimization, we store small paths inline, packing them in 96 bits. It
-  # is 96 because if it was 64, we'd inevitably lose 32 bits to alignment. So we
-  # use those 32 bits to prevent even more heap allocations instead!
+  # is 96 because if it was 64, we'd inevitably lose 4 bytes to padding. So we
+  # use those 4 bytes to prevent even more heap allocations instead!
   #
   # Paths that have more than DENSECAP n's, or those with n's out of bounds for
   # their respective slot, are transferred to the GC heap (`Sparse`).
   #
-  # - The first n receives 11 bits, because nodes near the root are usually large.
-  # - Successive n's receive a smaller number of bits, because nodes closer to
-  #   the root are expected to be large, but smaller than their predecessor.
-  # - The remaining n's receive 4 bits, because deep nodes are expected to
-  #   be small.
+  # - The first two n's receive 11 bits, because nodes at or near the root have large fanouts.
+  # - Successive n's receive a decreasing number of bits, because nodes close to
+  #   the root are expected to have large fanouts, but smaller than their predecessor,
+  #   and so on.
+  # - The remaining n's receive 4 bits, because nodes near the leaves are expected to
+  #   have small fanouts.
   #
   # ```text
   #                 2x 11-bits                              8x 7-bits                    8x 4-bits
@@ -64,7 +65,7 @@ struct Pf::UPath32
 
   # :nodoc:
   #
-  # An pathstored on GC heap.
+  # An path stored on the GC heap.
   alias Sparse = Slice(UInt32)
 
   # :nodoc:
