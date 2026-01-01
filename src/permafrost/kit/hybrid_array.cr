@@ -160,5 +160,9 @@ module Pf::Kit
     def pretty_print(pp) : Nil
       pp.list("HybridArray{", self, "}")
     end
+
+    def ==(other : HybridArray(T, N)) : Bool
+      equals?(other) { |a, b| a == b }
+    end
   end
 end
