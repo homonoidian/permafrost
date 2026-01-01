@@ -238,19 +238,9 @@ you go. Consider HybridArray that odd-looking fish living at the bottom of
 the Mariana Trench, hyper-optimized for its particular niche but otherwise
 an abomination.</p>
 <p>If you are using a HybridArray with a stack-allocated buffer, it makes little
-sense to not stack-allocate the HybridArray itself as well. You can use
-the <code><a href="../../Pf/Kit.html#stack_alloc%28call%29-macro">Pf::Kit.stack_alloc</a></code> macro for this:</p>
-<pre><code class="language-crystal"><span class="c"># Put these as close to each other as you can because the equality</span>
-<span class="c"># of Ns (16 here) is unchecked, so if you decide to change it and</span>
-<span class="c"># forget to sync, then it&#39;s your fault (segmentation fault!)</span>
-buffer <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>[<span class="n">16</span>]
-bufferary <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Kit</span>.stack_alloc <span class="t">Pf</span><span class="t">::</span><span class="t">Kit</span><span class="t">::</span><span class="t">HybridArray</span>(<span class="t">Int32</span>, <span class="n">16</span>).new(buffer.to_unsafe)
-
-bufferary <span class="o">&lt;&lt;</span> <span class="n">100</span>
-bufferary <span class="o">&lt;&lt;</span> <span class="n">200</span>
-bufferary <span class="o">&lt;&lt;</span> <span class="n">300</span>
-
-pp bufferary <span class="c"># =&gt; HybridArray{100, 200, 300}</span></code></pre>
+sense to not stack-allocate the HybridArray itself as well.</p>
+<p>You can use the <code><a href="../../Pf/Kit.html#stack_array%28type%2Cstackcap%3D16%29-macro">Pf::Kit.stack_array</a></code> macro to allocate a hybrid array
+and its buffer on the stack. See it for more info.</p>
 
 
 
@@ -291,7 +281,7 @@ pp bufferary <span class="c"># =&gt; HybridArray{100, 200, 300}</span></code></p
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L33" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L21" target="_blank">
         permafrost/kit/hybrid_array.cr
       </a>
     
@@ -560,7 +550,7 @@ has no known size or &quot;size&quot; at all at this point!)</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L50" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -600,7 +590,7 @@ on the stack.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L113" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L101" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -616,7 +606,7 @@ on the stack.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L164" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L152" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -637,7 +627,7 @@ on the stack.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L142" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L130" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -653,7 +643,7 @@ on the stack.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L150" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L138" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -675,7 +665,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L137" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L125" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -697,7 +687,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L119" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L107" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -713,7 +703,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L160" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L148" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -734,7 +724,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L92" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L80" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -759,7 +749,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L70" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L58" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -791,7 +781,7 @@ which includes its class name and its object address.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L154" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L142" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -823,7 +813,7 @@ of performance.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L74" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L62" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -857,7 +847,7 @@ of performance.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L82" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -880,7 +870,7 @@ library expects.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L66" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L54" target="_blank">View source</a>]
         
       </div>
     </div>

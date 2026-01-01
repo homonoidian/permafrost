@@ -268,42 +268,42 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost.cr#L25" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost.cr#L25" target="_blank">
         permafrost.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit.cr#L1" target="_blank">
         permafrost/kit.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/hybrid_array.cr#L1" target="_blank">
         permafrost/kit/hybrid_array.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/node.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/node.cr#L1" target="_blank">
         permafrost/kit/node.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/sparse32.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/sparse32.cr#L1" target="_blank">
         permafrost/kit/sparse32.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/uint96.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit/uint96.cr#L1" target="_blank">
         permafrost/kit/uint96.cr
       </a>
     
@@ -360,6 +360,13 @@
         
       </li>
     
+      <li class="entry-summary">
+        <a href="#stack_array%28type%2Cstackcap%3D16%29-macro" class="signature"><strong>stack_array</strong>(type, stackcap = <span class="n">16</span>)</a>
+        
+          <div class="summary"><p>Allocates a <code><a href="../Pf/Kit/HybridArray.html">HybridArray</a></code> whose main buffer is located on the stack and has the given capacity <em>stackcap</em>.</p></div>
+        
+      </li>
+    
   </ul>
 
 
@@ -409,7 +416,38 @@ pp foo</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit.cr#L26" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit.cr#L26" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="stack_array(type,stackcap=16)-macro">
+      <div class="signature">
+        
+        macro <strong>stack_array</strong>(type, stackcap = <span class="n">16</span>)
+
+        <a class="method-permalink" href="#stack_array%28type%2Cstackcap%3D16%29-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Allocates a <code><a href="../Pf/Kit/HybridArray.html">HybridArray</a></code> whose main buffer is located on the stack and
+has the given capacity <em>stackcap</em>.</p>
+<pre><code class="language-crystal">ary <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Kit</span>.stack_array(<span class="t">Int32</span>, <span class="n">16</span>)
+ary <span class="o">&lt;&lt;</span> <span class="n">100</span>
+ary <span class="o">&lt;&lt;</span> <span class="n">200</span>
+ary <span class="o">&lt;&lt;</span> <span class="n">300</span>
+pp ary <span class="c"># =&gt; HybridArray{100, 200, 300}</span></code></pre>
+<p><span class="flag yellow">WARNING</span>  the lifetime of the returned array is equal to the lifetime
+of the function/method you call this in. Do not use this in e.g.
+initialize: it's going to be the lifetime of the call to initialize,
+<em>not</em> the instance's lifetime.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/8235d1ce7a0426bbc17a6542d547b668c5f2501b/src/permafrost/kit.cr#L52" target="_blank">View source</a>]
         
       </div>
     </div>
