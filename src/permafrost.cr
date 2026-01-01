@@ -9,7 +9,7 @@ require "./permafrost/upath32"
 require "./permafrost/ext"
 
 module Pf
-  VERSION = "0.11.0"
+  VERSION = "0.11.1"
 
   # :nodoc:
   macro hash64(object)
