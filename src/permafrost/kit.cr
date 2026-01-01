@@ -30,8 +30,28 @@ module Pf::Kit
       {{ target }} = uninitialized ReferenceStorage({{ call.receiver }})
       {{ call.receiver }}.unsafe_construct(pointerof({{ target }}), {% unless call.args.empty? %} {{ call.args.splat }}, {% end %}{% unless call.named_args.is_a?(Nop) %}{{ call.named_args.splat }}{% end %})
     {% else %}
-      {{@type}}.stack_alloc %storage = {{ call }}
+      ::Pf::Kit.stack_alloc %storage = {{ call }}
     {% end %}
+  end
+
+  # Allocates a `HybridArray` whose main buffer is located on the stack and
+  # has the given capacity *stackcap*.
+  #
+  # ```
+  # ary = Pf::Kit.stack_array(Int32, 16)
+  # ary << 100
+  # ary << 200
+  # ary << 300
+  # pp ary # => HybridArray{100, 200, 300}
+  # ```
+  #
+  # WARNING: the lifetime of the returned array is equal to the lifetime
+  # of the function/method you call this in. Do not use this in e.g.
+  # initialize: it's going to be the lifetime of the call to initialize,
+  # *not* the instance's lifetime.
+  macro stack_array(type, stackcap = 16)
+    %buffer = uninitialized {{type}}[{{stackcap}}]
+    ::Pf::Kit.stack_alloc ::Pf::Kit::HybridArray({{type}}, {{stackcap}}).new(%buffer.to_unsafe)
   end
 end
 

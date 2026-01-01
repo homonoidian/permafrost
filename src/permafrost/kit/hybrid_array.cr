@@ -14,22 +14,10 @@ module Pf::Kit
   # an abomination.
   #
   # If you are using a HybridArray with a stack-allocated buffer, it makes little
-  # sense to not stack-allocate the HybridArray itself as well. You can use
-  # the `Pf::Kit.stack_alloc` macro for this:
+  # sense to not stack-allocate the HybridArray itself as well.
   #
-  # ```
-  # # Put these as close to each other as you can because the equality
-  # # of Ns (16 here) is unchecked, so if you decide to change it and
-  # # forget to sync, then it's your fault (segmentation fault!)
-  # buffer = uninitialized Int32[16]
-  # bufferary = Pf::Kit.stack_alloc Pf::Kit::HybridArray(Int32, 16).new(buffer.to_unsafe)
-  #
-  # bufferary << 100
-  # bufferary << 200
-  # bufferary << 300
-  #
-  # pp bufferary # => HybridArray{100, 200, 300}
-  # ```
+  # You can use the `Pf::Kit.stack_array` macro to allocate a hybrid array
+  # and its buffer on the stack. See it for more info.
   class HybridArray(T, N)
     include Indexable::Mutable(T)
 

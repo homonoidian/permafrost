@@ -163,13 +163,10 @@ module Pf::Kit
 
     # Yields each item from this node and from all child nodes.
     def each(& : T ->) : Nil
-      pivotbuf = uninitialized Node(T)[64]
-      pivots = HybridArray(Node(T), 64).new(pivotbuf.to_unsafe)
-
-      indexbuf = uninitialized UInt8[64]
-      indices = HybridArray(UInt8, 64).new(indexbuf.to_unsafe)
-
+      pivots = Kit.stack_array(Node(T), 32)
       pivots << self
+
+      indices = Kit.stack_array(UInt8, 32)
       indices << UInt8::MAX
 
       loop do

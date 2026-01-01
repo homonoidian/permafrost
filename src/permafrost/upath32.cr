@@ -518,12 +518,10 @@ module Pf
 
       # Possibly expensive.
 
-      lhsbuf = uninitialized UInt32[16]
-      lhs = Kit::HybridArray(UInt32, 16).new(lhsbuf.to_unsafe)
+      lhs = Kit.stack_array(UInt32, 16)
       each { |x| lhs << x }
 
-      rhsbuf = uninitialized UInt32[16]
-      rhs = Kit::HybridArray(UInt32, 16).new(rhsbuf.to_unsafe)
+      rhs = Kit.stack_array(UInt32, 16)
       other.each { |y| rhs << y }
 
       lhs == rhs
