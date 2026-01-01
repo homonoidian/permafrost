@@ -1,4 +1,4 @@
-require "./permafrost/kit/*"
+require "./permafrost/kit"
 require "./permafrost/error"
 require "./permafrost/map"
 require "./permafrost/set"

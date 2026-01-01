@@ -1,31 +1,62 @@
 module Pf::Kit
-  # A hybrid array stores *N* x *T*s on the stack and spills over to heap.
-  #
-  # NOTE: This is a struct. You can assign it to a local variable or an instance
-  # variable and use it safely. When passing it to functions, however, be careful.
-  # First of all, naked HybridArrays are expected to be "huge structs" -- hundreds
-  # to thousands of bytes. Besides, if you pass a naked HybridArray, the callee
-  # will receive a copy -- not nice, most of the times. So prefer to use `pointerof(var)`
-  # or `pointerof(@ivar)`, but *please* be aware of their caveats (and unsafety!)
+  # A dynamic array that stores *N* x *T*s in a fixed-size buffer (most
+  # often allocated on the stack), and spills over to heap.
   #
   # Inspiration: One of Walter Bright talks, at https://www.youtube.com/watch?v=_PB6Hdi4R7M&t=2606s
-  struct HybridArray(T, N)
+  #
+  # `HybridArray` is a reference type to limit hazardous usage by default. Note
+  # that it is a hazardous type anyway, so you're probably better off using a normal
+  # `Array`, unless you're working on the moderate to deep sub-microsecond time-scale.
+  #
+  # The sub-microsecond time-scale starts to require things like these the lower
+  # you go. Consider HybridArray that odd-looking fish living at the bottom of
+  # the Mariana Trench, hyper-optimized for its particular niche but otherwise
+  # an abomination.
+  #
+  # If you are using a HybridArray with a stack-allocated buffer, it makes little
+  # sense to not stack-allocate the HybridArray itself as well. You can use
+  # the `Pf::Kit.stack_alloc` macro for this:
+  #
+  # ```
+  # # Put these as close to each other as you can because the equality
+  # # of Ns (16 here) is unchecked, so if you decide to change it and
+  # # forget to sync, then it's your fault (segmentation fault!)
+  # buffer = uninitialized Int32[16]
+  # bufferary = Pf::Kit.stack_alloc Pf::Kit::HybridArray(Int32, 16).new(buffer.to_unsafe)
+  #
+  # bufferary << 100
+  # bufferary << 200
+  # bufferary << 300
+  #
+  # pp bufferary # => HybridArray{100, 200, 300}
+  # ```
+  class HybridArray(T, N)
     include Indexable::Mutable(T)
 
     # :nodoc:
     INITIAL_SPILL_CAPACITY = 8
 
-    def initialize
+    # @type_id : Int32
+    @bufsize : UInt32
+
+    @buffer : T*
+    @spill : T*
+
+    @spillcap : UInt32
+    @spillsize : UInt32
+
+    # WARNING: There are no checks making sure `N` = *buffer* size (in fact, *buffer*
+    # has no known size or "size" at all at this point!)
+    def initialize(@buffer : T*)
       {% if N == 0 %}
         {% N.raise "HybridArray with N=0 makes no sense, use Array" %}
       {% end %}
 
+      @bufsize = 0u32
+
       @spill = Pointer(T).null
       @spillcap = 0u32
       @spillsize = 0u32
-
-      @size = 0u32
-      @data = uninitialized T[N]
     end
 
     # Returns the underlying `UInt32` size of this array.
@@ -33,7 +64,7 @@ module Pf::Kit
     # `size` simply converts it to `Int32`, which is what Crystal's standard
     # library expects.
     def usize : UInt32
-      @size + @spillsize
+      @bufsize + @spillsize
     end
 
     def size : Int32
@@ -41,26 +72,27 @@ module Pf::Kit
     end
 
     def unsafe_fetch(index : Int) : T
-      if index < @size
-        return @data.unsafe_fetch(index)
+      if index < @bufsize
+        return @buffer[index]
       end
 
-      @spill[index - @size]
+      @spill[index - @bufsize]
     end
 
     def unsafe_put(index : Int, value : T) : Nil
-      if index < @size
-        return @data.unsafe_put(index, value)
+      if index < @bufsize
+        @buffer[index] = value
+        return
       end
 
-      @spill[index - @size] = value
+      @spill[index - @bufsize] = value
     end
 
     # Inserts *value* at the back of this array.
     def push(value : T) : Nil
-      if @size < N
-        @data.unsafe_put(@size, value)
-        @size += 1
+      if @bufsize < N
+        @buffer[@bufsize] = value
+        @bufsize += 1
         return
       end
 
@@ -85,7 +117,7 @@ module Pf::Kit
     # Removes and returns the last value of this array. Returns `nil` if
     # this array is empty.
     def pop? : T?
-      return unless @size > 0
+      return unless @bufsize > 0
 
       if @spillsize > 0
         @spillsize -= 1
@@ -94,9 +126,9 @@ module Pf::Kit
         return value
       end
 
-      @size -= 1
-      value = @data[@size]
-      (@data.to_unsafe + @size).clear
+      @bufsize -= 1
+      value = @buffer[@bufsize]
+      (@buffer + @bufsize).clear
       value
     end
 
@@ -111,8 +143,8 @@ module Pf::Kit
       @spill.clear(@spillsize)
       @spillsize = 0u32
 
-      @data.to_unsafe.clear(@size)
-      @size = 0u32
+      @buffer.clear(@bufsize)
+      @bufsize = 0u32
     end
 
     def inspect(io)
