@@ -4,6 +4,7 @@ require "./permafrost/map"
 require "./permafrost/set"
 require "./permafrost/bidi_map"
 require "./permafrost/uset32"
+require "./permafrost/block_list"
 require "./permafrost/upath32"
 require "./permafrost/ext"
 
@@ -21,14 +22,6 @@ module Pf
   end
 
   # Auxiliary data structures.
-  #
-  # If you don't like `Pf::Map`, `Pf::Set`, etc., or they aren't performant enough
-  # for you, you can build your own map/set/HAMT-like thingy using `Node`, writing
-  # probe implementations that satisfy the corresponding interfaces (see, for instance,
-  # `IProbeAdd`, `IProbeFetch`, etc).
-  #
-  # For an example of how to use `Node` look into the source code of `Pf::Map`
-  # or `Pf::Set`.
   module Kit
   end
 end

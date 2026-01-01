@@ -1,4 +1,13 @@
 module Pf::Kit
+  # :nodoc:
+  class AssertionError < Exception
+  end
+
+  # :nodoc:
+  macro assert(x)
+    raise ::Pf::Kit::AssertionError.new({{x.id.stringify}}) unless {{x}}
+  end
+
   # Stack allocation using the experimental `ReferenceStorage` API.
   #
   # Reference: https://github.com/crystal-lang/crystal/issues/13481#issuecomment-2603298285
