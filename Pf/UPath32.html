@@ -72,6 +72,11 @@
       
     </li>
   
+  <li class=" " data-id="permafrost/Pf/BlockList" data-name="pf::blocklist(t)">
+      <a href="../Pf/BlockList.html">BlockList</a>
+      
+    </li>
+  
   <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
       <a href="../Pf/Eq.html">Eq</a>
       
@@ -222,7 +227,12 @@
     Overview
   </h2>
 
-  <p>An immutable vector of <code>UInt32</code>s with tree path-specific optimizations.</p>
+  <p>An immutable vector of <code>UInt32</code>s (here called <em>indices</em>) with tree path-
+specific optimizations.</p>
+<pre><code class="language-crystal">path <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">UPath32</span>[<span class="n">100</span>, <span class="n">20</span>]
+path.append(<span class="n">3</span>) <span class="c"># =&gt; UPath32[100, 20, 3]</span>
+path.append(<span class="n">7</span>) <span class="c"># =&gt; UPath32[100, 20, 7]</span>
+path           <span class="c"># =&gt; UPath32[100, 20]</span></code></pre>
 
 
 
@@ -263,7 +273,7 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L2" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L11" target="_blank">
         permafrost/upath32.cr
       </a>
     
@@ -297,6 +307,13 @@
         
       </li>
     
+      <li class="entry-summary">
+        <a href="#end%3AUPath32-class-method" class="signature"><strong>.end</strong> : UPath32</a>
+        
+          <div class="summary"><p>Returns the sentinel End path.</p></div>
+        
+      </li>
+    
   </ul>
 
 
@@ -316,44 +333,63 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#%5B%5D%28object%29-instance-method" class="signature"><strong>#[]</strong>(object)</a>
+        <a href="#%3D%3D%28other%3AUPath32%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : UPath32) : Bool</a>
         
-          <div class="summary"><p>Calls one of the <code><a href="../Pf/UPath32.html#%5B%5D%3F%28index%3AInt%29%3AUInt32%7CNil-instance-method">#[]?</a></code> overloads.</p></div>
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%28index%3AInt%29%3AUInt32-instance-method" class="signature"><strong>#[]</strong>(index : Int) : UInt32</a>
+        
+          <div class="summary"><p>See <code>Indexable#[](index : Int)</code>.</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#%5B%5D%3F%28index%3AInt%29%3AUInt32%7CNil-instance-method" class="signature"><strong>#[]?</strong>(index : Int) : UInt32 | Nil</a>
         
-          <div class="summary"><p>Returns <em>index</em>-th n of this path.</p></div>
+          <div class="summary"><p>See <code>Indexable#[]?(index : Int)</code>.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#%5B%5D%3F%28range%3ARange%29%3AUPath32%7CNil-instance-method" class="signature"><strong>#[]?</strong>(range : Range) : UPath32 | Nil</a>
+        <a href="#append%28step%3AUInt32%29%3AUPath32-instance-method" class="signature"><strong>#append</strong>(step : UInt32) : UPath32</a>
         
-          <div class="summary"><p>Returns a subview of this path.</p></div>
+          <div class="summary"><p>Inserts <em>step</em> at the back of this path.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#append%28n%3AUInt32%29%3AUPath32-instance-method" class="signature"><strong>#append</strong>(n : UInt32) : UPath32</a>
+        <a href="#dense%3F%3ABool-instance-method" class="signature"><strong>#dense?</strong> : Bool</a>
         
-          <div class="summary"><p>Inserts <em>n</em> at the back of this path.</p></div>
+          <div class="summary"><p>Returns <code>true</code> if the underlying representation of this path is dense.</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#each%28%26%3AUInt32-%3E%29-instance-method" class="signature"><strong>#each</strong>(& : UInt32 -> )</a>
         
-          <div class="summary"><p>Yields each n in this path, left to right.</p></div>
+          <div class="summary"><p>Yields each index in this path in front-to-back order.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#goto%28n%3AUInt32%29%3AUPath32-instance-method" class="signature"><strong>#goto</strong>(n : UInt32) : UPath32</a>
+        <a href="#end%3F%3ABool-instance-method" class="signature"><strong>#end?</strong> : Bool</a>
         
-          <div class="summary"><p>Makes <em>n</em> the tip of this path.</p></div>
+          <div class="summary"><p>Returns <code>true</code> if this path is the sentinel End path.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hash%28hasher%29-instance-method" class="signature"><strong>#hash</strong>(hasher)</a>
+        
+          <div class="summary"><p>See <code>Object#hash(hasher)</code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#index%3F%3ABool-instance-method" class="signature"><strong>#index?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the underlying representation of this path is an index.</p></div>
         
       </li>
     
@@ -363,44 +399,44 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#prepend%28n%3AUInt32%29%3AUPath32-instance-method" class="signature"><strong>#prepend</strong>(n : UInt32) : UPath32</a>
+        <a href="#last%3AUInt32-instance-method" class="signature"><strong>#last</strong> : UInt32</a>
         
-          <div class="summary"><p>Inserts <em>n</em> at the front of this path.</p></div>
+          <div class="summary"><p>Returns the last index in this path.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#last%3F%3AUInt32%7CNil-instance-method" class="signature"><strong>#last?</strong> : UInt32 | Nil</a>
+        
+          <div class="summary"><p>Returns the last index in this path, or <code>nil</code> if this path is empty.</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#prior%3AUPath32-instance-method" class="signature"><strong>#prior</strong> : UPath32</a>
         
-          <div class="summary"><p>Removes the last n of this path.</p></div>
+          <div class="summary"><p>Returns the part of this path before the last index.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#rest%3AUPath32-instance-method" class="signature"><strong>#rest</strong> : UPath32</a>
+        <a href="#size%3AInt32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
         
-          <div class="summary"><p>Removes the first n of this path.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#size%3AUInt32-instance-method" class="signature"><strong>#size</strong> : UInt32</a>
-        
-          <div class="summary"><p>Returns the number of ns in this path.</p></div>
+          <div class="summary"><p>Returns the number of indices in this path as an index within zero or positive <code>Int32</code> bounds.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#tip%3AUInt32-instance-method" class="signature"><strong>#tip</strong> : UInt32</a>
+        <a href="#sparse%3F%3ABool-instance-method" class="signature"><strong>#sparse?</strong> : Bool</a>
         
-          <div class="summary"><p>Returns the last n of this path (its <em>tip</em>), or raises <code>IndexError</code> if this path is empty.</p></div>
+          <div class="summary"><p>Returns <code>true</code> if the underlying representation of this path is sparse.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#tip%3F%3AUInt32%7CNil-instance-method" class="signature"><strong>#tip?</strong> : UInt32 | Nil</a>
+        <a href="#usize%3AUInt32-instance-method" class="signature"><strong>#usize</strong> : UInt32</a>
         
-          <div class="summary"><p>Returns the last n of this path (its <em>tip</em>), or <code>nil</code> if this path is empty.</p></div>
+          <div class="summary"><p>Returns the number of indices in this path as an index within <code>UInt32</code> bounds.</p></div>
         
       </li>
     
@@ -514,7 +550,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L75" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L61" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -530,7 +566,28 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L79" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L65" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="end:UPath32-class-method">
+      <div class="signature">
+        
+        def self.<strong>end</strong> : <a href="../Pf/UPath32.html">UPath32</a>
+
+        <a class="method-permalink" href="#end%3AUPath32-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the sentinel End path.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -551,23 +608,39 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="[](object)-instance-method">
+    <div class="entry-detail" id="==(other:UPath32):Bool-instance-method">
       <div class="signature">
         
-        def <strong>[]</strong>(object)
+        def <strong>==</strong>(other : <a href="../Pf/UPath32.html">UPath32</a>) : Bool
 
-        <a class="method-permalink" href="#%5B%5D%28object%29-instance-method">#</a>
+        <a class="method-permalink" href="#%3D%3D%28other%3AUPath32%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L505" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[](index:Int):UInt32-instance-method">
+      <div class="signature">
+        
+        def <strong>[]</strong>(index : Int) : UInt32
+
+        <a class="method-permalink" href="#%5B%5D%28index%3AInt%29%3AUInt32-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Calls one of the <code><a href="../Pf/UPath32.html#%5B%5D%3F%28index%3AInt%29%3AUInt32%7CNil-instance-method">#[]?</a></code> overloads. Raises <code>IndexError</code> instead of returning <code>nil</code>.</p>
+          <p>See <code>Indexable#[](index : Int)</code>.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L480" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L480" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -582,55 +655,66 @@
       
         <div class="doc">
           
-          <p>Returns <em>index</em>-th n of this path.</p>
+          <p>See <code>Indexable#[]?(index : Int)</code>.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L455" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L472" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="[]?(range:Range):UPath32|Nil-instance-method">
+    <div class="entry-detail" id="append(step:UInt32):UPath32-instance-method">
       <div class="signature">
         
-        def <strong>[]?</strong>(range : Range) : <a href="../Pf/UPath32.html">UPath32</a> | Nil
+        def <strong>append</strong>(step : UInt32) : <a href="../Pf/UPath32.html">UPath32</a>
 
-        <a class="method-permalink" href="#%5B%5D%3F%28range%3ARange%29%3AUPath32%7CNil-instance-method">#</a>
+        <a class="method-permalink" href="#append%28step%3AUInt32%29%3AUPath32-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns a subview of this path.</p>
+          <p>Inserts <em>step</em> at the back of this path. Returns the modified copy.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L462" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L485" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="append(n:UInt32):UPath32-instance-method">
+    <div class="entry-detail" id="dense?:Bool-instance-method">
       <div class="signature">
         
-        def <strong>append</strong>(n : UInt32) : <a href="../Pf/UPath32.html">UPath32</a>
+        def <strong>dense?</strong> : Bool
 
-        <a class="method-permalink" href="#append%28n%3AUInt32%29%3AUPath32-instance-method">#</a>
+        <a class="method-permalink" href="#dense%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Inserts <em>n</em> at the back of this path. Returns a modified copy.</p>
+          <p>Returns <code>true</code> if the underlying representation of this path is dense.</p>
+<p>As an optimization, we store small paths inline, packing them in 57 bits plus
+4-bit size.</p>
+<p>The shape of the &quot;path gamut&quot; for this representation is currently <code>14-9-8-6-4-4-4-4</code>.
+Paths that are outside of this &quot;gamut&quot; are transferred to (or constructed on)
+the GC heap (<code><a href="../Pf/UPath32.html#sparse%3F%3ABool-instance-method">#sparse?</a></code>).</p>
+<ul>
+<li>The first index receives a larger number of bits, because indices near the root
+are usually large.</li>
+<li>Successive indices receive a smaller number of bits, because nodes closer
+to the root are expected to be large, but smaller than their predecessor.</li>
+</ul>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L490" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L427" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -645,35 +729,85 @@
       
         <div class="doc">
           
-          <p>Yields each n in this path, left to right.</p>
+          <p>Yields each index in this path in front-to-back order.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L439" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L450" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="goto(n:UInt32):UPath32-instance-method">
+    <div class="entry-detail" id="end?:Bool-instance-method">
       <div class="signature">
         
-        def <strong>goto</strong>(n : UInt32) : <a href="../Pf/UPath32.html">UPath32</a>
+        def <strong>end?</strong> : Bool
 
-        <a class="method-permalink" href="#goto%28n%3AUInt32%29%3AUPath32-instance-method">#</a>
+        <a class="method-permalink" href="#end%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Makes <em>n</em> the tip of this path. Returns a modified copy. If this path
-is empty, does nothing.</p>
+          <p>Returns <code>true</code> if this path is the sentinel End path.</p>
+<p>Sentinel <code>End</code> marker useful in traversals that must distinguish entering
+the root from reentering it at the end of traversal.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L508" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L401" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hash(hasher)-instance-method">
+      <div class="signature">
+        
+        def <strong>hash</strong>(hasher)
+
+        <a class="method-permalink" href="#hash%28hasher%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from struct Struct
+            </div>
+          
+          <p>See <code>Object#hash(hasher)</code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L532" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="index?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>index?</strong> : Bool
+
+        <a class="method-permalink" href="#index%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the underlying representation of this path is an index.</p>
+<p>Index optimizes singleton UPath32's, which can be encountered when one uses
+<code><a href="../Pf/UPath32.html">UPath32</a></code> as an index, or when it happens to be used as one (e.g. skipping over
+root terms during DFS or BFS).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L410" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -689,28 +823,50 @@ is empty, does nothing.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L512" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L489" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="prepend(n:UInt32):UPath32-instance-method">
+    <div class="entry-detail" id="last:UInt32-instance-method">
       <div class="signature">
         
-        def <strong>prepend</strong>(n : UInt32) : <a href="../Pf/UPath32.html">UPath32</a>
+        def <strong>last</strong> : UInt32
 
-        <a class="method-permalink" href="#prepend%28n%3AUInt32%29%3AUPath32-instance-method">#</a>
+        <a class="method-permalink" href="#last%3AUInt32-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Inserts <em>n</em> at the front of this path. Returns a modified copy.</p>
+          <p>Returns the last index in this path. Raises <code>IndexError</code> if this
+path is empty.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L485" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L467" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="last?:UInt32|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>last?</strong> : UInt32 | Nil
+
+        <a class="method-permalink" href="#last%3F%3AUInt32%7CNil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the last index in this path, or <code>nil</code> if this path is empty.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L461" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -725,100 +881,79 @@ is empty, does nothing.</p>
       
         <div class="doc">
           
-          <p>Removes the last n of this path. Returns a modified copy. If this path
-is empty, does nothing.</p>
+          <p>Returns the part of this path before the last index. If this path is empty,
+returns an empty path.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L502" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L456" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="rest:UPath32-instance-method">
+    <div class="entry-detail" id="size:Int32-instance-method">
       <div class="signature">
         
-        def <strong>rest</strong> : <a href="../Pf/UPath32.html">UPath32</a>
+        def <strong>size</strong> : Int32
 
-        <a class="method-permalink" href="#rest%3AUPath32-instance-method">#</a>
+        <a class="method-permalink" href="#size%3AInt32-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Removes the first n of this path. Returns a modified copy. If this path
-is empty, does nothing.</p>
+          <p>Returns the number of indices in this path as an index within zero
+or positive <code>Int32</code> bounds.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L496" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L440" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="size:UInt32-instance-method">
+    <div class="entry-detail" id="sparse?:Bool-instance-method">
       <div class="signature">
         
-        def <strong>size</strong> : UInt32
+        def <strong>sparse?</strong> : Bool
 
-        <a class="method-permalink" href="#size%3AUInt32-instance-method">#</a>
+        <a class="method-permalink" href="#sparse%3F%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns the number of ns in this path.</p>
+          <p>Returns <code>true</code> if the underlying representation of this path is sparse.</p>
+<p>Sparse paths are stored on the GC heap.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L434" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L434" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="tip:UInt32-instance-method">
+    <div class="entry-detail" id="usize:UInt32-instance-method">
       <div class="signature">
         
-        def <strong>tip</strong> : UInt32
+        def <strong>usize</strong> : UInt32
 
-        <a class="method-permalink" href="#tip%3AUInt32-instance-method">#</a>
+        <a class="method-permalink" href="#usize%3AUInt32-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns the last n of this path (its <em>tip</em>), or raises <code>IndexError</code> if this
-path is empty.</p>
+          <p>Returns the number of indices in this path as an index within <code>UInt32</code> bounds.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L450" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="tip?:UInt32|Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>tip?</strong> : UInt32 | Nil
-
-        <a class="method-permalink" href="#tip%3F%3AUInt32%7CNil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Returns the last n of this path (its <em>tip</em>), or <code>nil</code> if this path is empty.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/upath32.cr#L444" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/upath32.cr#L445" target="_blank">View source</a>]
         
       </div>
     </div>

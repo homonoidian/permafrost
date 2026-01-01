@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.17.1">
+<meta name="crystal_docs.project_version" content="trunk">
+<meta name="crystal_docs.project_name" content="permafrost">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="permafrost">
+  <title>Pf::BlockList(T) - permafrost trunk</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          permafrost
+        </a>
+      </h1>
+
+      <span class="project-version">
+        trunk
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="permafrost/Enumerable" data-name="enumerable(t)">
+      <a href="../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf" data-name="pf">
+      <a href="../Pf.html">Pf</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/BidiMap" data-name="pf::bidimap(k, v)">
+      <a href="../Pf/BidiMap.html">BidiMap</a>
+      
+    </li>
+  
+  <li class=" current" data-id="permafrost/Pf/BlockList" data-name="pf::blocklist(t)">
+      <a href="../Pf/BlockList.html">BlockList</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="../Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Kit" data-name="pf::kit">
+      <a href="../Pf/Kit.html">Kit</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/AuthorId" data-name="pf::kit::authorid">
+      <a href="../Pf/Kit/AuthorId.html">AuthorId</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/HybridArray" data-name="pf::kit::hybridarray(t, n)">
+      <a href="../Pf/Kit/HybridArray.html">HybridArray</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeAdd" data-name="pf::kit::iprobeadd(t)">
+      <a href="../Pf/Kit/IProbeAdd.html">IProbeAdd</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeAuthored" data-name="pf::kit::iprobeauthored">
+      <a href="../Pf/Kit/IProbeAuthored.html">IProbeAuthored</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeDelete" data-name="pf::kit::iprobedelete(t)">
+      <a href="../Pf/Kit/IProbeDelete.html">IProbeDelete</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeFetch" data-name="pf::kit::iprobefetch(t)">
+      <a href="../Pf/Kit/IProbeFetch.html">IProbeFetch</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/Node" data-name="pf::kit::node(t)">
+      <a href="../Pf/Kit/Node.html">Node</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/Sparse32" data-name="pf::kit::sparse32(t)">
+      <a href="../Pf/Kit/Sparse32.html">Sparse32</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Map" data-name="pf::map(k, v)">
+      <a href="../Pf/Map.html">Map</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Map/Commit" data-name="pf::map::commit(k, v)">
+      <a href="../Pf/Map/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ReadonlyError" data-name="pf::readonlyerror">
+      <a href="../Pf/ReadonlyError.html">ReadonlyError</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ResolvedError" data-name="pf::resolvederror">
+      <a href="../Pf/ResolvedError.html">ResolvedError</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Set" data-name="pf::set(t)">
+      <a href="../Pf/Set.html">Set</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Set/Commit" data-name="pf::set::commit(t)">
+      <a href="../Pf/Set/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/UPath32" data-name="pf::upath32">
+      <a href="../Pf/UPath32.html">UPath32</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/USet32" data-name="pf::uset32">
+      <a href="../Pf/USet32.html">USet32</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/USet32/Commit" data-name="pf::uset32::commit">
+      <a href="../Pf/USet32/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">
+    class
+  </span> Pf::<wbr>BlockList(T)
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Pf/BlockList.html">Pf::BlockList(T)</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>A simple persistent linked list of blocks, storing at most 8x <em>T</em>s per block.
+The block that you append to is copied wholesale, which is usually cheap enough
+while giving you semi-bearable locality during iteration (e.g. if <em>T</em> is pointer-
+sized, you get 64-byte blocks which are in theory big friends with the CPU, but
+let me not make myself sound like I understand what I'm talking about here!)</p>
+
+
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../Enumerable.html">Enumerable(T)</a></li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L76" target="_blank">
+        permafrost/block_list.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%3ABlockList%28T%29-class-method" class="signature"><strong>.new</strong> : BlockList(T)</a>
+        
+          <div class="summary"><p>Constructs an empty block list.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+  
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%28%2Aobjects%29-class-method" class="signature"><strong>.[]</strong>(*objects)</a>
+        
+          <div class="summary"><p>Constructs a block list containing <em>objects</em>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+  
+
+  
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3ABlockList%28T%29%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : BlockList(T)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this list is equal to <em>other</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%28index%3AInt%29%3AT-instance-method" class="signature"><strong>#[]</strong>(index : Int) : T</a>
+        
+          <div class="summary"><p>See <code>Indexable#[]</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%3F%28index%3AInt%29%3AT%7CNil-instance-method" class="signature"><strong>#[]?</strong>(index : Int) : T | Nil</a>
+        
+          <div class="summary"><p>See <code>Indexable#[]?</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#append%28object%3AT%29%3ABlockList%28T%29-instance-method" class="signature"><strong>#append</strong>(object : T) : BlockList(T)</a>
+        
+          <div class="summary"><p>Inserts <em>object</em> at the back of this list.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each%28%26%3AT-%3E%29%3ANil-instance-method" class="signature"><strong>#each</strong>(& : T -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields elements in this list in front-to-back order.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#fetch%28index%3AInt%2C%26%29-instance-method" class="signature"><strong>#fetch</strong>(index : Int, &)</a>
+        
+          <div class="summary"><p>See <code>Indexable#fetch(index : Int, &amp;)</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hash%28hasher%29-instance-method" class="signature"><strong>#hash</strong>(hasher)</a>
+        
+          <div class="summary"><p>See <code>Object#hash(hasher)</code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#last%3AT-instance-method" class="signature"><strong>#last</strong> : T</a>
+        
+          <div class="summary"><p>Returns the last element in this list.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#last%3F%3AT%7CNil-instance-method" class="signature"><strong>#last?</strong> : T | Nil</a>
+        
+          <div class="summary"><p>Returns the last element in this list, or <code>nil</code> if this list is empty.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pretty_print%28pp%29-instance-method" class="signature"><strong>#pretty_print</strong>(pp)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#prior%3ABlockList%28T%29-instance-method" class="signature"><strong>#prior</strong> : BlockList(T)</a>
+        
+          <div class="summary"><p>Returns the part of this list before the last element.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reverse_each%28%26%3AT-%3E%29%3ANil-instance-method" class="signature"><strong>#reverse_each</strong>(& : T -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields elements in this list in back-to-front order.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rincludes%3F%28objectneedle%29%3ABool-instance-method" class="signature"><strong>#rincludes?</strong>(object needle) : Bool</a>
+        
+          <div class="summary"><p>Like <code>includes?</code>, but faster for <code><a href="../Pf/BlockList.html">BlockList</a></code> in particular since it iterates in memory-order (using <code><a href="../Pf/BlockList.html#reverse_each%28%26%3AT-%3E%29%3ANil-instance-method">#reverse_each</a></code>) vs.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3AInt32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the number of elements in this list.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <div class="methods-inherited">
+    
+      
+
+  <h3>Instance methods inherited from module <code><a href="../Enumerable.html">Enumerable(T)</a></code></h3>
+  
+  
+    <a href="../Enumerable.html#to_pf_bidi-instance-method" class="tooltip">
+      <span>to_pf_bidi</span>
+    to_pf_bidi</a>, 
+    
+  
+    <a href="../Enumerable.html#to_pf_map%28%26%3AT-%3ETuple%28K%2CV%29%29%3APf%3A%3AMap%28K%2CV%29forallK%2CV-instance-method" class="tooltip">
+      <span>to_pf_map(& : T -> Tuple(K, V)) : Pf::Map(K, V) forall K, V<br/>to_pf_map</span>
+    to_pf_map</a>, 
+    
+  
+    <a href="../Enumerable.html#to_pf_set%3APf%3A%3ASet%28T%29-instance-method" class="tooltip">
+      <span>to_pf_set : Pf::Set(T)</span>
+    to_pf_set</a>, 
+    
+  
+    <a href="../Enumerable.html#to_pf_uset32%3APf%3A%3AUSet32-instance-method" class="tooltip">
+      <span>to_pf_uset32 : Pf::USet32</span>
+    to_pf_uset32</a>
+    
+  
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+  </div>
+
+  
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new:BlockList(T)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong> : <a href="../Pf/BlockList.html">BlockList</a>(T)
+
+        <a class="method-permalink" href="#new%3ABlockList%28T%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Constructs an empty block list.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L87" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+  
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="[](*objects)-class-method">
+      <div class="signature">
+        
+        def self.<strong>[]</strong>(*objects)
+
+        <a class="method-permalink" href="#%5B%5D%28%2Aobjects%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Constructs a block list containing <em>objects</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L92" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+  
+
+  
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="==(other:BlockList(T)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : <a href="../Pf/BlockList.html">BlockList</a>(T)) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%28other%3ABlockList%28T%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this list is equal to <em>other</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L243" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[](index:Int):T-instance-method">
+      <div class="signature">
+        
+        def <strong>[]</strong>(index : Int) : T
+
+        <a class="method-permalink" href="#%5B%5D%28index%3AInt%29%3AT-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>See <code>Indexable#[]</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L196" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[]?(index:Int):T|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>[]?</strong>(index : Int) : T | Nil
+
+        <a class="method-permalink" href="#%5B%5D%3F%28index%3AInt%29%3AT%7CNil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>See <code>Indexable#[]?</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L191" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="append(object:T):BlockList(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>append</strong>(object : T) : <a href="../Pf/BlockList.html">BlockList</a>(T)
+
+        <a class="method-permalink" href="#append%28object%3AT%29%3ABlockList%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Inserts <em>object</em> at the back of this list.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L201" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each(&amp;:T-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each</strong>(& : T -> ) : Nil
+
+        <a class="method-permalink" href="#each%28%26%3AT-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields elements in this list in front-to-back order.</p>
+<p>This method may allocate some buffer memory because it must reverse
+the list to yield elements in the correct order.</p>
+<p><span class="flag purple">NOTE</span>  All <code><a href="../Enumerable.html">Enumerable</a></code> methods eventually end up calling this method,
+so you must evaluate the costs (if that matters to you!)</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L152" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="fetch(index:Int,&amp;)-instance-method">
+      <div class="signature">
+        
+        def <strong>fetch</strong>(index : Int, &)
+
+        <a class="method-permalink" href="#fetch%28index%3AInt%2C%26%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>See <code>Indexable#fetch(index : Int, &amp;)</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L170" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hash(hasher)-instance-method">
+      <div class="signature">
+        
+        def <strong>hash</strong>(hasher)
+
+        <a class="method-permalink" href="#hash%28hasher%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from class Reference
+            </div>
+          
+          <p>See <code>Object#hash(hasher)</code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L256" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="last:T-instance-method">
+      <div class="signature">
+        
+        def <strong>last</strong> : T
+
+        <a class="method-permalink" href="#last%3AT-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the last element in this list. Raises <code>IndexError</code> if this
+list is empty.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L234" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="last?:T|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>last?</strong> : T | Nil
+
+        <a class="method-permalink" href="#last%3F%3AT%7CNil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the last element in this list, or <code>nil</code> if this list is empty.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L228" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pretty_print(pp)-instance-method">
+      <div class="signature">
+        
+        def <strong>pretty_print</strong>(pp)
+
+        <a class="method-permalink" href="#pretty_print%28pp%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L238" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="prior:BlockList(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>prior</strong> : <a href="../Pf/BlockList.html">BlockList</a>(T)
+
+        <a class="method-permalink" href="#prior%3ABlockList%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the part of this list before the last element. If this list is
+empty, returns an empty list.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L213" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reverse_each(&amp;:T-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>reverse_each</strong>(& : T -> ) : Nil
+
+        <a class="method-permalink" href="#reverse_each%28%26%3AT-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields elements in this list in back-to-front order.</p>
+<p>Note that this is the memory order of <code><a href="../Pf/BlockList.html">BlockList</a></code>, so this method is
+a pure traversal (compared to e.g. <code><a href="../Pf/BlockList.html#each%28%26%3AT-%3E%29%3ANil-instance-method">#each</a></code>, which does additional work
+to give you elements in expected order).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L163" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rincludes?(objectneedle):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>rincludes?</strong>(object needle) : Bool
+
+        <a class="method-permalink" href="#rincludes%3F%28objectneedle%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Like <code>includes?</code>, but faster for <code><a href="../Pf/BlockList.html">BlockList</a></code> in particular since it iterates
+in memory-order (using <code><a href="../Pf/BlockList.html#reverse_each%28%26%3AT-%3E%29%3ANil-instance-method">#reverse_each</a></code>) vs. Enumerable's <code>includes?</code> which
+uses <code><a href="../Pf/BlockList.html#each%28%26%3AT-%3E%29%3ANil-instance-method">#each</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L137" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong> : Int32
+
+        <a class="method-permalink" href="#size%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the number of elements in this list.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/block_list.cr#L80" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+</div>
+
+</body>
+</html>

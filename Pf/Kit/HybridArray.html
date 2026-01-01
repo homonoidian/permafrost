@@ -72,6 +72,11 @@
       
     </li>
   
+  <li class=" " data-id="permafrost/Pf/BlockList" data-name="pf::blocklist(t)">
+      <a href="../../Pf/BlockList.html">BlockList</a>
+      
+    </li>
+  
   <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
       <a href="../../Pf/Eq.html">Eq</a>
       
@@ -202,13 +207,13 @@
 <h1 class="type-name">
 
   <span class="kind">
-    struct
+    class
   </span> Pf::<wbr>Kit::<wbr>HybridArray(T, N)
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Pf/Kit/HybridArray.html">Pf::Kit::HybridArray(T, N)</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Pf/Kit/HybridArray.html">Pf::Kit::HybridArray(T, N)</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
 
 
 
@@ -222,14 +227,30 @@
     Overview
   </h2>
 
-  <p>A hybrid array stores <em>N</em> x <em>T</em>s on the stack and spills over to heap.</p>
-<p><span class="flag purple">NOTE</span>  This is a struct. You can assign it to a local variable or an instance
-variable and use it safely. When passing it to functions, however, be careful.
-First of all, naked HybridArrays are expected to be &quot;huge structs&quot; -- hundreds
-to thousands of bytes. Besides, if you pass a naked HybridArray, the callee
-will receive a copy -- not nice, most of the times. So prefer to use <code>pointerof(var)</code>
-or <code>pointerof(@ivar)</code>, but <em>please</em> be aware of their caveats (and unsafety!)</p>
+  <p>A dynamic array that stores <em>N</em> x <em>T</em>s in a fixed-size buffer (most
+often allocated on the stack), and spills over to heap.</p>
 <p>Inspiration: One of Walter Bright talks, at https://www.youtube.com/watch?v=_PB6Hdi4R7M&amp;t=2606s</p>
+<p><code><a href="../../Pf/Kit/HybridArray.html">HybridArray</a></code> is a reference type to limit hazardous usage by default. Note
+that it is a hazardous type anyway, so you're probably better off using a normal
+<code>Array</code>, unless you're working on the moderate to deep sub-microsecond time-scale.</p>
+<p>The sub-microsecond time-scale starts to require things like these the lower
+you go. Consider HybridArray that odd-looking fish living at the bottom of
+the Mariana Trench, hyper-optimized for its particular niche but otherwise
+an abomination.</p>
+<p>If you are using a HybridArray with a stack-allocated buffer, it makes little
+sense to not stack-allocate the HybridArray itself as well. You can use
+the <code><a href="../../Pf/Kit.html#stack_alloc%28call%29-macro">Pf::Kit.stack_alloc</a></code> macro for this:</p>
+<pre><code class="language-crystal"><span class="c"># Put these as close to each other as you can because the equality</span>
+<span class="c"># of Ns (16 here) is unchecked, so if you decide to change it and</span>
+<span class="c"># forget to sync, then it&#39;s your fault (segmentation fault!)</span>
+buffer <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>[<span class="n">16</span>]
+bufferary <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Kit</span>.stack_alloc <span class="t">Pf</span><span class="t">::</span><span class="t">Kit</span><span class="t">::</span><span class="t">HybridArray</span>(<span class="t">Int32</span>, <span class="n">16</span>).new(buffer.to_unsafe)
+
+bufferary <span class="o">&lt;&lt;</span> <span class="n">100</span>
+bufferary <span class="o">&lt;&lt;</span> <span class="n">200</span>
+bufferary <span class="o">&lt;&lt;</span> <span class="n">300</span>
+
+pp bufferary <span class="c"># =&gt; HybridArray{100, 200, 300}</span></code></pre>
 
 
 
@@ -270,7 +291,7 @@ or <code>pointerof(@ivar)</code>, but <em>please</em> be aware of their caveats 
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L12" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L33" target="_blank">
         permafrost/kit/hybrid_array.cr
       </a>
     
@@ -293,7 +314,9 @@ or <code>pointerof(@ivar)</code>, but <em>please</em> be aware of their caveats 
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new-class-method" class="signature"><strong>.new</strong></a>
+        <a href="#new%28buffer%3APointer%28T%29%29-class-method" class="signature"><strong>.new</strong>(buffer : Pointer(T))</a>
+        
+          <div class="summary"><p><span class="flag yellow">WARNING</span>  There are no checks making sure <code>N</code> = <em>buffer</em> size (in fact, <em>buffer</em> has no known size or &quot;size&quot; at all at this point!)</p></div>
         
       </li>
     
@@ -319,6 +342,11 @@ or <code>pointerof(@ivar)</code>, but <em>please</em> be aware of their caveats 
         <a href="#%3C%3C%28value%3AT%29%3ANil-instance-method" class="signature"><strong>#<<</strong>(value : T) : Nil</a>
         
           <div class="summary"><p>Inserts <em>value</em> at the back of this array.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3AHybridArray%28T%2CN%29%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : HybridArray(T, N)) : Bool</a>
         
       </li>
     
@@ -370,7 +398,7 @@ or <code>pointerof(@ivar)</code>, but <em>please</em> be aware of their caveats 
       <li class="entry-summary">
         <a href="#to_s%28io%3AIO%29%3ANil-instance-method" class="signature"><strong>#to_s</strong>(io : IO) : Nil</a>
         
-          <div class="summary"><p>Same as <code><a href="../../Pf/Kit/HybridArray.html#inspect%28io%29-instance-method">#inspect(io)</a></code>.</p></div>
+          <div class="summary"><p>Appends a short String representation of this object which includes its class name and its object address.</p></div>
         
       </li>
     
@@ -503,19 +531,6 @@ or <code>pointerof(@ivar)</code>, but <em>please</em> be aware of their caveats 
 
 
     
-      
-
-
-      
-
-
-      
-
-
-      
-
-
-    
   </div>
 
   
@@ -528,18 +543,24 @@ or <code>pointerof(@ivar)</code>, but <em>please</em> be aware of their caveats 
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new-class-method">
+    <div class="entry-detail" id="new(buffer:Pointer(T))-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>
+        def self.<strong>new</strong>(buffer : Pointer(T))
 
-        <a class="method-permalink" href="#new-class-method">#</a>
+        <a class="method-permalink" href="#new%28buffer%3APointer%28T%29%29-class-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p><span class="flag yellow">WARNING</span>  There are no checks making sure <code>N</code> = <em>buffer</em> size (in fact, <em>buffer</em>
+has no known size or &quot;size&quot; at all at this point!)</p>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L18" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L50" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -579,7 +600,23 @@ on the stack.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L81" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L113" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="==(other:HybridArray(T,N)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : <a href="../../Pf/Kit/HybridArray.html">HybridArray</a>(T, N)) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%28other%3AHybridArray%28T%2CN%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L164" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -600,7 +637,7 @@ on the stack.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L110" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L142" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -616,7 +653,7 @@ on the stack.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L118" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L150" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -638,7 +675,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L105" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L137" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -660,7 +697,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L87" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L119" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -676,7 +713,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L128" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L160" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -697,7 +734,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L60" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L92" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -722,7 +759,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L39" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -738,16 +775,23 @@ this array is empty.</p>
         <div class="doc">
           
             <div class="doc-inherited">
-              Description copied from struct Struct
+              Description copied from class Reference
             </div>
           
-          <p>Same as <code><a href="../../Pf/Kit/HybridArray.html#inspect%28io%29-instance-method">#inspect(io)</a></code>.</p>
+          <p>Appends a short String representation of this object
+which includes its class name and its object address.</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Person</span>
+  <span class="k">def</span> <span class="m">initialize</span>(@name : <span class="t">String</span>, @age : <span class="t">Int32</span>)
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="t">Person</span>.new(<span class="s">&quot;John&quot;</span>, <span class="n">32</span>).to_s <span class="c"># =&gt; #&lt;Person:0x10a199f20&gt;</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L122" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L154" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -779,7 +823,7 @@ of performance.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L74" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -813,7 +857,7 @@ of performance.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L51" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L82" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -836,7 +880,7 @@ library expects.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>

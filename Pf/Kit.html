@@ -72,6 +72,11 @@
       
     </li>
   
+  <li class=" " data-id="permafrost/Pf/BlockList" data-name="pf::blocklist(t)">
+      <a href="../Pf/BlockList.html">BlockList</a>
+      
+    </li>
+  
   <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
       <a href="../Pf/Eq.html">Eq</a>
       
@@ -221,12 +226,6 @@
   </h2>
 
   <p>Auxiliary data structures.</p>
-<p>If you don't like <code><a href="../Pf/Map.html">Pf::Map</a></code>, <code><a href="../Pf/Set.html">Pf::Set</a></code>, etc., or they aren't performant enough
-for you, you can build your own map/set/HAMT-like thingy using <code><a href="../Pf/Kit/Node.html">Node</a></code>, writing
-probe implementations that satisfy the corresponding interfaces (see, for instance,
-<code><a href="../Pf/Kit/IProbeAdd.html">IProbeAdd</a></code>, <code><a href="../Pf/Kit/IProbeFetch.html">IProbeFetch</a></code>, etc).</p>
-<p>For an example of how to use <code><a href="../Pf/Kit/Node.html">Node</a></code> look into the source code of <code><a href="../Pf/Map.html">Pf::Map</a></code>
-or <code><a href="../Pf/Set.html">Pf::Set</a></code>.</p>
 
 
 
@@ -269,35 +268,42 @@ or <code><a href="../Pf/Set.html">Pf::Set</a></code>.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost.cr#L32" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost.cr#L25" target="_blank">
         permafrost.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/hybrid_array.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit.cr#L1" target="_blank">
+        permafrost/kit.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/hybrid_array.cr#L1" target="_blank">
         permafrost/kit/hybrid_array.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/node.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/node.cr#L1" target="_blank">
         permafrost/kit/node.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/sparse32.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/sparse32.cr#L1" target="_blank">
         permafrost/kit/sparse32.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/1f4503a24ac861413f3c105fee7d4801e4947ad1/src/permafrost/kit/uint96.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit/uint96.cr#L1" target="_blank">
         permafrost/kit/uint96.cr
       </a>
     
@@ -337,6 +343,25 @@ or <code><a href="../Pf/Set.html">Pf::Set</a></code>.</p>
   
 
   
+  <h2>
+    <a id="macro-summary" class="anchor" href="#macro-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#stack_alloc%28call%29-macro" class="signature"><strong>stack_alloc</strong>(call)</a>
+        
+          <div class="summary"><p>Stack allocation using the experimental <code>ReferenceStorage</code> API.</p></div>
+        
+      </li>
+    
+  </ul>
+
 
   
 
@@ -350,6 +375,46 @@ or <code><a href="../Pf/Set.html">Pf::Set</a></code>.</p>
   
 
   
+  <h2>
+    <a id="macro-detail" class="anchor" href="#macro-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Detail
+  </h2>
+  
+    <div class="entry-detail" id="stack_alloc(call)-macro">
+      <div class="signature">
+        
+        macro <strong>stack_alloc</strong>(call)
+
+        <a class="method-permalink" href="#stack_alloc%28call%29-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Stack allocation using the experimental <code>ReferenceStorage</code> API.</p>
+<p>Reference: https://github.com/crystal-lang/crystal/issues/13481#issuecomment-2603298285</p>
+<p>See also in general: https://github.com/crystal-lang/crystal/issues/13481</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Foo</span>
+  <span class="k">def</span> <span class="m">initialize</span>(@a : <span class="t">UInt64</span>, @b : <span class="t">UInt64</span>)
+  <span class="k">end</span>
+<span class="k">end</span>
+
+foo <span class="o">=</span> <span class="t">Pf</span><span class="t">::</span><span class="t">Kit</span>.stack_alloc <span class="t">Foo</span>.new(<span class="n">100u64</span>, <span class="n">200u64</span>)
+pp foo</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/c4449e5de3842abf79b3d2ad635cf978ba88b995/src/permafrost/kit.cr#L26" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
 
   
 
