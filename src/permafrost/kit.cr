@@ -50,7 +50,7 @@ module Pf::Kit
   # initialize: it's going to be the lifetime of the call to initialize,
   # *not* the instance's lifetime.
   macro stack_array(type, stackcap = 16)
-    %buffer = uninitialized {{type}}[{{stackcap}}]
+    %buffer = uninitialized ({{type}})[{{stackcap}}]
     ::Pf::Kit.stack_alloc ::Pf::Kit::HybridArray({{type}}, {{stackcap}}).new(%buffer.to_unsafe)
   end
 end
