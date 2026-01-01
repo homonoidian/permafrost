@@ -6,6 +6,7 @@ Permafrost is a collection of thread-safe, persistent, immutable data structures
 - An unordered set `Pf::Set`.
 - An unordered bidirectional map (bimap) `Pf::BidiMap`.
 - An unsigned 32-bit integer set `Pf::USet32`.
+- ... and others.
 
 Most of the data structures in Permafrost come from my main project, [Wirewright](https://github.com/wirewright/wirewright).
 Wirewright is also the main user of Permafrost.
