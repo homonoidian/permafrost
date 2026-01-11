@@ -77,11 +77,11 @@ module Pf::Kit
     end
 
     # Inserts *value* at the back of this array.
-    def push(value : T) : Nil
+    def push(value : T) : self
       if @bufsize < N
         @buffer[@bufsize] = value
         @bufsize += 1
-        return
+        return self
       end
 
       unless @spillsize < @spillcap
@@ -91,14 +91,12 @@ module Pf::Kit
 
       @spill[@spillsize] = value
       @spillsize += 1
+
+      self
     end
 
     # :ditto:
-    #
-    # NOTE: Normally, in Crystal, `<<` (and `push`) return `self`; but for
-    # `HybridArray` this would be malicious, since it's stored largely
-    # on the stack.
-    def <<(value : T) : Nil
+    def <<(value : T) : self
       push(value)
     end
 
