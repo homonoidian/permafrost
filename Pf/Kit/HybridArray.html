@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.17.1">
+<meta name="generator" content="Crystal Docs 1.18.2">
 <meta name="crystal_docs.project_version" content="trunk">
 <meta name="crystal_docs.project_name" content="permafrost">
 
@@ -281,7 +281,7 @@ and its buffer on the stack. See it for more info.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L21" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L21" target="_blank">
         permafrost/kit/hybrid_array.cr
       </a>
     
@@ -389,6 +389,13 @@ and its buffer on the stack. See it for more info.</p>
         <a href="#to_s%28io%3AIO%29%3ANil-instance-method" class="signature"><strong>#to_s</strong>(io : IO) : Nil</a>
         
           <div class="summary"><p>Appends a short String representation of this object which includes its class name and its object address.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#unsafe_copy_to%28target%3APointer%28T%29%29%3ANil-instance-method" class="signature"><strong>#unsafe_copy_to</strong>(target : Pointer(T)) : Nil</a>
+        
+          <div class="summary"><p><span class="flag yellow">WARNING</span>  the destination must not overlap with this array's buffer (uses <code>Pointer#copy_to</code>).</p></div>
         
       </li>
     
@@ -550,7 +557,7 @@ has no known size or &quot;size&quot; at all at this point!)</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -587,7 +594,7 @@ has no known size or &quot;size&quot; at all at this point!)</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L99" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L99" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -603,7 +610,7 @@ has no known size or &quot;size&quot; at all at this point!)</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L150" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L159" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -624,7 +631,7 @@ has no known size or &quot;size&quot; at all at this point!)</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L128" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L128" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -640,7 +647,7 @@ has no known size or &quot;size&quot; at all at this point!)</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L136" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L145" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -662,7 +669,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L123" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L123" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -684,7 +691,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L105" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L105" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -700,7 +707,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L146" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L155" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -721,7 +728,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L80" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L80" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -746,7 +753,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L58" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L58" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -778,7 +785,29 @@ which includes its class name and its object address.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L140" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L149" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="unsafe_copy_to(target:Pointer(T)):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>unsafe_copy_to</strong>(target : Pointer(T)) : Nil
+
+        <a class="method-permalink" href="#unsafe_copy_to%28target%3APointer%28T%29%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p><span class="flag yellow">WARNING</span>  the destination must not overlap with this array's buffer (uses <code>Pointer#copy_to</code>).</p>
+<p><span class="flag yellow">WARNING</span>  no checks are done with respect to the size of <em>target</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L138" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -810,7 +839,7 @@ of performance.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L62" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L62" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -844,7 +873,7 @@ of performance.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L70" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -867,7 +896,7 @@ library expects.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/632166fb2bee5268e6ce754e58bf4715e54b2f10/src/permafrost/kit/hybrid_array.cr#L54" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/kit/hybrid_array.cr#L54" target="_blank">View source</a>]
         
       </div>
     </div>
