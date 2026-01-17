@@ -133,6 +133,15 @@ module Pf::Kit
       @bufsize = 0u32
     end
 
+    # WARNING: the destination must not overlap with this array's buffer (uses `Pointer#copy_to`).
+    # WARNING: no checks are done with respect to the size of *target*.
+    def unsafe_copy_to(target : T*) : Nil
+      @buffer.copy_to(target, @bufsize)
+      if @spillsize > 0
+        @spill.copy_to(target + @bufsize, @spillsize)
+      end
+    end
+
     def inspect(io)
       to_s(io)
     end
