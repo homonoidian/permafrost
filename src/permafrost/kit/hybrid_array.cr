@@ -113,9 +113,10 @@ module Pf::Kit
       end
 
       @bufsize -= 1
-      value = @buffer[@bufsize]
-      (@buffer + @bufsize).clear
-      value
+
+      # There is no point in clearing the buffer since it's stack-allocated and
+      # will be cleared anyway.
+      @buffer[@bufsize]
     end
 
     # Removes and returns the last value of this array. Raises `IndexError` if
@@ -129,7 +130,8 @@ module Pf::Kit
       @spill.clear(@spillsize)
       @spillsize = 0u32
 
-      @buffer.clear(@bufsize)
+      # There is no point in clearing the buffer since it's stack-allocated and
+      # will be cleared anyway.
       @bufsize = 0u32
     end
 
