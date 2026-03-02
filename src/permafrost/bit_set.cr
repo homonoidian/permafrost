@@ -161,6 +161,34 @@ module Pf
       lt(value).size
     end
 
+    # Returns `true` if this and *other* sets have one or more values in common.
+    def intersects?(other : BitSet(I)) : Bool
+      (@bits & other.bits) > 0
+    end
+
+    # Returns `true` if all elements of this set are also elements of
+    # the *other* set.
+    def subset_of?(other : BitSet(I)) : Bool
+      (@bits & other.bits) == @bits
+    end
+
+    # Returns `true` if all elements of this set are also elements of
+    # *a larger* *other* set.
+    def proper_subset_of?(other : BitSet(I)) : Bool
+      size < other.size && subset_of?(other)
+    end
+
+    # Returns `true` if this set includes all elements from the *other* set.
+    def superset_of?(other : BitSet(I)) : Bool
+      other.subset_of?(self)
+    end
+
+    # Returns `true` if this set includes all elements from a *strictly
+    # smaller* *other* set.
+    def proper_superset_of?(other : BitSet(I)) : Bool
+      other.proper_subset_of?(self)
+    end
+
     # Returns the intersection of this and *other* sets.
     def &(other : BitSet(I)) : BitSet(I)
       BitSet(I).new(@bits & other.bits)
@@ -171,9 +199,19 @@ module Pf
       BitSet(I).new(@bits | other.bits)
     end
 
-    # Returns the difference of this and *other* sets.
+    # Alias of `|`.
+    def +(other : BitSet(I)) : BitSet(I)
+      self | other
+    end
+
+    # Returns the symmetric difference of this and *other* sets.
     def ^(other : BitSet(I)) : BitSet(I)
       BitSet(I).new(@bits ^ other.bits)
+    end
+
+    # Returns the difference of this and *other* sets.
+    def -(other : BitSet(I)) : BitSet(I)
+      BitSet(I).new(@bits & ~other.bits)
     end
 
     def inspect(io)

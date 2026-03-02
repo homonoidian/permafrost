@@ -103,4 +103,50 @@ describe Pf::BitSet32 do
     full_set.full?.should be_true
     Pf::BitSet32.empty.full?.should be_false
   end
+
+  empty = Pf::BitSet32.empty
+  a = Pf::BitSet32[1, 2, 3]
+  b = Pf::BitSet32[3, 4, 5]
+  c = Pf::BitSet32[1, 2, 3]
+  d = Pf::BitSet32[1, 2, 3, 4]
+
+  it "checks intersects? correctly" do
+    a.intersects?(b).should be_true
+    a.intersects?(c).should be_true
+    a.intersects?(d).should be_true
+    a.intersects?(empty).should be_false
+    empty.intersects?(b).should be_false
+  end
+
+  it "checks subset_of? correctly" do
+    a.subset_of?(b).should be_false
+    a.subset_of?(c).should be_true
+    a.subset_of?(d).should be_true
+    empty.subset_of?(a).should be_true
+    a.subset_of?(empty).should be_false
+  end
+
+  it "checks superset_of? correctly" do
+    a.superset_of?(b).should be_false
+    a.superset_of?(c).should be_true
+    d.superset_of?(a).should be_true
+    a.superset_of?(empty).should be_true
+    empty.superset_of?(a).should be_false
+  end
+
+  it "checks proper_subset_of? correctly" do
+    a.proper_subset_of?(b).should be_false
+    a.proper_subset_of?(c).should be_false
+    a.proper_subset_of?(d).should be_true
+    empty.proper_subset_of?(a).should be_true
+    a.proper_subset_of?(empty).should be_false
+  end
+
+  it "checks proper_superset_of? correctly" do
+    a.proper_superset_of?(b).should be_false
+    a.proper_superset_of?(c).should be_false
+    d.proper_superset_of?(a).should be_true
+    a.proper_superset_of?(empty).should be_true
+    empty.proper_superset_of?(a).should be_false
+  end
 end
