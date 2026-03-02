@@ -102,7 +102,7 @@ module Pf
       Kit.assert path.size <= 2u32**DENSE_SIZE_BITSIZE - 1
 
       bits = path.bits
-      bits <<= 4
+      bits <<= DENSE_SIZE_BITSIZE
       bits |= path.size
       bits <<= TAG_BITSIZE
       bits |= TAG_DENSE
@@ -125,6 +125,8 @@ module Pf
       case bits & TAG_MASK
       when TAG_SPARSE
         rawptr = Pointer(Void).new(bits & ~TAG_MASK)
+        Kit.assert !rawptr.null?
+
         rawptr.as(Sparse)
       when TAG_DENSE
         bits >>= TAG_BITSIZE

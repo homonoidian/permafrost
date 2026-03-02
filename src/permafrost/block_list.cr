@@ -10,7 +10,7 @@ module Pf
 
     def self.new(objects : T*, size : Int32)
       Kit.assert 1 <= size <= 8
-      Kit.assert (objects.address & TAG_MASK) == 0u64
+      Kit.assert (objects.address & TAG_MASK).zero?
 
       new(Pointer(T).new(objects.address | (size - 1).to_u64))
     end
