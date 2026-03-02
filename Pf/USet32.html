@@ -72,6 +72,36 @@
       
     </li>
   
+  <li class=" " data-id="permafrost/Pf/BitSet" data-name="pf::bitset(i)">
+      <a href="../Pf/BitSet.html">BitSet</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet128" data-name="pf::bitset128">
+      <a href="../Pf/BitSet128.html">BitSet128</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet16" data-name="pf::bitset16">
+      <a href="../Pf/BitSet16.html">BitSet16</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet32" data-name="pf::bitset32">
+      <a href="../Pf/BitSet32.html">BitSet32</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet64" data-name="pf::bitset64">
+      <a href="../Pf/BitSet64.html">BitSet64</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet8" data-name="pf::bitset8">
+      <a href="../Pf/BitSet8.html">BitSet8</a>
+      
+    </li>
+  
   <li class=" " data-id="permafrost/Pf/BlockList" data-name="pf::blocklist(t)">
       <a href="../Pf/BlockList.html">BlockList</a>
       
@@ -391,7 +421,7 @@ operation, be it union, intersection, difference, etc.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L143" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L143" target="_blank">
         permafrost/uset32.cr
       </a>
     
@@ -559,16 +589,9 @@ operation, be it union, intersection, difference, etc.</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#offset%28value%3AUInt32%29%3AUInt32-instance-method" class="signature"><strong>#offset</strong>(value : UInt32) : UInt32</a>
+        <a href="#mex%3AUInt32-instance-method" class="signature"><strong>#mex</strong> : UInt32</a>
         
-          <div class="summary"><p>Returns the number of integers before <em>value</em> (even if <em>value</em> is absent).</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#prefix%3AUInt32-instance-method" class="signature"><strong>#prefix</strong> : UInt32</a>
-        
-          <div class="summary"><p>Returns the number of consecutive integers following zero in this set (i.e., all numbers from zero before the first &quot;gap&quot;, if any).</p></div>
+          <div class="summary"><p>Returns the minimum excluded value (mex) of this set.</p></div>
         
       </li>
     
@@ -588,6 +611,13 @@ operation, be it union, intersection, difference, etc.</p>
         <a href="#proper_superset_of%3F%28other%3AUSet32%29%3ABool-instance-method" class="signature"><strong>#proper_superset_of?</strong>(other : USet32) : Bool</a>
         
           <div class="summary"><p>Returns <code>true</code> if this set contains all integers from <em>other</em>, and <em>other</em> is smaller than this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rank%28value%3AUInt32%29%3AUInt32-instance-method" class="signature"><strong>#rank</strong>(value : UInt32) : UInt32</a>
+        
+          <div class="summary"><p>Returns the number of integers less than <em>value</em> in this set.</p></div>
         
       </li>
     
@@ -734,7 +764,7 @@ operation, be it union, intersection, difference, etc.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L261" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L261" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -755,7 +785,7 @@ operation, be it union, intersection, difference, etc.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L252" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L252" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -771,7 +801,7 @@ operation, be it union, intersection, difference, etc.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L161" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L161" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -792,7 +822,7 @@ operation, be it union, intersection, difference, etc.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L171" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L171" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -813,7 +843,7 @@ operation, be it union, intersection, difference, etc.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L166" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L166" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -848,7 +878,7 @@ set <span class="c"># Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L242" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L242" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -887,7 +917,7 @@ set <span class="c"># Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L550" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L542" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -908,7 +938,7 @@ set <span class="c"># Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L540" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L532" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -931,7 +961,7 @@ not in the <em>other</em> set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L567" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L559" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -947,7 +977,7 @@ not in the <em>other</em> set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L592" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L584" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -969,7 +999,7 @@ not in the <em>other</em> set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L528" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L520" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -994,7 +1024,7 @@ set        <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L476" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L468" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1022,7 +1052,7 @@ set <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L494" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L486" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1047,7 +1077,7 @@ set           <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L516" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L508" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1068,7 +1098,7 @@ set           <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L460" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L452" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1093,7 +1123,7 @@ set           <span class="c"># =&gt; Pf::USet32[1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L603" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L595" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1117,7 +1147,7 @@ set.includes?(<span class="n">100</span>) <span class="c"># =&gt; false</span></
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L272" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L272" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1133,7 +1163,7 @@ set.includes?(<span class="n">100</span>) <span class="c"># =&gt; false</span></
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L582" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L574" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1161,84 +1191,31 @@ xs.intersects?(zs) <span class="c"># =&gt; true, they both have `3`</span></code
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L448" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L440" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="offset(value:UInt32):UInt32-instance-method">
+    <div class="entry-detail" id="mex:UInt32-instance-method">
       <div class="signature">
         
-        def <strong>offset</strong>(value : UInt32) : UInt32
+        def <strong>mex</strong> : UInt32
 
-        <a class="method-permalink" href="#offset%28value%3AUInt32%29%3AUInt32-instance-method">#</a>
+        <a class="method-permalink" href="#mex%3AUInt32-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Returns the number of integers before <em>value</em> (even if <em>value</em> is absent).</p>
-<p>Effectively, <code><a href="../Pf/USet32.html#offset%28value%3AUInt32%29%3AUInt32-instance-method">#offset</a></code> counts the number of set bits before <em>value</em>-th
-bit in the underlying bits of this set.</p>
-<p>This is sometimes called the <em>rank</em> of <em>value</em>.</p>
-<pre><code class="language-crystal"><span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].offset(<span class="n">1</span>)    <span class="c"># =&gt; 0</span>
-<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].offset(<span class="n">2</span>)    <span class="c"># =&gt; 1</span>
-<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].offset(<span class="n">3</span>)    <span class="c"># =&gt; 2</span>
-<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].offset(<span class="n">90</span>)   <span class="c"># =&gt; 3</span>
-<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].offset(<span class="n">100</span>)  <span class="c"># =&gt; 3</span>
-<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].offset(<span class="n">1234</span>) <span class="c"># =&gt; 4</span></code></pre>
-<p>As a side effect, you can use this method for sorting (similar to bisection
-in spirit).</p>
-<pre><code class="language-crystal">people <span class="o">=</span> [
-  {<span class="s">&quot;Alice&quot;</span>, <span class="n">32</span>},
-  {<span class="s">&quot;Bob&quot;</span>, <span class="n">45</span>},
-  {<span class="s">&quot;Charlie&quot;</span>, <span class="n">28</span>},
-  {<span class="s">&quot;Diana&quot;</span>, <span class="n">36</span>},
-  {<span class="s">&quot;Eve&quot;</span>, <span class="n">29</span>},
-]
-
-sorted <span class="o">=</span> <span class="o">[]</span> <span class="k">of</span> {<span class="t">String</span>, <span class="t">Int32</span>}
-
-<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>.transaction <span class="k">do</span> <span class="o">|</span>uset<span class="o">|</span>
-  people.each <span class="k">do</span> <span class="o">|</span>name, age<span class="o">|</span>
-    sorted.insert(uset.offset(age.to_u32), {name, age})
-    uset <span class="o">&lt;&lt;</span> age.to_u32
-  <span class="k">end</span>
-<span class="k">end</span>
-
-pp sorted <span class="c"># =&gt; [{&quot;Charlie&quot;, 28}, {&quot;Eve&quot;, 29}, {&quot;Alice&quot;, 32}, {&quot;Diana&quot;, 36}, {&quot;Bob&quot;, 45}]</span></code></pre>
+          <p>Returns the minimum excluded value (mex) of this set.</p>
+<pre><code class="language-crystal"><span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">0</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>].mex <span class="c"># =&gt; 4</span>
+<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>].mex    <span class="c"># =&gt; 0</span>
+<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">0</span>, <span class="n">1</span>, <span class="n">3</span>].mex    <span class="c"># =&gt; 2</span></code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L356" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="prefix:UInt32-instance-method">
-      <div class="signature">
-        
-        def <strong>prefix</strong> : UInt32
-
-        <a class="method-permalink" href="#prefix%3AUInt32-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Returns the number of consecutive integers following zero in this set
-(i.e., all numbers from zero before the first &quot;gap&quot;, if any).</p>
-<p>Effectively, <code><a href="../Pf/USet32.html#prefix%3AUInt32-instance-method">#prefix</a></code> performs the &quot;trailing ones count&quot; operation on
-the underlying bits of this set.</p>
-<pre><code class="language-crystal"><span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">0</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>].prefix <span class="c"># =&gt; 4</span>
-<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>].prefix    <span class="c"># =&gt; 0</span>
-<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">0</span>, <span class="n">1</span>, <span class="n">3</span>].prefix    <span class="c"># =&gt; 2</span></code></pre>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L308" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L304" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1254,7 +1231,7 @@ the underlying bits of this set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L578" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L570" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1283,7 +1260,7 @@ ys.proper_subset_of?(ys) <span class="c"># =&gt; false</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L401" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L393" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1312,7 +1289,55 @@ ys.proper_superset_of?(ys) <span class="c"># =&gt; false</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L433" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L425" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rank(value:UInt32):UInt32-instance-method">
+      <div class="signature">
+        
+        def <strong>rank</strong>(value : UInt32) : UInt32
+
+        <a class="method-permalink" href="#rank%28value%3AUInt32%29%3AUInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the number of integers less than <em>value</em> in this set. Works
+even if <em>value</em> is absent.</p>
+<pre><code class="language-crystal"><span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].rank(<span class="n">1</span>)    <span class="c"># =&gt; 0</span>
+<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].rank(<span class="n">2</span>)    <span class="c"># =&gt; 1</span>
+<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].rank(<span class="n">3</span>)    <span class="c"># =&gt; 2</span>
+<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].rank(<span class="n">90</span>)   <span class="c"># =&gt; 3</span>
+<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].rank(<span class="n">100</span>)  <span class="c"># =&gt; 3</span>
+<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">100</span>].rank(<span class="n">1234</span>) <span class="c"># =&gt; 4</span></code></pre>
+<p>As a side effect, you can use this method for sorting (similar to bisection
+in spirit).</p>
+<pre><code class="language-crystal">people <span class="o">=</span> [
+  {<span class="s">&quot;Alice&quot;</span>, <span class="n">32</span>},
+  {<span class="s">&quot;Bob&quot;</span>, <span class="n">45</span>},
+  {<span class="s">&quot;Charlie&quot;</span>, <span class="n">28</span>},
+  {<span class="s">&quot;Diana&quot;</span>, <span class="n">36</span>},
+  {<span class="s">&quot;Eve&quot;</span>, <span class="n">29</span>},
+]
+
+sorted <span class="o">=</span> <span class="o">[]</span> <span class="k">of</span> {<span class="t">String</span>, <span class="t">Int32</span>}
+
+<span class="t">Pf</span><span class="t">::</span><span class="t">USet32</span>.transaction <span class="k">do</span> <span class="o">|</span>uset<span class="o">|</span>
+  people.each <span class="k">do</span> <span class="o">|</span>name, age<span class="o">|</span>
+    sorted.insert(uset.rank(age.to_u32), {name, age})
+    uset <span class="o">&lt;&lt;</span> age.to_u32
+  <span class="k">end</span>
+<span class="k">end</span>
+
+pp sorted <span class="c"># =&gt; [{&quot;Charlie&quot;, 28}, {&quot;Eve&quot;, 29}, {&quot;Alice&quot;, 32}, {&quot;Diana&quot;, 36}, {&quot;Bob&quot;, 45}]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L348" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1335,7 +1360,7 @@ set.size <span class="c"># =&gt; 3</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L285" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L285" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1362,7 +1387,7 @@ ys.subset_of?(xs) <span class="c"># =&gt; false</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L373" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L365" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1389,7 +1414,7 @@ ys.superset_of?(xs) <span class="c"># =&gt; true</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L417" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L409" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1405,7 +1430,7 @@ ys.superset_of?(xs) <span class="c"># =&gt; true</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L588" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L580" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1426,7 +1451,7 @@ ys.superset_of?(xs) <span class="c"># =&gt; true</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/bd40ef854c1adf4a937285e70255f5e78aa34630/src/permafrost/uset32.cr#L290" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/uset32.cr#L290" target="_blank">View source</a>]
         
       </div>
     </div>

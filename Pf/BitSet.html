@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.18.2">
+<meta name="crystal_docs.project_version" content="trunk">
+<meta name="crystal_docs.project_name" content="permafrost">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="permafrost">
+  <title>Pf::BitSet(I) - permafrost trunk</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          permafrost
+        </a>
+      </h1>
+
+      <span class="project-version">
+        trunk
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="permafrost/Enumerable" data-name="enumerable(t)">
+      <a href="../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf" data-name="pf">
+      <a href="../Pf.html">Pf</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/BidiMap" data-name="pf::bidimap(k, v)">
+      <a href="../Pf/BidiMap.html">BidiMap</a>
+      
+    </li>
+  
+  <li class=" current" data-id="permafrost/Pf/BitSet" data-name="pf::bitset(i)">
+      <a href="../Pf/BitSet.html">BitSet</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet128" data-name="pf::bitset128">
+      <a href="../Pf/BitSet128.html">BitSet128</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet16" data-name="pf::bitset16">
+      <a href="../Pf/BitSet16.html">BitSet16</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet32" data-name="pf::bitset32">
+      <a href="../Pf/BitSet32.html">BitSet32</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet64" data-name="pf::bitset64">
+      <a href="../Pf/BitSet64.html">BitSet64</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet8" data-name="pf::bitset8">
+      <a href="../Pf/BitSet8.html">BitSet8</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BlockList" data-name="pf::blocklist(t)">
+      <a href="../Pf/BlockList.html">BlockList</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="../Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Kit" data-name="pf::kit">
+      <a href="../Pf/Kit.html">Kit</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/AuthorId" data-name="pf::kit::authorid">
+      <a href="../Pf/Kit/AuthorId.html">AuthorId</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/HybridArray" data-name="pf::kit::hybridarray(t, n)">
+      <a href="../Pf/Kit/HybridArray.html">HybridArray</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeAdd" data-name="pf::kit::iprobeadd(t)">
+      <a href="../Pf/Kit/IProbeAdd.html">IProbeAdd</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeAuthored" data-name="pf::kit::iprobeauthored">
+      <a href="../Pf/Kit/IProbeAuthored.html">IProbeAuthored</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeDelete" data-name="pf::kit::iprobedelete(t)">
+      <a href="../Pf/Kit/IProbeDelete.html">IProbeDelete</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/IProbeFetch" data-name="pf::kit::iprobefetch(t)">
+      <a href="../Pf/Kit/IProbeFetch.html">IProbeFetch</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/Node" data-name="pf::kit::node(t)">
+      <a href="../Pf/Kit/Node.html">Node</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/Sparse32" data-name="pf::kit::sparse32(t)">
+      <a href="../Pf/Kit/Sparse32.html">Sparse32</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Map" data-name="pf::map(k, v)">
+      <a href="../Pf/Map.html">Map</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Map/Commit" data-name="pf::map::commit(k, v)">
+      <a href="../Pf/Map/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ReadonlyError" data-name="pf::readonlyerror">
+      <a href="../Pf/ReadonlyError.html">ReadonlyError</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ResolvedError" data-name="pf::resolvederror">
+      <a href="../Pf/ResolvedError.html">ResolvedError</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Set" data-name="pf::set(t)">
+      <a href="../Pf/Set.html">Set</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Set/Commit" data-name="pf::set::commit(t)">
+      <a href="../Pf/Set/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/UPath32" data-name="pf::upath32">
+      <a href="../Pf/UPath32.html">UPath32</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/USet32" data-name="pf::uset32">
+      <a href="../Pf/USet32.html">USet32</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/USet32/Commit" data-name="pf::uset32::commit">
+      <a href="../Pf/USet32/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">
+    struct
+  </span> Pf::<wbr>BitSet(I)
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Pf/BitSet.html">Pf::BitSet(I)</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>An immutable set of integers backed by a fixed-width integer of type <em>I</em>.</p>
+<p>For <code><a href="../Pf/BitSet.html">BitSet</a>(I)</code>, the maximum value is <code>bit_width(I) - 1</code>. For example,
+for <code><a href="../Pf/BitSet8.html">BitSet8</a></code>, you can store values <code>0-7</code>, and for <code><a href="../Pf/BitSet128.html">BitSet128</a></code>, <code>0-127</code>.</p>
+<p><em>I</em> must be one of <code>UInt8</code>..<code>UInt128</code>. You are advised however to use
+one of the aliases <code><a href="../Pf/BitSet8.html">BitSet8</a></code>..<code><a href="../Pf/BitSet128.html">BitSet128</a></code> instead of dealing with this
+struct directly.</p>
+<p><span class="flag purple">NOTE</span>  For consistency, most methods accept and return <em>I</em>. This may
+require a few casts here and there on your end. A notable exception is
+<code><a href="../Pf/BitSet.html#size%3AInt32-instance-method">#size</a></code>: almost everything in Crystal expects its return result to be
+an <code>Int32</code>, so we cast it on our end. For similar reasons, we do not
+include <code><a href="../Enumerable.html">Enumerable</a></code> and/or <code>Indexable</code> here: its methods (such as <code><a href="../Pf/BitSet.html#includes%3F%28value%3AI%29%3ABool-instance-method">#includes?</a></code>),
+which are less constrained, will conflict with our policy of accepting
+<em>I</em> only, resulting in spooky suboptimal performance (Enumerable's <code><a href="../Pf/BitSet.html#includes%3F%28value%3AI%29%3ABool-instance-method">#includes?</a></code>
+is O(N) where we're O(1), even though both will end up constant-time
+in effect, the former is still slower). I know that casting can be annoying,
+but its better to cast than to investigate an invisible performance bug!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L21" target="_blank">
+        permafrost/bit_set.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28bits%3AI%29-class-method" class="signature"><strong>.new</strong>(bits : I)</a>
+        
+          <div class="summary"><p>Constructs a bit set from the underlying bits.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+  
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D-class-method" class="signature"><strong>.[]</strong></a>
+        
+          <div class="summary"><p>Alias of <code><a href="../Pf/BitSet.html#empty%3ABitSet%28I%29-class-method">.empty</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%5B%5D%28%2Avalues%3AI%29%3ABitSet%28I%29-class-method" class="signature"><strong>.[]</strong>(*values : I) : BitSet(I)</a>
+        
+          <div class="summary"><p>Constructs a bit set with the given <em>values</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#empty%3ABitSet%28I%29-class-method" class="signature"><strong>.empty</strong> : BitSet(I)</a>
+        
+          <div class="summary"><p>Constructs an empty bit set.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+  
+
+  
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%26%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method" class="signature"><strong>#&</strong>(other : BitSet(I)) : BitSet(I)</a>
+        
+          <div class="summary"><p>Returns the intersection of this and <em>other</em> sets.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%2B%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method" class="signature"><strong>#+</strong>(other : BitSet(I)) : BitSet(I)</a>
+        
+          <div class="summary"><p>Alias of <code><a href="../Pf/BitSet.html#%7C%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method">#|</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#-%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method" class="signature"><strong>#-</strong>(other : BitSet(I)) : BitSet(I)</a>
+        
+          <div class="summary"><p>Returns the difference of this and <em>other</em> sets.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%5E%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method" class="signature"><strong>#^</strong>(other : BitSet(I)) : BitSet(I)</a>
+        
+          <div class="summary"><p>Returns the symmetric difference of this and <em>other</em> sets.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%7C%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method" class="signature"><strong>#|</strong>(other : BitSet(I)) : BitSet(I)</a>
+        
+          <div class="summary"><p>Returns the union of this and <em>other</em> sets.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#add%28value%3AI%29%3ABitSet%28I%29-instance-method" class="signature"><strong>#add</strong>(value : I) : BitSet(I)</a>
+        
+          <div class="summary"><p>Adds <em>value</em> to this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bits%3AI-instance-method" class="signature"><strong>#bits</strong> : I</a>
+        
+          <div class="summary"><p>Returns the underlying bits.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#complement%3ABitSet%28I%29-instance-method" class="signature"><strong>#complement</strong> : BitSet(I)</a>
+        
+          <div class="summary"><p>Returns a set containing all values not in this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#delete%28value%3AI%29%3ABitSet%28I%29-instance-method" class="signature"><strong>#delete</strong>(value : I) : BitSet(I)</a>
+        
+          <div class="summary"><p>Removes <em>value</em> from this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each%28%26%3AI-%3E%29%3ANil-instance-method" class="signature"><strong>#each</strong>(& : I -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields values in this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_with_index%28%26%3AI%2CInt32-%3E%29%3ANil-instance-method" class="signature"><strong>#each_with_index</strong>(& : I, Int32 -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields values in this set along with their index (<code>0</code>, <code>1</code>, <code>2</code>, etc.; do not confuse with bit index).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#empty%3F%3ABool-instance-method" class="signature"><strong>#empty?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this set has no values.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#full%3F%3ABool-instance-method" class="signature"><strong>#full?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this set has no spare capacity.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#gte%28lo%3AI%29%3ABitSet%28I%29-instance-method" class="signature"><strong>#gte</strong>(lo : I) : BitSet(I)</a>
+        
+          <div class="summary"><p>Returns a set of values less than <em>lo</em> in this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#includes%3F%28value%3AI%29%3ABool-instance-method" class="signature"><strong>#includes?</strong>(value : I) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if <em>value</em> exists in this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inspect%28io%29-instance-method" class="signature"><strong>#inspect</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#intersects%3F%28other%3ABitSet%28I%29%29%3ABool-instance-method" class="signature"><strong>#intersects?</strong>(other : BitSet(I)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this and <em>other</em> sets have one or more values in common.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lt%28hi%3AI%29%3ABitSet%28I%29-instance-method" class="signature"><strong>#lt</strong>(hi : I) : BitSet(I)</a>
+        
+          <div class="summary"><p>Returns a set of values less than <em>hi</em> in this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#mex%3AI-instance-method" class="signature"><strong>#mex</strong> : I</a>
+        
+          <div class="summary"><p>Returns the minimum excluded value of this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#proper_subset_of%3F%28other%3ABitSet%28I%29%29%3ABool-instance-method" class="signature"><strong>#proper_subset_of?</strong>(other : BitSet(I)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if all elements of this set are also elements of <em>a larger</em> <em>other</em> set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#proper_superset_of%3F%28other%3ABitSet%28I%29%29%3ABool-instance-method" class="signature"><strong>#proper_superset_of?</strong>(other : BitSet(I)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this set includes all elements from a <em>strictly smaller</em> <em>other</em> set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rank%28value%3AI%29%3AInt32-instance-method" class="signature"><strong>#rank</strong>(value : I) : Int32</a>
+        
+          <div class="summary"><p>Returns the <em>rank</em> of value: the number of values smaller than it.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3AInt32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the number of values in this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#subset_of%3F%28other%3ABitSet%28I%29%29%3ABool-instance-method" class="signature"><strong>#subset_of?</strong>(other : BitSet(I)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if all elements of this set are also elements of the <em>other</em> set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#superset_of%3F%28other%3ABitSet%28I%29%29%3ABool-instance-method" class="signature"><strong>#superset_of?</strong>(other : BitSet(I)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this set includes all elements from the <em>other</em> set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s%28io%29-instance-method" class="signature"><strong>#to_s</strong>(io)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <div class="methods-inherited">
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+  </div>
+
+  
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(bits:I)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(bits : I)
+
+        <a class="method-permalink" href="#new%28bits%3AI%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Constructs a bit set from the underlying bits.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L26" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+  
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="[]-class-method">
+      <div class="signature">
+        
+        def self.<strong>[]</strong>
+
+        <a class="method-permalink" href="#%5B%5D-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Alias of <code><a href="../Pf/BitSet.html#empty%3ABitSet%28I%29-class-method">.empty</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L38" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[](*values:I):BitSet(I)-class-method">
+      <div class="signature">
+        
+        def self.<strong>[]</strong>(*values : I) : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#%5B%5D%28%2Avalues%3AI%29%3ABitSet%28I%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Constructs a bit set with the given <em>values</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L43" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="empty:BitSet(I)-class-method">
+      <div class="signature">
+        
+        def self.<strong>empty</strong> : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#empty%3ABitSet%28I%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Constructs an empty bit set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L33" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+  
+
+  
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="&amp;(other:BitSet(I)):BitSet(I)-instance-method">
+      <div class="signature">
+        
+        def <strong>&</strong>(other : <a href="../Pf/BitSet.html">BitSet</a>(I)) : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#%26%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the intersection of this and <em>other</em> sets.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L193" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="+(other:BitSet(I)):BitSet(I)-instance-method">
+      <div class="signature">
+        
+        def <strong>+</strong>(other : <a href="../Pf/BitSet.html">BitSet</a>(I)) : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#%2B%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Alias of <code><a href="../Pf/BitSet.html#%7C%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method">#|</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L203" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="-(other:BitSet(I)):BitSet(I)-instance-method">
+      <div class="signature">
+        
+        def <strong>-</strong>(other : <a href="../Pf/BitSet.html">BitSet</a>(I)) : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#-%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the difference of this and <em>other</em> sets.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L213" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="^(other:BitSet(I)):BitSet(I)-instance-method">
+      <div class="signature">
+        
+        def <strong>^</strong>(other : <a href="../Pf/BitSet.html">BitSet</a>(I)) : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#%5E%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the symmetric difference of this and <em>other</em> sets.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L208" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="|(other:BitSet(I)):BitSet(I)-instance-method">
+      <div class="signature">
+        
+        def <strong>|</strong>(other : <a href="../Pf/BitSet.html">BitSet</a>(I)) : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#%7C%28other%3ABitSet%28I%29%29%3ABitSet%28I%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the union of this and <em>other</em> sets.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L198" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="add(value:I):BitSet(I)-instance-method">
+      <div class="signature">
+        
+        def <strong>add</strong>(value : I) : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#add%28value%3AI%29%3ABitSet%28I%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Adds <em>value</em> to this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L121" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bits:I-instance-method">
+      <div class="signature">
+        
+        def <strong>bits</strong> : I
+
+        <a class="method-permalink" href="#bits%3AI-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the underlying bits.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="complement:BitSet(I)-instance-method">
+      <div class="signature">
+        
+        def <strong>complement</strong> : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#complement%3ABitSet%28I%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a set containing all values not in this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L155" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="delete(value:I):BitSet(I)-instance-method">
+      <div class="signature">
+        
+        def <strong>delete</strong>(value : I) : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#delete%28value%3AI%29%3ABitSet%28I%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Removes <em>value</em> from this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L130" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each(&amp;:I-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each</strong>(& : I -> ) : Nil
+
+        <a class="method-permalink" href="#each%28%26%3AI-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields values in this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L93" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_with_index(&amp;:I,Int32-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_with_index</strong>(& : I, Int32 -> ) : Nil
+
+        <a class="method-permalink" href="#each_with_index%28%26%3AI%2CInt32-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields values in this set along with their index (<code>0</code>, <code>1</code>, <code>2</code>, etc.; do not
+confuse with bit index).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L110" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="empty?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>empty?</strong> : Bool
+
+        <a class="method-permalink" href="#empty%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this set has no values.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L74" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="full?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>full?</strong> : Bool
+
+        <a class="method-permalink" href="#full%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this set has no spare capacity.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L79" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="gte(lo:I):BitSet(I)-instance-method">
+      <div class="signature">
+        
+        def <strong>gte</strong>(lo : I) : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#gte%28lo%3AI%29%3ABitSet%28I%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a set of values less than <em>lo</em> in this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L150" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="includes?(value:I):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>includes?</strong>(value : I) : Bool
+
+        <a class="method-permalink" href="#includes%3F%28value%3AI%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if <em>value</em> exists in this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L64" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inspect(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>inspect</strong>(io)
+
+        <a class="method-permalink" href="#inspect%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L217" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="intersects?(other:BitSet(I)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>intersects?</strong>(other : <a href="../Pf/BitSet.html">BitSet</a>(I)) : Bool
+
+        <a class="method-permalink" href="#intersects%3F%28other%3ABitSet%28I%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this and <em>other</em> sets have one or more values in common.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L165" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lt(hi:I):BitSet(I)-instance-method">
+      <div class="signature">
+        
+        def <strong>lt</strong>(hi : I) : <a href="../Pf/BitSet.html">BitSet</a>(I)
+
+        <a class="method-permalink" href="#lt%28hi%3AI%29%3ABitSet%28I%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a set of values less than <em>hi</em> in this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L139" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="mex:I-instance-method">
+      <div class="signature">
+        
+        def <strong>mex</strong> : I
+
+        <a class="method-permalink" href="#mex%3AI-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the minimum excluded value of this set.</p>
+<ul>
+<li>Mex of an empty set is <code>0</code></li>
+<li>Mex of a full set is the bit width of <code>I</code> (e.g. 64 for <code><a href="../Pf/BitSet64.html">BitSet64</a></code>). Note
+how the mex itself is outside of the set.</li>
+</ul>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L88" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="proper_subset_of?(other:BitSet(I)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>proper_subset_of?</strong>(other : <a href="../Pf/BitSet.html">BitSet</a>(I)) : Bool
+
+        <a class="method-permalink" href="#proper_subset_of%3F%28other%3ABitSet%28I%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if all elements of this set are also elements of
+<em>a larger</em> <em>other</em> set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L177" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="proper_superset_of?(other:BitSet(I)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>proper_superset_of?</strong>(other : <a href="../Pf/BitSet.html">BitSet</a>(I)) : Bool
+
+        <a class="method-permalink" href="#proper_superset_of%3F%28other%3ABitSet%28I%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this set includes all elements from a <em>strictly
+smaller</em> <em>other</em> set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L188" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rank(value:I):Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>rank</strong>(value : I) : Int32
+
+        <a class="method-permalink" href="#rank%28value%3AI%29%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the <em>rank</em> of value: the number of values smaller than it.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L160" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong> : Int32
+
+        <a class="method-permalink" href="#size%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the number of values in this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L69" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="subset_of?(other:BitSet(I)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>subset_of?</strong>(other : <a href="../Pf/BitSet.html">BitSet</a>(I)) : Bool
+
+        <a class="method-permalink" href="#subset_of%3F%28other%3ABitSet%28I%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if all elements of this set are also elements of
+the <em>other</em> set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L171" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="superset_of?(other:BitSet(I)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>superset_of?</strong>(other : <a href="../Pf/BitSet.html">BitSet</a>(I)) : Bool
+
+        <a class="method-permalink" href="#superset_of%3F%28other%3ABitSet%28I%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this set includes all elements from the <em>other</em> set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L182" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong>(io)
+
+        <a class="method-permalink" href="#to_s%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/05cfea354a2c5375d2c0089e3726dd4c053f5edd/src/permafrost/bit_set.cr#L228" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+</div>
+
+</body>
+</html>
