@@ -186,9 +186,9 @@ struct Pf::USet32
       peek.includes?(value)
     end
 
-    # Runs `USet32#offset` on the set built so far.
-    def offset(value : UInt32) : UInt32
-      peek.offset(value)
+    # Runs `USet32#rank` on the set built so far.
+    def rank(value : UInt32) : UInt32
+      peek.rank(value)
     end
 
     # Adds *value* to this set.
@@ -294,40 +294,32 @@ struct Pf::USet32
     end
   end
 
-  # Returns the number of consecutive integers following zero in this set
-  # (i.e., all numbers from zero before the first "gap", if any).
-  #
-  # Effectively, `prefix` performs the "trailing ones count" operation on
-  # the underlying bits of this set.
+  # Returns the minimum excluded value (mex) of this set.
   #
   # ```
-  # Pf::USet32[0, 1, 2, 3].prefix # => 4
-  # Pf::USet32[1, 2, 3].prefix    # => 0
-  # Pf::USet32[0, 1, 3].prefix    # => 2
+  # Pf::USet32[0, 1, 2, 3].mex # => 4
+  # Pf::USet32[1, 2, 3].mex    # => 0
+  # Pf::USet32[0, 1, 3].mex    # => 2
   # ```
-  def prefix : UInt32
+  def mex : UInt32
     case k = @kernel
     in Empty then 0u32
     in Nonempty
-      prefix, _ = USet.prefix(k)
-      prefix
+      mex, _ = USet.mex(k)
+      mex
     end
   end
 
-  # Returns the number of integers before *value* (even if *value* is absent).
-  #
-  # Effectively, `offset` counts the number of set bits before *value*-th
-  # bit in the underlying bits of this set.
-  #
-  # This is sometimes called the *rank* of *value*.
+  # Returns the number of integers less than *value* in this set. Works
+  # even if *value* is absent.
   #
   # ```
-  # Pf::USet32[1, 2, 3, 100].offset(1)    # => 0
-  # Pf::USet32[1, 2, 3, 100].offset(2)    # => 1
-  # Pf::USet32[1, 2, 3, 100].offset(3)    # => 2
-  # Pf::USet32[1, 2, 3, 100].offset(90)   # => 3
-  # Pf::USet32[1, 2, 3, 100].offset(100)  # => 3
-  # Pf::USet32[1, 2, 3, 100].offset(1234) # => 4
+  # Pf::USet32[1, 2, 3, 100].rank(1)    # => 0
+  # Pf::USet32[1, 2, 3, 100].rank(2)    # => 1
+  # Pf::USet32[1, 2, 3, 100].rank(3)    # => 2
+  # Pf::USet32[1, 2, 3, 100].rank(90)   # => 3
+  # Pf::USet32[1, 2, 3, 100].rank(100)  # => 3
+  # Pf::USet32[1, 2, 3, 100].rank(1234) # => 4
   # ```
   #
   # As a side effect, you can use this method for sorting (similar to bisection
@@ -346,17 +338,17 @@ struct Pf::USet32
   #
   # Pf::USet32.transaction do |uset|
   #   people.each do |name, age|
-  #     sorted.insert(uset.offset(age.to_u32), {name, age})
+  #     sorted.insert(uset.rank(age.to_u32), {name, age})
   #     uset << age.to_u32
   #   end
   # end
   #
   # pp sorted # => [{"Charlie", 28}, {"Eve", 29}, {"Alice", 32}, {"Diana", 36}, {"Bob", 45}]
   # ```
-  def offset(value : UInt32) : UInt32
+  def rank(value : UInt32) : UInt32
     case k = @kernel
     in Empty    then 0u32
-    in Nonempty then USet.offset(k, value)
+    in Nonempty then USet.rank(k, value)
     end
   end
 

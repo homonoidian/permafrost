@@ -268,51 +268,51 @@ describe Pf::USet32 do
     Pf::USet32[5, 100, 100_000].add?(100_000).should eq({Pf::USet32[5, 100, 100_000], false})
   end
 
-  it "reports #prefix correctly" do
-    Pf::USet32[].prefix.should eq(0u32)
-    Pf::USet32[0].prefix.should eq(1u32)
-    Pf::USet32[1].prefix.should eq(0u32)
-    Pf::USet32[0, 1].prefix.should eq(2u32)
-    Pf::USet32[1, 2].prefix.should eq(0u32)
-    Pf::USet32[0, 1, 2, 3].prefix.should eq(4u32)
-    Pf::USet32[1, 2, 3].prefix.should eq(0u32)
+  it "reports #mex correctly" do
+    Pf::USet32[].mex.should eq(0u32)
+    Pf::USet32[0].mex.should eq(1u32)
+    Pf::USet32[1].mex.should eq(0u32)
+    Pf::USet32[0, 1].mex.should eq(2u32)
+    Pf::USet32[1, 2].mex.should eq(0u32)
+    Pf::USet32[0, 1, 2, 3].mex.should eq(4u32)
+    Pf::USet32[1, 2, 3].mex.should eq(0u32)
 
-    Pf::USet32[0, 1, 3, 4, 5].prefix.should eq(2u32)
+    Pf::USet32[0, 1, 3, 4, 5].mex.should eq(2u32)
 
-    range(0, 63).prefix.should eq(63u32)
-    range(0, 64).prefix.should eq(64u32)
-    range(0, 65).prefix.should eq(65u32)
+    range(0, 63).mex.should eq(63u32)
+    range(0, 64).mex.should eq(64u32)
+    range(0, 65).mex.should eq(65u32)
 
-    range(0, 100).prefix.should eq(100u32)
-    range(0, 100).delete(64).prefix.should eq(64u32)
-    range(0, 100).delete(63).prefix.should eq(63u32)
+    range(0, 100).mex.should eq(100u32)
+    range(0, 100).delete(64).mex.should eq(64u32)
+    range(0, 100).delete(63).mex.should eq(63u32)
 
-    range(0, 123456).prefix.should eq(123456u32)
-    (range(0, 123456) - range(100, 200)).prefix.should eq(100u32) # 0-99
+    range(0, 123456).mex.should eq(123456u32)
+    (range(0, 123456) - range(100, 200)).mex.should eq(100u32) # 0-99
   end
 
-  it "reports #offset correctly" do
-    Pf::USet32[].offset(0u32).should eq(0u32)
-    Pf::USet32[].offset(100u32).should eq(0u32)
-    Pf::USet32[].offset(100_000_000u32).should eq(0u32)
+  it "reports #rank correctly" do
+    Pf::USet32[].rank(0u32).should eq(0u32)
+    Pf::USet32[].rank(100u32).should eq(0u32)
+    Pf::USet32[].rank(100_000_000u32).should eq(0u32)
 
-    Pf::USet32[1u32].offset(0u32).should eq(0u32)
-    Pf::USet32[1u32].offset(1u32).should eq(0u32)
-    Pf::USet32[1u32].offset(100u32).should eq(1u32)
-    Pf::USet32[1u32].offset(100_000_000u32).should eq(1u32)
+    Pf::USet32[1u32].rank(0u32).should eq(0u32)
+    Pf::USet32[1u32].rank(1u32).should eq(0u32)
+    Pf::USet32[1u32].rank(100u32).should eq(1u32)
+    Pf::USet32[1u32].rank(100_000_000u32).should eq(1u32)
 
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(0u32).should eq(0u32)
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(1u32).should eq(0u32)
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(2u32).should eq(1u32)
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(100u32).should eq(2u32)
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(1000u32).should eq(2u32)
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(1233u32).should eq(2u32)
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(1234u32).should eq(2u32)
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(1235u32).should eq(3u32)
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(100_000u32).should eq(3u32)
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(99_999_999u32).should eq(3u32)
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(100_000_000u32).should eq(3u32)
-    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].offset(100_000_001u32).should eq(4u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(0u32).should eq(0u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(1u32).should eq(0u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(2u32).should eq(1u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(100u32).should eq(2u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(1000u32).should eq(2u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(1233u32).should eq(2u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(1234u32).should eq(2u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(1235u32).should eq(3u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(100_000u32).should eq(3u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(99_999_999u32).should eq(3u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(100_000_000u32).should eq(3u32)
+    Pf::USet32[1u32, 2u32, 1234u32, 100_000_000u32].rank(100_000_001u32).should eq(4u32)
 
     # sort
     xs = (0...100_000).to_a.shuffle!
@@ -320,7 +320,7 @@ describe Pf::USet32 do
 
     _ = Pf::USet32.transaction do |set|
       xs.each do |x|
-        ys.insert(set.offset(x.to_u32), x)
+        ys.insert(set.rank(x.to_u32), x)
         set << x.to_u32
       end
     end

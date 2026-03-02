@@ -29,6 +29,9 @@ module Pf::Kit::USet
 
   alias Trie = Bitmap | Chunk | WideNode | Node0 | Node1 | Node2 | Node3
 
+  # TODO: It would be very nice if we could use BitSet32 and BitSet64 here instead
+  # of raw UInt64 and UInt32.
+
   record Bitmap, bits : UInt64 do
     CAPACITY = 64u32
   end
@@ -708,7 +711,7 @@ module Pf::Kit::USet
     end
   {% end %}
 
-  def prefix(s : Bitmap) : {UInt32, Bool}
+  def mex(s : Bitmap) : {UInt32, Bool}
     if s.bits == UInt64::MAX
       return 64u32, false
     end
@@ -717,25 +720,25 @@ module Pf::Kit::USet
   end
 
   {% for cls in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
-    def prefix(s : {{cls.id}}) : {UInt32, Bool}
+    def mex(s : {{cls.id}}) : {UInt32, Bool}
       if cardinality(s) == {{cls.id}}::CAPACITY
         return cardinality(s), false
       end
 
-      prefix = 0u32
+      mex = 0u32
 
       size = (~presence(s)).trailing_zeros_count
       size.times do |index|
-        n, has_gap = prefix(s.children[index])
-        prefix &+= n
+        n, has_gap = mex(s.children[index])
+        mex &+= n
         break if has_gap
       end
 
-      {prefix, true}
+      {mex, true}
     end
   {% end %}
 
-  def offset(s : Bitmap, path : BitmapP) : UInt32
+  def rank(s : Bitmap, path : BitmapP) : UInt32
     mask = 1u64 << path.index
 
     (s.bits & (mask &- 1)).popcount.to_u32
@@ -743,35 +746,35 @@ module Pf::Kit::USet
 
   {% for cls, index in %w(Chunk WideNode Node0 Node1 Node2 Node3) %}
     {% bits = [32, 32, 16, 16, 16, 16] %}
-    def offset(s : {{cls.id}}, path : {{cls.id}}P) : UInt32
-      offset = 0u32
+    def rank(s : {{cls.id}}, path : {{cls.id}}P) : UInt32
+      rank = 0u32
 
       mask = 1u{{bits[index]}} << path.index
       preds = (presence(s) & (mask &- 1)).popcount
       preds.times do |n|
         pred = s.children[n]
-        offset &+= cardinality(pred)
+        rank &+= cardinality(pred)
       end
 
       unless presence(s) & mask > 0
-        return offset
+        return rank
       end
 
       # UNSAFE: assumes `s` is never empty. We use USet in such a way it never would.
-      offset &+= offset(s.children[preds], path.child)
-      offset
+      rank &+= rank(s.children[preds], path.child)
+      rank
     end
   {% end %}
 
-  def offset(s, path)
+  def rank(s, path)
     # Path is longer than values stored in s, it encompasses all of s. I.e. path
     # describes an integer well outside the bounds of *s*.
     cardinality(s)
   end
 
-  def offset(s, value : UInt32) : UInt32
+  def rank(s, value : UInt32) : UInt32
     path = promote(path(value), s)
 
-    offset(s, path)
+    rank(s, path)
   end
 end
