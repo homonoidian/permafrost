@@ -161,6 +161,25 @@ module Pf
       lt(value).size
     end
 
+    # Returns the *n*th value in this set. Returns `nil` if *n* is out of bounds.
+    def select?(n : I) : I?
+      return unless n < size
+
+      # We could do something like PTSelect as in https://arxiv.org/pdf/1706.00990,
+      # that is, use PDEP. However, on my machine, it's much slower than the loop
+      # below. Also, PDEP doesn't have native Crystal support.
+      each_with_index do |value, index|
+        next unless index == n
+        return value
+      end
+    end
+
+    # Returns the *n*th value in this set. Raises `IndexError` if *n* is out
+    # of bounds.
+    def select(n : I) : I
+      select?(n) || raise IndexError.new
+    end
+
     # Returns `true` if this and *other* sets have one or more values in common.
     def intersects?(other : BitSet(I)) : Bool
       (@bits & other.bits) > 0
