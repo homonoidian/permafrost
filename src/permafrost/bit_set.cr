@@ -47,11 +47,11 @@ module Pf
     # :nodoc:
     def self.bit_width(type)
       case type
-      in UInt8.class   then 8
-      in UInt16.class  then 16
-      in UInt32.class  then 32
-      in UInt64.class  then 64
-      in UInt128.class then 128
+      in UInt8.class   then 8u32
+      in UInt16.class  then 16u32
+      in UInt32.class  then 32u32
+      in UInt64.class  then 64u32
+      in UInt128.class then 128u32
       end
     end
 
