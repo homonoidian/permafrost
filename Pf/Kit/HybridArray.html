@@ -117,38 +117,8 @@
       
         <ul>
   
-  <li class=" " data-id="permafrost/Pf/Kit/AuthorId" data-name="pf::kit::authorid">
-      <a href="../../Pf/Kit/AuthorId.html">AuthorId</a>
-      
-    </li>
-  
   <li class=" current" data-id="permafrost/Pf/Kit/HybridArray" data-name="pf::kit::hybridarray(t, n)">
       <a href="../../Pf/Kit/HybridArray.html">HybridArray</a>
-      
-    </li>
-  
-  <li class=" " data-id="permafrost/Pf/Kit/IProbeAdd" data-name="pf::kit::iprobeadd(t)">
-      <a href="../../Pf/Kit/IProbeAdd.html">IProbeAdd</a>
-      
-    </li>
-  
-  <li class=" " data-id="permafrost/Pf/Kit/IProbeAuthored" data-name="pf::kit::iprobeauthored">
-      <a href="../../Pf/Kit/IProbeAuthored.html">IProbeAuthored</a>
-      
-    </li>
-  
-  <li class=" " data-id="permafrost/Pf/Kit/IProbeDelete" data-name="pf::kit::iprobedelete(t)">
-      <a href="../../Pf/Kit/IProbeDelete.html">IProbeDelete</a>
-      
-    </li>
-  
-  <li class=" " data-id="permafrost/Pf/Kit/IProbeFetch" data-name="pf::kit::iprobefetch(t)">
-      <a href="../../Pf/Kit/IProbeFetch.html">IProbeFetch</a>
-      
-    </li>
-  
-  <li class=" " data-id="permafrost/Pf/Kit/Node" data-name="pf::kit::node(t)">
-      <a href="../../Pf/Kit/Node.html">Node</a>
       
     </li>
   
@@ -257,7 +227,7 @@
     Overview
   </h2>
 
-  <p>A dynamic array that stores <em>N</em> x <em>T</em>s in a fixed-size buffer (most
+  <p>A dynamic array which stores <em>N</em> x <em>T</em>s in a fixed-size buffer (inline; most
 often allocated on the stack), and spills over to heap.</p>
 <p>Inspiration: One of Walter Bright talks, at https://www.youtube.com/watch?v=_PB6Hdi4R7M&amp;t=2606s</p>
 <p><code><a href="../../Pf/Kit/HybridArray.html">HybridArray</a></code> is a reference type to limit hazardous usage by default. Note
@@ -311,7 +281,7 @@ and its buffer on the stack. See it for more info.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L21" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L21" target="_blank">
         permafrost/kit/hybrid_array.cr
       </a>
     
@@ -378,6 +348,27 @@ and its buffer on the stack. See it for more info.</p>
       </li>
     
       <li class="entry-summary">
+        <a href="#concat%28other%3ASlice%28T%29%29%3Aself-instance-method" class="signature"><strong>#concat</strong>(other : Slice(T)) : <span class="k">self</span></a>
+        
+          <div class="summary"><p>Pushes all elements in <em>other</em> to this array.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#concat%28other%3AArray%28T%29%29%3Aself-instance-method" class="signature"><strong>#concat</strong>(other : Array(T)) : <span class="k">self</span></a>
+        
+          <div class="summary"><p>Pushes all elements in <em>other</em> to this array.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#concat%28other%3AIndexable%28T%29%29%3Aself-instance-method" class="signature"><strong>#concat</strong>(other : Indexable(T)) : <span class="k">self</span></a>
+        
+          <div class="summary"><p>Pushes all elements in <em>other</em> to this array.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#inspect%28io%29-instance-method" class="signature"><strong>#inspect</strong>(io)</a>
         
       </li>
@@ -416,9 +407,37 @@ and its buffer on the stack. See it for more info.</p>
       </li>
     
       <li class="entry-summary">
+        <a href="#to_readonly_slice%3ASlice%28T%29-instance-method" class="signature"><strong>#to_readonly_slice</strong> : Slice(T)</a>
+        
+          <div class="summary"><p>Returns a copy of this array's content as a read-only slice.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#to_s%28io%3AIO%29%3ANil-instance-method" class="signature"><strong>#to_s</strong>(io : IO) : Nil</a>
         
           <div class="summary"><p>Appends a short String representation of this object which includes its class name and its object address.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_slice%3ASlice%28T%29-instance-method" class="signature"><strong>#to_slice</strong> : Slice(T)</a>
+        
+          <div class="summary"><p>Returns a copy of this array's content as a slice.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_unsafe_readonly_slice%21%3ASlice%28T%29-instance-method" class="signature"><strong>#to_unsafe_readonly_slice!</strong> : Slice(T)</a>
+        
+          <div class="summary"><p>Returns a slice referencing the content of this array.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_unsafe_slice%21%3ASlice%28T%29-instance-method" class="signature"><strong>#to_unsafe_slice!</strong> : Slice(T)</a>
+        
+          <div class="summary"><p>Returns a slice referencing the content of this array.</p></div>
         
       </li>
     
@@ -587,7 +606,7 @@ has no known size or &quot;size&quot; at all at this point!)</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -624,7 +643,7 @@ has no known size or &quot;size&quot; at all at this point!)</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L99" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -640,7 +659,7 @@ has no known size or &quot;size&quot; at all at this point!)</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L161" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L278" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -661,7 +680,78 @@ has no known size or &quot;size&quot; at all at this point!)</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L129" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L177" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="concat(other:Slice(T)):self-instance-method">
+      <div class="signature">
+        
+        def <strong>concat</strong>(other : Slice(T)) : <span class="k">self</span>
+
+        <a class="method-permalink" href="#concat%28other%3ASlice%28T%29%29%3Aself-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Pushes all elements in <em>other</em> to this array.</p>
+<p>This overload is optimized to allocate the necessary memory upfront,
+and otherwise use <code>memcpy</code>, which I expect to be faster than copying
+in a loop (although I'm not particularly sure).</p>
+<p><span class="flag yellow">WARNING</span>  <em>other</em> must not overlap with this array's memory (uses <code>Pointer#copy_to</code>).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L115" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="concat(other:Array(T)):self-instance-method">
+      <div class="signature">
+        
+        def <strong>concat</strong>(other : Array(T)) : <span class="k">self</span>
+
+        <a class="method-permalink" href="#concat%28other%3AArray%28T%29%29%3Aself-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Pushes all elements in <em>other</em> to this array.</p>
+<p>This overload is optimized to allocate the necessary memory upfront,
+and otherwise use <code>memcpy</code>, which I expect to be faster than copying
+in a loop (although I'm not particularly sure).</p>
+<p><span class="flag yellow">WARNING</span>  <em>other</em> must not overlap with this array's memory (uses <code>Pointer#copy_to</code>).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L140" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="concat(other:Indexable(T)):self-instance-method">
+      <div class="signature">
+        
+        def <strong>concat</strong>(other : Indexable(T)) : <span class="k">self</span>
+
+        <a class="method-permalink" href="#concat%28other%3AIndexable%28T%29%29%3Aself-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Pushes all elements in <em>other</em> to this array.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L145" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -677,7 +767,7 @@ has no known size or &quot;size&quot; at all at this point!)</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L147" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L264" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -699,7 +789,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L124" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L172" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -721,7 +811,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L105" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L153" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -737,7 +827,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L157" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L274" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -758,7 +848,7 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L80" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L80" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -783,7 +873,28 @@ this array is empty.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L58" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L58" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_readonly_slice:Slice(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_readonly_slice</strong> : Slice(T)
+
+        <a class="method-permalink" href="#to_readonly_slice%3ASlice%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of this array's content as a read-only slice.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L204" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -815,7 +926,82 @@ which includes its class name and its object address.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L151" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L268" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_slice:Slice(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_slice</strong> : Slice(T)
+
+        <a class="method-permalink" href="#to_slice%3ASlice%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of this array's content as a slice.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L196" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_unsafe_readonly_slice!:Slice(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_unsafe_readonly_slice!</strong> : Slice(T)
+
+        <a class="method-permalink" href="#to_unsafe_readonly_slice%21%3ASlice%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a slice referencing the content of this array.</p>
+<p>See <code><a href="../../Pf/Kit/HybridArray.html#to_unsafe_slice%21%3ASlice%28T%29-instance-method">#to_unsafe_slice!</a></code> for info on safety.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L258" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_unsafe_slice!:Slice(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_unsafe_slice!</strong> : Slice(T)
+
+        <a class="method-permalink" href="#to_unsafe_slice%21%3ASlice%28T%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a slice referencing the content of this array.</p>
+<p>This overload is most beneficial when there is spillover. When there is none,
+this overload is the same as calling <code><a href="../../Pf/Kit/HybridArray.html#to_slice%3ASlice%28T%29-instance-method">#to_slice</a></code>.</p>
+<p>Since spillover reserves 1.5x more memory than strictly necessary, we can
+use that extra memory, when possible, to memmove, and then put the array's
+inline (e.g. stack-allocated) content in front. This overload does exactly that.</p>
+<p>If we can't use the remaining memory (inline content doesn't fit in spillover),
+we <em>reallocate</em>, which means the GC may give us the same chunk of memory,
+but longer. Sometimes it will not.</p>
+<p><span class="flag yellow">WARNING</span>  This method alters this array's original content. You <strong>must not</strong>
+use the array after calling this method, as its spillover part is now referenced
+by others.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L226" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -837,7 +1023,7 @@ which includes its class name and its object address.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L140" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L188" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -869,7 +1055,7 @@ of performance.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L62" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L62" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -903,7 +1089,7 @@ of performance.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L70" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -926,7 +1112,7 @@ library expects.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/46696122eb887fd46b8a4bbcdfff9be0a621e29e/src/permafrost/kit/hybrid_array.cr#L54" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/eddf9efc30b5e1b8d435fb820cb2fd4d5a48fd31/src/permafrost/kit/hybrid_array.cr#L54" target="_blank">View source</a>]
         
       </div>
     </div>
