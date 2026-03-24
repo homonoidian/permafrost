@@ -105,44 +105,30 @@ module Pf::Kit
       push(value)
     end
 
-    # Pushes all elements in *other* to this array.
+    # Increases the capacity of this array to a value greater than or equal
+    # to *capacity*.
     #
-    # This overload is optimized to allocate the necessary memory upfront,
-    # and otherwise use `memcpy`, which I expect to be faster than copying
-    # in a loop (although I'm not particularly sure).
-    #
-    # WARNING: *other* must not overlap with this array's memory (uses `Pointer#copy_to`).
-    def concat(other : Slice(T)) : self
-      if N - @bufsize > 0
-        n = Math.min(N - @bufsize, other.size)
-        other.copy_to(@buffer + @bufsize, n)
-        other += n
-        @bufsize += n
-      end
+    # This applies to the spill part. If *capacity* is less than N, the inline
+    # part's size, this function does nothing. Ditto if the spill part's capacity
+    # is greater than or equal to *capacity*.
+    def reserve(capacity : Int32 | UInt32) : self
+      capacity = capacity.to_u32
+      return self if capacity <= N
 
-      if other.empty?
-        return self
-      end
+      capacity -= N
+      return self if capacity <= @spillcap
 
-      unless @spillsize + other.size <= @spillcap
-        @spillcap = @spillsize + other.size
-        @spillcap += @spillcap//2 # 1.5x
-        @spill = @spill.realloc(@spillcap)
-      end
-
-      other.copy_to(@spill + @spillsize, other.size)
-      @spillsize += other.size
+      @spillcap = capacity
+      @spillcap += @spillcap//2 # 1.5x
+      @spill = @spill.realloc(@spillcap)
 
       self
     end
 
-    # :ditto:
-    def concat(other : Array(T)) : self
-      concat(Slice.new(other.to_unsafe, other.size, read_only: true))
-    end
-
     # Pushes all elements in *other* to this array.
     def concat(other : Indexable(T)) : self
+      reserve(N + @spillcap + other.size)
+
       other.each { |object| push(object) }
 
       self
