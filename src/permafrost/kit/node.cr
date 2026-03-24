@@ -1,9 +1,14 @@
 module Pf::Kit
+  # :nodoc:
   alias AuthorId = UInt32
 
-  AUTHOR_NONE  = AuthorId.new(0)
+  # :nodoc:
+  AUTHOR_NONE = AuthorId.new(0)
+  # :nodoc:
   AUTHOR_FIRST = AUTHOR_NONE + 1
 
+  # :nodoc:
+  #
   # Includers can look up a stored value in the trie.
   module IProbeFetch(T)
     # Returns the full path to the stored value (usually the stored value's hash).
@@ -13,6 +18,8 @@ module Pf::Kit
     abstract def match?(stored : T) : Bool
   end
 
+  # :nodoc:
+  #
   # Includers can author a change in the trie, enabling them to later mutate
   # the part of the trie they've already copied. See `author`.
   module IProbeAuthored
@@ -40,6 +47,8 @@ module Pf::Kit
     abstract def author : AuthorId
   end
 
+  # :nodoc:
+  #
   # Includers can add stored values to the trie, or replace them.
   module IProbeAdd(T)
     include IProbeFetch(T)
@@ -53,12 +62,16 @@ module Pf::Kit
     abstract def replace?(stored : T) : Bool
   end
 
+  # :nodoc:
+  #
   # Includers can remove stored values from the trie.
   module IProbeDelete(T)
     include IProbeFetch(T)
     include IProbeAuthored
   end
 
+  # :nodoc:
+  #
   # Represents a trie node.
   #
   # Instances of *T* are stored inline. Meaning if *T* is a large struct lots and lots
