@@ -10,7 +10,7 @@ require "./permafrost/bit_set"
 require "./permafrost/ext"
 
 module Pf
-  VERSION = "0.12.2"
+  VERSION = "0.12.3"
 
   # :nodoc:
   macro hash64(object)
