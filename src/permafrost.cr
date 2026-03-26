@@ -7,6 +7,8 @@ require "./permafrost/uset32"
 require "./permafrost/block_list"
 require "./permafrost/upath32"
 require "./permafrost/bit_set"
+require "./permafrost/grapheme_view"
+require "./permafrost/grapheme_seln"
 require "./permafrost/ext"
 
 module Pf
