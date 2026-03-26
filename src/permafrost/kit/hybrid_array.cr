@@ -84,15 +84,7 @@ module Pf::Kit
         return self
       end
 
-      unless @spillsize + 1 <= @spillcap
-        if @spillcap.zero?
-          @spillcap = INITIAL_SPILL_CAPACITY
-        else
-          @spillcap += @spillcap//2 # 1.5x
-        end
-
-        @spill = @spill.realloc(@spillcap)
-      end
+      reserve(size + 1)
 
       @spill[@spillsize] = value
       @spillsize += 1
@@ -106,20 +98,19 @@ module Pf::Kit
     end
 
     # Increases the capacity of this array to a value greater than or equal
-    # to *capacity*.
+    # to *newsize*.
     #
-    # This applies to the spill part. If *capacity* is less than N, the inline
-    # part's size, this function does nothing. Ditto if the spill part's capacity
+    # This applies to the spill part. If *newsize* is less than N, the inline
+    # part's capacity, this function does nothing. Ditto if the spill part's capacity
     # is greater than or equal to *capacity*.
-    def reserve(capacity : Int32 | UInt32) : self
-      capacity = capacity.to_u32
-      return self if capacity <= N
+    def reserve(newsize : Int32 | UInt32) : self
+      newsize = newsize.to_u32
+      return self if newsize <= N
 
-      capacity -= N
-      return self if capacity <= @spillcap
+      newsize -= N
+      return self if newsize <= @spillcap
 
-      @spillcap = capacity
-      @spillcap += @spillcap//2 # 1.5x
+      @spillcap = Math.max(Math.max(INITIAL_SPILL_CAPACITY, newsize), @spillcap + @spillcap//2) # 1.5x
       @spill = @spill.realloc(@spillcap)
 
       self
@@ -127,7 +118,7 @@ module Pf::Kit
 
     # Pushes all elements in *other* to this array.
     def concat(other : Indexable(T)) : self
-      reserve(N + @spillcap + other.size)
+      reserve(size + other.size)
 
       other.each { |object| push(object) }
 
@@ -211,14 +202,7 @@ module Pf::Kit
     # by others.
     def to_unsafe_slice! : Slice(T)
       if @spillsize.zero?
-        if @bufsize.zero?
-          return Slice(T).empty
-        end
-
-        target = Pointer(T).malloc(@bufsize)
-        target.copy_from(@buffer, @bufsize)
-
-        return Slice.new(target, @bufsize)
+        return to_readonly_slice
       end
 
       unless @bufsize + @spillsize <= @spillcap
@@ -230,6 +214,7 @@ module Pf::Kit
       @spill.copy_from(@buffer, @bufsize)
       @spillsize += @bufsize
 
+      # Reclaim memory, if possible.
       if @spillsize < @spillcap
         @spillcap = @spillsize
         @spill = @spill.realloc(@spillcap)
