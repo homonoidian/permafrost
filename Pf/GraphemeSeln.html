@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.18.2">
+<meta name="crystal_docs.project_version" content="trunk">
+<meta name="crystal_docs.project_name" content="permafrost">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="permafrost">
+  <title>Pf::GraphemeSeln - permafrost trunk</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          permafrost
+        </a>
+      </h1>
+
+      <span class="project-version">
+        trunk
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="permafrost/Enumerable" data-name="enumerable(t)">
+      <a href="../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf" data-name="pf">
+      <a href="../Pf.html">Pf</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/BidiMap" data-name="pf::bidimap(k, v)">
+      <a href="../Pf/BidiMap.html">BidiMap</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet" data-name="pf::bitset(i)">
+      <a href="../Pf/BitSet.html">BitSet</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet128" data-name="pf::bitset128">
+      <a href="../Pf/BitSet128.html">BitSet128</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet16" data-name="pf::bitset16">
+      <a href="../Pf/BitSet16.html">BitSet16</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet32" data-name="pf::bitset32">
+      <a href="../Pf/BitSet32.html">BitSet32</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet64" data-name="pf::bitset64">
+      <a href="../Pf/BitSet64.html">BitSet64</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet8" data-name="pf::bitset8">
+      <a href="../Pf/BitSet8.html">BitSet8</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BlockList" data-name="pf::blocklist(t)">
+      <a href="../Pf/BlockList.html">BlockList</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="../Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class=" current" data-id="permafrost/Pf/GraphemeSeln" data-name="pf::graphemeseln">
+      <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/GraphemeView" data-name="pf::graphemeview">
+      <a href="../Pf/GraphemeView.html">GraphemeView</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Kit" data-name="pf::kit">
+      <a href="../Pf/Kit.html">Kit</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/HybridArray" data-name="pf::kit::hybridarray(t, n)">
+      <a href="../Pf/Kit/HybridArray.html">HybridArray</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/Sparse32" data-name="pf::kit::sparse32(t)">
+      <a href="../Pf/Kit/Sparse32.html">Sparse32</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Map" data-name="pf::map(k, v)">
+      <a href="../Pf/Map.html">Map</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Map/Commit" data-name="pf::map::commit(k, v)">
+      <a href="../Pf/Map/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ReadonlyError" data-name="pf::readonlyerror">
+      <a href="../Pf/ReadonlyError.html">ReadonlyError</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ResolvedError" data-name="pf::resolvederror">
+      <a href="../Pf/ResolvedError.html">ResolvedError</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Set" data-name="pf::set(t)">
+      <a href="../Pf/Set.html">Set</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Set/Commit" data-name="pf::set::commit(t)">
+      <a href="../Pf/Set/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/UPath32" data-name="pf::upath32">
+      <a href="../Pf/UPath32.html">UPath32</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/USet32" data-name="pf::uset32">
+      <a href="../Pf/USet32.html">USet32</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/USet32/Commit" data-name="pf::uset32::commit">
+      <a href="../Pf/USet32/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">
+    struct
+  </span> Pf::<wbr>GraphemeSeln
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Pf/GraphemeSeln.html">Pf::GraphemeSeln</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>A string selection type whose indivisible unit is the <em>grapheme</em>.</p>
+<p>See <code>String::Grapheme</code> from the standard library for more info on what
+graphemes are.</p>
+<p>A string selection is very much like a selection in a text editor. That is,
+it delimits a chunk of text, within a larger (or equal) body of text. Notably,
+a selection is never &quot;detached&quot; from the body of text. In terms of lifetimes,
+in order for a selection to be alive, the text must be alive. This is why
+selections <strong>must not</strong> be used as a replacement for <code>String</code>s. Just because
+selections are cheap doesn't mean you can use them anywhere. In your mind's
+eye, you must always picture selections as part of a larger body of text;
+think &quot;highlighted portions&quot; of text. Whenever you store a selection on the heap,
+think of it as storing the larger body of text, with a particular region
+highlighted.</p>
+<p>Internally, a grapheme selection consists of three things: a <em>trunk</em>, the starting
+grapheme index, and the ending grapheme index (exclusive). That the end index is
+exclusive means you can have empty selections. Think of them as &quot;cursors&quot; or &quot;I-beams&quot;.</p>
+<p>A selection <em>trunk</em> contains data shared by all selections from the same string.
+In a way, all selections stem from X, and the most fitting term for X is, arguably,
+&quot;the trunk&quot;.</p>
+<p>Most importantly, a selection trunk keeps a reference to the original string.
+We call it the <em>trunk string</em>. The reference keeps the trunk string alive.
+It is also the reason you must not use selections as a generic replacement for strings.
+Okay, if you really want to, you can call <code><a href="../Pf/GraphemeSeln.html#detach%3AGraphemeSeln-instance-method">#detach</a></code> where appropriate.</p>
+<p>There is also the notion of <em>relative</em> versus <em>absolute</em> indices. A relative index
+counts from the start of a selection. An absolute index counts from the start of
+the trunk string instead. Thus we get &quot;absolute byte indices&quot;, &quot;relative grapheme
+indices&quot; and so on.</p>
+<p><span class="flag lime">EXPERIMENTAL</span>  Relies on features from the experimental <code>String::Grapheme</code> API.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L37" target="_blank">
+        permafrost/grapheme_seln.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28string%3AString%29%3AGraphemeSeln-class-method" class="signature"><strong>.new</strong>(string : String) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Constructs a grapheme selection from <em>string</em>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%2B%28other%3AGraphemeSeln%29%3AGraphemeSeln-instance-method" class="signature"><strong>#+</strong>(other : GraphemeSeln) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Joins two selections into one.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3AString%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : String) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the content of this selection is equal, bytewise, to that of <em>other</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3AGraphemeSeln%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : GraphemeSeln) : Bool</a>
+        
+          <div class="summary"><p>Two grapheme selections are equal if their strings are equal, and the selections &quot;highlight&quot; the same part of the string.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#after%28index%3AInt32%29%3AGraphemeSeln-instance-method" class="signature"><strong>#after</strong>(index : Int32) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns a selection of graphemes after <em>index</em> (relative; exclusive).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#after_end%3AGraphemeSeln-instance-method" class="signature"><strong>#after_end</strong> : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns an empty selection after the end of this one.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#at%28index%3AInt32%29%3AGraphemeSeln-instance-method" class="signature"><strong>#at</strong>(index : Int32) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns a selection of the grapheme at <em>index</em> (relative).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#at_byte%28byte_index%3AInt32%29%3AGraphemeSeln-instance-method" class="signature"><strong>#at_byte</strong>(byte_index : Int32) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns a selection of the grapheme at <em>byte index</em> (relative).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#at_byte_abs%28byte_index%3AInt32%29%3AGraphemeSeln-instance-method" class="signature"><strong>#at_byte_abs</strong>(byte_index : Int32) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns a selection of the grapheme at <em>byte index</em> (absolute).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#before%28index%3AInt32%29%3AGraphemeSeln-instance-method" class="signature"><strong>#before</strong>(index : Int32) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns a selection of graphemes before <em>index</em> (relative; exclusive).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#before%3F%28other%3AGraphemeSeln%29%3ABool-instance-method" class="signature"><strong>#before?</strong>(other : GraphemeSeln) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this selection comes before <em>other</em> in the trunk string.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#before_start%3AGraphemeSeln-instance-method" class="signature"><strong>#before_start</strong> : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns an empty selection before the start of this one.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#begin%3AInt32-instance-method" class="signature"><strong>#begin</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the start grapheme index of this selection (absolute).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_end%3AInt32-instance-method" class="signature"><strong>#byte_end</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the end byte index in the trunk string (absolute; exclusive).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_mask_split%28objects%3AIndexable%28T%29%2Cobject%3AT%2C%26%3AGraphemeSeln%2CGraphemeSeln-%3E%29%3ANilforallT-instance-method" class="signature"><strong>#byte_mask_split</strong>(objects : Indexable(T), object : T, & : GraphemeSeln, GraphemeSeln -> ) : Nil forall T</a>
+        
+          <div class="summary"><p>Splits based on an external &quot;mask&quot; or annotation array, aligned with the <em>trunk string</em>'s bytes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_range%3ARange%28Int32%2CInt32%29-instance-method" class="signature"><strong>#byte_range</strong> : Range(Int32, Int32)</a>
+        
+          <div class="summary"><p>Returns an exclusive range of selected grapheme bytes (absolute).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_select%28from%3AInt32%2Cto%3AInt32%29%3AGraphemeSeln-instance-method" class="signature"><strong>#byte_select</strong>(from : Int32, to : Int32) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Selects the range of graphemes defined by <em>from</em> (byte index; relative) and <em>to</em> (byte index; exclusive; relative).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_select_abs%28from%3AInt32%2Cto%3AInt32%29%3AGraphemeSeln-instance-method" class="signature"><strong>#byte_select_abs</strong>(from : Int32, to : Int32) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Selects graphemes in the the range defined by <em>from</em> (byte index; absolute) and <em>to</em> (byte index; absolute).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_select_inclusive%28from%3AInt32%2Cto%3AInt32%29%3AGraphemeSeln-instance-method" class="signature"><strong>#byte_select_inclusive</strong>(from : Int32, to : Int32) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Selects graphemes in the the range defined by <em>from</em> (byte index; relative) and <em>to</em> (byte index; relative).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_start%3AInt32-instance-method" class="signature"><strong>#byte_start</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the start byte index in the trunk string (absolute).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bytesize%3AInt32-instance-method" class="signature"><strong>#bytesize</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the number of selected bytes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#chomp%3AGraphemeSeln-instance-method" class="signature"><strong>#chomp</strong> : GraphemeSeln</a>
+        
+          <div class="summary"><p>Shrinks this selection so that it does not end with trailing LF <code>\n</code> or CRLF <code>\r\n</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#contiguous%3F%28other%3AGraphemeSeln%29%3ABool-instance-method" class="signature"><strong>#contiguous?</strong>(other : GraphemeSeln) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this selection directly precedes <em>other</em> in the trunk string.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#covers_fully%3F%3ABool-instance-method" class="signature"><strong>#covers_fully?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the whole trunk string is selected.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#detach%3AGraphemeSeln-instance-method" class="signature"><strong>#detach</strong> : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns a copy of this selection which is detached from the trunk.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_line%28%26%3AGraphemeSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#each_line</strong>(& : GraphemeSeln -> ) : Nil</a>
+        
+          <div class="summary"><p>Splits this selection at newlines (<code>\n</code>) and yields each resulting fragment.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_segment%28segmenter%3AGraphemeView-%3ET%2C%26%3AT%2CGraphemeSeln-%3E%29forallT-instance-method" class="signature"><strong>#each_segment</strong>(segmenter : GraphemeView -> T, & : T, GraphemeSeln -> ) forall T</a>
+        
+          <div class="summary"><p>Yields selections of contiguous runs of graphemes for which the given <em>segmenter</em> function produced the same value, along with that value.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#empty%3F%3ABool-instance-method" class="signature"><strong>#empty?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this selection contains zero graphemes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#end%3AInt32-instance-method" class="signature"><strong>#end</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the end grapheme index of this selection (exclusive; absolute).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ends_with%3F%28object%29%3ABool-instance-method" class="signature"><strong>#ends_with?</strong>(object) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this selection's last grapheme matches <em>object</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#expand%3AGraphemeSeln-instance-method" class="signature"><strong>#expand</strong> : GraphemeSeln</a>
+        
+          <div class="summary"><p>Expands this selection to enclose the entirety of the trunk string.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#first%3AGraphemeSeln-instance-method" class="signature"><strong>#first</strong> : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns a selection containing the first grapheme.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#grapheme%3AGraphemeView-instance-method" class="signature"><strong>#grapheme</strong> : GraphemeView</a>
+        
+          <div class="summary"><p>Asserts that this selection includes exactly one grapheme, and returns a view of that grapheme.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inside%3F%28otherlg%3AGraphemeSeln%29%3ABool-instance-method" class="signature"><strong>#inside?</strong>(other lg : GraphemeSeln) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this selection is fully inside <em>other</em>, or if it is the same as <em>other</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inspect%28io%29-instance-method" class="signature"><strong>#inspect</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ix%3AIndexable%28GraphemeView%29-instance-method" class="signature"><strong>#ix</strong> : Indexable(GraphemeView)</a>
+        
+          <div class="summary"><p>Returns an indexable of selected graphemes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#last%3AGraphemeSeln-instance-method" class="signature"><strong>#last</strong> : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns a selection containing the last grapheme.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#partition%28object%29%3ATuple%28GraphemeSeln%2CGraphemeSeln%2CGraphemeSeln%29-instance-method" class="signature"><strong>#partition</strong>(object) : Tuple(GraphemeSeln, GraphemeSeln, GraphemeSeln)</a>
+        
+          <div class="summary"><p>Splits this selection into three: one before the leftmost grapheme matching <em>object</em>, one with just that grapheme, and one after the grapheme.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#partition%28%26%3AGraphemeView-%3EBool%29%3ATuple%28GraphemeSeln%2CGraphemeSeln%2CGraphemeSeln%29-instance-method" class="signature"><strong>#partition</strong>(& : GraphemeView -> Bool) : Tuple(GraphemeSeln, GraphemeSeln, GraphemeSeln)</a>
+        
+          <div class="summary"><p>Splits this selection into three: one before the leftmost grapheme for which the block returns <code>true</code>, one with just that grapheme, and one after the grapheme.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pred%3AGraphemeSeln-instance-method" class="signature"><strong>#pred</strong> : GraphemeSeln</a>
+        
+          <div class="summary"><p>Shifts this selection by one grapheme to the left (in the trunk string).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#present%3F%3ABool-instance-method" class="signature"><strong>#present?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this selection contains one or more graphemes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#prior%3AGraphemeSeln-instance-method" class="signature"><strong>#prior</strong> : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns a selection of graphemes before the last one.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#properly_inside%3F%28otherlg%3AGraphemeSeln%29%3ABool-instance-method" class="signature"><strong>#properly_inside?</strong>(other lg : GraphemeSeln) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this selection is fully inside <em>other</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#range%3ARange%28Int32%2CInt32%29-instance-method" class="signature"><strong>#range</strong> : Range(Int32, Int32)</a>
+        
+          <div class="summary"><p>Returns an exclusive range of selected grapheme indices (absolute).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rest%3AGraphemeSeln-instance-method" class="signature"><strong>#rest</strong> : GraphemeSeln</a>
+        
+          <div class="summary"><p>Returns a selection of graphemes after the first one.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#select%28from%3AInt32%2Cto%3AInt32%29%3AGraphemeSeln-instance-method" class="signature"><strong>#select</strong>(from : Int32, to : Int32) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Selects the range of graphemes defined by <em>from</em> (relative) and <em>to</em> (relative; exclusive).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#select%28range%3ARange%28Int32%2CInt32%29%29%3AGraphemeSeln-instance-method" class="signature"><strong>#select</strong>(range : Range(Int32, Int32)) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Selects the range of graphemes defined by <em>range</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3AInt32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the number of selected graphemes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#split%28object%2C%26%3AGraphemeSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#split</strong>(object, & : GraphemeSeln -> ) : Nil</a>
+        
+          <div class="summary"><p>Splits this selection at <em>object</em>s and yields each resulting fragment.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#starts_with%3F%28object%29%3ABool-instance-method" class="signature"><strong>#starts_with?</strong>(object) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this selection's first grapheme matches <em>object</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#succ%3AGraphemeSeln-instance-method" class="signature"><strong>#succ</strong> : GraphemeSeln</a>
+        
+          <div class="summary"><p>Shifts this selection by one grapheme to the right (in the trunk string).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#through%28other%3AGraphemeSeln%29%3AGraphemeSeln-instance-method" class="signature"><strong>#through</strong>(other : GraphemeSeln) : GraphemeSeln</a>
+        
+          <div class="summary"><p>Selects all graphemes between this selection's start and <em>other</em>'s end.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s%28io%29-instance-method" class="signature"><strong>#to_s</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s-instance-method" class="signature"><strong>#to_s</strong></a>
+        
+          <div class="summary"><p>Returns a nicely readable and concise string representation of this object, typically intended for users.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_slice%3ABytes-instance-method" class="signature"><strong>#to_slice</strong> : Bytes</a>
+        
+          <div class="summary"><p>Returns a read-only view of the underling bytes of this selection.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <div class="methods-inherited">
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+  </div>
+
+  
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(string:String):GraphemeSeln-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(string : String) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#new%28string%3AString%29%3AGraphemeSeln-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Constructs a grapheme selection from <em>string</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L174" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="+(other:GraphemeSeln):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>+</strong>(other : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#%2B%28other%3AGraphemeSeln%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Joins two selections into one. An important requirement is that <code>self</code> and
+<em>other</em> must form a contiguous sequence (see <code><a href="../Pf/GraphemeSeln.html#contiguous%3F%28other%3AGraphemeSeln%29%3ABool-instance-method">#contiguous?</a></code>).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L592" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="==(other:String):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : String) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%28other%3AString%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the content of this selection is equal, bytewise, to that
+of <em>other</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L719" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="==(other:GraphemeSeln):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%28other%3AGraphemeSeln%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Two grapheme selections are equal if their strings are equal, and the selections
+&quot;highlight&quot; the same part of the string.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L725" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="after(index:Int32):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>after</strong>(index : Int32) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#after%28index%3AInt32%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a selection of graphemes after <em>index</em> (relative; exclusive).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L455" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="after_end:GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>after_end</strong> : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#after_end%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an empty selection after the end of this one.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L436" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="at(index:Int32):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>at</strong>(index : Int32) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#at%28index%3AInt32%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a selection of the grapheme at <em>index</em> (relative).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L448" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="at_byte(byte_index:Int32):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>at_byte</strong>(byte_index : Int32) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#at_byte%28byte_index%3AInt32%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a selection of the grapheme at <em>byte index</em> (relative).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L462" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="at_byte_abs(byte_index:Int32):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>at_byte_abs</strong>(byte_index : Int32) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#at_byte_abs%28byte_index%3AInt32%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a selection of the grapheme at <em>byte index</em> (absolute).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L467" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="before(index:Int32):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>before</strong>(index : Int32) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#before%28index%3AInt32%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a selection of graphemes before <em>index</em> (relative; exclusive).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L441" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="before?(other:GraphemeSeln):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>before?</strong>(other : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>) : Bool
+
+        <a class="method-permalink" href="#before%3F%28other%3AGraphemeSeln%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this selection comes before <em>other</em> in the trunk string.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L365" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="before_start:GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>before_start</strong> : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#before_start%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an empty selection before the start of this one.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L431" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="begin:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>begin</strong> : Int32
+
+        <a class="method-permalink" href="#begin%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the start grapheme index of this selection (absolute).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L92" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_end:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_end</strong> : Int32
+
+        <a class="method-permalink" href="#byte_end%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the end byte index in the trunk string (absolute; exclusive).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L269" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_mask_split(objects:Indexable(T),object:T,&amp;:GraphemeSeln,GraphemeSeln-&gt;):NilforallT-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_mask_split</strong>(objects : Indexable(T), object : T, & : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>, <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a> -> ) : Nil forall T
+
+        <a class="method-permalink" href="#byte_mask_split%28objects%3AIndexable%28T%29%2Cobject%3AT%2C%26%3AGraphemeSeln%2CGraphemeSeln-%3E%29%3ANilforallT-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Splits based on an external &quot;mask&quot; or annotation array, aligned with the <em>trunk
+string</em>'s bytes. Yields the part before a delimiter (first block arg) separately
+from the delimiter itself (the second block arg). The delimiter is empty at the end.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L629" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_range:Range(Int32,Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_range</strong> : Range(Int32, Int32)
+
+        <a class="method-permalink" href="#byte_range%3ARange%28Int32%2CInt32%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an exclusive range of selected grapheme bytes (absolute).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L279" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_select(from:Int32,to:Int32):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_select</strong>(from : Int32, to : Int32) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#byte_select%28from%3AInt32%2Cto%3AInt32%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects the range of graphemes defined by <em>from</em> (byte index; relative) and
+<em>to</em> (byte index; exclusive; relative).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L522" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_select_abs(from:Int32,to:Int32):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_select_abs</strong>(from : Int32, to : Int32) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#byte_select_abs%28from%3AInt32%2Cto%3AInt32%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects graphemes in the the range defined by <em>from</em> (byte index; absolute) and
+<em>to</em> (byte index; absolute). The <em>from</em> grapheme is one that includes the <em>from</em>
+byte index. The <em>to</em> grapheme is one that includes the <em>to</em> byte index. The <em>to</em>
+grapheme is <em>excluded</em> from the resulting selection.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L532" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_select_inclusive(from:Int32,to:Int32):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_select_inclusive</strong>(from : Int32, to : Int32) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#byte_select_inclusive%28from%3AInt32%2Cto%3AInt32%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects graphemes in the the range defined by <em>from</em> (byte index; relative) and
+<em>to</em> (byte index; relative). The <em>from</em> grapheme is one that includes the <em>from</em>
+byte index. The <em>to</em> grapheme is one that includes the <em>to</em> byte index. The <em>to</em>
+grapheme is <em>included</em> in the resulting selection.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L548" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_start:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_start</strong> : Int32
+
+        <a class="method-permalink" href="#byte_start%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the start byte index in the trunk string (absolute).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L264" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bytesize:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>bytesize</strong> : Int32
+
+        <a class="method-permalink" href="#bytesize%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the number of selected bytes.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L274" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="chomp:GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>chomp</strong> : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#chomp%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Shrinks this selection so that it does not end with trailing LF <code>\n</code>
+or CRLF <code>\r\n</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L649" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="contiguous?(other:GraphemeSeln):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>contiguous?</strong>(other : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>) : Bool
+
+        <a class="method-permalink" href="#contiguous%3F%28other%3AGraphemeSeln%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this selection directly precedes <em>other</em> in the trunk string.
+That is, this selection must end where <em>other</em> begins for this method to
+return <code>true</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L372" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="covers_fully?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>covers_fully?</strong> : Bool
+
+        <a class="method-permalink" href="#covers_fully%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the whole trunk string is selected.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L388" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="detach:GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>detach</strong> : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#detach%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a copy of this selection which is detached from the trunk.</p>
+<p>You should imagine this as opening a new buffer in a text editor with
+the contents of the selection. The old buffer can now be freed by the GC
+as soon as possible; that's a benefit. The drawback is obviously,
+the selection loses context.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L499" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_line(&amp;:GraphemeSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_line</strong>(& : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#each_line%28%26%3AGraphemeSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Splits this selection at newlines (<code>\n</code>) and yields each resulting fragment.
+Note that newlines themselves are <em>not</em> removed, so fragments may or may not
+end with a newline. An important property of this method is that the yielded
+fragments form a contiguous sequence (so you can e.g. join <code><a href="../Pf/GraphemeSeln.html#%2B%28other%3AGraphemeSeln%29%3AGraphemeSeln-instance-method">#+</a></code> them back to get
+this (original) selection).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L603" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_segment(segmenter:GraphemeView-&gt;T,&amp;:T,GraphemeSeln-&gt;)forallT-instance-method">
+      <div class="signature">
+        
+        def <strong>each_segment</strong>(segmenter : <a href="../Pf/GraphemeView.html">GraphemeView</a> -> T, & : T, <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a> -> ) forall T
+
+        <a class="method-permalink" href="#each_segment%28segmenter%3AGraphemeView-%3ET%2C%26%3AT%2CGraphemeSeln-%3E%29forallT-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields selections of contiguous runs of graphemes for which the given <em>segmenter</em>
+function produced the same value, along with that value.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L666" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="empty?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>empty?</strong> : Bool
+
+        <a class="method-permalink" href="#empty%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this selection contains zero graphemes.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L337" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="end:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>end</strong> : Int32
+
+        <a class="method-permalink" href="#end%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the end grapheme index of this selection (exclusive; absolute).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L95" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ends_with?(object):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>ends_with?</strong>(object) : Bool
+
+        <a class="method-permalink" href="#ends_with%3F%28object%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this selection's last grapheme matches <em>object</em>.</p>
+<p>See <code><a href="../Pf/GraphemeView.html#%3D%3D%28other%3AChar%29%3ABool-instance-method">GraphemeView#==</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L358" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="expand:GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>expand</strong> : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#expand%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Expands this selection to enclose the entirety of the trunk string.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L489" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="first:GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>first</strong> : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#first%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a selection containing the first grapheme.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L403" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="grapheme:GraphemeView-instance-method">
+      <div class="signature">
+        
+        def <strong>grapheme</strong> : <a href="../Pf/GraphemeView.html">GraphemeView</a>
+
+        <a class="method-permalink" href="#grapheme%3AGraphemeView-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Asserts that this selection includes exactly one grapheme, and returns
+a view of that grapheme.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L394" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inside?(otherlg:GraphemeSeln):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>inside?</strong>(other lg : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>) : Bool
+
+        <a class="method-permalink" href="#inside%3F%28otherlg%3AGraphemeSeln%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this selection is fully inside <em>other</em>, or if it is
+the same as <em>other</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L378" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inspect(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>inspect</strong>(io)
+
+        <a class="method-permalink" href="#inspect%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L697" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ix:Indexable(GraphemeView)-instance-method">
+      <div class="signature">
+        
+        def <strong>ix</strong> : Indexable(<a href="../Pf/GraphemeView.html">GraphemeView</a>)
+
+        <a class="method-permalink" href="#ix%3AIndexable%28GraphemeView%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an indexable of selected graphemes.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L332" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="last:GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>last</strong> : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#last%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a selection containing the last grapheme.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L424" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="partition(object):Tuple(GraphemeSeln,GraphemeSeln,GraphemeSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>partition</strong>(object) : Tuple(<a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>, <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>, <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>)
+
+        <a class="method-permalink" href="#partition%28object%29%3ATuple%28GraphemeSeln%2CGraphemeSeln%2CGraphemeSeln%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Splits this selection into three: one before the leftmost grapheme matching
+<em>object</em>, one with just that grapheme, and one after the grapheme. If there
+is no grapheme matching <em>object</em>, the first selection is <code>self</code>, and the last
+two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphemeSeln-instance-method">#after_end</a></code>.</p>
+<p><span class="flag purple">NOTE</span>  Comparison of each grapheme with <em>object</em> is performed using <code><a href="../Pf/GraphemeView.html#%3D%3D%28other%3AChar%29%3ABool-instance-method">GraphemeView#==</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L573" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="partition(&amp;:GraphemeView-&gt;Bool):Tuple(GraphemeSeln,GraphemeSeln,GraphemeSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>partition</strong>(& : <a href="../Pf/GraphemeView.html">GraphemeView</a> -> Bool) : Tuple(<a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>, <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>, <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>)
+
+        <a class="method-permalink" href="#partition%28%26%3AGraphemeView-%3EBool%29%3ATuple%28GraphemeSeln%2CGraphemeSeln%2CGraphemeSeln%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Splits this selection into three: one before the leftmost grapheme for which
+the block returns <code>true</code>, one with just that grapheme, and one after the grapheme.
+If there is no grapheme matching <em>object</em>, the first selection is <code>self</code>,
+and the last two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphemeSeln-instance-method">#after_end</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L581" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pred:GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>pred</strong> : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#pred%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Shifts this selection by one grapheme to the left (in the trunk string).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L475" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="present?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>present?</strong> : Bool
+
+        <a class="method-permalink" href="#present%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this selection contains one or more graphemes.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L342" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="prior:GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>prior</strong> : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#prior%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a selection of graphemes before the last one.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L417" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="properly_inside?(otherlg:GraphemeSeln):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>properly_inside?</strong>(other lg : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>) : Bool
+
+        <a class="method-permalink" href="#properly_inside%3F%28otherlg%3AGraphemeSeln%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this selection is fully inside <em>other</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L383" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="range:Range(Int32,Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>range</strong> : Range(Int32, Int32)
+
+        <a class="method-permalink" href="#range%3ARange%28Int32%2CInt32%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an exclusive range of selected grapheme indices (absolute).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L259" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rest:GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>rest</strong> : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#rest%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a selection of graphemes after the first one.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L410" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="select(from:Int32,to:Int32):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>select</strong>(from : Int32, to : Int32) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#select%28from%3AInt32%2Cto%3AInt32%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects the range of graphemes defined by <em>from</em> (relative) and <em>to</em>
+(relative; exclusive).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L509" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="select(range:Range(Int32,Int32)):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>select</strong>(range : Range(Int32, Int32)) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#select%28range%3ARange%28Int32%2CInt32%29%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects the range of graphemes defined by <em>range</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L516" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong> : Int32
+
+        <a class="method-permalink" href="#size%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the number of selected graphemes.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L254" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="split(object,&amp;:GraphemeSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>split</strong>(object, & : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#split%28object%2C%26%3AGraphemeSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Splits this selection at <em>object</em>s and yields each resulting fragment.
+The yielded fragments form a contiguous sequence.</p>
+<p><span class="flag purple">NOTE</span>  Comparison of each grapheme with <em>object</em> is performed using <code><a href="../Pf/GraphemeView.html#%3D%3D%28other%3AChar%29%3ABool-instance-method">GraphemeView#==</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L611" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="starts_with?(object):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>starts_with?</strong>(object) : Bool
+
+        <a class="method-permalink" href="#starts_with%3F%28object%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this selection's first grapheme matches <em>object</em>.</p>
+<p>See <code><a href="../Pf/GraphemeView.html#%3D%3D%28other%3AChar%29%3ABool-instance-method">GraphemeView#==</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L349" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="succ:GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>succ</strong> : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#succ%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Shifts this selection by one grapheme to the right (in the trunk string).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L482" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="through(other:GraphemeSeln):GraphemeSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>through</strong>(other : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+
+        <a class="method-permalink" href="#through%28other%3AGraphemeSeln%29%3AGraphemeSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects all graphemes between this selection's start and <em>other</em>'s end.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L561" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong>(io)
+
+        <a class="method-permalink" href="#to_s%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L705" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong>
+
+        <a class="method-permalink" href="#to_s-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from class Object
+            </div>
+          
+          <p>Returns a nicely readable and concise string representation of this object,
+typically intended for users.</p>
+<p>This method should usually <strong>not</strong> be overridden. It delegates to
+<code><a href="../Pf/GraphemeSeln.html#to_s%28io%29-instance-method">#to_s(IO)</a></code> which can be overridden for custom implementations.</p>
+<p>Also see <code><a href="../Pf/GraphemeSeln.html#inspect%28io%29-instance-method">#inspect</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L709" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_slice:Bytes-instance-method">
+      <div class="signature">
+        
+        def <strong>to_slice</strong> : Bytes
+
+        <a class="method-permalink" href="#to_slice%3ABytes-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a read-only view of the underling bytes of this selection. The view
+is a subview of the trunk string's bytes.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_seln.cr#L693" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+</div>
+
+</body>
+</html>

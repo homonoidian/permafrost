@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.18.2">
+<meta name="crystal_docs.project_version" content="trunk">
+<meta name="crystal_docs.project_name" content="permafrost">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="permafrost">
+  <title>Pf::GraphemeView - permafrost trunk</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          permafrost
+        </a>
+      </h1>
+
+      <span class="project-version">
+        trunk
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="permafrost/Enumerable" data-name="enumerable(t)">
+      <a href="../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf" data-name="pf">
+      <a href="../Pf.html">Pf</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/BidiMap" data-name="pf::bidimap(k, v)">
+      <a href="../Pf/BidiMap.html">BidiMap</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet" data-name="pf::bitset(i)">
+      <a href="../Pf/BitSet.html">BitSet</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet128" data-name="pf::bitset128">
+      <a href="../Pf/BitSet128.html">BitSet128</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet16" data-name="pf::bitset16">
+      <a href="../Pf/BitSet16.html">BitSet16</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet32" data-name="pf::bitset32">
+      <a href="../Pf/BitSet32.html">BitSet32</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet64" data-name="pf::bitset64">
+      <a href="../Pf/BitSet64.html">BitSet64</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet8" data-name="pf::bitset8">
+      <a href="../Pf/BitSet8.html">BitSet8</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BlockList" data-name="pf::blocklist(t)">
+      <a href="../Pf/BlockList.html">BlockList</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="../Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/GraphemeSeln" data-name="pf::graphemeseln">
+      <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+      
+    </li>
+  
+  <li class=" current" data-id="permafrost/Pf/GraphemeView" data-name="pf::graphemeview">
+      <a href="../Pf/GraphemeView.html">GraphemeView</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Kit" data-name="pf::kit">
+      <a href="../Pf/Kit.html">Kit</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/HybridArray" data-name="pf::kit::hybridarray(t, n)">
+      <a href="../Pf/Kit/HybridArray.html">HybridArray</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/Sparse32" data-name="pf::kit::sparse32(t)">
+      <a href="../Pf/Kit/Sparse32.html">Sparse32</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Map" data-name="pf::map(k, v)">
+      <a href="../Pf/Map.html">Map</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Map/Commit" data-name="pf::map::commit(k, v)">
+      <a href="../Pf/Map/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ReadonlyError" data-name="pf::readonlyerror">
+      <a href="../Pf/ReadonlyError.html">ReadonlyError</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ResolvedError" data-name="pf::resolvederror">
+      <a href="../Pf/ResolvedError.html">ResolvedError</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Set" data-name="pf::set(t)">
+      <a href="../Pf/Set.html">Set</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Set/Commit" data-name="pf::set::commit(t)">
+      <a href="../Pf/Set/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/UPath32" data-name="pf::upath32">
+      <a href="../Pf/UPath32.html">UPath32</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/USet32" data-name="pf::uset32">
+      <a href="../Pf/USet32.html">USet32</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/USet32/Commit" data-name="pf::uset32::commit">
+      <a href="../Pf/USet32/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">
+    struct
+  </span> Pf::<wbr>GraphemeView
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Pf/GraphemeView.html">Pf::GraphemeView</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Represents a single grapheme as a view into a string.</p>
+<p><span class="flag purple">NOTE</span>  <code><a href="../Pf/GraphemeView.html">GraphemeView</a></code>, just like <code><a href="../Pf/GraphemeSeln.html">GraphemeSeln</a></code>, refers back to the trunk
+string, which could be very large. This may prevent the GC from freeing large
+chunks of memory due to a small number of grapheme views that refer to it. For
+this reason, you are advised not to store <code><a href="../Pf/GraphemeView.html">GraphemeView</a></code>s on the heap unless
+you know for sure their lifetime is less than or equal to the lifetime of the trunk
+string. Otherwise, use <code><a href="../Pf/GraphemeView.html#to_grapheme%3AString%3A%3AGrapheme-instance-method">#to_grapheme</a></code>. In general, when working with <code><a href="../Pf/GraphemeView.html">GraphemeView</a></code>,
+the reasoning should be the same as with <code><a href="../Pf/GraphemeSeln.html">GraphemeSeln</a></code>; in that they carry around,
+at least conceptually, the larger context as well.</p>
+<p><span class="flag lime">EXPERIMENTAL</span>  Relies on features from the experimental <code>String::Grapheme</code> API.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_view.cr#L14" target="_blank">
+        permafrost/grapheme_view.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3AChar%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : Char) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this view consists only of the character <em>other</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3AString%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : String) : Bool</a>
+        
+          <div class="summary"><p>Compares the contents of this view with <em>other</em>, bytewise.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_end%3AInt32-instance-method" class="signature"><strong>#byte_end</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the byte index of this grapheme in the trunk string.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_range%3ARange%28Int32%2CInt32%29-instance-method" class="signature"><strong>#byte_range</strong> : Range(Int32, Int32)</a>
+        
+          <div class="summary"><p>Returns an exclusive range of the indices of the contituent bytes of this grapheme in the trunk string.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_start%3AInt32-instance-method" class="signature"><strong>#byte_start</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the byte index of this grapheme in the trunk string.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bytesize%3AInt32-instance-method" class="signature"><strong>#bytesize</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the size of this grapheme in bytes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inspect%28io%29-instance-method" class="signature"><strong>#inspect</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_grapheme%3AString%3A%3AGrapheme-instance-method" class="signature"><strong>#to_grapheme</strong> : String::Grapheme</a>
+        
+          <div class="summary"><p>Converts this view to a <code>String::Grapheme</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s%28io%29-instance-method" class="signature"><strong>#to_s</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_slice%3ABytes-instance-method" class="signature"><strong>#to_slice</strong> : Bytes</a>
+        
+          <div class="summary"><p>Returns a read-only view of the underling bytes of this grapheme.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <div class="methods-inherited">
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+  </div>
+
+  
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="==(other:Char):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : Char) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%28other%3AChar%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this view consists only of the character <em>other</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_view.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="==(other:String):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : String) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%28other%3AString%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compares the contents of this view with <em>other</em>, bytewise.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_view.cr#L74" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_end:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_end</strong> : Int32
+
+        <a class="method-permalink" href="#byte_end%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the byte index of this grapheme in the trunk string.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_view.cr#L19" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_range:Range(Int32,Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_range</strong> : Range(Int32, Int32)
+
+        <a class="method-permalink" href="#byte_range%3ARange%28Int32%2CInt32%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an exclusive range of the indices of the contituent bytes of
+this grapheme in the trunk string.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_view.cr#L33" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_start:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_start</strong> : Int32
+
+        <a class="method-permalink" href="#byte_start%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the byte index of this grapheme in the trunk string.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_view.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bytesize:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>bytesize</strong> : Int32
+
+        <a class="method-permalink" href="#bytesize%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the size of this grapheme in bytes.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_view.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inspect(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>inspect</strong>(io)
+
+        <a class="method-permalink" href="#inspect%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_view.cr#L54" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_grapheme:String::Grapheme-instance-method">
+      <div class="signature">
+        
+        def <strong>to_grapheme</strong> : String::Grapheme
+
+        <a class="method-permalink" href="#to_grapheme%3AString%3A%3AGrapheme-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Converts this view to a <code>String::Grapheme</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_view.cr#L44" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong>(io)
+
+        <a class="method-permalink" href="#to_s%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_view.cr#L50" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_slice:Bytes-instance-method">
+      <div class="signature">
+        
+        def <strong>to_slice</strong> : Bytes
+
+        <a class="method-permalink" href="#to_slice%3ABytes-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a read-only view of the underling bytes of this grapheme. The view
+is a subview of the trunk string's bytes.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/98dc1d87819ba31cd531b9be962a9630e34acb3d/src/permafrost/grapheme_view.cr#L39" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+</div>
+
+</body>
+</html>
