@@ -1,12 +1,13 @@
 # permafrost
 
-Permafrost is a collection of thread-safe, persistent, immutable data structures for Crystal.
+Permafrost is a collection of thread-safe, persistent, immutable data structures for Crystal:
 
-- An unordered map `Pf::Map`.
-- An unordered set `Pf::Set`.
-- An unordered bidirectional map (bimap) `Pf::BidiMap`.
-- An unsigned 32-bit integer set `Pf::USet32`.
-- ... and others.
+- an unordered map `Pf::Map`,
+- an unordered set `Pf::Set`,
+- an unordered bidirectional map (bimap) `Pf::BidiMap`,
+- an unsigned 32-bit integer set `Pf::USet32`,
+- a grapheme string selection type `Pf::GraphemeSeln`,
+- and others...
 
 Most of the data structures in Permafrost come from my main project, [Wirewright](https://github.com/wirewright/wirewright).
 Wirewright is also the main user of Permafrost.
