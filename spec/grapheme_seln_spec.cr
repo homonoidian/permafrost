@@ -129,5 +129,16 @@ describe Pf::GraphemeSeln do
       parent.should eq(a.expand)
       a.expand.should_not eq(b.expand)
     end
+
+    it "supports .intersection" do
+      parent = Pf::GraphemeSeln.new("hello world")
+
+      Pf::GraphemeSeln.intersection?(parent.before_start, parent.after_end).should be_nil
+      Pf::GraphemeSeln.intersection?(parent.before_start, parent.before_start).should eq(parent.before_start)
+      Pf::GraphemeSeln.intersection?(parent.select(1, 5), parent.select(3, 4)).should eq("l")
+      Pf::GraphemeSeln.intersection?(parent.select(1, 5), parent.select(2, 4)).should eq("ll")
+      Pf::GraphemeSeln.intersection?(parent, parent.before_start).should eq(parent.before_start)
+      Pf::GraphemeSeln.intersection?(parent, parent.after_end).should eq(parent.after_end)
+    end
   end
 end

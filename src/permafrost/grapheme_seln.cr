@@ -17,7 +17,7 @@ module Pf
   #
   # Internally, a grapheme selection consists of three things: a *trunk*, the starting
   # grapheme index, and the ending grapheme index (exclusive). That the end index is
-  # exclusive means you can have empty selections. Think of them as "cursors" or "I-beams".
+  # exclusive means you can have empty selections. Imagine them as "cursors" or "I-beams".
   #
   # A selection *trunk* contains data shared by all selections from the same string.
   # In a way, all selections stem from X, and the most fitting term for X is, arguably,
@@ -26,7 +26,7 @@ module Pf
   # Most importantly, a selection trunk keeps a reference to the original string.
   # We call it the *trunk string*. The reference keeps the trunk string alive.
   # It is also the reason you must not use selections as a generic replacement for strings.
-  # Okay, if you really want to, you can call `detach` where appropriate.
+  # If you *really* want to, you should call `detach` where appropriate.
   #
   # There is also the notion of *relative* versus *absolute* indices. A relative index
   # counts from the start of a selection. An absolute index counts from the start of
@@ -240,7 +240,8 @@ module Pf
       new(trunk, begin: 0, end: offsets.size - 1)
     end
 
-    # :nodoc:
+    # Returns `true` if selections *a* and *b* originate from the same (or equal-
+    # by-value) trunk.
     def self.siblings?(a : GraphemeSeln, b : GraphemeSeln) : Bool
       siblings?(a.@trunk, b.@trunk)
     end
@@ -248,6 +249,16 @@ module Pf
     # :nodoc:
     def self.siblings?(a : Trunk, b : Trunk) : Bool
       a.same?(b) || a.string == b.string
+    end
+
+    # Returns the intersection of two selections *a* and *b*. Returns `nil` if
+    # they have no intersection.
+    def self.intersection?(a : GraphemeSeln, b : GraphemeSeln) : GraphemeSeln?
+      Kit.assert siblings?(a, b)
+
+      from = Math.max(a.begin, b.begin)
+      to = Math.min(a.end, b.end)
+      from <= to ? GraphemeSeln.new(a.@trunk, begin: from, end: to) : nil
     end
 
     # Returns the number of selected graphemes.
@@ -495,12 +506,16 @@ module Pf
     # You should imagine this as opening a new buffer in a text editor with
     # the contents of the selection. The old buffer can now be freed by the GC
     # as soon as possible; that's a benefit. The drawback is obviously,
-    # the selection loses context.
+    # the selection loses its context.
     def detach : GraphemeSeln
       if covers_fully?
         return self
       end
 
+      # TODO: This can be optimized. Since we know the offsets we have to
+      # copy them & subtract byte_begin from each; that should be faster than
+      # iterating over graphemes and all the allocation round-trips we're
+      # making here.
       GraphemeSeln.new(to_s)
     end
 
@@ -559,9 +574,9 @@ module Pf
 
     # Selects all graphemes between this selection's start and *other*'s end.
     def through(other : GraphemeSeln) : GraphemeSeln
-      Kit.assert before?(other)
+      Kit.assert @begin <= @end <= other.begin
 
-      GraphemeSeln.new(@trunk, begin: @begin, end: other.end)
+      GraphemeSeln.new(@trunk, begin: @begin, end: other.begin)
     end
 
     # Splits this selection into three: one before the leftmost grapheme matching
