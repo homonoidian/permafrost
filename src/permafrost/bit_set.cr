@@ -15,9 +15,9 @@ module Pf
   # include `Enumerable` and/or `Indexable` here: its methods (such as `includes?`),
   # which are less constrained, will conflict with our policy of accepting
   # *I* only, resulting in spooky suboptimal performance (Enumerable's `includes?`
-  # is O(N) where we're O(1), even though both will end up constant-time
-  # in effect, the former is still slower). I know that casting can be annoying,
-  # but its better to cast than to investigate an invisible performance bug!
+  # is O(N) whereas we're O(1); even though both will end up constant-time
+  # in effect, the former is still slower). Instead, we provide `ix`, which
+  # gives you an `Indexable` over the values in the set.
   struct BitSet(I)
     # Returns the underlying bits.
     getter bits : I
