@@ -563,8 +563,18 @@ module Pf
     def byte_select_inclusive(from : Int32, to : Int32) : GraphemeSeln
       Kit.assert 0 <= from <= to < bytesize
 
-      abs_grapheme_from = @trunk.byte_index_to_grapheme_index(byte_start + from)
-      abs_grapheme_to = @trunk.byte_index_to_grapheme_index(byte_start + to)
+      byte_select_abs_inclusive(byte_start + from, byte_start + to)
+    end
+
+    # Selects graphemes in the the range defined by *from* (byte index; absolute) and
+    # *to* (byte index; absolute). The *from* grapheme is one that includes the *from*
+    # byte index. The *to* grapheme is one that includes the *to* byte index. The *to*
+    # grapheme is *included* in the resulting selection.
+    def byte_select_abs_inclusive(from : Int32, to : Int32) : GraphemeSeln
+      Kit.assert byte_start <= from <= to <= byte_end
+
+      abs_grapheme_from = @trunk.byte_index_to_grapheme_index(from)
+      abs_grapheme_to = @trunk.byte_index_to_grapheme_index(to)
 
       Kit.assert @begin <= abs_grapheme_from < @end
       Kit.assert @begin <= abs_grapheme_to < @end
