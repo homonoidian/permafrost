@@ -12,7 +12,7 @@ require "./permafrost/grapheme_seln"
 require "./permafrost/ext"
 
 module Pf
-  VERSION = "0.13.1"
+  VERSION = "0.13.2"
 
   # :nodoc:
   macro hash64(object)

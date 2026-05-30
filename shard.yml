@@ -1,8 +1,8 @@
 name: permafrost
-version: 0.13.1
+version: 0.13.2
 
 authors:
-  - Alexey Yurchenko <homonoidian@yandex.ru>
+  - Alexey Yurchenko <homonoidian@proton.me>
 
 crystal: ">= 1.18.0"
 
