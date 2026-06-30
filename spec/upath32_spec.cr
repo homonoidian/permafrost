@@ -41,8 +41,7 @@ describe Pf::UPath32 do
     end
   end
 
-  # NOTE: Some of the tests below are from ChatGPT, which is actually nice because
-  # I hate writing tests for these kinds of things.
+  # DISCLAIMER: Some of the tests below were written by an LLM
 
   it "constructs empty and singleton paths" do
     path = Pf::UPath32[]

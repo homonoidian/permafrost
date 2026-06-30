@@ -1,7 +1,6 @@
 require "./spec_helper"
 
-# NOTE: Some of these are from ChatGPT, which is actually nice because I hate writing
-# tests for these kinds of things.
+# DISCLAIMER: Some of the tests below were written by an LLM
 
 describe Pf::BlockList do
   groceries = [

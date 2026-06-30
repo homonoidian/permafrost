@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-# DISCLAIMER: The tests below are written by ChatGPT. I don't like writing tests!
+# DISCLAIMER: Some of the tests below were written by an LLM
 
 describe Pf::BitSet32 do
   it "can create an empty set" do
