@@ -149,4 +149,8 @@ describe Pf::BitSet32 do
     a.proper_superset_of?(empty).should be_true
     empty.proper_superset_of?(a).should be_false
   end
+
+  it "supports #ix" do
+    d.ix.to_set.should eq(Set{1u32, 2u32, 3u32, 4u32})
+  end
 end

@@ -117,6 +117,27 @@ module Pf
       end
     end
 
+    # :nodoc:
+    struct Ix(I)
+      include Indexable(I)
+
+      def initialize(@set : BitSet(I))
+      end
+
+      def size : Int32
+        @set.size
+      end
+
+      def unsafe_fetch(index : Int) : I
+        @set.select(I.new(index))
+      end
+    end
+
+    # Returns an indexable of values in this set.
+    def ix : Indexable(I)
+      Ix.new(self)
+    end
+
     # Adds *value* to this set.
     def add(value : I) : BitSet(I)
       unless value < BitSet.bit_width(I)
