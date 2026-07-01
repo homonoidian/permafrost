@@ -251,7 +251,7 @@ include <code><a href="../Enumerable.html">Enumerable</a></code> and/or <code>In
 which are less constrained, will conflict with our policy of accepting
 <em>I</em> only, resulting in spooky suboptimal performance (Enumerable's <code><a href="../Pf/BitSet.html#includes%3F%28value%3AI%29%3ABool-instance-method">#includes?</a></code>
 is O(N) whereas we're O(1); even though both will end up constant-time
-in effect, the former is still slower). Instead, we provide <code>ix</code>, which
+in effect, the former is still slower). Instead, we provide <code><a href="../Pf/BitSet.html#ix%3AIndexable%28I%29-instance-method">#ix</a></code>, which
 gives you an <code>Indexable</code> over the values in the set.</p>
 
 
@@ -279,7 +279,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L21" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L21" target="_blank">
         permafrost/bit_set.cr
       </a>
     
@@ -477,6 +477,13 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       </li>
     
       <li class="entry-summary">
+        <a href="#ix%3AIndexable%28I%29-instance-method" class="signature"><strong>#ix</strong> : Indexable(I)</a>
+        
+          <div class="summary"><p>Returns an indexable of values in this set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#lt%28hi%3AI%29%3ABitSet%28I%29-instance-method" class="signature"><strong>#lt</strong>(hi : I) : BitSet(I)</a>
         
           <div class="summary"><p>Returns a set of values less than <em>hi</em> in this set.</p></div>
@@ -624,7 +631,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L26" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -657,7 +664,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -678,7 +685,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L43" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -699,7 +706,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L33" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -734,7 +741,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L212" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L233" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -755,7 +762,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L222" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L243" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -776,7 +783,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L232" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L253" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -797,7 +804,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L227" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L248" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -818,7 +825,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L217" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L238" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -839,7 +846,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L121" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L142" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -860,7 +867,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -881,7 +888,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L155" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L176" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -902,7 +909,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L130" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L151" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -923,7 +930,7 @@ gives you an <code>Indexable</code> over the values in the set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -945,7 +952,7 @@ confuse with bit index).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L110" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L110" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -966,7 +973,7 @@ confuse with bit index).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L74" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L74" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -987,7 +994,7 @@ confuse with bit index).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L79" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L79" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1008,7 +1015,7 @@ confuse with bit index).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L150" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L171" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1029,7 +1036,7 @@ confuse with bit index).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L64" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L64" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1045,7 +1052,7 @@ confuse with bit index).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L236" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L257" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1066,7 +1073,28 @@ confuse with bit index).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L184" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L205" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ix:Indexable(I)-instance-method">
+      <div class="signature">
+        
+        def <strong>ix</strong> : Indexable(I)
+
+        <a class="method-permalink" href="#ix%3AIndexable%28I%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an indexable of values in this set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L137" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1087,7 +1115,7 @@ confuse with bit index).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L139" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L160" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1113,7 +1141,7 @@ how the mex itself is outside of the set.</li>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L88" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L88" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1135,7 +1163,7 @@ how the mex itself is outside of the set.</li>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L196" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L217" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1157,7 +1185,7 @@ smaller</em> <em>other</em> set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L228" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1178,7 +1206,7 @@ smaller</em> <em>other</em> set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L160" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L181" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1200,7 +1228,7 @@ of bounds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L179" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L200" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1221,7 +1249,7 @@ of bounds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L165" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L186" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1242,7 +1270,7 @@ of bounds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L69" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L69" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1264,7 +1292,7 @@ the <em>other</em> set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L190" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L211" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1285,7 +1313,7 @@ the <em>other</em> set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L201" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L222" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1301,7 +1329,7 @@ the <em>other</em> set.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d32da766a91b5e1ade18a145c44b9fa21d604237/src/permafrost/bit_set.cr#L247" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/8e695bff2546b03258e9e5031f318da67eaae3d7/src/permafrost/bit_set.cr#L268" target="_blank">View source</a>]
         
       </div>
     </div>
