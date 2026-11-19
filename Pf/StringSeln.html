@@ -1,0 +1,3040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.21.0">
+<meta name="crystal_docs.project_version" content="trunk">
+<meta name="crystal_docs.project_name" content="permafrost">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="permafrost">
+  <title>Pf::StringSeln - permafrost trunk</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          permafrost
+        </a>
+      </h1>
+
+      <span class="project-version">
+        trunk
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="permafrost/Enumerable" data-name="enumerable(t)">
+      <a href="../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf" data-name="pf">
+      <a href="../Pf.html">Pf</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/BidiMap" data-name="pf::bidimap(k, v)">
+      <a href="../Pf/BidiMap.html">BidiMap</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet" data-name="pf::bitset(i)">
+      <a href="../Pf/BitSet.html">BitSet</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet128" data-name="pf::bitset128">
+      <a href="../Pf/BitSet128.html">BitSet128</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet16" data-name="pf::bitset16">
+      <a href="../Pf/BitSet16.html">BitSet16</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet32" data-name="pf::bitset32">
+      <a href="../Pf/BitSet32.html">BitSet32</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet64" data-name="pf::bitset64">
+      <a href="../Pf/BitSet64.html">BitSet64</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BitSet8" data-name="pf::bitset8">
+      <a href="../Pf/BitSet8.html">BitSet8</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/BlockList" data-name="pf::blocklist(t)">
+      <a href="../Pf/BlockList.html">BlockList</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Eq" data-name="pf::eq">
+      <a href="../Pf/Eq.html">Eq</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/GraphemeSeln" data-name="pf::graphemeseln">
+      <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/GraphemeView" data-name="pf::graphemeview">
+      <a href="../Pf/GraphemeView.html">GraphemeView</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Kit" data-name="pf::kit">
+      <a href="../Pf/Kit.html">Kit</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/HybridArray" data-name="pf::kit::hybridarray(t, n)">
+      <a href="../Pf/Kit/HybridArray.html">HybridArray</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/Kit/Sparse32" data-name="pf::kit::sparse32(t)">
+      <a href="../Pf/Kit/Sparse32.html">Sparse32</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Map" data-name="pf::map(k, v)">
+      <a href="../Pf/Map.html">Map</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Map/Commit" data-name="pf::map::commit(k, v)">
+      <a href="../Pf/Map/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ReadonlyError" data-name="pf::readonlyerror">
+      <a href="../Pf/ReadonlyError.html">ReadonlyError</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/ResolvedError" data-name="pf::resolvederror">
+      <a href="../Pf/ResolvedError.html">ResolvedError</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/Set" data-name="pf::set(t)">
+      <a href="../Pf/Set.html">Set</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/Set/Commit" data-name="pf::set::commit(t)">
+      <a href="../Pf/Set/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="permafrost/Pf/StringSeln" data-name="pf::stringseln">
+      <a href="../Pf/StringSeln.html">StringSeln</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/StringSeln/EE" data-name="pf::stringseln::ee">
+      <a href="../Pf/StringSeln/EE.html">EE</a>
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/StringSeln/SelnFlags" data-name="pf::stringseln::selnflags">
+      <a href="../Pf/StringSeln/SelnFlags.html">SelnFlags</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="permafrost/Pf/UPath32" data-name="pf::upath32">
+      <a href="../Pf/UPath32.html">UPath32</a>
+      
+    </li>
+  
+  <li class="parent " data-id="permafrost/Pf/USet32" data-name="pf::uset32">
+      <a href="../Pf/USet32.html">USet32</a>
+      
+        <ul>
+  
+  <li class=" " data-id="permafrost/Pf/USet32/Commit" data-name="pf::uset32::commit">
+      <a href="../Pf/USet32/Commit.html">Commit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">
+    struct
+  </span> Pf::<wbr>StringSeln
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Pf/StringSeln.html">Pf::StringSeln</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>A string selection type whose indivisible unit is the <em>character</em> (<code>Char</code>).</p>
+<p>See also: <code><a href="../Pf/GraphemeSeln.html">GraphemeSeln</a></code>.</p>
+<p><code><a href="../Pf/StringSeln.html">StringSeln</a></code> is most useful for lexical analysis/parsing and similar. Do not
+use it as a general-purpose replacement for strings: string selections do not
+play well with the GC since they keep the whole string in memory even if all
+you have at that point is its tiny (or even empty) fragment.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L1" target="_blank">
+        permafrost/string_seln.cr:1
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L141" target="_blank">
+        permafrost/string_seln.cr:141
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#between%28a%3AStringSeln%2Cb%3AStringSeln%29%3AStringSeln-class-method" class="signature"><strong>.between</strong>(a : StringSeln, b : StringSeln) : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#chain%28a%3AStringSeln%2Cb%3AStringSeln%29%3AStringSeln-class-method" class="signature"><strong>.chain</strong>(a : StringSeln, b : StringSeln) : StringSeln</a>
+        
+          <div class="summary"><p>Joins two contiguous selections <em>a</em>, <em>b</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#extend%28a%3AStringSeln%2Cb%3AStringSeln%29%3AStringSeln-class-method" class="signature"><strong>.extend</strong>(a : StringSeln, b : StringSeln) : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new%28string%3AString%29%3AStringSeln-class-method" class="signature"><strong>.new</strong>(string : String) : StringSeln</a>
+        
+          <div class="summary"><p>Constructs a string selection from the given <em>string</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new_scrub%28string%3AString%2Creplacement%3AChar%3DChar%3A%3AREPLACEMENT%29%3AStringSeln-class-method" class="signature"><strong>.new_scrub</strong>(string : String, replacement : Char = <span class="t">Char</span><span class="t">::</span><span class="t">REPLACEMENT</span>) : StringSeln</a>
+        
+          <div class="summary"><p>Constructs a string selection from the given <em>string</em>, replacing invalid bytes (according to UTF-8) with <em>replacement</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#span%28a%3AStringSeln%2Cb%3AStringSeln%29%3AStringSeln-class-method" class="signature"><strong>.span</strong>(a : StringSeln, b : StringSeln) : StringSeln</a>
+        
+      </li>
+    
+  </ul>
+
+
+  
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#contiguous%3F%28a%3AStringSeln%2Cb%3AStringSeln%29%3ABool-class-method" class="signature"><strong>.contiguous?</strong>(a : StringSeln, b : StringSeln) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new%3F%28string%3AString%29%3AStringSeln%7CNil-class-method" class="signature"><strong>.new?</strong>(string : String) : StringSeln | Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#siblings%3F%28selnref%3AStringSeln%2C%2Aselns%3AStringSeln%29%3ABool-class-method" class="signature"><strong>.siblings?</strong>(seln ref : StringSeln, *selns : StringSeln) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if <em>seln</em>, <em>selns</em> are all of common descent, pointing to the same trunk.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#unsafe_gte%3F%28bytes%3ABytes%2Csize%3AInt32%29%3ABool-class-method" class="signature"><strong>.unsafe_gte?</strong>(bytes : Bytes, size : Int32) : Bool</a>
+        
+      </li>
+    
+  </ul>
+
+
+  
+
+  
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#%26%2B%28other%3AStringSeln%29%3AStringSeln-instance-method" class="signature"><strong>#&+</strong>(other : StringSeln) : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3C%3D%3E%28other%3AStringSeln%29%3AInt32-instance-method" class="signature"><strong>#<=></strong>(other : StringSeln) : Int32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3AStringSeln%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : StringSeln) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3AString%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : String) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3D%3D%28other%3AChar%29%3ABool-instance-method" class="signature"><strong>#==</strong>(other : Char) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#after_end%3AStringSeln-instance-method" class="signature"><strong>#after_end</strong> : StringSeln</a>
+        
+          <div class="summary"><p>Returns an empty selection pointing after the end of this one.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#all_after_end%3AStringSeln-instance-method" class="signature"><strong>#all_after_end</strong> : StringSeln</a>
+        
+          <div class="summary"><p>Selects all characters in the trunk string after the end of this selection.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#all_before_begin%3AStringSeln-instance-method" class="signature"><strong>#all_before_begin</strong> : StringSeln</a>
+        
+          <div class="summary"><p>Selects all characters in the trunk string before the start of this selection.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#before_begin%3AStringSeln-instance-method" class="signature"><strong>#before_begin</strong> : StringSeln</a>
+        
+          <div class="summary"><p>Returns an empty selection pointing before the beginning of this one.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#blank%3F%3ABool-instance-method" class="signature"><strong>#blank?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this selection is empty or contains exclusively whitespace (see <code>Char#whitespace?</code>).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_end%3AUInt32-instance-method" class="signature"><strong>#byte_end</strong> : UInt32</a>
+        
+          <div class="summary"><p>Returns the ending byte of this selection (exclusive).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_range%3ARange%28UInt32%2CUInt32%29-instance-method" class="signature"><strong>#byte_range</strong> : Range(UInt32, UInt32)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#byte_start%3AUInt32-instance-method" class="signature"><strong>#byte_start</strong> : UInt32</a>
+        
+          <div class="summary"><p>Returns the starting byte of this selection (inclusive).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bytesize%3AUInt32-instance-method" class="signature"><strong>#bytesize</strong> : UInt32</a>
+        
+          <div class="summary"><p>Returns the number of selected bytes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#char_end%3AUInt32-instance-method" class="signature"><strong>#char_end</strong> : UInt32</a>
+        
+          <div class="summary"><p>Returns the index of the last selected character.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#char_start%3AUInt32-instance-method" class="signature"><strong>#char_start</strong> : UInt32</a>
+        
+          <div class="summary"><p>Returns the index of the first selected character.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#chomp%3AStringSeln-instance-method" class="signature"><strong>#chomp</strong> : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#chop%3F%28l%2Cr%29%3AStringSeln%7CNil-instance-method" class="signature"><strong>#chop?</strong>(l, r) : StringSeln | Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#clone%3AStringSeln-instance-method" class="signature"><strong>#clone</strong> : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#count%28pattern%3AChar%29%3AInt32-instance-method" class="signature"><strong>#count</strong>(pattern : Char) : Int32</a>
+        
+          <div class="summary"><p>A hand-optimized alternative to <code>ee.count</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#covers_fully%3F%3ABool-instance-method" class="signature"><strong>#covers_fully?</strong> : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_before_and_after%28%26%3AStringSeln%2CStringSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#each_before_and_after</strong>(& : StringSeln, StringSeln -> ) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_char%28%26%3AChar-%3E%29%3ANil-instance-method" class="signature"><strong>#each_char</strong>(& : Char -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields selected characters.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_char_seln%28%26%3AStringSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#each_char_seln</strong>(& : StringSeln -> ) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_char_with_abs_byte_index%28%26%3AChar%2CInt32-%3E%29%3ANil-instance-method" class="signature"><strong>#each_char_with_abs_byte_index</strong>(& : Char, Int32 -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields selected characters along with their <em>absolute</em> byte index.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_char_with_index%28%26%3AChar%2CInt32-%3E%29%3ANil-instance-method" class="signature"><strong>#each_char_with_index</strong>(& : Char, Int32 -> ) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_line%28%26%3AStringSeln-%3E%29-instance-method" class="signature"><strong>#each_line</strong>(& : StringSeln -> )</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_line_with_index%28%26%3AStringSeln%2CInt32-%3E%29-instance-method" class="signature"><strong>#each_line_with_index</strong>(& : StringSeln, Int32 -> )</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_partition%28%26%3AStringSeln%2CStringSeln%2CStringSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#each_partition</strong>(& : StringSeln, StringSeln, StringSeln -> ) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_split%28%26%3AStringSeln%2CStringSeln%2CStringSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#each_split</strong>(& : StringSeln, StringSeln, StringSeln -> ) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_word%28%26%3AStringSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#each_word</strong>(& : StringSeln -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields each word in this selection.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each_word_with_index%28%26%3AStringSeln%2CInt32-%3E%29%3ANil-instance-method" class="signature"><strong>#each_word_with_index</strong>(& : StringSeln, Int32 -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields each word in this selection along with its index.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ee%3AEnumerable%28Char%29-instance-method" class="signature"><strong>#ee</strong> : Enumerable(Char)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#empty%3F%3ABool-instance-method" class="signature"><strong>#empty?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this selection contains zero characters.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ends_with%3F%28suffix%3AChar%29%3ABool-instance-method" class="signature"><strong>#ends_with?</strong>(suffix : Char) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ends_with%3F%28suffix%3AString%29%3ABool-instance-method" class="signature"><strong>#ends_with?</strong>(suffix : String) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#expand%3AStringSeln-instance-method" class="signature"><strong>#expand</strong> : StringSeln</a>
+        
+          <div class="summary"><p>Expands this selection to enclose the entire trunk string.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#extend%28%2A%2Cexclusive%3Dtrue%2C%26%3AChar-%3EBool%29%3AStringSeln-instance-method" class="signature"><strong>#extend</strong>(*, exclusive = <span class="n">true</span>, & : Char -> Bool) : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#find%28pattern%29%3AStringSeln-instance-method" class="signature"><strong>#find</strong>(pattern) : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#first%3AStringSeln-instance-method" class="signature"><strong>#first</strong> : StringSeln</a>
+        
+          <div class="summary"><p>Selects the <em>first</em> character if there are one or more characters.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#first_and_rest%3ATuple%28StringSeln%2CStringSeln%29-instance-method" class="signature"><strong>#first_and_rest</strong> : Tuple(StringSeln, StringSeln)</a>
+        
+          <div class="summary"><p>Splits this selection into two: the first selection contains the first character, and the second one contains the rest of characters.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#first_char%3AChar-instance-method" class="signature"><strong>#first_char</strong> : Char</a>
+        
+          <div class="summary"><p>Returns the first character in this selection.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#first_char%3F%3AChar%7CNil-instance-method" class="signature"><strong>#first_char?</strong> : Char | Nil</a>
+        
+          <div class="summary"><p>Returns the first character in this selection.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hash%28hasher%29-instance-method" class="signature"><strong>#hash</strong>(hasher)</a>
+        
+          <div class="summary"><p>See <code>Object#hash(hasher)</code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#highlight%28io%2Cmarker%3AString%3D%22%E2%8F%8F%22%29-instance-method" class="signature"><strong>#highlight</strong>(io, marker : String = <span class="s">&quot;⏏&quot;</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#includes%3F%28object%3AChar%29%3ABool-instance-method" class="signature"><strong>#includes?</strong>(object : Char) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inspect%28io%29-instance-method" class="signature"><strong>#inspect</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#last%3AStringSeln-instance-method" class="signature"><strong>#last</strong> : StringSeln</a>
+        
+          <div class="summary"><p>Selects the <em>last</em> character if there is one or more characters.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#last_char%3AChar-instance-method" class="signature"><strong>#last_char</strong> : Char</a>
+        
+          <div class="summary"><p>Returns the last character in this selection.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#last_char%3F%3AChar%7CNil-instance-method" class="signature"><strong>#last_char?</strong> : Char | Nil</a>
+        
+          <div class="summary"><p>Returns the last character in this selection.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lchop%28chr%3AChar%29%3AStringSeln-instance-method" class="signature"><strong>#lchop</strong>(chr : Char) : StringSeln</a>
+        
+          <div class="summary"><p>Skips one leading character <em>chr</em> from this selection, if present.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lchop%3AStringSeln-instance-method" class="signature"><strong>#lchop</strong> : StringSeln</a>
+        
+          <div class="summary"><p>Returns a selection that excludes the first selected character.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lchop%3F%28pattern%3AChar%29%3AStringSeln%7CNil-instance-method" class="signature"><strong>#lchop?</strong>(pattern : Char) : StringSeln | Nil</a>
+        
+          <div class="summary"><p>Skips one leading character <em>chr</em> from this selection, if present.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lchop%3F%28pattern%3AString%29%3AStringSeln%7CNil-instance-method" class="signature"><strong>#lchop?</strong>(pattern : String) : StringSeln | Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lskip%28nchars%3AInt%29%3AStringSeln-instance-method" class="signature"><strong>#lskip</strong>(nchars : Int) : StringSeln</a>
+        
+          <div class="summary"><p>Skips a number of characters from the left.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lstrip%28charset%3AString%3D%22%5Cn%22%29%3AStringSeln-instance-method" class="signature"><strong>#lstrip</strong>(charset : String = <span class="s">&quot;\n&quot;</span>) : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ltake%3F%28pattern%29%3AStringSeln%7CNil-instance-method" class="signature"><strong>#ltake?</strong>(pattern) : StringSeln | Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#nonempty%3F%3ABool-instance-method" class="signature"><strong>#nonempty?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this selection contains one or more characters.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#partition%28%26%3AChar-%3EBool%29%3ATuple%28StringSeln%2CStringSeln%2CStringSeln%29-instance-method" class="signature"><strong>#partition</strong>(& : Char -> Bool) : Tuple(StringSeln, StringSeln, StringSeln)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#partition%28pattern%3AChar%29%3ATuple%28StringSeln%2CStringSeln%2CStringSeln%29-instance-method" class="signature"><strong>#partition</strong>(pattern : Char) : Tuple(StringSeln, StringSeln, StringSeln)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#partition%28indexneedle%3AInt%29%3ATuple%28StringSeln%2CStringSeln%2CStringSeln%29-instance-method" class="signature"><strong>#partition</strong>(index needle : Int) : Tuple(StringSeln, StringSeln, StringSeln)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#postfixed_by%3F%28r%3AChar%7CString%29%3ABool-instance-method" class="signature"><strong>#postfixed_by?</strong>(r : Char | String) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#prefixed_by%3F%28l%3AChar%7CString%29%3ABool-instance-method" class="signature"><strong>#prefixed_by?</strong>(l : Char | String) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#prior%3AStringSeln-instance-method" class="signature"><strong>#prior</strong> : StringSeln</a>
+        
+          <div class="summary"><p>Selects characters before the <em>last</em> character in this selection.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#prior_and_last%3ATuple%28StringSeln%2CStringSeln%29-instance-method" class="signature"><strong>#prior_and_last</strong> : Tuple(StringSeln, StringSeln)</a>
+        
+          <div class="summary"><p>Splits this selection into two: the first selection contains characters before the last character, and the second selection contains the last character.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rchop%28chr%3AChar%29%3AStringSeln-instance-method" class="signature"><strong>#rchop</strong>(chr : Char) : StringSeln</a>
+        
+          <div class="summary"><p>Skips one trailing character <em>chr</em> from this selection, if present.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rchop%3AStringSeln-instance-method" class="signature"><strong>#rchop</strong> : StringSeln</a>
+        
+          <div class="summary"><p>Returns a selection that excludes the last selected character.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rchop%3F%28chr%3AChar%29%3AStringSeln%7CNil-instance-method" class="signature"><strong>#rchop?</strong>(chr : Char) : StringSeln | Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rchop%3F%28pattern%3AString%29%3AStringSeln%7CNil-instance-method" class="signature"><strong>#rchop?</strong>(pattern : String) : StringSeln | Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rest%3AStringSeln-instance-method" class="signature"><strong>#rest</strong> : StringSeln</a>
+        
+          <div class="summary"><p>Selects characters after the <em>first</em> character in this selection.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reverse_each_before_and_after%28%26%3AStringSeln%2CStringSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#reverse_each_before_and_after</strong>(& : StringSeln, StringSeln -> ) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reverse_each_char%28%26%3AChar-%3E%29%3ANil-instance-method" class="signature"><strong>#reverse_each_char</strong>(& : Char -> ) : Nil</a>
+        
+          <div class="summary"><p>Yields selected characters in reverse.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reverse_each_char_seln%28%26%3AStringSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#reverse_each_char_seln</strong>(& : StringSeln -> ) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reverse_each_partition%28%26%3AStringSeln%2CStringSeln%2CStringSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#reverse_each_partition</strong>(& : StringSeln, StringSeln, StringSeln -> ) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reverse_each_split%28%26%3AStringSeln%2CStringSeln%2CStringSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#reverse_each_split</strong>(& : StringSeln, StringSeln, StringSeln -> ) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reverse_extend%28%2A%2Cexclusive%3Dtrue%2C%26%3AChar-%3EBool%29%3AStringSeln-instance-method" class="signature"><strong>#reverse_extend</strong>(*, exclusive = <span class="n">true</span>, & : Char -> Bool) : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rpartition%28%26%3AChar-%3EBool%29%3ATuple%28StringSeln%2CStringSeln%2CStringSeln%29-instance-method" class="signature"><strong>#rpartition</strong>(& : Char -> Bool) : Tuple(StringSeln, StringSeln, StringSeln)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rpartition%28pattern%3AChar%29%3ATuple%28StringSeln%2CStringSeln%2CStringSeln%29-instance-method" class="signature"><strong>#rpartition</strong>(pattern : Char) : Tuple(StringSeln, StringSeln, StringSeln)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rskip_thru%28charset%3AString%29%3ATuple%28StringSeln%2CStringSeln%29-instance-method" class="signature"><strong>#rskip_thru</strong>(charset : String) : Tuple(StringSeln, StringSeln)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rskip_to%28charset%3AString%29%3ATuple%28StringSeln%2CStringSeln%29-instance-method" class="signature"><strong>#rskip_to</strong>(charset : String) : Tuple(StringSeln, StringSeln)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rstrip%28charset%3AString%3D%22%5Cn%22%29%3AStringSeln-instance-method" class="signature"><strong>#rstrip</strong>(charset : String = <span class="s">&quot;\n&quot;</span>) : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3AInt32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
+        
+          <div class="summary"><p>Returns the number of selected characters.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#skip_thru%28charset%3AString%29%3ATuple%28StringSeln%2CStringSeln%29-instance-method" class="signature"><strong>#skip_thru</strong>(charset : String) : Tuple(StringSeln, StringSeln)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#skip_thru_seq%28%2A%2Climit%3AUInt32%3DUInt32%3A%3AMAX%2C%26%3AChar-%3ET%7CNil%29%3ATuple%28StringSeln%2CArray%28T%29%2CStringSeln%29forallT-instance-method" class="signature"><strong>#skip_thru_seq</strong>(*, limit : UInt32 = <span class="t">UInt32</span><span class="t">::</span><span class="t">MAX</span>, & : Char -> T | Nil) : Tuple(StringSeln, Array(T), StringSeln) forall T</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#skip_to%28charset%3AString%29%3ATuple%28StringSeln%2CStringSeln%29-instance-method" class="signature"><strong>#skip_to</strong>(charset : String) : Tuple(StringSeln, StringSeln)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#span%28other%3AStringSeln%29%3AStringSeln-instance-method" class="signature"><strong>#span</strong>(other : StringSeln) : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#split%28sep%3AChar%2C%2A%2Akwargs%29%3AArray%28StringSeln%29-instance-method" class="signature"><strong>#split</strong>(sep : Char, **kwargs) : Array(StringSeln)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#split%28sep%3AChar%2C%2A%2Akwargs%2C%26%29%3ANil-instance-method" class="signature"><strong>#split</strong>(sep : Char, **kwargs, &) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#split_and_rest%28sep%3AChar%2C%2A%2Callow_empty%3ABool%3Dtrue%2C%26%3AStringSeln%2CStringSeln-%3E%29%3ANil-instance-method" class="signature"><strong>#split_and_rest</strong>(sep : Char, *, allow_empty : Bool = <span class="n">true</span>, & : StringSeln, StringSeln -> ) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#starts_with%3F%28prefix%3AChar%29%3ABool-instance-method" class="signature"><strong>#starts_with?</strong>(prefix : Char) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#starts_with%3F%28prefix%3AString%29%3ABool-instance-method" class="signature"><strong>#starts_with?</strong>(prefix : String) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#strip%28charset%3AString%3D%22%5Cn%22%29%3AStringSeln-instance-method" class="signature"><strong>#strip</strong>(charset : String = <span class="s">&quot;\n&quot;</span>) : StringSeln</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#surrounded_by%3F%28l%3AChar%7CString%2Cr%3AChar%7CString%29%3ABool-instance-method" class="signature"><strong>#surrounded_by?</strong>(l : Char | String, r : Char | String) : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s%28io%29-instance-method" class="signature"><strong>#to_s</strong>(io)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s%3AString-instance-method" class="signature"><strong>#to_s</strong> : String</a>
+        
+          <div class="summary"><p>Returns a nicely readable and concise string representation of this object, typically intended for users.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_slice%3ABytes-instance-method" class="signature"><strong>#to_slice</strong> : Bytes</a>
+        
+          <div class="summary"><p>Returns the underlying bytes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#upto%28other%3AStringSeln%29%3AStringSeln-instance-method" class="signature"><strong>#upto</strong>(other : StringSeln) : StringSeln</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <div class="methods-inherited">
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+  </div>
+
+  
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="between(a:StringSeln,b:StringSeln):StringSeln-class-method">
+      <div class="signature">
+        
+        def self.<strong>between</strong>(a : <a href="../Pf/StringSeln.html">StringSeln</a>, b : <a href="../Pf/StringSeln.html">StringSeln</a>) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#between%28a%3AStringSeln%2Cb%3AStringSeln%29%3AStringSeln-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L217" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="chain(a:StringSeln,b:StringSeln):StringSeln-class-method">
+      <div class="signature">
+        
+        def self.<strong>chain</strong>(a : <a href="../Pf/StringSeln.html">StringSeln</a>, b : <a href="../Pf/StringSeln.html">StringSeln</a>) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#chain%28a%3AStringSeln%2Cb%3AStringSeln%29%3AStringSeln-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Joins two contiguous selections <em>a</em>, <em>b</em>. <em>a</em> must end exactly where <em>b</em> begins.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L204" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="extend(a:StringSeln,b:StringSeln):StringSeln-class-method">
+      <div class="signature">
+        
+        def self.<strong>extend</strong>(a : <a href="../Pf/StringSeln.html">StringSeln</a>, b : <a href="../Pf/StringSeln.html">StringSeln</a>) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#extend%28a%3AStringSeln%2Cb%3AStringSeln%29%3AStringSeln-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L223" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(string:String):StringSeln-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(string : String) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#new%28string%3AString%29%3AStringSeln-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Constructs a string selection from the given <em>string</em>.</p>
+<p>This forces an encoding check on <em>string</em>. This method requires <em>string</em> to
+be a valid UTF-8 string.</p>
+<p>If you want to <code>scrub</code>, use <code><a href="../Pf/StringSeln.html#new_scrub%28string%3AString%2Creplacement%3AChar%3DChar%3A%3AREPLACEMENT%29%3AStringSeln-class-method">.new_scrub</a></code> instead to skip the check.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L170" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new_scrub(string:String,replacement:Char=Char::REPLACEMENT):StringSeln-class-method">
+      <div class="signature">
+        
+        def self.<strong>new_scrub</strong>(string : String, replacement : Char = <span class="t">Char</span><span class="t">::</span><span class="t">REPLACEMENT</span>) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#new_scrub%28string%3AString%2Creplacement%3AChar%3DChar%3A%3AREPLACEMENT%29%3AStringSeln-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Constructs a string selection from the given <em>string</em>, replacing invalid
+bytes (according to UTF-8) with <em>replacement</em>.</p>
+<p>See also: <code>String#scrub</code>.</p>
+<p>Prefer this method over <code><a href="../Pf/StringSeln.html#new%28string%3AString%29%3AStringSeln-class-method">.new(string.scrub)</a></code> to avoid the overhead of validating
+the encoding.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L187" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="span(a:StringSeln,b:StringSeln):StringSeln-class-method">
+      <div class="signature">
+        
+        def self.<strong>span</strong>(a : <a href="../Pf/StringSeln.html">StringSeln</a>, b : <a href="../Pf/StringSeln.html">StringSeln</a>) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#span%28a%3AStringSeln%2Cb%3AStringSeln%29%3AStringSeln-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L211" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+  
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="contiguous?(a:StringSeln,b:StringSeln):Bool-class-method">
+      <div class="signature">
+        
+        def self.<strong>contiguous?</strong>(a : <a href="../Pf/StringSeln.html">StringSeln</a>, b : <a href="../Pf/StringSeln.html">StringSeln</a>) : Bool
+
+        <a class="method-permalink" href="#contiguous%3F%28a%3AStringSeln%2Cb%3AStringSeln%29%3ABool-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L199" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new?(string:String):StringSeln|Nil-class-method">
+      <div class="signature">
+        
+        def self.<strong>new?</strong>(string : String) : <a href="../Pf/StringSeln.html">StringSeln</a> | Nil
+
+        <a class="method-permalink" href="#new%3F%28string%3AString%29%3AStringSeln%7CNil-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L174" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="siblings?(selnref:StringSeln,*selns:StringSeln):Bool-class-method">
+      <div class="signature">
+        
+        def self.<strong>siblings?</strong>(seln ref : <a href="../Pf/StringSeln.html">StringSeln</a>, *selns : <a href="../Pf/StringSeln.html">StringSeln</a>) : Bool
+
+        <a class="method-permalink" href="#siblings%3F%28selnref%3AStringSeln%2C%2Aselns%3AStringSeln%29%3ABool-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if <em>seln</em>, <em>selns</em> are all of common descent, pointing
+to the same trunk.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L195" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="unsafe_gte?(bytes:Bytes,size:Int32):Bool-class-method">
+      <div class="signature">
+        
+        def self.<strong>unsafe_gte?</strong>(bytes : Bytes, size : Int32) : Bool
+
+        <a class="method-permalink" href="#unsafe_gte%3F%28bytes%3ABytes%2Csize%3AInt32%29%3ABool-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L119" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+  
+
+  
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="&amp;+(other:StringSeln):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>&+</strong>(other : <a href="../Pf/StringSeln.html">StringSeln</a>) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#%26%2B%28other%3AStringSeln%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L721" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="&lt;=&gt;(other:StringSeln):Int32-instance-method">
+      <div class="signature">
+        
+        def <strong><=></strong>(other : <a href="../Pf/StringSeln.html">StringSeln</a>) : Int32
+
+        <a class="method-permalink" href="#%3C%3D%3E%28other%3AStringSeln%29%3AInt32-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L233" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="==(other:StringSeln):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : <a href="../Pf/StringSeln.html">StringSeln</a>) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%28other%3AStringSeln%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L1020" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="==(other:String):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : String) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%28other%3AString%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L1029" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="==(other:Char):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other : Char) : Bool
+
+        <a class="method-permalink" href="#%3D%3D%28other%3AChar%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L1033" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="after_end:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>after_end</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#after_end%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an empty selection pointing after the end of this one. Imagine this
+this as placing an &quot;I-beam&quot; after the last character in this selection (if any).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L427" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="all_after_end:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>all_after_end</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#all_after_end%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects all characters in the trunk string after the end of this selection.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L432" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="all_before_begin:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>all_before_begin</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#all_before_begin%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects all characters in the trunk string before the start of this selection.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L421" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="before_begin:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>before_begin</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#before_begin%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns an empty selection pointing before the beginning of this one. Imagine
+this as placing an &quot;I-beam&quot; before the first character in this selection (if any).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L416" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="blank?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>blank?</strong> : Bool
+
+        <a class="method-permalink" href="#blank%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this selection is empty or contains exclusively
+whitespace (see <code>Char#whitespace?</code>).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L358" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_end:UInt32-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_end</strong> : UInt32
+
+        <a class="method-permalink" href="#byte_end%3AUInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the ending byte of this selection (exclusive).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L145" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_range:Range(UInt32,UInt32)-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_range</strong> : Range(UInt32, UInt32)
+
+        <a class="method-permalink" href="#byte_range%3ARange%28UInt32%2CUInt32%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L247" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="byte_start:UInt32-instance-method">
+      <div class="signature">
+        
+        def <strong>byte_start</strong> : UInt32
+
+        <a class="method-permalink" href="#byte_start%3AUInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the starting byte of this selection (inclusive).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L143" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bytesize:UInt32-instance-method">
+      <div class="signature">
+        
+        def <strong>bytesize</strong> : UInt32
+
+        <a class="method-permalink" href="#bytesize%3AUInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the number of selected bytes.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L243" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="char_end:UInt32-instance-method">
+      <div class="signature">
+        
+        def <strong>char_end</strong> : UInt32
+
+        <a class="method-permalink" href="#char_end%3AUInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the index of the last selected character.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L273" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="char_start:UInt32-instance-method">
+      <div class="signature">
+        
+        def <strong>char_start</strong> : UInt32
+
+        <a class="method-permalink" href="#char_start%3AUInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the index of the first selected character.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L257" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="chomp:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>chomp</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#chomp%3AStringSeln-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L783" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="chop?(l,r):StringSeln|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>chop?</strong>(l, r) : <a href="../Pf/StringSeln.html">StringSeln</a> | Nil
+
+        <a class="method-permalink" href="#chop%3F%28l%2Cr%29%3AStringSeln%7CNil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L775" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="clone:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>clone</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#clone%3AStringSeln-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L963" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="count(pattern:Char):Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>count</strong>(pattern : Char) : Int32
+
+        <a class="method-permalink" href="#count%28pattern%3AChar%29%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>A hand-optimized alternative to <code>ee.count</code>. This is about a hundred times faster
+than <code>ee.count</code> on my machine for basic tasks such as counting newlines, due to
+vectorization-friendliness in the single-byte fast path.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L910" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="covers_fully?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>covers_fully?</strong> : Bool
+
+        <a class="method-permalink" href="#covers_fully%3F%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L316" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_before_and_after(&amp;:StringSeln,StringSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_before_and_after</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#each_before_and_after%28%26%3AStringSeln%2CStringSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L535" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_char(&amp;:Char-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_char</strong>(& : Char -> ) : Nil
+
+        <a class="method-permalink" href="#each_char%28%26%3AChar-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields selected characters.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L509" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_char_seln(&amp;:StringSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_char_seln</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#each_char_seln%28%26%3AStringSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L471" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_char_with_abs_byte_index(&amp;:Char,Int32-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_char_with_abs_byte_index</strong>(& : Char, Int32 -> ) : Nil
+
+        <a class="method-permalink" href="#each_char_with_abs_byte_index%28%26%3AChar%2CInt32-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields selected characters along with their <em>absolute</em> byte index.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L514" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_char_with_index(&amp;:Char,Int32-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_char_with_index</strong>(& : Char, Int32 -> ) : Nil
+
+        <a class="method-permalink" href="#each_char_with_index%28%26%3AChar%2CInt32-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L525" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_line(&amp;:StringSeln-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>each_line</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a> -> )
+
+        <a class="method-permalink" href="#each_line%28%26%3AStringSeln-%3E%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L629" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_line_with_index(&amp;:StringSeln,Int32-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>each_line_with_index</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a>, Int32 -> )
+
+        <a class="method-permalink" href="#each_line_with_index%28%26%3AStringSeln%2CInt32-%3E%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L638" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_partition(&amp;:StringSeln,StringSeln,StringSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_partition</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#each_partition%28%26%3AStringSeln%2CStringSeln%2CStringSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L555" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_split(&amp;:StringSeln,StringSeln,StringSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_split</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#each_split%28%26%3AStringSeln%2CStringSeln%2CStringSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L577" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_word(&amp;:StringSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_word</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#each_word%28%26%3AStringSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields each word in this selection.</p>
+<p>This method never consumes any characters. All trailing and leading whitespaces
+are kept (if any) -- attached either to the left- or the right-hand side word.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L595" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each_word_with_index(&amp;:StringSeln,Int32-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>each_word_with_index</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a>, Int32 -> ) : Nil
+
+        <a class="method-permalink" href="#each_word_with_index%28%26%3AStringSeln%2CInt32-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields each word in this selection along with its index.</p>
+<p>See also: <code><a href="../Pf/StringSeln.html#each_word%28%26%3AStringSeln-%3E%29%3ANil-instance-method">#each_word</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L619" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ee:Enumerable(Char)-instance-method">
+      <div class="signature">
+        
+        def <strong>ee</strong> : <a href="../Enumerable.html">Enumerable</a>(Char)
+
+        <a class="method-permalink" href="#ee%3AEnumerable%28Char%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L504" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="empty?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>empty?</strong> : Bool
+
+        <a class="method-permalink" href="#empty%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this selection contains zero characters.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L307" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ends_with?(suffix:Char):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>ends_with?</strong>(suffix : Char) : Bool
+
+        <a class="method-permalink" href="#ends_with%3F%28suffix%3AChar%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L348" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ends_with?(suffix:String):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>ends_with?</strong>(suffix : String) : Bool
+
+        <a class="method-permalink" href="#ends_with%3F%28suffix%3AString%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L352" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="expand:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>expand</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#expand%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Expands this selection to enclose the entire trunk string.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L252" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="extend(*,exclusive=true,&amp;:Char-&gt;Bool):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>extend</strong>(*, exclusive = <span class="n">true</span>, & : Char -> Bool) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#extend%28%2A%2Cexclusive%3Dtrue%2C%26%3AChar-%3EBool%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L881" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="find(pattern):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>find</strong>(pattern) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#find%28pattern%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L871" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="first:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>first</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#first%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects the <em>first</em> character if there are one or more characters. If there are
+zero characters, the returned selection is empty.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L388" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="first_and_rest:Tuple(StringSeln,StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>first_and_rest</strong> : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#first_and_rest%3ATuple%28StringSeln%2CStringSeln%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Splits this selection into two: the first selection contains the first
+character, and the second one contains the rest of characters. If this
+selection is empty, returns two empty selections.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L370" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="first_char:Char-instance-method">
+      <div class="signature">
+        
+        def <strong>first_char</strong> : Char
+
+        <a class="method-permalink" href="#first_char%3AChar-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the first character in this selection. Raises <code>IndexError</code> if
+this selection is empty.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L449" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="first_char?:Char|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>first_char?</strong> : Char | Nil
+
+        <a class="method-permalink" href="#first_char%3F%3AChar%7CNil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the first character in this selection. Returns <code>nil</code> if
+this selection is empty.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L461" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hash(hasher)-instance-method">
+      <div class="signature">
+        
+        def <strong>hash</strong>(hasher)
+
+        <a class="method-permalink" href="#hash%28hasher%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from struct Struct
+            </div>
+          
+          <p>See <code>Object#hash(hasher)</code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L1037" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="highlight(io,marker:String=&quot;⏏&quot;)-instance-method">
+      <div class="signature">
+        
+        def <strong>highlight</strong>(io, marker : String = <span class="s">&quot;⏏&quot;</span>)
+
+        <a class="method-permalink" href="#highlight%28io%2Cmarker%3AString%3D%22%E2%8F%8F%22%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L967" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="includes?(object:Char):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>includes?</strong>(object : Char) : Bool
+
+        <a class="method-permalink" href="#includes%3F%28object%3AChar%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L320" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inspect(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>inspect</strong>(io)
+
+        <a class="method-permalink" href="#inspect%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L980" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="last:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>last</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#last%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects the <em>last</em> character if there is one or more characters. If there are
+zero characters, the returned selection is empty.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L409" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="last_char:Char-instance-method">
+      <div class="signature">
+        
+        def <strong>last_char</strong> : Char
+
+        <a class="method-permalink" href="#last_char%3AChar-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the last character in this selection. Raises <code>IndexError</code> if
+this selection is empty.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L455" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="last_char?:Char|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>last_char?</strong> : Char | Nil
+
+        <a class="method-permalink" href="#last_char%3F%3AChar%7CNil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the last character in this selection. Returns <code>nil</code> if
+this selection is empty.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L467" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lchop(chr:Char):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>lchop</strong>(chr : Char) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#lchop%28chr%3AChar%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Skips one leading character <em>chr</em> from this selection, if present.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L738" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lchop:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>lchop</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#lchop%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a selection that excludes the first selected character.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L726" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lchop?(pattern:Char):StringSeln|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>lchop?</strong>(pattern : Char) : <a href="../Pf/StringSeln.html">StringSeln</a> | Nil
+
+        <a class="method-permalink" href="#lchop%3F%28pattern%3AChar%29%3AStringSeln%7CNil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Skips one leading character <em>chr</em> from this selection, if present.
+Returns <code>nil</code> if <em>chr</em> is absent.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L749" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lchop?(pattern:String):StringSeln|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>lchop?</strong>(pattern : String) : <a href="../Pf/StringSeln.html">StringSeln</a> | Nil
+
+        <a class="method-permalink" href="#lchop%3F%28pattern%3AString%29%3AStringSeln%7CNil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L756" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lskip(nchars:Int):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>lskip</strong>(nchars : Int) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#lskip%28nchars%3AInt%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Skips a number of characters from the left.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L853" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lstrip(charset:String=&quot;\n&quot;):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>lstrip</strong>(charset : String = <span class="s">&quot;\n&quot;</span>) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#lstrip%28charset%3AString%3D%22%5Cn%22%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L804" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ltake?(pattern):StringSeln|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>ltake?</strong>(pattern) : <a href="../Pf/StringSeln.html">StringSeln</a> | Nil
+
+        <a class="method-permalink" href="#ltake%3F%28pattern%29%3AStringSeln%7CNil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L865" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="nonempty?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>nonempty?</strong> : Bool
+
+        <a class="method-permalink" href="#nonempty%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this selection contains one or more characters.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L312" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="partition(&amp;:Char-&gt;Bool):Tuple(StringSeln,StringSeln,StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>partition</strong>(& : Char -> Bool) : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#partition%28%26%3AChar-%3EBool%29%3ATuple%28StringSeln%2CStringSeln%2CStringSeln%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L648" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="partition(pattern:Char):Tuple(StringSeln,StringSeln,StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>partition</strong>(pattern : Char) : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#partition%28pattern%3AChar%29%3ATuple%28StringSeln%2CStringSeln%2CStringSeln%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L659" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="partition(indexneedle:Int):Tuple(StringSeln,StringSeln,StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>partition</strong>(index needle : Int) : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#partition%28indexneedle%3AInt%29%3ATuple%28StringSeln%2CStringSeln%2CStringSeln%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L663" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="postfixed_by?(r:Char|String):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>postfixed_by?</strong>(r : Char | String) : Bool
+
+        <a class="method-permalink" href="#postfixed_by%3F%28r%3AChar%7CString%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L332" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="prefixed_by?(l:Char|String):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>prefixed_by?</strong>(l : Char | String) : Bool
+
+        <a class="method-permalink" href="#prefixed_by%3F%28l%3AChar%7CString%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L328" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="prior:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>prior</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#prior%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects characters before the <em>last</em> character in this selection. If there are
+zero characters, the returned selection is empty.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L402" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="prior_and_last:Tuple(StringSeln,StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>prior_and_last</strong> : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#prior_and_last%3ATuple%28StringSeln%2CStringSeln%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Splits this selection into two: the first selection contains characters before
+the last character, and the second selection contains the last character.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L379" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rchop(chr:Char):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>rchop</strong>(chr : Char) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#rchop%28chr%3AChar%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Skips one trailing character <em>chr</em> from this selection, if present.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L743" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rchop:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>rchop</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#rchop%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a selection that excludes the last selected character.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L732" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rchop?(chr:Char):StringSeln|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>rchop?</strong>(chr : Char) : <a href="../Pf/StringSeln.html">StringSeln</a> | Nil
+
+        <a class="method-permalink" href="#rchop%3F%28chr%3AChar%29%3AStringSeln%7CNil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L762" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rchop?(pattern:String):StringSeln|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>rchop?</strong>(pattern : String) : <a href="../Pf/StringSeln.html">StringSeln</a> | Nil
+
+        <a class="method-permalink" href="#rchop%3F%28pattern%3AString%29%3AStringSeln%7CNil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L769" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rest:StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>rest</strong> : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#rest%3AStringSeln-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Selects characters after the <em>first</em> character in this selection. If there are
+zero characters, the returned selection is empty.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L395" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reverse_each_before_and_after(&amp;:StringSeln,StringSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>reverse_each_before_and_after</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#reverse_each_before_and_after%28%26%3AStringSeln%2CStringSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L545" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reverse_each_char(&amp;:Char-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>reverse_each_char</strong>(& : Char -> ) : Nil
+
+        <a class="method-permalink" href="#reverse_each_char%28%26%3AChar-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields selected characters in reverse.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L521" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reverse_each_char_seln(&amp;:StringSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>reverse_each_char_seln</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#reverse_each_char_seln%28%26%3AStringSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L482" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reverse_each_partition(&amp;:StringSeln,StringSeln,StringSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>reverse_each_partition</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#reverse_each_partition%28%26%3AStringSeln%2CStringSeln%2CStringSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L566" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reverse_each_split(&amp;:StringSeln,StringSeln,StringSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>reverse_each_split</strong>(& : <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#reverse_each_split%28%26%3AStringSeln%2CStringSeln%2CStringSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L584" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reverse_extend(*,exclusive=true,&amp;:Char-&gt;Bool):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>reverse_extend</strong>(*, exclusive = <span class="n">true</span>, & : Char -> Bool) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#reverse_extend%28%2A%2Cexclusive%3Dtrue%2C%26%3AChar-%3EBool%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L890" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rpartition(&amp;:Char-&gt;Bool):Tuple(StringSeln,StringSeln,StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>rpartition</strong>(& : Char -> Bool) : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#rpartition%28%26%3AChar-%3EBool%29%3ATuple%28StringSeln%2CStringSeln%2CStringSeln%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L677" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rpartition(pattern:Char):Tuple(StringSeln,StringSeln,StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>rpartition</strong>(pattern : Char) : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#rpartition%28pattern%3AChar%29%3ATuple%28StringSeln%2CStringSeln%2CStringSeln%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L688" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rskip_thru(charset:String):Tuple(StringSeln,StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>rskip_thru</strong>(charset : String) : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#rskip_thru%28charset%3AString%29%3ATuple%28StringSeln%2CStringSeln%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L837" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rskip_to(charset:String):Tuple(StringSeln,StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>rskip_to</strong>(charset : String) : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#rskip_to%28charset%3AString%29%3ATuple%28StringSeln%2CStringSeln%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L847" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rstrip(charset:String=&quot;\n&quot;):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>rstrip</strong>(charset : String = <span class="s">&quot;\n&quot;</span>) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#rstrip%28charset%3AString%3D%22%5Cn%22%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L809" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong> : Int32
+
+        <a class="method-permalink" href="#size%3AInt32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the number of selected characters.</p>
+<p><span class="flag purple">NOTE</span>  Unlike <code>String</code>, this method does <em>not</em> cache the size -- since
+<code><a href="../Pf/StringSeln.html">StringSeln</a></code> is located entirely on the stack (minus the trunk string),
+there's nowhere for the size to go.</p>
+<p>However, I tried to optimize this method well. In fact, due to the invariants
+of <code><a href="../Pf/StringSeln.html">StringSeln</a></code>, it runs about 10x faster than uncached <code>String#size</code> on
+my machine (the example I used was a 20MiB string; the results were: Crystal ~11ms,
+StringSeln ~1.25ms).</p>
+<p>The design is that you aren't expected to call this method very often. If you
+do end up doing that, we try really hard to remain fast, but ultimately,
+this is still worst-case O(N).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L302" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="skip_thru(charset:String):Tuple(StringSeln,StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>skip_thru</strong>(charset : String) : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#skip_thru%28charset%3AString%29%3ATuple%28StringSeln%2CStringSeln%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L832" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="skip_thru_seq(*,limit:UInt32=UInt32::MAX,&amp;:Char-&gt;T|Nil):Tuple(StringSeln,Array(T),StringSeln)forallT-instance-method">
+      <div class="signature">
+        
+        def <strong>skip_thru_seq</strong>(*, limit : UInt32 = <span class="t">UInt32</span><span class="t">::</span><span class="t">MAX</span>, & : Char -> T | Nil) : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, Array(T), <a href="../Pf/StringSeln.html">StringSeln</a>) forall T
+
+        <a class="method-permalink" href="#skip_thru_seq%28%2A%2Climit%3AUInt32%3DUInt32%3A%3AMAX%2C%26%3AChar-%3ET%7CNil%29%3ATuple%28StringSeln%2CArray%28T%29%2CStringSeln%29forallT-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L814" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="skip_to(charset:String):Tuple(StringSeln,StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>skip_to</strong>(charset : String) : Tuple(<a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#skip_to%28charset%3AString%29%3ATuple%28StringSeln%2CStringSeln%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L842" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="span(other:StringSeln):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>span</strong>(other : <a href="../Pf/StringSeln.html">StringSeln</a>) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#span%28other%3AStringSeln%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L899" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="split(sep:Char,**kwargs):Array(StringSeln)-instance-method">
+      <div class="signature">
+        
+        def <strong>split</strong>(sep : Char, **kwargs) : Array(<a href="../Pf/StringSeln.html">StringSeln</a>)
+
+        <a class="method-permalink" href="#split%28sep%3AChar%2C%2A%2Akwargs%29%3AArray%28StringSeln%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L692" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="split(sep:Char,**kwargs,&amp;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>split</strong>(sep : Char, **kwargs, &) : Nil
+
+        <a class="method-permalink" href="#split%28sep%3AChar%2C%2A%2Akwargs%2C%26%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L702" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="split_and_rest(sep:Char,*,allow_empty:Bool=true,&amp;:StringSeln,StringSeln-&gt;):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>split_and_rest</strong>(sep : Char, *, allow_empty : Bool = <span class="n">true</span>, & : <a href="../Pf/StringSeln.html">StringSeln</a>, <a href="../Pf/StringSeln.html">StringSeln</a> -> ) : Nil
+
+        <a class="method-permalink" href="#split_and_rest%28sep%3AChar%2C%2A%2Callow_empty%3ABool%3Dtrue%2C%26%3AStringSeln%2CStringSeln-%3E%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L708" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="starts_with?(prefix:Char):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>starts_with?</strong>(prefix : Char) : Bool
+
+        <a class="method-permalink" href="#starts_with%3F%28prefix%3AChar%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L340" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="starts_with?(prefix:String):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>starts_with?</strong>(prefix : String) : Bool
+
+        <a class="method-permalink" href="#starts_with%3F%28prefix%3AString%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L344" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="strip(charset:String=&quot;\n&quot;):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>strip</strong>(charset : String = <span class="s">&quot;\n&quot;</span>) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#strip%28charset%3AString%3D%22%5Cn%22%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L800" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="surrounded_by?(l:Char|String,r:Char|String):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>surrounded_by?</strong>(l : Char | String, r : Char | String) : Bool
+
+        <a class="method-permalink" href="#surrounded_by%3F%28l%3AChar%7CString%2Cr%3AChar%7CString%29%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L336" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong>(io)
+
+        <a class="method-permalink" href="#to_s%28io%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L1008" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s:String-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong> : String
+
+        <a class="method-permalink" href="#to_s%3AString-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from class Object
+            </div>
+          
+          <p>Returns a nicely readable and concise string representation of this object,
+typically intended for users.</p>
+<p>This method should usually <strong>not</strong> be overridden. It delegates to
+<code><a href="../Pf/StringSeln.html#to_s%28io%29-instance-method">#to_s(IO)</a></code> which can be overridden for custom implementations.</p>
+<p>Also see <code><a href="../Pf/StringSeln.html#inspect%28io%29-instance-method">#inspect</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L1012" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_slice:Bytes-instance-method">
+      <div class="signature">
+        
+        def <strong>to_slice</strong> : Bytes
+
+        <a class="method-permalink" href="#to_slice%3ABytes-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the underlying bytes. The returned slice is read-only.
+It is guaranteed to contain valid UTF-8 encoded bytes. It is
+guaranteed to start and end at a UTF-8 character boundary.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L959" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="upto(other:StringSeln):StringSeln-instance-method">
+      <div class="signature">
+        
+        def <strong>upto</strong>(other : <a href="../Pf/StringSeln.html">StringSeln</a>) : <a href="../Pf/StringSeln.html">StringSeln</a>
+
+        <a class="method-permalink" href="#upto%28other%3AStringSeln%29%3AStringSeln-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/string_seln.cr#L903" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+</div>
+
+</body>
+</html>
