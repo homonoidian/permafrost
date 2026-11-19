@@ -227,6 +227,11 @@
       
     </li>
   
+  <li class=" " data-id="permafrost/String" data-name="string">
+      <a href="../String.html">String</a>
+      
+    </li>
+  
 </ul>
 
   </div>
@@ -264,7 +269,7 @@ graphemes are.</p>
 it delimits a chunk of text, within a larger (or equal) body of text. Notably,
 a selection is never &quot;detached&quot; from the body of text. In terms of lifetimes,
 in order for a selection to be alive, the text must be alive. This is why
-selections <strong>must not</strong> be used as a replacement for <code>String</code>s. Just because
+selections <strong>must not</strong> be used as a replacement for <code><a href="../String.html">String</a></code>s. Just because
 selections are cheap doesn't mean you can use them anywhere. In your mind's
 eye, you must always picture selections as part of a larger body of text;
 think &quot;highlighted portions&quot; of text. Whenever you store a selection on the heap,
@@ -311,7 +316,7 @@ indices&quot; and so on.</p>
   </h2>
   
     
-      <a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L37" target="_blank">
+      <a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L37" target="_blank">
         permafrost/grapheme_seln.cr
       </a>
     
@@ -825,7 +830,7 @@ indices&quot; and so on.</p>
     <div class="entry-detail" id="new(string:String):GraphemeSeln-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(string : String) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
+        def self.<strong>new</strong>(string : <a href="../String.html">String</a>) : <a href="../Pf/GraphemeSeln.html">GraphemeSeln</a>
 
         <a class="method-permalink" href="#new%28string%3AString%29%3AGraphemeSeln-class-method">#</a>
       </div>
@@ -838,7 +843,7 @@ indices&quot; and so on.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L174" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L174" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -872,7 +877,7 @@ they have no intersection.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L256" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L256" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -894,7 +899,7 @@ by-value) trunk.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L245" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L245" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -930,7 +935,7 @@ by-value) trunk.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L617" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L617" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -938,7 +943,7 @@ by-value) trunk.</p>
     <div class="entry-detail" id="==(other:String):Bool-instance-method">
       <div class="signature">
         
-        def <strong>==</strong>(other : String) : Bool
+        def <strong>==</strong>(other : <a href="../String.html">String</a>) : Bool
 
         <a class="method-permalink" href="#%3D%3D%28other%3AString%29%3ABool-instance-method">#</a>
       </div>
@@ -952,7 +957,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L744" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L744" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -974,7 +979,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L750" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L750" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -995,7 +1000,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L466" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L466" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1016,7 +1021,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L447" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L447" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1037,7 +1042,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L459" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L459" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1058,7 +1063,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L473" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L473" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1079,7 +1084,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L478" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L478" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1100,7 +1105,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L452" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L452" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1121,7 +1126,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L376" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L376" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1142,7 +1147,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L442" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L442" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1163,7 +1168,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L92" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L92" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1184,7 +1189,7 @@ of <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L280" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L280" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1207,7 +1212,7 @@ from the delimiter itself (the second block arg). The delimiter is empty at the 
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L654" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L654" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1228,7 +1233,7 @@ from the delimiter itself (the second block arg). The delimiter is empty at the 
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L290" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L290" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1250,7 +1255,7 @@ from the delimiter itself (the second block arg). The delimiter is empty at the 
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L537" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L537" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1274,7 +1279,7 @@ grapheme is <em>excluded</em> from the resulting selection.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L547" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L547" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1298,7 +1303,7 @@ grapheme is <em>included</em> in the resulting selection.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L573" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L573" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1322,7 +1327,7 @@ grapheme is <em>included</em> in the resulting selection.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L563" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L563" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1343,7 +1348,7 @@ grapheme is <em>included</em> in the resulting selection.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L275" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L275" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1364,7 +1369,7 @@ grapheme is <em>included</em> in the resulting selection.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L285" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L285" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1386,7 +1391,7 @@ or CRLF <code>\r\n</code>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L674" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L674" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1409,7 +1414,7 @@ return <code>true</code>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L383" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L383" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1430,7 +1435,7 @@ return <code>true</code>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L399" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L399" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1455,7 +1460,7 @@ the selection loses its context.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L510" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L510" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1480,7 +1485,7 @@ this (original) selection).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L628" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L628" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1502,7 +1507,7 @@ function produced the same value, along with that value.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L691" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L691" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1523,7 +1528,7 @@ function produced the same value, along with that value.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L348" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L348" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1544,7 +1549,7 @@ function produced the same value, along with that value.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L95" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L95" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1566,7 +1571,7 @@ function produced the same value, along with that value.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L369" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L369" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1587,7 +1592,7 @@ function produced the same value, along with that value.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L500" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L500" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1608,7 +1613,7 @@ function produced the same value, along with that value.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L414" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L414" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1630,7 +1635,7 @@ a view of that grapheme.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L405" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L405" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1652,7 +1657,7 @@ the same as <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L389" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L389" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1668,7 +1673,7 @@ the same as <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L722" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L722" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1689,7 +1694,7 @@ the same as <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L343" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L343" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1710,7 +1715,7 @@ the same as <em>other</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L435" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L435" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1735,7 +1740,7 @@ two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphemeSeln-instan
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L598" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L598" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1759,7 +1764,7 @@ and the last two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphe
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L606" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L606" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1780,7 +1785,7 @@ and the last two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphe
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L486" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L486" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1801,7 +1806,7 @@ and the last two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphe
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L353" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L353" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1822,7 +1827,7 @@ and the last two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphe
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L428" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L428" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1843,7 +1848,7 @@ and the last two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphe
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L394" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L394" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1864,7 +1869,7 @@ and the last two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphe
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L270" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L270" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1885,7 +1890,7 @@ and the last two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphe
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L421" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L421" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1907,7 +1912,7 @@ and the last two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphe
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L524" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L524" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1928,7 +1933,7 @@ and the last two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphe
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L531" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L531" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1949,7 +1954,7 @@ and the last two point <code><a href="../Pf/GraphemeSeln.html#after_end%3AGraphe
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L265" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L265" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1972,7 +1977,7 @@ The yielded fragments form a contiguous sequence.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L636" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L636" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1994,7 +1999,7 @@ The yielded fragments form a contiguous sequence.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L360" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L360" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2015,7 +2020,7 @@ The yielded fragments form a contiguous sequence.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L493" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L493" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2036,7 +2041,7 @@ The yielded fragments form a contiguous sequence.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L586" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L586" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2052,7 +2057,7 @@ The yielded fragments form a contiguous sequence.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L730" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L730" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2081,7 +2086,7 @@ typically intended for users.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L734" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L734" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2103,7 +2108,7 @@ is a subview of the trunk string's bytes.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/permafrost/blob/d69358070d07d439652ef5c92d3b75f53ae5affa/src/permafrost/grapheme_seln.cr#L718" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/permafrost/blob/04ecbefc92f93bc3965a0c0c9ff97e04aa33ac99/src/permafrost/grapheme_seln.cr#L718" target="_blank">View source</a>]
         
       </div>
     </div>
