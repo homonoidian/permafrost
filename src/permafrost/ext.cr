@@ -48,3 +48,14 @@ module Enumerable(T)
     Pf::BidiMap.new(self)
   end
 end
+
+class String
+  def ===(other : Pf::StringSeln) : Bool
+    # Fast path
+    unless bytesize == other.bytesize
+      return false
+    end
+
+    to_slice == other.to_slice
+  end
+end
